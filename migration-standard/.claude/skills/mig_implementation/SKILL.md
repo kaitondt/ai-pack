@@ -5,7 +5,8 @@ description: "P4 — implementation. Design-first workflow, layer order, parity-
 
 # P4 — Implementation
 
-> Prerequisite: `mig_project` resolved; P2 (and P3 where used) gate passed for the module.
+> Prerequisite: `mig_project` resolved; P2 (and P3 where used) gate passed for the module;
+> the target codebase skeleton in place and building (`mig_codebase`, `/mig_scaffold_codebase`).
 > Load `mig_context_map` before touching the first file.
 
 ---

@@ -55,6 +55,7 @@ Do not start a phase task without it.
 | P1 Requirements analysis | `/sdlc_generate_requirements` |
 | P2 Basic design | `/sdlc_generate_basic_design` |
 | P3 Detail design | `/sdlc_generate_detail_design` |
+| P2→P4 Codebase skeleton (once) | `/sdlc_scaffold_codebase` |
 | P4 Implementation | `/sdlc_implement_feature` |
 | P5 Unit test | `/sdlc_generate_test ut` |
 | P6 Integration test | `/sdlc_generate_test it` |

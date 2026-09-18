@@ -7,8 +7,8 @@ the profile.
 
 | Pack | Use it for | Prefix | Skills | Commands | Agents |
 |---|---|---|---|---|---|
-| [`sdlc-standard`](sdlc-standard/README.md) | Building something new (greenfield or a new subsystem), P0 Inception → P9 Maintenance | `sdlc_` | 32 | 36 | 14 |
-| [`migration-standard`](migration-standard/README.md) | Rewriting or replatforming a legacy system where behaviour must be preserved | `mig_` | 27 | 30 | 14 |
+| [`sdlc-standard`](sdlc-standard/README.md) | Building something new (greenfield or a new subsystem), P0 Inception → P9 Maintenance | `sdlc_` | 33 | 37 | 14 |
+| [`migration-standard`](migration-standard/README.md) | Rewriting or replatforming a legacy system where behaviour must be preserved | `mig_` | 28 | 31 | 14 |
 | [`pm-standard`](pm-standard/README.md) | Managing the project itself (PMBOK-aligned): charter, scope, cost, schedule, reporting, quality, risk, closing | `pm_` | 16 | 28 | 7 |
 
 The two technical packs (`sdlc`, `migration`) manage the **product** — what is built and

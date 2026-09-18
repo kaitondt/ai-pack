@@ -1,6 +1,6 @@
 # Command Flow
 
-How the 30 commands relate: what each one consumes and produces, what must run before
+How the 31 commands relate: what each one consumes and produces, what must run before
 what, and the refinement loop that the whole pack is built to support.
 
 ---
@@ -24,6 +24,7 @@ what, and the refinement loop that the whole pack is built to support.
 | `/mig_generate_basic_design` | FRD, legacy source | design deliverables per category | `mig_bd_orchestrator` → `mig_bd_designer` |
 | `/mig_generate_mockup` | screen design, legacy UI source and captures | prototypes / artboards / Figma check, X-09 and X-10 results | `mig_mockup_designer` |
 | `/mig_generate_detail_design` | design docs, target code, legacy | DD documents, GAP reports | `mig_dd_designer` |
+| `/mig_scaffold_codebase` | TSD §1 §2 §4 §5 §6 §9, the profile's target stack | the target codebase skeleton, the skeleton record, real `target.build` commands | — |
 | `/mig_implement_feature` | design docs, legacy source | target code | `mig_implementer` |
 | `/mig_generate_infra` | the profile's platform fields, the repository | pipeline, IaC, environment matrix, coexistence and cutover plans — or proposals when another team owns them | `mig_infra_engineer` |
 | `/mig_generate_test` | FC, SC, API docs, legacy | UT / IT documents | `mig_tester` |
@@ -87,6 +88,9 @@ flowchart TD
   CRI --> CRR["/mig_cr_report"]
   P2 -.-> CRA
   CM["/mig_context_map"] -.-> P4
+  P1 --> SK["/mig_scaffold_codebase"]
+  SK --> P4
+  SK -.-> INF
   INF["/mig_generate_infra"] -.-> P4
   INF -.-> P7
   TR -.-> P2
@@ -118,6 +122,10 @@ the only warning.
 screen design, and X-09 and X-10 are P2 gate items. Run later, it means the client approved a
 screen design nobody had seen drawn — and under `fidelity: as-is` the mockup is also the
 cheapest place to catch a screen that drifted from the legacy layout.
+
+**`/mig_scaffold_codebase` runs once, between the TSD and the first module.** It needs only
+the TSD, not the basic design, so it usually runs while P2 is under way. It feeds
+`/mig_generate_infra` because the pipeline needs the build commands the skeleton makes real.
 
 **`/mig_generate_infra` is dotted into P4 and P7** for two different reasons. P4 because the
 pipeline asserts that phase's machine-checkable criteria (IN-04). P7 because UAT and the

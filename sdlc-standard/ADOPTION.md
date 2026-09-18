@@ -215,6 +215,7 @@ phase's errors:
 /sdlc_generate_basic_design   → /sdlc_review_design               → gate P2
 /sdlc_generate_mockup         → X-11 against the screen design    → gate P2
 /sdlc_generate_detail_design  → resolve drift items               → gate P3
+/sdlc_scaffold_codebase       → once, after the architecture is approved
 /sdlc_generate_infra          → pipeline, environments, monitors
 /sdlc_implement_feature       → per module
 /sdlc_generate_test ut|it     → per module / flow

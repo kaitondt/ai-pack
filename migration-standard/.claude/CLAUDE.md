@@ -51,6 +51,7 @@ Do not start a phase task without it.
 | P1 Requirements | `/mig_generate_requirements` |
 | P2 Basic design | `/mig_generate_basic_design` |
 | P3 Detail design | `/mig_generate_detail_design` |
+| P1→P4 Target codebase skeleton (once) | `/mig_scaffold_codebase` |
 | P4 Implementation | `/mig_implement_feature` |
 | P5 Unit test | `/mig_generate_test ut` |
 | P6 Integration test | `/mig_generate_test it` |

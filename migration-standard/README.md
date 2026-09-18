@@ -120,8 +120,8 @@ migration-standard/
     ├── rules/
     │   ├── common/                ← 6 stack-neutral rule files
     │   └── migration/             ← 5 migration-invariant rule files
-    ├── skills/                    ← 27 skills
-    ├── commands/                  ← 30 slash commands
+    ├── skills/                    ← 28 skills
+    ├── commands/                  ← 31 slash commands
     └── agents/                    ← 14 agents
 ```
 
@@ -158,6 +158,7 @@ of a parity defect found in UAT is larger by an order of magnitude.
 | **P2** | Basic Design | `/mig_generate_basic_design` | screen / function / data / API / batch / report design | `/mig_review_design` clean; cross-doc checks pass |
 | **P2** | Mockup | `/mig_generate_mockup` | prototypes / artboards / Figma check, at the profile's fidelity | X-09 and X-10 clean |
 | **P3** | Detail Design | `/mig_generate_detail_design` | DD per module + BD↔code GAP report | zero unresolved GAP items |
+| **P1→P4** | Target codebase skeleton | `/mig_scaffold_codebase` | layout, layer projects, cross-cutting plumbing, real build commands | builds clean; legacy untouched |
 | **P4** | Implementation | `/mig_implement_feature` | code across all layers | `/mig_verify_build` + `/mig_review_commit` pass |
 | **P2/P4** | Infrastructure | `/mig_generate_infra` | pipeline, environments, IaC; coexistence, data migration, cutover, rollback | X-11 clean; nothing deploys to legacy prod |
 | **P5** | Unit Test | `/mig_generate_test ut` | UT design + automated tests | UT design ↔ FC coverage 100% |

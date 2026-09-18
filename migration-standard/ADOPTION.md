@@ -220,6 +220,7 @@ previous phase's errors:
 /mig_generate_basic_design   → /mig_review_design → gate
 /mig_generate_mockup         → X-09 / X-10 against design and legacy → gate
 /mig_generate_detail_design  → resolve GAP items → gate
+/mig_scaffold_codebase       → once, after the TSD is approved
 /mig_generate_infra          → pipeline, environments, coexistence, data migration
 /mig_implement_feature       → per module
 /mig_generate_test both      → per module

@@ -51,6 +51,7 @@ Always in force, regardless of phase:
 | API / interface design | `sdlc_api_design` |
 | Batch / scheduled job design | `sdlc_batch_design` |
 | Detail design, DD↔code drift | `sdlc_detail_design` |
+| Creating, restructuring or auditing the source layout — the codebase skeleton | `sdlc_codebase` |
 | Writing code | `sdlc_implementation` (+ `sdlc_context_map` before starting) |
 | Repository, CI/CD, environments, containers, IaC, secrets, monitoring | `sdlc_infrastructure` |
 | Which files a change touches | `sdlc_context_map` |
@@ -94,6 +95,7 @@ P0 Inception ─ P1 Requirements ─ P2 Basic Design ─ P3 Detail Design ─ P4
 | P2 | design deliverables per category | `/sdlc_generate_basic_design` | `sdlc_bd_orchestrator` → `sdlc_bd_designer` |
 | P3 | detail design + drift report | `/sdlc_generate_detail_design` | `sdlc_dd_designer` |
 | P2 | mockups, in the project's form | `/sdlc_generate_mockup` | `sdlc_mockup_designer` |
+| P2→P4 | codebase skeleton — layout, layers, cross-cutting plumbing, real build commands | `/sdlc_scaffold_codebase` | — |
 | P4 | code | `/sdlc_implement_feature` | `sdlc_implementer` |
 | P2/P4 | pipeline, environments, IaC, monitors | `/sdlc_generate_infra` | `sdlc_infra_engineer` |
 | P5 | UT design + unit tests | `/sdlc_generate_test ut` | `sdlc_tester` |

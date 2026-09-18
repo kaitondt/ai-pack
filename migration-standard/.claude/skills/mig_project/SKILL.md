@@ -48,6 +48,7 @@ Always in force, regardless of phase:
 | Table, column, DDL, data mapping | `mig_data_design` |
 | Batch / scheduled job design | `mig_batch_design` |
 | Detail design, BD↔code GAP | `mig_detail_design` |
+| Creating, restructuring or auditing the target source layout — the codebase skeleton | `mig_codebase` |
 | Writing code | `mig_implementation` (+ `mig_context_map` before starting) |
 | Pipeline, environments, containers, IaC, secrets; coexistence, data migration, parallel run, cutover, rollback | `mig_infrastructure` |
 | Which files a change touches | `mig_context_map` |
@@ -91,6 +92,7 @@ P0 Legacy Analysis ─ P1 Requirements ─ P2 Basic Design ─ P3 Detail Design
 | P2 | design deliverables per category | `/mig_generate_basic_design` | `mig_bd_orchestrator` → `mig_bd_designer` |
 | P3 | detail design + GAP report | `/mig_generate_detail_design` | `mig_dd_designer` |
 | P2 | mockups, at the profile's fidelity | `/mig_generate_mockup` | `mig_mockup_designer` |
+| P1→P4 | target codebase skeleton — layout, layers, cross-cutting plumbing, real build commands | `/mig_scaffold_codebase` | — |
 | P4 | code | `/mig_implement_feature` | `mig_implementer` |
 | P2/P4 | pipeline, environments, IaC; coexistence, data migration, cutover | `/mig_generate_infra` | `mig_infra_engineer` |
 | P5 | UT design + unit tests | `/mig_generate_test ut` | `mig_tester` |

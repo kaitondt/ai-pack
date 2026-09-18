@@ -1,6 +1,6 @@
 # Command Flow
 
-How the 36 commands relate: what each one consumes and produces, what must run before what,
+How the 37 commands relate: what each one consumes and produces, what must run before what,
 and the refinement loop that the whole pack is built to support.
 
 ---
@@ -24,6 +24,7 @@ and the refinement loop that the whole pack is built to support.
 | `/sdlc_generate_basic_design` | SRS | design deliverables per category | `sdlc_bd_orchestrator` → `sdlc_bd_designer` |
 | `/sdlc_generate_mockup` | screen design | prototypes / artboards / Figma check, X-11 results | `sdlc_mockup_designer` |
 | `/sdlc_generate_detail_design` | design docs, code | DD documents, drift reports | `sdlc_dd_designer` |
+| `/sdlc_scaffold_codebase` | architecture §2 §3 §5 §6 §9, the profile's stack | the codebase skeleton, the skeleton record, real `system.build` commands | — |
 | `/sdlc_implement_feature` | design docs | code | `sdlc_implementer` |
 | `/sdlc_generate_infra` | the profile's platform fields, the repository | pipeline definition, IaC, environment matrix, NFR monitors — or proposals when another team owns them | `sdlc_infra_engineer` |
 | `/sdlc_generate_test <level>` | the level's basis document | UT / IT / ST / UAT case documents | `sdlc_tester` |
@@ -110,6 +111,9 @@ flowchart TD
   TC["/sdlc_trace_check"] -.-> GATE
   QR["/sdlc_quality_report"] -.-> GATE
   CM["/sdlc_context_map"] -.-> P4
+  P2 --> SK["/sdlc_scaffold_codebase"]
+  SK --> P4
+  SK -.-> INF
   INF["/sdlc_generate_infra"] -.-> P4
   INF -.-> P7
   TR -.-> P2
@@ -140,6 +144,11 @@ the plan's template line was the only warning.
 **`/sdlc_generate_mockup` sits inside P2**, not after it. The mockup is reviewed with the
 screen design, and X-11 is a P2 gate item; running it later means the client approved a
 screen design nobody had seen drawn.
+
+**`/sdlc_scaffold_codebase` runs once, between the architecture and the first module.** It
+needs only the architecture document, not the whole of P2, so it usually runs while the
+other categories are still being designed. It feeds `/sdlc_generate_infra` because the
+pipeline needs the build commands the skeleton makes real.
 
 **`/sdlc_generate_infra` is dotted into P4 and P7** for two different reasons. P4 because the
 pipeline asserts that phase's machine-checkable exit criteria (IN-03). P7 because system test

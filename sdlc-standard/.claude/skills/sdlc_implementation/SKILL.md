@@ -5,7 +5,8 @@ description: "P4 — implementation. Design-first workflow, layer order, the spe
 
 # P4 — Implementation
 
-> Prerequisite: `sdlc_project` resolved; P2 and P3 gates passed for the module.
+> Prerequisite: `sdlc_project` resolved; P2 and P3 gates passed for the module; the codebase
+> skeleton in place and building (`sdlc_codebase`, `/sdlc_scaffold_codebase`).
 > Load `sdlc_context_map` before touching the first file.
 
 ---

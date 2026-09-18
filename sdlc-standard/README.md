@@ -139,8 +139,8 @@ sdlc-standard/
     ├── rules/
     │   ├── common/                ← 6 stack-neutral rule files
     │   └── sdlc/                  ← 6 lifecycle-invariant rule files
-    ├── skills/                    ← 32 skills
-    ├── commands/                  ← 36 slash commands
+    ├── skills/                    ← 33 skills
+    ├── commands/                  ← 37 slash commands
     └── agents/                    ← 14 agents
 ```
 
@@ -155,6 +155,7 @@ sdlc-standard/
 | **P2** | Basic design | `/sdlc_generate_basic_design` | architecture, NFR, screen, function, data, interface, report, batch | P6 |
 | **P2** | Mockups | `/sdlc_generate_mockup` | prototypes / artboards / Figma check, in the project's form | P6, P8 |
 | **P3** | Detail design | `/sdlc_generate_detail_design` | DD per module + drift report | P5 |
+| **P2→P4** | Codebase skeleton | `/sdlc_scaffold_codebase` | layout, layer projects, cross-cutting plumbing, real build commands | — |
 | **P4** | Implementation | `/sdlc_implement_feature` | code across all layers | P5 |
 | **P2/P4** | Infrastructure | `/sdlc_generate_infra` | pipeline, environments, IaC, NFR monitors | P7 |
 | **P5** | Unit test | `/sdlc_generate_test ut` | UT cases + automated tests | — |
