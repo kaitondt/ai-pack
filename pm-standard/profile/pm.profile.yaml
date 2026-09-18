@@ -1,0 +1,762 @@
+# ============================================================================
+#  PROJECT MANAGEMENT PROFILE
+#  The single source of management truth for the PM Skill Pack (PMBOK-aligned).
+#  Every pm_* skill resolves {{profile.*}} tokens from this file.
+#  Location (fixed): <repo-root>/.claude/pm.profile.yaml
+#
+#  This pack manages the PROJECT. A sibling pack (sdlc-standard or
+#  migration-standard) manages the PRODUCT. When one is installed, set
+#  integration.technical_pack and the two bind: WBS work packages to
+#  deliverables, management milestones to phase gates, quality targets to the
+#  metrics the technical pack already computes.
+# ============================================================================
+schema_version: "1.0"
+
+project:
+  key: PRJ                       # short uppercase key; appears in IDs and report names
+  name: "<Project display name>"
+  code: "<Contract / internal project code>"
+  vendor: "<Delivery organisation>"
+  client: "<Client / sponsoring organisation>"
+  copyright: "(c) {year} <Client> All rights reserved."
+  start_date: "YYYY-MM-DD"
+  planned_end_date: "YYYY-MM-DD"
+  # Drives how hard a management gate blocks and how change control behaves.
+  #   waterfall           - baselines set once, gates are hard stops
+  #   iterative-waterfall - baselines per release, gates per release
+  #   agile-with-gates    - scope baseline is a backlog plus a release scope;
+  #                         gates at charter, release scope, readiness, acceptance
+  delivery_model: iterative-waterfall
+  # Fixed-price makes every scope change a contractual event and makes the cost
+  # baseline the vendor risk. Time-and-materials makes it the client risk. Read
+  # by pm_change_control and pm_cost - the same change is a different decision
+  # under each.
+  contract_type: fixed-price     # fixed-price | time-and-materials | milestone-based | internal
+  currency: "USD"
+  # Offshore / onshore / hybrid changes the communication and reporting design
+  # more than anything else in this file.
+  engagement_model: offshore     # onshore | offshore | hybrid | internal
+  time_zones: ["<client TZ>", "<delivery TZ>"]
+
+# ---------------------------------------------------------------------------
+# GOVERNANCE - who decides what, and what happens when they do not.
+# Every approval in this pack names a role from here. A decision with no named
+# owner is not a decision (DA-01).
+# ---------------------------------------------------------------------------
+governance:
+  sponsor: "<name / role>"              # owns the business case and the funding
+  client_pm: "<name / role>"            # client-side counterpart
+  project_manager: "<name / role>"      # owns the plan, the baselines and the reports
+  technical_lead: "<name / role>"       # owns the solution and the technical estimate basis
+  qa_lead: "<name / role>"              # owns quality plan, test plan and quality reporting
+  delivery_manager: "<name / role>"     # vendor-side escalation above the PM
+  # Change Control Board. Approves changes to any baseline above the thresholds
+  # in change_control.authority.
+  ccb:
+    members: ["<role>", "<role>"]
+    chair: "<role>"
+    cadence: "weekly"
+    quorum: 2
+  steering_committee:
+    members: ["<role>", "<role>"]
+    cadence: "monthly"
+    decides: ["baseline re-set", "scope trade-off", "escalated risk acceptance"]
+  # Escalation ladder, in order. Each level has a response SLA in hours.
+  escalation:
+    - level: 1
+      to: "project_manager"
+      sla_hours: 4
+    - level: 2
+      to: "delivery_manager"
+      sla_hours: 24
+    - level: 3
+      to: "steering_committee"
+      sla_hours: 72
+  # Approval matrix: artifact -> who must approve before it is baselined.
+  approvals:
+    charter: ["sponsor", "client_pm"]
+    scope_baseline: ["client_pm", "project_manager"]
+    schedule_baseline: ["client_pm", "project_manager"]
+    cost_baseline: ["sponsor", "delivery_manager"]
+    quality_plan: ["qa_lead", "client_pm"]
+    test_plan: ["qa_lead", "client_pm"]
+    change_request: ["ccb"]
+    acceptance: ["client_pm", "sponsor"]
+    closure: ["sponsor", "client_pm", "delivery_manager"]
+
+# ---------------------------------------------------------------------------
+# CALENDAR - the arithmetic behind every duration and every cost figure.
+# Wrong numbers here silently corrupt the schedule and the budget.
+# ---------------------------------------------------------------------------
+calendar:
+  working_days: ["Mon", "Tue", "Wed", "Thu", "Fri"]
+  hours_per_day: 8
+  # Productive hours actually available per person-day after meetings, support,
+  # email and context switching. Planning at 8.0 is the most common single cause
+  # of a schedule that was never achievable (EM-04).
+  productive_hours_per_day: 6.5
+  holidays_calendar: "<path or named calendar, per location>"
+  planned_absence_allowance: "8%"    # leave, training, sickness
+  freeze_periods:                    # no release / no deployment windows
+    - name: ""
+      from: ""
+      to: ""
+      reason: ""
+
+# ---------------------------------------------------------------------------
+# SCOPE - the scope baseline is scope statement + WBS + WBS dictionary.
+# Nothing else is the scope baseline (PB-02).
+# ---------------------------------------------------------------------------
+scope:
+  objectives:
+    - statement: "<business objective>"
+      measure: "<how success is measured>"
+      target: "<value and date>"
+  in_scope:
+    - "<capability / subsystem / service>"
+  out_of_scope:
+    - item: ""
+      reason: ""                    # an exclusion with no reason is re-litigated monthly
+  deliverables:
+    - id: "D-001"
+      name: "<deliverable>"
+      kind: "document"             # document | software | service | training | data
+      acceptance_by: "client_pm"
+      acceptance_criteria: "<objective, checkable criterion>"
+      due_milestone: "M1"
+  # Where requirements live and who owns them. When a technical pack is
+  # installed, point these at its artifacts rather than duplicating them.
+  requirements:
+    source: "<path to SRS / requirement register>"
+    id_format: "REQ-{AREA}-{NNN}"
+    traceability: "docs/traceability.csv"
+    owner: "client_pm"
+    change_threshold_requires_cr: "any change to a baselined requirement"
+  assumptions_log: "pm/registers/assumption-log.md"
+  constraints:
+    - "<schedule, budget, regulatory, technology or resource constraint>"
+  dependencies:
+    - id: "DEP-001"
+      description: "<what this project needs from whom>"
+      owner: "<external party>"
+      needed_by: "YYYY-MM-DD"
+      impact_if_late: "<which work packages stall>"
+
+# ---------------------------------------------------------------------------
+# WBS - decomposition of the scope into work packages. The spine of schedule,
+# cost, progress and responsibility: everything else indexes into it.
+# ---------------------------------------------------------------------------
+wbs:
+  code_format: "{key}.{L1}.{L2}.{L3}"   # e.g. PRJ.2.3.1
+  max_levels: 4
+  # The 8/80 heuristic: a work package is between one day and two weeks of
+  # effort. Smaller drowns the plan in administration; larger hides the truth
+  # about progress (WB-03).
+  work_package_min_hours: 8
+  work_package_max_hours: 80
+  # Control accounts are where cost and progress are measured and reported.
+  # Usually WBS level 2.
+  control_account_level: 2
+  dictionary_fields: ["code", "name", "description", "deliverable", "owner",
+                      "predecessors", "effort_hours", "duration_days", "cost",
+                      "acceptance_criteria", "assumptions", "risks"]
+  # Standard top-level decomposition. Rename to match how the project is run,
+  # but keep management and quality as explicit branches - work that is not in
+  # the WBS is work nobody planned for.
+  level1:
+    - code: "1"
+      name: "Project management"
+    - code: "2"
+      name: "Requirements and analysis"
+    - code: "3"
+      name: "Design"
+    - code: "4"
+      name: "Implementation"
+    - code: "5"
+      name: "Testing"
+    - code: "6"
+      name: "Release and deployment"
+    - code: "7"
+      name: "Quality assurance and process"
+    - code: "8"
+      name: "Training and handover"
+
+# ---------------------------------------------------------------------------
+# SCHEDULE - how duration is derived, tracked and reported.
+# ---------------------------------------------------------------------------
+schedule:
+  method: critical-path            # critical-path | critical-chain | sprint-based
+  baseline_path: "pm/schedule/schedule-baseline.md"
+  working_file: "pm/schedule/schedule.md"
+  tool: "<e.g. MS Project, Jira, spreadsheet>"   # where the live plan lives
+  # How physical progress is measured. Percent-complete claimed by the person
+  # doing the work is the least reliable option and the most commonly used.
+  progress_measurement: "0-50-100"  # 0-50-100 | 0-100 | milestone-weighted | units-completed
+  buffer_policy:
+    project_buffer: "10% of critical path duration"
+    feeding_buffer: "5% of each feeding chain"
+    # A buffer is visible and owned by the PM. Padding hidden inside individual
+    # estimates is not a buffer - it is a measurement error (ES-05).
+    padding_inside_estimates: forbidden
+  milestones:
+    - id: "M0"
+      name: "Project kickoff"
+      date: "YYYY-MM-DD"
+      criteria: "charter approved, team onboarded, environments requested"
+      payment_linked: false
+    - id: "M1"
+      name: "<milestone>"
+      date: "YYYY-MM-DD"
+      criteria: "<objective, checkable exit criteria>"
+      payment_linked: true
+  variance_thresholds:             # drive the RAG status in every report
+    green: "SPI >= 0.95 and no milestone at risk"
+    amber: "SPI 0.90-0.95, or a milestone recoverable within the buffer"
+    red: "SPI < 0.90, or a payment milestone at risk, or the buffer consumed"
+
+# ---------------------------------------------------------------------------
+# COST AND EFFORT - estimation basis, budget, and how performance is measured.
+# ---------------------------------------------------------------------------
+cost:
+  size_unit: person-hours          # person-hours | person-days | function-point | story-point
+  # Methods allowed for this project, in order of preference. Every estimate
+  # records which was used and its basis (ES-01).
+  estimation_methods: ["wbs-bottom-up", "three-point-pert", "analogous", "parametric", "expert-delphi"]
+  # Historical productivity. These are placeholders: replace with your own
+  # measured rates, or mark the estimate as unverified.
+  productivity:
+    basis: "<where these numbers came from: which past project, measured how>"
+    rates:
+      - unit: "simple screen"
+        hours: 16
+      - unit: "complex screen"
+        hours: 40
+      - unit: "batch job"
+        hours: 24
+      - unit: "API endpoint"
+        hours: 8
+      - unit: "design document"
+        hours: 6
+    # Effort distribution across phases, used to sanity-check a bottom-up total.
+    # A plan with 5% testing is not a cheap plan; it is an unfinished one.
+    phase_distribution:
+      management: "10%"
+      requirements: "12%"
+      design: "18%"
+      implementation: "30%"
+      testing: "25%"
+      release: "5%"
+  rates:                           # blended cost per hour by role and location
+    - role: "<role>"
+      location: "<location>"
+      rate: 0
+  # Contingency covers identified risks and belongs to the PM. Management
+  # reserve covers unknown-unknowns and belongs to the sponsor. They are
+  # different money with different approval paths (ES-06).
+  contingency_percent: 10
+  management_reserve_percent: 5
+  baseline_path: "pm/cost/cost-baseline.md"
+  earned_value:
+    enabled: true
+    # EAC formula. "budget-rate" assumes remaining work runs at plan;
+    # "current-rate" assumes it runs at today CPI - usually the honest one.
+    eac_formula: current-rate      # current-rate | budget-rate | rebaseline
+    report_with: ["SPI", "CPI", "SV", "CV", "EAC", "ETC", "VAC", "TCPI"]
+  billing:
+    model: "milestone"             # milestone | monthly-timesheet | deliverable
+    invoice_trigger: "milestone acceptance signed"
+    payment_terms_days: 30
+
+# ---------------------------------------------------------------------------
+# PROCESS - the development and QA/QC process this project actually follows,
+# and the record of how it was tailored from the organisational standard.
+# ---------------------------------------------------------------------------
+process:
+  lifecycle: "<e.g. iterative waterfall with 3 releases>"
+  standard_ref: "<organisational process standard, e.g. ISO 9001 QMS, CMMI L3>"
+  # Tailoring is legitimate; undocumented tailoring is an audit finding (PR-02).
+  tailoring_record: "pm/process/tailoring.md"
+  # Which technical pack drives the engineering process. Leave blank to detect.
+  development_process_ref: "<path to the SDLC/migration process definition>"
+  # QA builds the process so defects are prevented and checks the process is
+  # followed. QC inspects the product. Different people, different evidence,
+  # never merged into one role (PR-04).
+  qa:
+    owner: "qa_lead"
+    activities: ["process audit", "peer-review compliance check", "metrics review",
+                 "gate review", "corrective action tracking"]
+    audit_cadence: "monthly"
+    audit_record: "pm/quality/audits"
+  qc:
+    activities: ["document review", "code review", "unit test", "integration test",
+                 "system test", "UAT support"]
+    entry_exit_criteria_ref: "pm/quality/quality-plan.md"
+  process_assets: "pm/process/assets"        # templates, checklists, standards
+  definition_of_done:
+    - "code reviewed and merged"
+    - "unit tests pass and coverage target met"
+    - "design document updated"
+    - "test case updated and executed"
+    - "traceability row updated"
+  corrective_actions: "pm/registers/capa-log.md"
+
+# ---------------------------------------------------------------------------
+# QUALITY - quality objectives, the master test plan and what gets measured.
+# When a technical pack is installed these targets should MATCH its
+# quality.targets - /pm_sync_technical checks that they do.
+# ---------------------------------------------------------------------------
+quality:
+  plan_path: "pm/quality/quality-plan.md"
+  test_plan_path: "pm/quality/master-test-plan.md"
+  objectives:
+    - attribute: "functional correctness"
+      target: "zero open Critical/High defects at acceptance"
+      measured_by: "defect register"
+    - attribute: "review effectiveness"
+      target: ">= 2 findings per design document"
+      measured_by: "review records"
+  targets:
+    review_density: ">= 2 findings per design document"
+    design_defect_density: "0.5 - 2.0 per document"
+    code_defect_density: "1 - 5 per KLOC"
+    unit_coverage: "line >= 70%, branch >= 60%"
+    phase_containment: ">= 80%"
+    escaped_defects: "< 5% first found in UAT"
+    ut_pass_rate: "100% before IT entry"
+    requirement_coverage: "100% of REQ-* have at least one test case"
+  test_levels:                     # the master test plan scope, per level
+    - id: UT
+      owner: "developer"
+      environment: "test"
+      entry: "code complete, build passes"
+      exit: "100% pass, coverage target met"
+    - id: IT
+      owner: "technical_lead"
+      environment: "test"
+      entry: "UT exit holds for every module in the flow"
+      exit: "no open Critical/High"
+    - id: ST
+      owner: "qa_lead"
+      environment: "staging"
+      entry: "IT exit holds, release build deployed"
+      exit: "every REQ and NFR has an executed case"
+    - id: UAT
+      owner: "client_pm"
+      environment: "uat"
+      entry: "ST exit holds, UAT plan signed, client data ready"
+      exit: "acceptance recorded"
+  defect_severity:
+    - id: S1
+      label: "Critical"
+      definition: "unusable, data loss, no workaround"
+      fix_sla_hours: 8
+    - id: S2
+      label: "High"
+      definition: "major function unusable, costly workaround"
+      fix_sla_hours: 48
+    - id: S3
+      label: "Medium"
+      definition: "impaired, acceptable workaround"
+      fix_sla_hours: 120
+    - id: S4
+      label: "Low"
+      definition: "cosmetic or minor"
+      fix_sla_hours: "next release"
+  quality_report_cadence: "monthly, and at every gate"
+
+# ---------------------------------------------------------------------------
+# RISK AND ISSUES - a risk is a future possibility; an issue has already
+# happened. They live in different registers and are managed differently (RK-01).
+# ---------------------------------------------------------------------------
+risk:
+  register: "pm/registers/risk-register.md"
+  issue_log: "pm/registers/issue-log.md"
+  categories: ["scope", "schedule", "cost", "quality", "resource", "technical",
+               "external-dependency", "client", "contractual", "security", "compliance"]
+  probability_scale:               # keep to 5 levels with numeric anchors
+    - {id: 1, label: "Rare", range: "< 10%"}
+    - {id: 2, label: "Unlikely", range: "10-30%"}
+    - {id: 3, label: "Possible", range: "30-50%"}
+    - {id: 4, label: "Likely", range: "50-80%"}
+    - {id: 5, label: "Almost certain", range: "> 80%"}
+  impact_scale:
+    - {id: 1, label: "Negligible", schedule: "< 2 days", cost: "< 1%"}
+    - {id: 2, label: "Minor", schedule: "2-5 days", cost: "1-3%"}
+    - {id: 3, label: "Moderate", schedule: "1-2 weeks", cost: "3-7%"}
+    - {id: 4, label: "Major", schedule: "2-4 weeks", cost: "7-15%"}
+    - {id: 5, label: "Severe", schedule: "> 1 month or a milestone missed", cost: "> 15%"}
+  exposure_thresholds:             # probability x impact
+    low: "1-6"
+    medium: "8-12"
+    high: "15-25"
+  response_types: ["avoid", "mitigate", "transfer", "accept", "escalate"]
+  review_cadence: "weekly for high, monthly for the full register"
+  # A risk that materialises becomes an issue and draws on contingency. The
+  # drawdown is recorded, so the remaining reserve balance is always known.
+  contingency_drawdown_log: "pm/cost/contingency-drawdown.md"
+  escalate_above_exposure: 15
+  issue_sla_hours: {S1: 4, S2: 24, S3: 72, S4: "next cycle"}
+
+# ---------------------------------------------------------------------------
+# REPORTING - cadence, audience, content, evidence. One entry per report.
+# ---------------------------------------------------------------------------
+reporting:
+  root: "pm/reports"
+  rag_definitions:
+    green: "on plan, or recoverable inside the buffer without a decision"
+    amber: "a decision or an action is needed to stay on plan; named and dated"
+    red: "a baseline will be missed unless something changes; escalated"
+  cadences:
+    - id: daily
+      audience: ["project_manager", "technical_lead"]
+      channel: "standup plus a short written note"
+      due: "within 1 hour of standup"
+      content: ["yesterday done", "today planned", "blockers with owner and age",
+                "defect inflow", "nothing else"]
+      max_length: "one screen"
+      path: "pm/reports/daily"
+    - id: weekly
+      audience: ["client_pm", "delivery_manager", "project_manager"]
+      channel: "written report plus a 30-minute call"
+      due: "Friday 17:00 delivery time"
+      content: ["RAG with the reason", "milestone status", "progress vs plan (SPI/CPI)",
+                "completed and planned work packages", "top 5 risks and issues with owners",
+                "decisions needed from the client, with a by-date", "change requests in flight",
+                "quality snapshot", "resource changes"]
+      path: "pm/reports/weekly"
+    - id: monthly
+      audience: ["sponsor", "steering_committee", "client_pm"]
+      channel: "report plus steering meeting"
+      due: "by the 3rd working day of the following month"
+      content: ["executive summary and RAG trend", "earned value (SPI, CPI, EAC, VAC)",
+                "milestone and deliverable status", "quality report", "risk profile change",
+                "change requests approved and their baseline impact",
+                "resource utilisation", "decisions needed", "forecast to completion"]
+      path: "pm/reports/monthly"
+    - id: quarterly
+      audience: ["sponsor", "steering_committee"]
+      channel: "business review"
+      due: "within 10 working days of quarter end"
+      content: ["business objective attainment vs the charter", "financial performance",
+                "baseline history and re-baseline rationale", "risk outlook",
+                "process and quality trend", "lessons applied so far", "next-quarter plan"]
+      path: "pm/reports/quarterly"
+    - id: quality
+      audience: ["qa_lead", "client_pm", "delivery_manager"]
+      channel: "written report"
+      due: "monthly, and at every gate"
+      content: ["review density and findings", "defect density by phase and module",
+                "phase containment matrix", "test progress and pass rate per level",
+                "coverage", "escaped defects", "defect S-curve shape",
+                "audit findings and corrective actions", "what the numbers predict"]
+      path: "pm/reports/quality"
+  # Where the numbers come from. A report assembled from memory, or from the
+  # previous report figures, is forbidden (RI-02).
+  data_sources:
+    progress: "<task tracker / the schedule working file>"
+    effort: "<timesheet system>"
+    defects: "<defect tracker>"
+    test_results: "<test management / results directory>"
+    build: "<CI system>"
+  distribution_list: ["client_pm", "sponsor", "delivery_manager", "qa_lead"]
+  meeting_minutes: "pm/meetings"
+  action_item_log: "pm/registers/action-log.md"
+
+# ---------------------------------------------------------------------------
+# CHANGE CONTROL - integrated change control over the baselines. This is the
+# management change process; the technical pack CR workflow executes the
+# document and code changes once this approves them.
+# ---------------------------------------------------------------------------
+change_control:
+  id_format: "CR-{NNN}"
+  register: "pm/changes/change-register.md"
+  request_dir: "pm/changes"
+  # Every CR is assessed on all of these, even when the answer is "no impact".
+  # An unassessed dimension is how a change lands as a surprise three weeks later.
+  impact_dimensions: ["scope", "schedule", "cost", "quality", "risk", "resource",
+                      "contract", "dependencies", "test", "documentation"]
+  min_options: 2
+  # Approval authority by size of impact. Below the first threshold the PM may
+  # absorb the change; above it, the named body decides.
+  authority:
+    - limit: "<= 8 person-hours and no milestone impact"
+      approver: "project_manager"
+    - limit: "<= 40 person-hours or <= 3 days schedule impact"
+      approver: "ccb"
+    - limit: "anything larger, or any payment-milestone impact"
+      approver: "steering_committee"
+  require_estimate: true
+  # Re-baselining is a governance event, not an administrative one. The old
+  # baseline is retained; the reason is recorded (PB-06).
+  rebaseline_policy: "only on steering-committee approval; previous baseline retained with its variance"
+  classes: ["CR-SCOPE-ADD", "CR-SCOPE-REMOVE", "CR-REQUIREMENT", "CR-DESIGN",
+            "CR-SCHEDULE", "CR-COST", "CR-QUALITY", "CR-PROCESS", "CR-CONTRACT",
+            "CR-CLARIFY"]
+
+# ---------------------------------------------------------------------------
+# RESOURCE - the team, its ramp, and the responsibility assignment.
+# ---------------------------------------------------------------------------
+resource:
+  plan_path: "pm/resource/staffing-plan.md"
+  raci_path: "pm/resource/raci.md"
+  roles:
+    - role: "<role>"
+      count: 1
+      allocation_percent: 100
+      start: "YYYY-MM-DD"
+      end: "YYYY-MM-DD"
+      location: "<location>"
+      skills_required: ["<skill>"]
+  onboarding_checklist: "pm/resource/onboarding.md"
+  # Planning at 100% allocation leaves no capacity for defects, support or
+  # absence, and is the second most common cause of an unachievable plan.
+  max_planned_allocation_percent: 85
+  key_person_risk: "every role with a single holder is a RSK-* entry"
+  subcontract:
+    used: false
+    parties: []
+    sla_ref: ""
+  utilisation_report: "pm/reports/monthly"
+
+# ---------------------------------------------------------------------------
+# CLOSING - what has to be true before the project is closed, and what the
+# organisation keeps afterwards.
+# ---------------------------------------------------------------------------
+closing:
+  acceptance_record: "pm/closing/acceptance-record.md"
+  final_report: "pm/closing/final-report.md"
+  lessons_learned: "pm/closing/lessons-learned.md"
+  archive_root: "pm/closing/archive"
+  handover:
+    items: ["source and build pipeline", "deployment runbook", "operations manual",
+            "known issues and workarounds", "support contacts and escalation",
+            "credentials transfer record", "training delivered", "open CR backlog"]
+    to: "<receiving team>"
+  contract_closure:
+    final_invoice_condition: "acceptance recorded and signed"
+    warranty_period: "<e.g. 3 months after acceptance>"
+    retained_obligations: ["warranty defect fixing", "knowledge transfer sessions"]
+  resource_release: "pm/closing/resource-release.md"
+  # An unreleased resource is still being billed somewhere. A project that is
+  # finished but has not released its team has not finished (CL-06).
+  post_implementation_review_after_days: 30
+
+# ---------------------------------------------------------------------------
+# PATHS - where management artifacts live.
+# ---------------------------------------------------------------------------
+paths:
+  pm_root: "pm"
+  charter: "pm/charter/project-charter.md"
+  plan_root: "pm/plan"
+  project_management_plan: "pm/plan/project-management-plan.md"
+  scope_statement: "pm/scope/scope-statement.md"
+  scope_baseline: "pm/scope/scope-baseline.md"
+  wbs: "pm/scope/wbs.xlsx"                     # Excel is mandatory - see documents.binary_final
+  wbs_dictionary: "pm/scope/wbs.xlsx"           # "WBS Dictionary" sheet of the same workbook
+  schedule_root: "pm/schedule"
+  cost_root: "pm/cost"
+  estimate: "pm/cost/estimate.md"
+  process_root: "pm/process"
+  quality_root: "pm/quality"
+  risk_root: "pm/registers"
+  reports_root: "pm/reports"
+  changes_root: "pm/changes"
+  resource_root: "pm/resource"
+  meetings: "pm/meetings"
+  closing_root: "pm/closing"
+  registers: "pm/registers"
+  decision_log: "pm/registers/decision-log.md"
+  status_data: "pm/reports/_data"      # collected actuals, per reporting period
+
+# ---------------------------------------------------------------------------
+# BASELINES - the register of what is baselined, and the mechanical protection
+# around it. /pm_gate_review and the approval steps append to `registered`;
+# hooks/guard_pm_baselines.py reads it and blocks edits to a registered path
+# unless .claude/.active_pm_cr names an approved change request (PB-03).
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# DOCUMENTS - the final form of each management artifact, and the scratch forms
+# allowed while producing it.
+#
+# Management deliverables are contractual. Their format is a property of the
+# artifact, agreed once, not chosen per task because one was easier to write.
+# Read by pm_document_io.
+# ---------------------------------------------------------------------------
+documents:
+  formats_enabled: [md, xlsx, docx, csv]
+
+  # Scratch area. Thinking in text before producing a workbook is encouraged;
+  # delivering the scratch file is not. Everything here is non-deliverable and
+  # every file carries a stamp saying whether it is a draft or an export (DIO-06).
+  working_dir: "pm/_working"
+  # delete-on-finalise - remove the scratch file once the final artifact is written
+  # keep-one-round     - keep only the most recent, overwritten each run
+  # keep               - keep everything (useful while calibrating; noisy afterwards)
+  working_retention: delete-on-finalise
+
+  # After a binary artifact is written, regenerate a plain-text view of it so the
+  # content is diffable and reviewable. Derived, stamped, never edited (DIO-05).
+  derived_view: true
+
+  # Per-artifact binding. `format` is the FINAL deliverable form; `working` lists
+  # the scratch forms permitted while drafting it.
+  registry:
+    # ---- THE ONE THAT IS NOT NEGOTIABLE -------------------------------------
+    # The WBS is delivered as Excel. Markdown and CSV are working forms only:
+    # they may be used to think, never to deliver, and never to baseline (DIO-W).
+    - artifact: wbs
+      path: "pm/scope/wbs.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""                 # optional: the client's own WBS form
+      sheets:
+        wbs: "WBS"
+        dictionary: "WBS Dictionary"
+      # The dictionary is a second sheet of the same workbook by default: one
+      # file, one version, no way for the two to drift apart. Set to false to
+      # keep the separate wbs_dictionary entry below instead.
+      dictionary_in_same_workbook: true
+
+    - artifact: wbs_dictionary
+      path: "pm/scope/wbs.xlsx"    # same workbook, "WBS Dictionary" sheet
+      format: xlsx
+      working: [md, csv]
+      template: ""
+
+    - artifact: estimate
+      path: "pm/cost/estimate.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+
+    - artifact: cost_baseline
+      path: "pm/cost/cost-baseline.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+
+    - artifact: schedule
+      path: "pm/schedule/schedule.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+
+    - artifact: risk_register
+      path: "pm/registers/risk-register.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+
+    # Narrative documents. Markdown by default; switch `format` to docx where the
+    # client's own form is a Word template and put that template in `template`.
+    - artifact: charter
+      path: "pm/charter/project-charter.md"
+      format: md
+      working: []
+      template: ""
+
+    - artifact: project_management_plan
+      path: "pm/plan/project-management-plan.md"
+      format: md
+      working: []
+      template: ""
+
+    - artifact: scope_statement
+      path: "pm/scope/scope-statement.md"
+      format: md
+      working: []
+      template: ""
+
+    - artifact: status_report
+      path: "pm/reports"
+      format: md
+      working: []
+      template: ""
+
+  # Artifacts whose final form MUST be a binary office format. A run that ends
+  # with only a Markdown file for one of these has not produced the deliverable,
+  # however complete the content is. /pm_profile_check enforces the binding.
+  binary_final: [wbs, wbs_dictionary]
+
+baselines:
+  change_requires_cr: true
+  active_cr_file: ".claude/.active_pm_cr"
+  # Always denied, change request or not: archived snapshots and generated files.
+  readonly_globs:
+    - "pm/closing/archive/**"
+    - "pm/**/_baselined/**"
+  registered:
+    - path: ""
+      artifact: ""       # charter | scope | schedule | cost | quality | test | pmp | process
+      version: ""
+      approved_by: ""
+      approved_on: ""
+
+# ---------------------------------------------------------------------------
+# DOCUMENT STANDARD - shared skeleton for every management deliverable.
+# ---------------------------------------------------------------------------
+document:
+  revision_table_headers: ["Version", "Date", "Change", "Author", "Reviewer", "Approver", "Approved on"]
+  initial_version: "0.1"
+  baseline_version: "1.0"
+  auto_version_bump: false        # MUST stay false - bump only on explicit instruction
+  date_format: "YYYY/MM/DD"
+  diagram_tool: mermaid
+  require_approval_block: true
+  require_distribution_list: true
+  confidentiality: "Confidential - <Client> and <Vendor> only"
+  footer: "{{profile.project.copyright}}"
+
+# ---------------------------------------------------------------------------
+# LANGUAGE - management documents often go to a different audience, in a
+# different language, than the engineering deliverables.
+# ---------------------------------------------------------------------------
+language:
+  primary: en                     # language of management deliverables
+  working: en                     # language the team converses in
+  client_facing: en               # language of reports sent to the client
+  by_path:
+    - path: "pm/**"
+      lang: en
+  immutable_tokens:
+    - "WBS codes"
+    - "milestone IDs"
+    - "risk / issue / CR / decision IDs"
+    - "deliverable IDs"
+    - "requirement IDs"
+    - "metric names and formulas"
+    - "currency amounts"
+
+# ---------------------------------------------------------------------------
+# INTEGRATION - binding to the pack that manages the product.
+# Set technical_pack to auto and /pm_init detects which profile exists.
+# ---------------------------------------------------------------------------
+integration:
+  technical_pack: auto            # auto | sdlc | migration | none
+  technical_profile_path: ""      # filled by /pm_init, e.g. .claude/sdlc.profile.yaml
+  # What binds to what. /pm_sync_technical verifies these stay consistent; drift
+  # here is how a project reports green on a plan that no longer describes the
+  # work being done.
+  bindings:
+    work_package_to_deliverable: true    # WBS leaf <-> a named technical deliverable
+    milestone_to_phase_gate: true        # M* <-> the technical pack P* gate
+    quality_targets: "inherit"           # inherit | override | independent
+    defect_register: "technical"         # which pack owns the defect data
+    test_levels: "technical"             # which pack owns level definitions
+  # Mapping of management milestones to technical phase gates. Filled by
+  # /pm_init or /pm_sync_technical.
+  milestone_gate_map:
+    - milestone: "M1"
+      gate: "P1"
+
+# ---------------------------------------------------------------------------
+# EXECUTION - which model the delegated agents run on.
+# ---------------------------------------------------------------------------
+execution:
+  # Management artifacts fail silently too: an estimate with a missing work
+  # package, a report whose RAG does not follow from its own numbers, a risk
+  # register that lists only the risks that have already happened. None of it
+  # fails loudly - it fails at the steering committee, or at acceptance.
+  agent_model: opus
+  agent_model_overrides: {}
+  intended_effort: "extra high"

@@ -1,0 +1,35 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_profile_loaded.py\"",
+            "statusMessage": "Checking project profile...",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_protected_paths.py\"",
+            "statusMessage": "Checking baseline and read-only paths...",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_doc_rules.py\"",
+            "statusMessage": "Loading document rules...",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
