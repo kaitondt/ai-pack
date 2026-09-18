@@ -1,0 +1,197 @@
+# ============================================================================
+#  VIBE CODING PROJECT PROFILE
+#  The single source of project-specific truth for the Vibe Skill Pack.
+#  Every vibe_* skill resolves {{profile.*}} tokens from this file.
+#  Location (fixed): <repo-root>/.claude/vibe.profile.yaml
+#
+#  Short on purpose. If you find yourself wanting more fields than this, the
+#  project has probably outgrown vibe coding - run /vibe_graduate.
+# ============================================================================
+schema_version: "1.0"
+
+project:
+  key: APP                         # short uppercase key, used in report names
+  name: "<Project display name>"
+  one_liner: "<What it is, for whom, in one sentence>"
+  owner: "<name>"                  # the human who decides - every DEC-* defaults to them
+  start_date: "YYYY-MM-DD"
+
+# ---------------------------------------------------------------------------
+# STAGE - the single most important field. It decides which rules are in
+# force (see skills/vibe_project, "The stage model"). Change it only through
+# /vibe_graduate, never by editing this line.
+#   spike      - answer a question; throwaway; never merged to the main branch
+#   prototype  - show it to someone; synthetic data only
+#   mvp        - real users; core flows tested; security baseline in force
+#   production - people depend on it; release discipline; consider sdlc-standard
+# ---------------------------------------------------------------------------
+stage: prototype
+
+team:
+  shape: solo                      # solo | pair | small (2-5)
+  # Who may accept a slice's diff. Solo: the owner. From mvp, a second pair of
+  # eyes is recommended for security-relevant slices.
+  reviewers: []
+
+# ---------------------------------------------------------------------------
+# PRODUCT - mirrors PRODUCT.md. core_flows are the 3-7 things the product
+# must do; from stage mvp their done-when checks must be automated (VT-08).
+# ---------------------------------------------------------------------------
+product:
+  users: ["<primary user>"]
+  core_flows:
+    - "<e.g. sign up and sign in>"
+    - "<e.g. create, edit and delete a note>"
+  public_url: false                # true = reachable from the internet. A prototype
+                                   # with a public URL gets mvp security (SB-07).
+
+# ---------------------------------------------------------------------------
+# STACK - boring, popular, well-documented beats clever. The AI writes better
+# code in stacks with more public examples, and invents fewer APIs.
+# ---------------------------------------------------------------------------
+stack:
+  language: "<e.g. TypeScript 5>"
+  framework: "<e.g. Next.js 15 (App Router)>"
+  ui: "<e.g. Tailwind CSS + shadcn/ui>"
+  database: "<e.g. SQLite for prototype, PostgreSQL 16 from mvp>"
+  orm: "<e.g. Drizzle>"
+  auth: "<e.g. Auth.js / Clerk / Supabase Auth / none>"
+  hosting: "<e.g. Vercel / Fly.io / Render / local only>"
+  package_manager: "<npm | pnpm | yarn | bun | pip | uv | poetry | go | cargo>"
+
+# ---------------------------------------------------------------------------
+# COMMANDS - the real commands. /vibe_verify runs them; nothing is reported
+# green that did not run. Leave "" for a command the project does not have yet.
+# ---------------------------------------------------------------------------
+commands:
+  install: "<e.g. pnpm install>"
+  dev: "<e.g. pnpm dev>"
+  dev_url: "http://localhost:3000"
+  build: "<e.g. pnpm build>"
+  typecheck: "<e.g. pnpm tsc --noEmit>"
+  lint: "<e.g. pnpm lint>"
+  format: "<e.g. pnpm prettier --write .>"
+  test: "<e.g. pnpm vitest run>"
+  test_e2e: ""                     # e.g. pnpm playwright test
+  audit: ""                        # e.g. pnpm audit --audit-level=high
+  smoke: ""                        # a command that proves the running app answers
+
+# ---------------------------------------------------------------------------
+# PATHS - the vibe/ folder is the project's memory. Commit it.
+# ---------------------------------------------------------------------------
+paths:
+  vibe_root: "vibe"
+  product: "vibe/PRODUCT.md"
+  state: "vibe/STATE.md"
+  intents: "vibe/intents"
+  decisions: "vibe/decisions.md"
+  debt: "vibe/debt.md"
+  bugs: "vibe/bugs.md"
+  backlog: "vibe/backlog.md"
+  reviews: "vibe/reviews"
+  releases: "vibe/releases"
+  skill_changes: "vibe/skill-changes.md"
+
+# ---------------------------------------------------------------------------
+# SLICES - the step size (SS-02). The check_slice_size hook reads these.
+# ---------------------------------------------------------------------------
+slices:
+  max_files: 8
+  max_changed_lines: 400
+  max_minutes: 60
+  require_clean_tree: true
+  commit_format: "{SLICE_ID}: {summary}"
+  # Not counted against the budget. vibe/ is the project's memory, updated by
+  # every slice - it is bookkeeping, not slice size.
+  exclude_from_budget:
+    - "vibe/**"
+    - "*.lock"
+    - "package-lock.json"
+    - "pnpm-lock.yaml"
+    - "**/migrations/**"
+    - "**/__snapshots__/**"
+    - "**/*.generated.*"
+
+loop:
+  max_fix_attempts: 3              # SS-05 - the doom-loop limit
+  attempt_branch_prefix: "attempt/"
+
+# ---------------------------------------------------------------------------
+# VERIFICATION - additions to the VT-08 stage matrix. You may add checks to a
+# stage; you may not remove the pack's.
+# ---------------------------------------------------------------------------
+verification:
+  add:
+    prototype: []
+    mvp: []
+    production: []
+  # Where "seen running" happens for UI work: a browser the AI can drive
+  # (Playwright / Claude in Chrome), or the human looking at it.
+  ui_check: "<playwright | browser-tool | human>"
+
+# ---------------------------------------------------------------------------
+# SECURITY - the baseline (rules/vibe/security-baseline.md).
+# ---------------------------------------------------------------------------
+security:
+  secret_store: "<.env locally; platform env vars in hosting>"
+  env_files: [".env", ".env.local", ".env.development.local"]
+  allowed_licenses: ["MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "0BSD"]
+  allow_real_data: false           # true only from mvp, and only in the real environment
+  # Extra command patterns (Python regex) the guard_vibe_bash hook blocks,
+  # on top of its built-ins. Put your production deploy command here.
+  dangerous_commands:
+    - "vercel\\s+--prod"
+    - "fly\\s+deploy"
+  # Files the AI never writes (guard_vibe_paths). Generated code, vendored code.
+  protected_paths:
+    - "**/*.generated.*"
+    - "vendor/**"
+
+# ---------------------------------------------------------------------------
+# DEBT - rules/vibe/debt-ledger.md
+# ---------------------------------------------------------------------------
+debt:
+  paydown_every_n_slices: 5        # DL-05
+  block_graduation_on_due: true    # DL-04 - leave true
+
+# ---------------------------------------------------------------------------
+# RELEASE - how it ships. Read by /vibe_ship.
+# ---------------------------------------------------------------------------
+release:
+  environments: ["local", "preview", "production"]
+  deploy: "<how: git push to main triggers Vercel / manual fly deploy / ...>"
+  rollback: "<how: redeploy previous build / git revert + push / ...>"
+  monitoring: "<error tracking + uptime, e.g. Sentry + UptimeRobot, or 'none yet'>"
+  backups: "<how and how often, or 'no persistent data'>"
+
+# ---------------------------------------------------------------------------
+# GRADUATION - what happens after production. See skills/vibe_graduate.
+# ---------------------------------------------------------------------------
+graduation:
+  # Extra promotion criteria this project adds to the pack's list, per stage.
+  extra_criteria:
+    prototype: []
+    mvp: []
+    production: []
+  # When the project outgrows this pack: sdlc (engineering process),
+  # pm (commitments, cost, reporting), both, or stay.
+  handoff_to: "<sdlc | pm | both | stay>"
+
+# ---------------------------------------------------------------------------
+# INTEGRATION - sibling packs in the same repository.
+# ---------------------------------------------------------------------------
+integration:
+  # auto = detect .claude/sdlc.profile.yaml / .claude/pm.profile.yaml
+  sibling_packs: auto
+
+# ---------------------------------------------------------------------------
+# EXECUTION - model policy for the vibe_* agents (see README, "Model policy").
+# ---------------------------------------------------------------------------
+execution:
+  agent_model: opus
+  intended_effort: "<low | medium | high>"   # recorded, not enforced
+  agent_model_overrides: {}        # e.g. { vibe_verifier: sonnet }
+
+language:
+  docs: "en"                       # language of vibe/*.md files
+  conversation: "<language the human works in>"

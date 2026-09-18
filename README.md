@@ -10,16 +10,20 @@ the profile.
 | [`sdlc-standard`](sdlc-standard/README.md) | Building something new (greenfield or a new subsystem), P0 Inception → P9 Maintenance | `sdlc_` | 33 | 37 | 14 |
 | [`migration-standard`](migration-standard/README.md) | Rewriting or replatforming a legacy system where behaviour must be preserved | `mig_` | 28 | 31 | 14 |
 | [`pm-standard`](pm-standard/README.md) | Managing the project itself (PMBOK-aligned): charter, scope, cost, schedule, reporting, quality, risk, closing | `pm_` | 16 | 28 | 7 |
+| [`vibe-standard`](vibe-standard/README.md) | Vibe coding — building fast with AI (spike → prototype → MVP → production), with intents, small slices, evidence and guard rails | `vibe_` | 13 | 20 | 6 |
 
 The two technical packs (`sdlc`, `migration`) manage the **product** — what is built and
 whether it is correct. `pm-standard` manages the **project** — what was committed, at what
 cost, by which date, approved by whom — and runs alongside either of them or standalone.
+`vibe-standard` takes the parts of `sdlc` and `pm` that survive at vibe speed and manages the
+**loop** — intent → slice → run → verify → commit — then hands a project over to them via
+`/vibe_graduate` when it outgrows vibe coding.
 
 ---
 
 ## Shared architecture
 
-All three packs are built the same way:
+All four packs are built the same way:
 
 ```
 <pack>/
@@ -45,7 +49,8 @@ Skills never hardcode project values. They write `{{profile.*}}` tokens that the
 
 Principles common to all packs:
 
-- **Traceability is explicit and machine-checkable** — every artifact cites its source ID.
+- **Traceability is explicit and machine-checkable** — every artifact cites its source ID
+  (in `vibe-standard`, lightly: intent → slice → commit → check).
 - **Baselines are change-controlled** — approved documents change only through a CR.
 - **No invention** — nothing is specified without an anchor (legacy source, requirement,
   recorded decision, or approved change); otherwise it is an open question or a labelled
@@ -61,6 +66,8 @@ Principles common to all packs:
 | Situation | Pack |
 |---|---|
 | Building something new | `sdlc-standard` |
+| Building fast with AI — prototype, side project, MVP, internal tool | `vibe-standard` |
+| A vibe-coded product that now has contracts, investors or a growing team | `vibe-standard` → `/vibe_graduate handoff` to `sdlc` / `pm` |
 | Rewriting or replatforming an existing system | `migration-standard` |
 | Migration that also adds significant new capability | `migration-standard` as base, plus `sdlc_requirements`, `sdlc_nfr_design`, `sdlc_test_st` for the new parts |
 | Maintaining a system either pack delivered | `sdlc-standard`, phase P9 |
@@ -84,6 +91,11 @@ cp sdlc-standard/profile/sdlc.profile.yaml <your-project>/.claude/sdlc.profile.y
 cp -r migration-standard/.claude                     <your-project>/.claude
 cp migration-standard/profile/migration.profile.yaml <your-project>/.claude/migration.profile.yaml
 # in Claude Code:  /mig_init  then  /mig_template_register
+
+# Vibe coding
+cp -r vibe-standard/.claude                <your-project>/.claude
+cp vibe-standard/profile/vibe.profile.yaml <your-project>/.claude/vibe.profile.yaml
+# in Claude Code:  /vibe_init  then  /vibe_intent "..."  →  /vibe_plan  →  /vibe_build
 
 # Project management (merge into an existing .claude/ if a technical pack is installed)
 cp -r pm-standard/.claude              <your-project>/.claude
