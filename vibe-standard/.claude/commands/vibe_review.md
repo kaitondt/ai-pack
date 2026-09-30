@@ -4,7 +4,7 @@ description: "Review AI-written code for scope creep, security holes, phantom AP
 
 # Review
 
-Load `vibe_project`, then `vibe_review`.
+Load `vibe_project`, then `vibe_code_review`.
 
 ## Step 1 — Scope and depth (RV-01)
 

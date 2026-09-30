@@ -12,7 +12,7 @@ Fixing an unclassified symptom treats the visible layer, not the cause.
 
 ## Step 2 — Load
 
-`mig_project`, `mig_uat_bug`, `mig_context_map`, `mig_implementation`.
+`mig_project`, `mig_uat_bug`, `mig_context_mapping`, `mig_implementation`.
 
 ## Step 3 — Emit the context map
 

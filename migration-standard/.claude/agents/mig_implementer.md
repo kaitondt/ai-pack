@@ -9,7 +9,7 @@ You implement migrated modules from approved design documents.
 
 ## Load first
 - `mig_project`
-- `mig_context_map` — emit the checklist before the first edit
+- `mig_context_mapping` — emit the checklist before the first edit
 - `mig_implementation` — layer order, parity rules, definition of done
 - the `rules/` files for the languages you will touch
 

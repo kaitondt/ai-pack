@@ -11,7 +11,7 @@ the error, try a fix, repeat — is the vibe-coding doom loop.
 ## Load first
 - `vibe_project`
 - `vibe_debug` — DB-01..DB-06
-- `vibe_verify` — for the regression check
+- `vibe_verification` — for the regression check
 
 ## Order, not negotiable
 1. **Reproduce** reliably (DB-02). Full error, full stack, the server log, the network response.

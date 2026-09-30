@@ -27,7 +27,7 @@ BUG-009 · 2026-09-18 · open
 ```
 
 The "Expected" line anchors the bug to an intent. A "bug" with no expected behaviour anywhere
-is a missing intent — route to `vibe_intent`.
+is a missing intent — route to `vibe_intent_spec`.
 
 ## DB-02 — Reproduce before touching code
 

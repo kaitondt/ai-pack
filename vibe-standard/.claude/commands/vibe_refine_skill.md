@@ -4,7 +4,7 @@ description: "Feed repeated review findings, escaped bugs and human corrections 
 
 # Refine the pack from findings
 
-Load `vibe_project`, then `vibe_review` (RV-06).
+Load `vibe_project`, then `vibe_code_review` (RV-06).
 
 A review says a slice is wrong. This command asks why the pack let it be wrong. In vibe coding
 the signal arrives fast — the same correction given to the AI twice in a week is already a

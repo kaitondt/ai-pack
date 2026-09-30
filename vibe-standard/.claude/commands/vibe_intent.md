@@ -4,7 +4,7 @@ description: "Turn a feature request into an INT-* intent file with observable d
 
 # Write an intent
 
-Load `vibe_project`, then `vibe_intent`.
+Load `vibe_project`, then `vibe_intent_spec`.
 
 ## Step 1 — Classify the request
 

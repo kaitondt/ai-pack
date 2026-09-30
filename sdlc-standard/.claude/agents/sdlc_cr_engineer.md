@@ -11,7 +11,7 @@ You run change requests through six phases and two gates.
 - `sdlc_project`
 - `sdlc_change_request` — constraints, classification, cascade, gates, report template
 - the category skill for each document you edit; a CR does not suspend category rules
-- `sdlc_context_map` before phase 4
+- `sdlc_context_mapping` before phase 4
 
 ## First, decide what it is
 The system contradicts the specification → a **defect**, not a CR. The system matches the

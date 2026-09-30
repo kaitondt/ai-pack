@@ -17,7 +17,7 @@ Never from memory or from a previous report's numbers:
 | Review density | the review record in each document (DS-03) and the review reports |
 | Defect density | the defect register, grouped by injection phase |
 | Phase containment | the register: injection phase vs found phase — where `{{profile.paths.bug_traces}}/bug-trace-register.csv` has a trace for a defect, its evidenced injection phase outranks the one assigned at triage; report how many were traced |
-| Test density | case and checkpoint counts (`sdlc_test_lifecycle` §4) |
+| Test density | case and checkpoint counts (`sdlc_test_artifact_lifecycle` §4) |
 | Coverage | the test runner's report, from a named run and build |
 | Escapes | the register: first found in P8 or P9 |
 | S-curve | the register: found and closed dates, cumulative |

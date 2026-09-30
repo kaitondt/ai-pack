@@ -8,7 +8,7 @@ Runs only after an approved conclusion from `/sdlc_maintain_intake`.
 
 ## Step 1 — Load
 
-`sdlc_project`, then `sdlc_maintenance`, then `sdlc_context_map`.
+`sdlc_project`, then `sdlc_maintenance`, then `sdlc_context_mapping`.
 
 ## Step 2 — Confirm the approval and the route
 

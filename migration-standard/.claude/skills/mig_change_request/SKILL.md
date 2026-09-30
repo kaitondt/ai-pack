@@ -242,7 +242,7 @@ Print the document diff table, plus any required row not yet done and why. Then 
 
 ## Phase 4 — Implementation
 
-Only after GATE 2. Load `mig_context_map` first and emit the map: a CR that edits one layer
+Only after GATE 2. Load `mig_context_mapping` first and emit the map: a CR that edits one layer
 of five is the classic source of the next UAT bug.
 
 - The **updated** documents are the specification. Code matching the old document is a

@@ -173,7 +173,7 @@ traceability ancestor for behaviour the legacy never had.
 
 P5–P7 have their own skill family: `mig_test_design` (viewpoints and writing rules),
 `mig_test_ut` / `mig_test_it` (the checkpoint pipelines with human pauses),
-`mig_test_automation`, `mig_test_review`, `mig_defect_triage`, `mig_test_lifecycle`.
+`mig_test_automation`, `mig_test_review`, `mig_defect_triage`, `mig_test_artifact_lifecycle`.
 
 Cross-cutting at any phase: `/mig_trace_check`, `/mig_review_design`,
 `/mig_translate`, `/mig_context_map`, `/mig_verify_build`, `/mig_template_register`,

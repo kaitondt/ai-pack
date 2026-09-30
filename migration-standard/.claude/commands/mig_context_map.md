@@ -6,7 +6,7 @@ description: "Produce the cross-layer file checklist for a proposed change befor
 
 ## Step 1 — Load
 
-`mig_project`, then `mig_context_map`.
+`mig_project`, then `mig_context_mapping`.
 
 ## Step 2 — Read the actual repository
 

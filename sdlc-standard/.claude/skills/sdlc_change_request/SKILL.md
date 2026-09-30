@@ -262,7 +262,7 @@ Print the document diff table, plus any required row not yet done and why. Then 
 
 ## Phase 4 — Implementation
 
-Only after GATE 2. Load `sdlc_context_map` first and emit the map: a CR that edits one
+Only after GATE 2. Load `sdlc_context_mapping` first and emit the map: a CR that edits one
 layer of five is the classic source of the next UAT defect.
 
 - The **updated** documents are the specification. Code matching the old document is a
@@ -283,7 +283,7 @@ layer of five is the classic source of the next UAT defect.
 **The existing test cases now describe the old behaviour.** They are part of the change,
 not collateral: update the cases the CR contradicts, add cases for the new behaviour, and
 mark withdrawn cases as withdrawn instead of deleting them (`sdlc_test_design`,
-`sdlc_test_lifecycle`).
+`sdlc_test_artifact_lifecycle`).
 
 Then verify in `{{profile.system.build.order}}`: build, type-check, the tests covering the
 change, and a manual walk-through of the changed flow. List the regression surface from

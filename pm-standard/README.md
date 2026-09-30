@@ -42,16 +42,16 @@ writes `{{profile.schedule.milestones}}`, `{{profile.cost.contingency_percent}}`
 
 | # | Area | Skill | Primary artifact | Entry command |
 |---|---|---|---|---|
-| 1 | Project overview | `pm_charter` | project charter | `/pm_charter` |
+| 1 | Project overview | `pm_project_charter` | project charter | `/pm_charter` |
 | 2 | Requirements / scope | `pm_scope` | scope baseline, RTM | `/pm_scope_baseline` |
 | 3 | Cost / effort | `pm_estimation`, `pm_cost` | estimate, cost baseline, EVM | `/pm_estimate`, `/pm_cost_baseline`, `/pm_evm` |
-| 4 | Project management | `pm_plan`, `pm_stakeholder`, `pm_resource` | project management plan | `/pm_plan`, `/pm_comm_plan`, `/pm_resource_plan` |
+| 4 | Project management | `pm_management_plan`, `pm_stakeholder`, `pm_resource` | project management plan | `/pm_plan`, `/pm_comm_plan`, `/pm_resource_plan` |
 | 5 | Process (dev, QA/QC) | `pm_process` | process definition, tailoring, CAPA | `/pm_process_define`, `/pm_audit` |
 | 6 | Schedule | `pm_schedule` | WBS + dictionary (**one Excel workbook**), schedule baseline | `/pm_wbs`, `/pm_schedule_baseline` |
 | 7 | Reporting | `pm_reporting` | daily / weekly / monthly / quarterly / quality | `/pm_status_collect`, `/pm_report` |
 | 8 | Quality | `pm_quality` | quality plan, master test plan | `/pm_quality_plan` |
 | 9 | Risk | `pm_risk` | risk register, issue log | `/pm_risk_assess`, `/pm_risk_review` |
-| 10 | Closing | `pm_closing` | acceptance, final report, lessons | `/pm_closing`, `/pm_lessons` |
+| 10 | Closing | `pm_closure` | acceptance, final report, lessons | `/pm_closing`, `/pm_lessons` |
 
 Cross-cutting: `pm_change_control` (`/pm_change_assess` → `/pm_change_apply`),
 `/pm_gate_review`, `/pm_trace_check`, `/pm_health_check`, `/pm_sync_technical`,

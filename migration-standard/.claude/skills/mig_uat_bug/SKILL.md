@@ -98,7 +98,7 @@ Only after explicit approval, and only within the approved scope.
 
 - Fix the layer the classification names. A `DESIGN-DEFECT` requires the document to
   change too — fixing only the code recreates the divergence at the next review.
-- Load `mig_context_map` before editing; a UAT fix that touches one layer of five is the
+- Load `mig_context_mapping` before editing; a UAT fix that touches one layer of five is the
   classic source of a follow-up bug.
 - Never modify legacy or frozen objects.
 - Verify: build in the mandated order, type-check, and run the tests that cover the change.

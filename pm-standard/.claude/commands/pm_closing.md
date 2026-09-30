@@ -6,7 +6,7 @@ description: "Run project closing: deliverable acceptance, handover, disposition
 
 ## Step 1 — Load
 
-`pm_project`, then `pm_closing`. Agent: `pm_closer`.
+`pm_project`, then `pm_closure`. Agent: `pm_closer`.
 
 ## Step 2 — Acceptance, per deliverable (CL-01)
 

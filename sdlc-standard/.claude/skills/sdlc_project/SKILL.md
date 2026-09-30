@@ -52,22 +52,22 @@ Always in force, regardless of phase:
 | Batch / scheduled job design | `sdlc_batch_design` |
 | Detail design, DD↔code drift | `sdlc_detail_design` |
 | Creating, restructuring or auditing the source layout — the codebase skeleton | `sdlc_codebase` |
-| Writing code | `sdlc_implementation` (+ `sdlc_context_map` before starting) |
+| Writing code | `sdlc_implementation` (+ `sdlc_context_mapping` before starting) |
 | Repository, CI/CD, environments, containers, IaC, secrets, monitoring | `sdlc_infrastructure` |
-| Which files a change touches | `sdlc_context_map` |
+| Which files a change touches | `sdlc_context_mapping` |
 | Test case documents, any level | `sdlc_test_design` + `sdlc_test_ut` / `_it` / `_st` / `_uat` |
 | Automating manual test cases | `sdlc_test_automation` |
 | Reviewing test case documents | `sdlc_test_review` |
 | Defect triage, classification, ageing | `sdlc_defect_management` |
 | One defect traced across every phase — evidenced injection, commit history, why it was not caught earlier | `sdlc_bug_trace` |
-| Test artifacts between rounds | `sdlc_test_lifecycle` |
+| Test artifacts between rounds | `sdlc_test_artifact_lifecycle` |
 | Release readiness, cutover, rollback | `sdlc_release` |
 | Incidents after go-live | `sdlc_maintenance` |
 | A change to a baselined artifact | `sdlc_change_request` |
 | Reviewing any deliverable | `sdlc_review_framework` |
 | Metrics, gate reports, containment | `sdlc_quality_metrics` |
 | Feeding review findings back into a skill | `sdlc_review_framework` + `/sdlc_refine_skill` |
-| Translating deliverables | `sdlc_translate` |
+| Translating deliverables | `sdlc_translation` |
 | Reading or writing a deliverable in Excel, Word or CSV; registering a client template | `sdlc_document_io` |
 
 Category skills are bound to directories by `{{profile.paths.bd_categories}}` — a task

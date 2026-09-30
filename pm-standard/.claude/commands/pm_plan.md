@@ -10,7 +10,7 @@ definition exist — or with the gaps named explicitly.
 
 ## Step 1 — Load
 
-`pm_project`, then `pm_plan`. Agent: `pm_planner`.
+`pm_project`, then `pm_management_plan`. Agent: `pm_planner`.
 
 ## Step 2 — Inventory the subsidiary plans (PP-01)
 

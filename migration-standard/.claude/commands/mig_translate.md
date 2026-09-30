@@ -6,7 +6,7 @@ description: "Translate or sync a deliverable between the project languages, pre
 
 ## Step 1 — Load
 
-`mig_project`, then `mig_translate`.
+`mig_project`, then `mig_translation`.
 
 ## Step 2 — Determine the direction
 

@@ -9,7 +9,7 @@ difference is that it has an outcome (PP-04).
 
 ## Step 1 — Load
 
-`pm_project`, then `pm_plan`. Also `pm_quality` when the gate covers a test level.
+`pm_project`, then `pm_management_plan`. Also `pm_quality` when the gate covers a test level.
 
 ## Step 2 — Check entry criteria
 

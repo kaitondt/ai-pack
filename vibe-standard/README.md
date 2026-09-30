@@ -96,7 +96,7 @@ project starts needing them, `/vibe_graduate` hands it over (see below).
 | 14 | **A public URL means mvp security**, whatever the stage says | SB-07 |
 | 15 | **Every shortcut is a `DEBT-*` with a due stage**; security debt due by mvp | `rules/vibe/debt-ledger.md` DL-01, SB-08 |
 | 16 | **STATE.md is the handoff**; the conversation is not memory | `rules/vibe/session-continuity.md` SC-01, SC-04 |
-| 17 | **The stage changes only through `/vibe_graduate`**, on evidence | `skills/vibe_graduate` GR-02 |
+| 17 | **The stage changes only through `/vibe_graduate`**, on evidence | `skills/vibe_graduation` GR-02 |
 
 ## What is variable (lives in the profile)
 
@@ -219,7 +219,7 @@ packs instead of letting the project drift:
 
 On handoff to `sdlc-standard`, intents become requirements **marked as assumptions until the
 product owner confirms them** — the sibling pack's rule that code is not a specification still
-holds. `DEC-*` carries over unchanged. Details: `skills/vibe_graduate` GR-04, GR-05.
+holds. `DEC-*` carries over unchanged. Details: `skills/vibe_graduation` GR-04, GR-05.
 
 Staying is also a valid answer. Many products live happily at `production` under this pack.
 

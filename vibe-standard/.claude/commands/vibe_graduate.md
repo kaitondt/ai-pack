@@ -4,7 +4,7 @@ description: "Promote the project to the next stage (prototype / mvp / productio
 
 # Graduate
 
-Load `vibe_project`, then `vibe_graduate`.
+Load `vibe_project`, then `vibe_graduation`.
 
 ## Promotion (`prototype` · `mvp` · `production`)
 

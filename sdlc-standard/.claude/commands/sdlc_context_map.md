@@ -6,7 +6,7 @@ description: "Produce the cross-layer checklist of every file a change touches, 
 
 ## Step 1 — Load
 
-`sdlc_project`, then `sdlc_context_map`.
+`sdlc_project`, then `sdlc_context_mapping`.
 
 ## Step 2 — Read the repository
 

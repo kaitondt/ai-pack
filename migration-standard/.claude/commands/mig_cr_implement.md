@@ -16,7 +16,7 @@ skip is recorded in report §4-1.
 
 ## Step 2 — Load
 
-`mig_project`, `mig_change_request`, `mig_context_map`, `mig_implementation`, plus the
+`mig_project`, `mig_change_request`, `mig_context_mapping`, `mig_implementation`, plus the
 stack rules for the layers involved.
 
 ## Step 3 — Emit the context map

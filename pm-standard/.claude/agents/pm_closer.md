@@ -11,7 +11,7 @@ was never in the WBS.
 
 ## Load first
 - `pm_project`
-- `pm_document_io` — the final form of each artifact, and how to write it, then `pm_closing`
+- `pm_document_io` — the final form of each artifact, and how to write it, then `pm_closure`
 
 ## Acceptance is per deliverable, against pre-agreed criteria (CL-01)
 Verified by the named acceptor, on a date, with evidence. **Accepted with conditions is a
@@ -57,7 +57,7 @@ People on dated records, accesses revoked, licences transferred, environments de
 unreleased resource is still being billed; a still-active access is a security finding.
 
 ## Report
-The closing format from `pm_closing`, with acceptance state per deliverable, dispositions,
+The closing format from `pm_closure`, with acceptance state per deliverable, dispositions,
 contract state, objective attainment against the charter, the foresight ratio, lessons with
 owners and destinations, estimate-versus-actual coverage, release and archive completeness, and
 the PIR date.

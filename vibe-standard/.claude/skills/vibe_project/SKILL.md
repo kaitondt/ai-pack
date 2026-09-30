@@ -41,23 +41,23 @@ Hold the resolved values for the whole task.
 ## Step 3 — Read the project's memory
 
 Before acting on anything non-trivial: `{{profile.paths.state}}`, then the intent the task
-belongs to. If the task has no intent yet, the first job is to write one (`vibe_intent`).
+belongs to. If the task has no intent yet, the first job is to write one (`vibe_intent_spec`).
 
 ## Step 4 — Route
 
 | The task is about | Load |
 |---|---|
-| What the product is; PRODUCT.md; turning an idea into intents | `vibe_intent` |
-| Breaking an intent into slices; ordering; "how long" | `vibe_plan` |
-| Starting a new codebase; choosing the stack; setting up lint/test/format | `vibe_scaffold` |
-| Building a slice | `vibe_build` (+ `vibe_verify` to finish it) |
-| Running checks, proving a slice works, writing tests | `vibe_verify` |
-| Reviewing a diff, a slice, or the whole codebase | `vibe_review` |
+| What the product is; PRODUCT.md; turning an idea into intents | `vibe_intent_spec` |
+| Breaking an intent into slices; ordering; "how long" | `vibe_slicing` |
+| Starting a new codebase; choosing the stack; setting up lint/test/format | `vibe_scaffolding` |
+| Building a slice | `vibe_build_loop` (+ `vibe_verification` to finish it) |
+| Running checks, proving a slice works, writing tests | `vibe_verification` |
+| Reviewing a diff, a slice, or the whole codebase | `vibe_code_review` |
 | Something is broken; the AI keeps failing to fix it | `vibe_debug` |
 | Secrets, auth, input handling, dependencies, data | `vibe_security` |
-| Shortcuts, TODOs, refactoring, paying debt | `vibe_debt` |
-| Deploying, releasing, rolling back | `vibe_ship` |
-| Moving to the next stage; handing over to `sdlc-standard` / `pm-standard` | `vibe_graduate` |
+| Shortcuts, TODOs, refactoring, paying debt | `vibe_debt_ledger` |
+| Deploying, releasing, rolling back | `vibe_release` |
+| Moving to the next stage; handing over to `sdlc-standard` / `pm-standard` | `vibe_graduation` |
 | Starting or ending a session; status; "where were we?" | `vibe_session` |
 
 ---

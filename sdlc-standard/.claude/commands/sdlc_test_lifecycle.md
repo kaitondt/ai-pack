@@ -6,7 +6,7 @@ description: "Maintain test artifacts between execution rounds: version history 
 
 ## Step 1 — Load
 
-`sdlc_project`, then `sdlc_test_lifecycle`.
+`sdlc_project`, then `sdlc_test_artifact_lifecycle`.
 
 ## Step 2 — Choose the operation
 

@@ -6,7 +6,7 @@ description: "Translate or sync a deliverable between the project languages, pre
 
 ## Step 1 — Load
 
-`sdlc_project`, then `sdlc_translate`.
+`sdlc_project`, then `sdlc_translation`.
 
 ## Step 2 — Determine the direction from the destination path
 

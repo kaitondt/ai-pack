@@ -6,7 +6,7 @@ description: "Capture lessons learned with the evidence behind them and route ea
 
 ## Step 1 — Load
 
-`pm_project`, then `pm_closing`.
+`pm_project`, then `pm_closure`.
 
 ## Step 2 — Capture close to the event (CL-07)
 

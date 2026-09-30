@@ -4,7 +4,7 @@ description: "Build one slice through the vibe loop — restate, checkpoint, map
 
 # Build a slice
 
-Load `vibe_project`, then `vibe_build` and `vibe_verify`.
+Load `vibe_project`, then `vibe_build_loop` and `vibe_verification`.
 
 ## Step 1 — Find the slice
 

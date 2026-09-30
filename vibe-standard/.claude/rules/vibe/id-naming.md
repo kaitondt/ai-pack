@@ -32,5 +32,5 @@ guess it from the conversation — two sessions guessing produce two `DEC-013`s.
 
 `DEC-{NNN}` uses the same format as `sdlc-standard` and `pm-standard`, so the decision log
 carries over unchanged on graduation. `INT-*`, `DEBT-*`, `BUG-*` and `IDEA-*` map onto the
-sibling records as described in `skills/vibe_graduate` — they are never renamed in place;
+sibling records as described in `skills/vibe_graduation` — they are never renamed in place;
 the sibling record cites the vibe ID as its origin.

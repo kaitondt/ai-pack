@@ -4,7 +4,7 @@ description: "Create the codebase skeleton for a new vibe project — boring sta
 
 # Scaffold
 
-Load `vibe_project`, then `vibe_scaffold`.
+Load `vibe_project`, then `vibe_scaffolding`.
 
 ## Step 1 — Decide the stack
 

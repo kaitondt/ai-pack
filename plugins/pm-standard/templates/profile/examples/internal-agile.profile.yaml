@@ -1,0 +1,597 @@
+# ============================================================================
+#  EXAMPLE PROFILE — internal product team, agile with gates, no external client.
+#
+#  Illustrates the light end of the range: no CCB, a lean report set, story
+#  points rather than hours, a release-scope baseline rather than a frozen one,
+#  and closing as a release retrospective rather than a contract closure.
+#
+#  What does NOT get lighter: baselines still exist and still change through a
+#  recorded decision; estimates still carry method and range; reports still
+#  carry sourced numbers. Informality is about ceremony, not about evidence.
+#  Compare with offshore-fixed-price.profile.yaml.
+# ============================================================================
+schema_version: "1.0"
+
+project:
+  key: PLT
+  name: "Billing Platform — Subscription Migration"
+  code: "INT-PLT-2026"
+  vendor: "Platform Engineering (internal)"
+  client: "Revenue Operations (internal)"
+  copyright: "(c) 2026 Northwind Software. Internal use only."
+  start_date: "2026-03-02"
+  planned_end_date: "2026-09-30"
+  delivery_model: agile-with-gates
+  contract_type: internal
+  currency: "USD"
+  engagement_model: internal
+  time_zones: ["America/New_York"]
+
+governance:
+  sponsor: "VP Revenue Operations"
+  client_pm: "Director, Billing Operations"
+  project_manager: "Engineering Manager, Platform"
+  technical_lead: "Principal Engineer, Billing"
+  qa_lead: "Staff QA Engineer"
+  delivery_manager: "Director of Engineering"
+  ccb:
+    members: ["project_manager", "technical_lead", "client_pm"]
+    chair: "project_manager"
+    cadence: "at sprint planning; async in the #plt-changes channel between"
+    quorum: 2
+  steering_committee:
+    members: ["sponsor", "delivery_manager", "client_pm"]
+    cadence: "monthly"
+    decides: ["release scope trade-off", "date change", "headcount", "risk acceptance"]
+  escalation:
+    - level: 1
+      to: "project_manager"
+      sla_hours: 4
+    - level: 2
+      to: "delivery_manager"
+      sla_hours: 24
+    - level: 3
+      to: "sponsor"
+      sla_hours: 48
+  approvals:
+    charter: ["sponsor"]
+    scope_baseline: ["client_pm", "project_manager"]
+    schedule_baseline: ["project_manager"]
+    cost_baseline: ["delivery_manager"]
+    quality_plan: ["qa_lead"]
+    test_plan: ["qa_lead"]
+    change_request: ["ccb"]
+    acceptance: ["client_pm"]
+    closure: ["sponsor", "client_pm"]
+
+calendar:
+  working_days: ["Mon", "Tue", "Wed", "Thu", "Fri"]
+  hours_per_day: 8
+  productive_hours_per_day: 6.0     # this team carries a production on-call rotation
+  holidays_calendar: "company US holiday calendar"
+  planned_absence_allowance: "12%"  # unlimited PTO policy; measured average
+  freeze_periods:
+    - name: "Quarter close"
+      from: "2026-06-25"
+      to: "2026-07-03"
+      reason: "billing system changes prohibited during revenue close"
+
+scope:
+  objectives:
+    - statement: "Move all subscription customers off the legacy billing engine"
+      measure: "% of active subscriptions billed by the new engine"
+      target: "100% by 2026/09/30"
+    - statement: "Cut monthly billing-run support effort"
+      measure: "support hours per billing run, from the on-call log"
+      target: "from 22 h to under 5 h by 2026/10/31"
+  in_scope:
+    - "Subscription billing engine"
+    - "Proration and mid-cycle change handling"
+    - "Dunning and retry policy"
+    - "Migration of active subscriptions"
+  out_of_scope:
+    - item: "Usage-based billing"
+      reason: "no customer on it today; would double the data model (DEC-006)"
+    - item: "Tax engine replacement"
+      reason: "Avalara contract runs to 2027; interface unchanged"
+    - item: "Invoice PDF redesign"
+      reason: "Design team capacity; queued for Q4 as a separate effort"
+  deliverables:
+    - id: "D-001"
+      name: "Billing engine (new)"
+      kind: "software"
+      acceptance_by: "client_pm"
+      acceptance_criteria: "parallel run for one full cycle with zero unexplained variances"
+      due_milestone: "M3"
+    - id: "D-002"
+      name: "Migration tooling and runbook"
+      kind: "software"
+      acceptance_by: "technical_lead"
+      acceptance_criteria: "rehearsed twice on a production clone, with a tested rollback"
+      due_milestone: "M3"
+    - id: "D-003"
+      name: "Operations handover"
+      kind: "training"
+      acceptance_by: "client_pm"
+      acceptance_criteria: "billing ops runs one cycle unaided with engineering observing only"
+      due_milestone: "M4"
+  requirements:
+    source: "Linear project PLT, epics with acceptance criteria"
+    id_format: "PLT-{NNN}"
+    traceability: "docs/traceability.csv"
+    owner: "client_pm"
+    change_threshold_requires_cr: "any change to the committed release scope"
+  assumptions_log: "pm/registers/assumption-log.md"
+  constraints:
+    - "No billing downtime; migration must be incremental and reversible"
+    - "Financial reporting output must reconcile to the cent against the legacy engine"
+    - "SOX controls apply: change approval and segregation of duties are audited"
+  dependencies:
+    - id: "DEP-001"
+      description: "Payment gateway sandbox refresh from the vendor"
+      owner: "technical_lead → gateway vendor"
+      needed_by: "2026-04-15"
+      impact_if_late: "dunning work cannot be tested; PLT.4.3 stalls"
+
+wbs:
+  code_format: "{key}.{L1}.{L2}"
+  max_levels: 3                     # flatter: epics and stories carry the detail in Linear
+  work_package_min_hours: 8
+  work_package_max_hours: 80
+  control_account_level: 1
+  dictionary_fields: ["code", "name", "description", "deliverable", "owner",
+                      "predecessors", "effort_points", "acceptance_criteria", "risks"]
+  level1:
+    - code: "1"
+      name: "Project management"
+    - code: "2"
+      name: "Discovery and design"
+    - code: "3"
+      name: "Billing engine"
+    - code: "4"
+      name: "Migration and tooling"
+    - code: "5"
+      name: "Testing and parallel run"
+    - code: "6"
+      name: "Rollout"
+    - code: "7"
+      name: "Quality and process"
+    - code: "8"
+      name: "Handover and enablement"
+
+schedule:
+  method: sprint-based
+  baseline_path: "pm/schedule/release-plan-baseline.md"
+  working_file: "pm/schedule/release-plan.md"
+  tool: "Linear cycles, exported to pm/schedule/"
+  progress_measurement: "0-100"     # a story is done or it is not; no partial credit
+  buffer_policy:
+    project_buffer: "1 sprint per release, held by the PM"
+    feeding_buffer: "not used"
+    padding_inside_estimates: forbidden
+  milestones:
+    - id: "M0"
+      name: "Kickoff"
+      date: "2026-03-02"
+      criteria: "charter approved, team assembled, discovery scoped"
+      payment_linked: false
+    - id: "M1"
+      name: "Design agreed"
+      date: "2026-04-10"
+      criteria: "architecture decision records approved, data model reviewed, NFRs measurable"
+      payment_linked: false
+    - id: "M2"
+      name: "Feature complete"
+      date: "2026-07-17"
+      criteria: "all committed release scope merged, IT green"
+      payment_linked: false
+    - id: "M3"
+      name: "Parallel run clean"
+      date: "2026-08-28"
+      criteria: "one full cycle with zero unexplained variances; rollback rehearsed"
+      payment_linked: false
+    - id: "M4"
+      name: "Cutover complete"
+      date: "2026-09-30"
+      criteria: "100% of subscriptions migrated, legacy engine read-only, ops handover done"
+      payment_linked: false
+  variance_thresholds:
+    green: "velocity within 15% of the 3-sprint average and no milestone at risk"
+    amber: "velocity 15-30% below average, or a milestone recoverable within the buffer sprint"
+    red: "the buffer sprint is consumed, or a milestone will move"
+
+cost:
+  size_unit: story-point
+  estimation_methods: ["expert-delphi", "analogous", "three-point-pert"]
+  productivity:
+    basis: "team velocity over the last 6 cycles: 38 points/sprint (2-week), 5 engineers"
+    rates:
+      - unit: "point (blended engineering cost)"
+        hours: 5.5
+    phase_distribution:
+      management: "8%"
+      requirements: "10%"
+      design: "15%"
+      implementation: "34%"
+      testing: "28%"       # parallel run and reconciliation are expensive here, deliberately
+      release: "5%"
+  rates:
+    - role: "Engineer (blended)"
+      location: "US"
+      rate: 95
+  contingency_percent: 15           # migration with a reconciliation requirement
+  management_reserve_percent: 0     # internal: the sponsor re-allocates rather than reserving
+  baseline_path: "pm/cost/cost-baseline.md"
+  earned_value:
+    enabled: false                  # tracked as points burn-up plus a monthly cost roll-up
+    eac_formula: current-rate
+    report_with: ["velocity", "burn-up", "forecast completion sprint"]
+  billing:
+    model: "internal cost centre"
+    invoice_trigger: "n/a"
+    payment_terms_days: 0
+
+process:
+  lifecycle: "2-week cycles, gates at design, feature-complete, parallel-run and cutover"
+  standard_ref: "internal engineering handbook; SOX change-control policy"
+  tailoring_record: "pm/process/tailoring.md"
+  development_process_ref: ".claude/sdlc.profile.yaml"
+  qa:
+    owner: "qa_lead"
+    activities: ["review compliance spot-check", "metrics review at each gate",
+                 "SOX change-control evidence check", "corrective action tracking"]
+    audit_cadence: "quarterly, plus the SOX evidence check every release"
+    audit_record: "pm/quality/audits"
+  qc:
+    activities: ["design review", "code review", "unit test", "integration test",
+                 "parallel-run reconciliation", "operational readiness review"]
+    entry_exit_criteria_ref: "pm/quality/quality-plan.md"
+  process_assets: "pm/process/assets"
+  definition_of_done:
+    - "code reviewed and merged"
+    - "unit and integration tests pass"
+    - "feature flag and rollback path in place"
+    - "runbook updated"
+    - "reconciliation case added where money is calculated"
+    - "traceability row updated"
+  corrective_actions: "pm/registers/capa-log.md"
+
+quality:
+  plan_path: "pm/quality/quality-plan.md"
+  test_plan_path: "pm/quality/master-test-plan.md"
+  objectives:
+    - attribute: "financial correctness"
+      target: "zero unexplained variance against the legacy engine over a full cycle"
+      measured_by: "parallel-run reconciliation report"
+    - attribute: "reversibility"
+      target: "rollback rehearsed and timed at every milestone"
+      measured_by: "rehearsal records"
+  targets:
+    review_density: ">= 1 finding per design document"
+    design_defect_density: "not tracked separately"
+    code_defect_density: "1 - 5 per KLOC"
+    unit_coverage: "line >= 80% on money-calculating modules, >= 65% elsewhere"
+    phase_containment: ">= 75%"
+    escaped_defects: "< 5% first found in production"
+    ut_pass_rate: "100% before merge"
+    requirement_coverage: "100% of epics have acceptance tests"
+  test_levels:
+    - id: UT
+      owner: "developer"
+      environment: "local + CI"
+      entry: "code complete"
+      exit: "100% pass, coverage target met"
+    - id: IT
+      owner: "developer"
+      environment: "staging"
+      entry: "merged to main"
+      exit: "no open S1/S2"
+    - id: ST
+      owner: "qa_lead"
+      environment: "staging with production clone"
+      entry: "feature complete"
+      exit: "parallel-run reconciliation clean for one cycle"
+    - id: UAT
+      owner: "client_pm"
+      environment: "production clone"
+      entry: "ST exit holds"
+      exit: "billing ops signs off on one unaided cycle"
+  defect_severity:
+    - id: S1
+      label: "Critical"
+      definition: "incorrect billing, data loss, or customer-visible outage"
+      fix_sla_hours: 4
+    - id: S2
+      label: "High"
+      definition: "reconciliation variance, or a blocked billing run"
+      fix_sla_hours: 24
+    - id: S3
+      label: "Medium"
+      definition: "impaired with a workaround"
+      fix_sla_hours: 120
+    - id: S4
+      label: "Low"
+      definition: "cosmetic"
+      fix_sla_hours: "next cycle"
+  quality_report_cadence: "at each gate, and monthly to the steering group"
+
+risk:
+  register: "pm/registers/risk-register.md"
+  issue_log: "pm/registers/issue-log.md"
+  categories: ["scope", "schedule", "quality", "resource", "technical",
+               "external-dependency", "data-migration", "compliance", "operational"]
+  probability_scale:
+    - {id: 1, label: "Rare", range: "< 10%"}
+    - {id: 2, label: "Unlikely", range: "10-30%"}
+    - {id: 3, label: "Possible", range: "30-50%"}
+    - {id: 4, label: "Likely", range: "50-80%"}
+    - {id: 5, label: "Almost certain", range: "> 80%"}
+  impact_scale:
+    - {id: 1, label: "Negligible", schedule: "< 2 days", cost: "< 1%"}
+    - {id: 2, label: "Minor", schedule: "half a sprint", cost: "1-3%"}
+    - {id: 3, label: "Moderate", schedule: "one sprint", cost: "3-7%"}
+    - {id: 4, label: "Major", schedule: "two sprints", cost: "7-15%"}
+    - {id: 5, label: "Severe", schedule: "cutover date moves", cost: "> 15%"}
+  exposure_thresholds:
+    low: "1-6"
+    medium: "8-12"
+    high: "15-25"
+  response_types: ["avoid", "mitigate", "transfer", "accept", "escalate"]
+  review_cadence: "at sprint planning for high exposure, monthly for the full register"
+  contingency_drawdown_log: "pm/cost/contingency-drawdown.md"
+  escalate_above_exposure: 15
+  issue_sla_hours: {S1: 2, S2: 24, S3: 72, S4: "next cycle"}
+
+reporting:
+  root: "pm/reports"
+  rag_definitions:
+    green: "on plan, or recoverable inside the buffer sprint"
+    amber: "a decision or a scope trade is needed to hold the date"
+    red: "the cutover date will move unless something changes"
+  cadences:
+    - id: weekly
+      audience: ["client_pm", "project_manager", "technical_lead"]
+      channel: "written note in #plt-status"
+      due: "Friday 15:00"
+      content: ["RAG with the reason", "milestone status", "velocity vs average",
+                "stories done and planned", "top risks and issues", "decisions needed",
+                "changes to committed scope"]
+      path: "pm/reports/weekly"
+    - id: monthly
+      audience: ["sponsor", "steering_committee", "client_pm"]
+      channel: "written report plus the steering meeting"
+      due: "3rd working day of the month"
+      content: ["executive summary and RAG trend", "burn-up and forecast completion sprint",
+                "cost roll-up vs budget", "milestone status", "quality report",
+                "risk profile change", "cumulative scope change", "decisions needed"]
+      path: "pm/reports/monthly"
+    - id: quality
+      audience: ["qa_lead", "client_pm", "delivery_manager"]
+      channel: "written report"
+      due: "at each gate, and monthly"
+      content: ["defect profile", "test progress per level", "coverage on money modules",
+                "parallel-run reconciliation status", "escaped defects", "SOX evidence status",
+                "what the numbers predict"]
+      path: "pm/reports/quality"
+  data_sources:
+    progress: "Linear (PLT project)"
+    effort: "not tracked per person; cost derived from team size and elapsed time"
+    defects: "Linear (label: bug)"
+    test_results: "CI artifacts and the reconciliation report"
+    build: "GitHub Actions"
+  distribution_list: ["client_pm", "sponsor", "delivery_manager", "qa_lead"]
+  meeting_minutes: "pm/meetings"
+  action_item_log: "pm/registers/action-log.md"
+
+change_control:
+  id_format: "CR-{NNN}"
+  register: "pm/changes/change-register.md"
+  request_dir: "pm/changes"
+  impact_dimensions: ["scope", "schedule", "cost", "quality", "risk", "resource",
+                      "dependencies", "test", "documentation", "compliance"]
+  min_options: 2
+  authority:
+    - limit: "within the committed sprint scope, no milestone impact"
+      approver: "project_manager"
+    - limit: "changes the committed release scope"
+      approver: "ccb"
+    - limit: "moves the cutover date, or changes headcount"
+      approver: "steering_committee"
+  require_estimate: true
+  rebaseline_policy: "release-scope baseline re-set at each release boundary; date changes need the steering group"
+  classes: ["CR-SCOPE-ADD", "CR-SCOPE-REMOVE", "CR-REQUIREMENT", "CR-DESIGN", "CR-SCHEDULE",
+            "CR-QUALITY", "CR-PROCESS", "CR-CLARIFY"]
+
+resource:
+  plan_path: "pm/resource/staffing-plan.md"
+  raci_path: "pm/resource/raci.md"
+  roles:
+    - role: "Engineer"
+      count: 5
+      allocation_percent: 80        # 20% goes to on-call and platform support
+      start: "2026-03-02"
+      end: "2026-09-30"
+      location: "US"
+      skills_required: ["billing domain", "Postgres", "event-driven systems"]
+    - role: "QA Engineer"
+      count: 1
+      allocation_percent: 80
+      start: "2026-04-01"
+      end: "2026-09-30"
+      location: "US"
+      skills_required: ["data reconciliation", "test automation"]
+  onboarding_checklist: "pm/resource/onboarding.md"
+  max_planned_allocation_percent: 80
+  key_person_risk: "billing domain knowledge sits with one engineer — RSK-003, pairing mandated"
+  subcontract:
+    used: false
+    parties: []
+    sla_ref: ""
+  utilisation_report: "pm/reports/monthly"
+
+closing:
+  acceptance_record: "pm/closing/acceptance-record.md"
+  final_report: "pm/closing/final-report.md"
+  lessons_learned: "pm/closing/lessons-learned.md"
+  archive_root: "pm/closing/archive"
+  handover:
+    items: ["runbook", "on-call playbook and alert definitions", "reconciliation procedure",
+            "known issues and workarounds", "legacy decommission plan",
+            "open backlog with estimates"]
+    to: "Billing Operations + Platform on-call rotation"
+  contract_closure:
+    final_invoice_condition: "n/a (internal)"
+    warranty_period: "60 days of engineering hypercare after cutover"
+    retained_obligations: ["hypercare support", "legacy engine decommission", "SOX evidence pack"]
+  resource_release: "pm/closing/resource-release.md"
+  post_implementation_review_after_days: 30
+
+paths:
+  pm_root: "pm"
+  charter: "pm/charter/project-charter.md"
+  plan_root: "pm/plan"
+  project_management_plan: "pm/plan/project-management-plan.md"
+  scope_statement: "pm/scope/scope-statement.md"
+  scope_baseline: "pm/scope/scope-baseline.md"
+  wbs: "pm/scope/wbs.xlsx"
+  wbs_dictionary: "pm/scope/wbs.xlsx"
+  schedule_root: "pm/schedule"
+  cost_root: "pm/cost"
+  estimate: "pm/cost/estimate.md"
+  process_root: "pm/process"
+  quality_root: "pm/quality"
+  risk_root: "pm/registers"
+  reports_root: "pm/reports"
+  changes_root: "pm/changes"
+  resource_root: "pm/resource"
+  meetings: "pm/meetings"
+  closing_root: "pm/closing"
+  registers: "pm/registers"
+  decision_log: "pm/registers/decision-log.md"
+  status_data: "pm/reports/_data"
+
+# An internal team that reviews everything in pull requests: Markdown wherever it
+# is allowed, Excel only where a spreadsheet is genuinely the right tool. The WBS
+# is Excel regardless - every downstream consumer of it is a spreadsheet.
+documents:
+  formats_enabled: [md, xlsx, csv]
+  working_dir: "pm/_working"
+  working_retention: keep-one-round
+  derived_view: true
+  registry:
+    - artifact: wbs
+      path: "pm/scope/wbs.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+      sheets: {wbs: "WBS", dictionary: "WBS Dictionary"}
+      dictionary_in_same_workbook: true
+    - artifact: wbs_dictionary
+      path: "pm/scope/wbs.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+    - artifact: estimate
+      path: "pm/cost/estimate.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+    - artifact: cost_baseline
+      path: "pm/cost/cost-baseline.xlsx"
+      format: xlsx
+      working: [md, csv]
+      template: ""
+    - artifact: schedule
+      path: "pm/schedule/schedule.md"      # sprint-level; the tracker holds the detail
+      format: md
+      working: []
+      template: ""
+    - artifact: risk_register
+      path: "pm/registers/risk-register.csv"
+      format: csv
+      working: [md]
+      template: ""
+    - artifact: charter
+      path: "pm/charter/project-charter.md"
+      format: md
+      working: []
+      template: ""
+    - artifact: project_management_plan
+      path: "pm/plan/project-management-plan.md"
+      format: md
+      working: []
+      template: ""
+    - artifact: scope_statement
+      path: "pm/scope/scope-statement.md"
+      format: md
+      working: []
+      template: ""
+    - artifact: status_report
+      path: "pm/reports"
+      format: md
+      working: []
+      template: ""
+  binary_final: [wbs, wbs_dictionary]
+
+baselines:
+  change_requires_cr: true
+  active_cr_file: ".claude/.active_pm_cr"
+  readonly_globs:
+    - "pm/closing/archive/**"
+  registered:
+    - path: "pm/charter/project-charter.md"
+      artifact: "charter"
+      version: "1.0"
+      approved_by: "VP Revenue Operations"
+      approved_on: "2026/03/06"
+
+document:
+  revision_table_headers: ["Version", "Date", "Change", "Author", "Reviewer", "Approver", "Approved on"]
+  initial_version: "0.1"
+  baseline_version: "1.0"
+  auto_version_bump: false
+  date_format: "YYYY/MM/DD"
+  diagram_tool: mermaid
+  require_approval_block: true
+  require_distribution_list: false   # internal: the channel is the distribution
+  confidentiality: "Internal - Northwind Software"
+  footer: "{{profile.project.copyright}}"
+
+language:
+  primary: en
+  working: en
+  client_facing: en
+  by_path:
+    - path: "pm/**"
+      lang: en
+  immutable_tokens:
+    - "WBS codes"
+    - "milestone IDs"
+    - "risk / issue / CR / decision IDs"
+    - "deliverable IDs"
+    - "metric names and formulas"
+    - "currency amounts"
+
+integration:
+  technical_pack: sdlc
+  technical_profile_path: ".claude/sdlc.profile.yaml"
+  bindings:
+    work_package_to_deliverable: true
+    milestone_to_phase_gate: true
+    quality_targets: "inherit"
+    defect_register: "technical"
+    test_levels: "technical"
+  milestone_gate_map:
+    - milestone: "M1"
+      gate: "P2_basic_design"
+    - milestone: "M2"
+      gate: "P6_integration_test"
+    - milestone: "M3"
+      gate: "P7_system_test"
+    - milestone: "M4"
+      gate: "P8_uat"
+
+execution:
+  agent_model: opus
+  agent_model_overrides: {}
+  intended_effort: "high"

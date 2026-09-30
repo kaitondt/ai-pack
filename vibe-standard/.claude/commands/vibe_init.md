@@ -17,7 +17,7 @@ Determine from the repository, without asking:
 | CI config | what is already enforced |
 | deploy config (`vercel.json`, `fly.toml`, Dockerfile, …) | hosting, deploy path |
 | git log | project age, commit style, activity |
-| `.claude/sdlc.profile.yaml` / `.claude/pm.profile.yaml` | a sibling pack is installed — read `vibe_graduate` GR-03 before continuing |
+| `.claude/sdlc.profile.yaml` / `.claude/pm.profile.yaml` | a sibling pack is installed — read `vibe_graduation` GR-03 before continuing |
 | existing `vibe/` | already initialised — run `/vibe_profile_check` instead; never overwrite |
 
 Report what you found **before** asking.
@@ -32,7 +32,7 @@ finding — before anything else is set up.
 3. **Stage** — and the honest questions behind it: *Does it have a public URL? Does anyone
    other than you use it? Is there real personal data?* Any yes → at least `mvp` risk (SB-07).
 4. **Core flows** — the 3–7 things it must do.
-5. **Stack** — only if it could not be inferred; if new, offer `vibe_scaffold` SF-01 defaults.
+5. **Stack** — only if it could not be inferred; if new, offer `vibe_scaffolding` SF-01 defaults.
 6. **UI verification** — can the AI drive a browser here (Playwright / browser tool), or will
    the human look?
 7. **Deploy and rollback** — how, if it deploys at all.
@@ -48,18 +48,18 @@ the user could not answer, and list them in the report.
 From `{{profile.paths}}`:
 
 ```
-vibe/PRODUCT.md        ← from the answers (vibe_intent IN-01); non-goals left as a prompt to fill
+vibe/PRODUCT.md        ← from the answers (vibe_intent_spec IN-01); non-goals left as a prompt to fill
 vibe/STATE.md          ← vibe_session SN-01 template, "Now: initialised"
 vibe/decisions.md      ← header + DEC-001 (stack, or "adopted vibe pack on existing repo")
-vibe/debt.md           ← header row (vibe_debt DT-01)
+vibe/debt.md           ← header row (vibe_debt_ledger DT-01)
 vibe/bugs.md           ← header
 vibe/backlog.md        ← header
 vibe/intents/          ← empty, or one INT per existing feature (existing repo, see below)
 vibe/reviews/  vibe/releases/
 ```
 
-**Existing codebase:** follow `vibe_scaffold` SF-04 — inventory, intents for existing features
-(status `done`, checks to be verified), a first debt sweep (`vibe_debt` DT-02). Do not fix
+**Existing codebase:** follow `vibe_scaffolding` SF-04 — inventory, intents for existing features
+(status `done`, checks to be verified), a first debt sweep (`vibe_debt_ledger` DT-02). Do not fix
 anything in this command.
 
 Ensure `.gitignore` covers `.env*` except `.env.example`, and `.claude/.slice_warned`.

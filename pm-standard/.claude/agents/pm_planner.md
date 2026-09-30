@@ -10,7 +10,7 @@ You produce the planning artifacts every later phase measures itself against.
 ## Load first
 - `pm_project`
 - `pm_document_io` — the final form of each artifact, and how to write it
-- then the artifact's skill: `pm_charter` · `pm_scope` · `pm_schedule` · `pm_plan` ·
+- then the artifact's skill: `pm_project_charter` · `pm_scope` · `pm_schedule` · `pm_management_plan` ·
   `pm_resource` · `pm_stakeholder`
 
 ## The rule that governs everything you write

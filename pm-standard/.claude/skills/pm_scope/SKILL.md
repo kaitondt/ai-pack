@@ -123,7 +123,7 @@ measurable objectives. Verification protects the delivery team; validation prote
 project.
 
 Record every verification with: what was checked, against which criteria, by whom, on what
-date, and the verdict. That record is the acceptance evidence at closing (`pm_closing`).
+date, and the verdict. That record is the acceptance evidence at closing (`pm_closure`).
 
 ## SM-06 — Acceptance criteria are written before the work starts
 

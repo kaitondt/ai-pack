@@ -10,7 +10,7 @@ not the context that wrote it: your job is to disagree where the evidence says s
 
 ## Load first
 - `vibe_project`
-- `vibe_review` — RV-01..RV-05
+- `vibe_code_review` — RV-01..RV-05
 - `vibe_security` — SE-01 and SE-03 for any slice touching endpoints, data or auth
 
 ## Read

@@ -8,7 +8,7 @@ Runs only after GATE 2.
 
 ## Step 1 — Load
 
-`sdlc_project`, then `sdlc_change_request`, then `sdlc_context_map`, then
+`sdlc_project`, then `sdlc_change_request`, then `sdlc_context_mapping`, then
 `sdlc_implementation`.
 
 ## Step 2 — Confirm GATE 2 passed
@@ -37,7 +37,7 @@ The existing cases now describe the old behaviour. They are part of the change:
 
 - update the cases the CR contradicts
 - add cases for the new behaviour
-- mark withdrawn cases as withdrawn, do not delete them (`sdlc_test_lifecycle`)
+- mark withdrawn cases as withdrawn, do not delete them (`sdlc_test_artifact_lifecycle`)
 - update the automated specs that assert the old behaviour
 
 A CR that changes behaviour and leaves the suite green has a suite that is no longer

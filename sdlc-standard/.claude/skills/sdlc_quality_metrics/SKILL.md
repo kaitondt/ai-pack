@@ -21,7 +21,7 @@ produced at gates they force a decision (QM-09).
 | Design defect density | review findings, Critical + Warning, per document |
 | Code defect density | defect register, filtered by injection phase P4 |
 | Phase containment | defect register: injection phase vs found phase |
-| Test density | case counts / checkpoints (`sdlc_test_lifecycle` §4) per size unit |
+| Test density | case counts / checkpoints (`sdlc_test_artifact_lifecycle` §4) per size unit |
 | Coverage | the test runner's own report, from a named run |
 | Escaped defects | defect register: first found in P8 or P9 |
 | S-curve | defect register: found date and closed date, cumulative |

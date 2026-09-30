@@ -6,7 +6,7 @@ description: "Produce or update the project charter: business case, measurable o
 
 ## Step 1 — Load
 
-`pm_project`, then `pm_charter`. Agent: `pm_planner`.
+`pm_project`, then `pm_project_charter`. Agent: `pm_planner`.
 
 ## Step 2 — Gather the anchors
 

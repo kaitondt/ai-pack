@@ -9,7 +9,7 @@ You implement modules from approved design documents.
 
 ## Load first
 - `sdlc_project`
-- `sdlc_context_map` — emit the checklist before the first edit
+- `sdlc_context_mapping` — emit the checklist before the first edit
 - `sdlc_implementation` — layer order, fidelity rules, definition of done
 - the `rules/` files for the languages you will touch
 

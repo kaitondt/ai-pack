@@ -133,7 +133,7 @@ reaches the wrong conclusion.
   the document to change too — fixing only the code recreates the divergence.
 - A baselined document changes through a CR (BL-02). A defect fix that corrects a document
   to what it always should have said is a defect correction, recorded as such, not a CR.
-- Load `sdlc_context_map` before editing; a maintenance fix that touches one layer of five
+- Load `sdlc_context_mapping` before editing; a maintenance fix that touches one layer of five
   is the classic source of the next incident.
 - **Add the regression test that would have caught it**
   (`{{profile.maintenance.regression_test_required}}`) — at the level that would have

@@ -165,7 +165,7 @@ release:
   backups: "<how and how often, or 'no persistent data'>"
 
 # ---------------------------------------------------------------------------
-# GRADUATION - what happens after production. See skills/vibe_graduate.
+# GRADUATION - what happens after production. See skills/vibe_graduation.
 # ---------------------------------------------------------------------------
 graduation:
   # Extra promotion criteria this project adds to the pack's list, per stage.

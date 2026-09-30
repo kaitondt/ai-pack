@@ -4,7 +4,7 @@ description: "Prove the current slice, an intent, or the whole app works — run
 
 # Verify
 
-Load `vibe_project`, then `vibe_verify`.
+Load `vibe_project`, then `vibe_verification`.
 
 ## Step 1 — Scope
 

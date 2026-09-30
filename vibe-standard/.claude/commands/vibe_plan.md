@@ -4,7 +4,7 @@ description: "Break an intent into small vertical slices within the size budget,
 
 # Plan an intent
 
-Load `vibe_project`, then `vibe_plan`.
+Load `vibe_project`, then `vibe_slicing`.
 
 ## Step 1 — Pre-check
 

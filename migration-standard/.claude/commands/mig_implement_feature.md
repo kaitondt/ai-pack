@@ -6,7 +6,7 @@ description: "P4 — implement a module end to end across every layer, design-fi
 
 ## Step 1 — Load
 
-`mig_project`, `mig_context_map`, `mig_implementation`, and the stack rule files under
+`mig_project`, `mig_context_mapping`, `mig_implementation`, and the stack rule files under
 `rules/` that match the layers you will touch.
 
 ## Step 2 — Pre-check

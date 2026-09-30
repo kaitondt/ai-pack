@@ -4,7 +4,7 @@ description: "Write or revise PRODUCT.md — the one-page answer to 'what are we
 
 # PRODUCT.md
 
-Load `vibe_project`, then `vibe_intent` (IN-01).
+Load `vibe_project`, then `vibe_intent_spec` (IN-01).
 
 ## Step 1 — Read what exists
 

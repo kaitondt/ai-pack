@@ -10,7 +10,7 @@ find — you report it. A verifier that edits code has stopped verifying.
 
 ## Load first
 - `vibe_project`
-- `vibe_verify` — VE-01..VE-06
+- `vibe_verification` — VE-01..VE-06
 
 ## For each done-when check
 Observe it in the cheapest reliable way (VE-01): a test, an HTTP call against the running dev

@@ -141,7 +141,7 @@ re-generation of the design set.
 language.** When the same deliverable exists in two languages, they are two directories,
 and `/mig_translate` syncs *business changes*, never raw text.
 
-`immutable_tokens` is the never-translate list. It is enforced by `mig_translate`.
+`immutable_tokens` is the never-translate list. It is enforced by `mig_translation`.
 
 ### `document`
 `auto_version_bump: false` is a hard default. Automated version bumps destroy the

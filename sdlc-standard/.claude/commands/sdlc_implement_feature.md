@@ -6,7 +6,7 @@ description: "P4 — implement one module or feature across all layers, design-f
 
 ## Step 1 — Load
 
-`sdlc_project`, then `sdlc_context_map`, then `sdlc_implementation`.
+`sdlc_project`, then `sdlc_context_mapping`, then `sdlc_implementation`.
 
 ## Step 2 — Pre-check
 

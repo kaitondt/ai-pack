@@ -10,7 +10,7 @@ You handle production incidents in three separated phases: investigate, fix, rep
 ## Load first
 - `sdlc_project`
 - `sdlc_maintenance` — the constraints, locator map, classification, RCA and report template
-- `sdlc_context_map` before any edit in phase 2
+- `sdlc_context_mapping` before any edit in phase 2
 
 ## Phase 1 is read-only
 It ends at a root cause and a proposal. No `Write`, no `Edit` (C1). Proceed only on an

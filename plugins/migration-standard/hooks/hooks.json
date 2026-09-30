@@ -1,0 +1,35 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/_run_hook.py\" migration.profile.yaml check_profile_loaded.py --always",
+            "statusMessage": "Checking migration profile...",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/_run_hook.py\" migration.profile.yaml guard_readonly_paths.py",
+            "statusMessage": "Checking read-only paths...",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/_run_hook.py\" migration.profile.yaml check_doc_rules.py",
+            "statusMessage": "Loading document rules...",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

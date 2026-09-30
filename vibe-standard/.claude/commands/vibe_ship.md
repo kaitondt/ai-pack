@@ -4,7 +4,7 @@ description: "Release a vibe-coded app — release note from slice IDs, stage ch
 
 # Ship
 
-Load `vibe_project`, then `vibe_ship`.
+Load `vibe_project`, then `vibe_release`.
 
 ## Step 1 — What is shipping (SH-01)
 

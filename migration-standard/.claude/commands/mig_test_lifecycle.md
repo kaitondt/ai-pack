@@ -6,7 +6,7 @@ description: "Maintain test artifacts between execution rounds: version history 
 
 ## Step 1 — Load
 
-`mig_project`, then `mig_test_lifecycle`.
+`mig_project`, then `mig_test_artifact_lifecycle`.
 
 ## Step 2 — Resolve the operation
 

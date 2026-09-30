@@ -9,8 +9,8 @@ You turn one intent into a short list of small, vertical, runnable slices. You d
 
 ## Load first
 - `vibe_project`
-- `vibe_plan` — PL-01..PL-05
-- `vibe_intent` — to judge whether the intent's checks are good enough to plan against
+- `vibe_slicing` — PL-01..PL-05
+- `vibe_intent_spec` — to judge whether the intent's checks are good enough to plan against
 
 ## Read before slicing
 The intent file, PRODUCT.md, STATE.md, and the parts of the codebase the intent will touch —

@@ -74,11 +74,11 @@ deliverable — **the WBS among them** (MD-09).
 
 | The task is about | Load |
 |---|---|
-| Project charter, authorisation, business case, objectives | `pm_charter` |
+| Project charter, authorisation, business case, objectives | `pm_project_charter` |
 | Requirements management, scope statement, scope baseline, scope creep | `pm_scope` |
 | Estimating effort, cost or duration; estimate review; bid support | `pm_estimation` |
 | Budget, cost baseline, earned value, forecast, invoicing | `pm_cost` |
-| The project management plan and its subsidiary plans | `pm_plan` |
+| The project management plan and its subsidiary plans | `pm_management_plan` |
 | Development process, QA/QC process, tailoring, audits, CAPA | `pm_process` |
 | WBS, WBS dictionary, activities, critical path, schedule baseline | `pm_schedule` |
 | Stakeholders, communications, meetings, minutes, escalation | `pm_stakeholder` |
@@ -87,7 +87,7 @@ deliverable — **the WBS among them** (MD-09).
 | Quality plan, master test plan, quality metrics, acceptance criteria | `pm_quality` |
 | Risk register, issue log, response planning, contingency | `pm_risk` |
 | A change to any baseline; CCB; impact assessment | `pm_change_control` |
-| Acceptance, handover, contract closure, lessons learned, archive | `pm_closing` |
+| Acceptance, handover, contract closure, lessons learned, archive | `pm_closure` |
 | Producing or reading an artifact in Excel, Word or CSV; the WBS workbook | `pm_document_io` |
 
 ---
@@ -110,16 +110,16 @@ objectives        cost baseline                 change control (CCB)           l
 
 | # | Management area | Skill | Primary artifact | Key command |
 |---|---|---|---|---|
-| 1 | Project overview | `pm_charter` | project charter | `/pm_charter` |
+| 1 | Project overview | `pm_project_charter` | project charter | `/pm_charter` |
 | 2 | Requirements / scope | `pm_scope` | scope baseline, RTM | `/pm_scope_baseline` |
 | 3 | Cost / effort | `pm_estimation`, `pm_cost` | estimate, cost baseline, EVM | `/pm_estimate`, `/pm_evm` |
-| 4 | Project management | `pm_plan`, `pm_stakeholder`, `pm_resource` | project management plan | `/pm_plan` |
+| 4 | Project management | `pm_management_plan`, `pm_stakeholder`, `pm_resource` | project management plan | `/pm_plan` |
 | 5 | Process | `pm_process` | process definition, QA/QC plan | `/pm_process_define` |
 | 6 | Schedule | `pm_schedule` | WBS, WBS dictionary, schedule baseline | `/pm_wbs`, `/pm_schedule_baseline` |
 | 7 | Reporting | `pm_reporting` | D/W/M/Q and quality reports | `/pm_report <cadence>` |
 | 8 | Quality | `pm_quality` | quality plan, master test plan | `/pm_quality_plan` |
 | 9 | Risk | `pm_risk` | risk register, issue log | `/pm_risk_assess` |
-| 10 | Closing | `pm_closing` | acceptance, final report, lessons | `/pm_closing` |
+| 10 | Closing | `pm_closure` | acceptance, final report, lessons | `/pm_closing` |
 
 Cross-cutting at any time: `/pm_change_assess` → `/pm_change_apply`, `/pm_gate_review`,
 `/pm_trace_check`, `/pm_health_check`, `/pm_status_collect`, `/pm_lessons`,

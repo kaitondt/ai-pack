@@ -4,7 +4,7 @@ description: "Work the debt ledger — list debts by due stage, sweep the code f
 
 # Debt
 
-Load `vibe_project`, then `vibe_debt`.
+Load `vibe_project`, then `vibe_debt_ledger`.
 
 ## `list` (default)
 

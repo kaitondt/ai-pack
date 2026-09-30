@@ -165,7 +165,7 @@ project actually uses. Two properties matter:
 2. **Versioned and dated.** An artifact reviewed against v2 of a checklist records that,
    so an audit can tell whether it passed the current standard.
 
-At closing, the improved assets go back to the organisation (`pm_closing`). That transfer
+At closing, the improved assets go back to the organisation (`pm_closure`). That transfer
 is the only mechanism by which one project's learning reaches the next one.
 
 ---

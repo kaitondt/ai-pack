@@ -49,20 +49,20 @@ Always in force, regardless of phase:
 | Batch / scheduled job design | `mig_batch_design` |
 | Detail design, BD↔code GAP | `mig_detail_design` |
 | Creating, restructuring or auditing the target source layout — the codebase skeleton | `mig_codebase` |
-| Writing code | `mig_implementation` (+ `mig_context_map` before starting) |
+| Writing code | `mig_implementation` (+ `mig_context_mapping` before starting) |
 | Pipeline, environments, containers, IaC, secrets; coexistence, data migration, parallel run, cutover, rollback | `mig_infrastructure` |
-| Which files a change touches | `mig_context_map` |
+| Which files a change touches | `mig_context_mapping` |
 | UT / IT test case documents | `mig_test_design` + `mig_test_ut` / `mig_test_it` |
 | Automating manual test cases | `mig_test_automation` |
 | Reviewing test case documents | `mig_test_review` |
 | Analysing failing test runs | `mig_defect_triage` |
-| Test artifacts between rounds | `mig_test_lifecycle` |
+| Test artifacts between rounds | `mig_test_artifact_lifecycle` |
 | UAT bug investigation, fix, report | `mig_uat_bug` |
 | One bug traced across every phase — injection, commit history, why it was not caught earlier | `mig_bug_trace` |
 | A client-requested change to an approved spec | `mig_change_request` |
 | Reviewing any deliverable | `mig_review_framework` |
 | Feeding review findings back into a skill | `mig_review_framework` + `/mig_refine_skill` |
-| Translating deliverables | `mig_translate` |
+| Translating deliverables | `mig_translation` |
 | Reading or writing a deliverable in Excel, Word or CSV; registering a client template; reading a legacy document | `mig_document_io` |
 
 Category skills are bound to directories by `{{profile.paths.bd_categories}}` — a task

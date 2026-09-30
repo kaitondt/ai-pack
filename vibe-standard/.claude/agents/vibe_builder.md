@@ -10,8 +10,8 @@ stop when you reach the edge of what you were asked.
 
 ## Load first
 - `vibe_project`
-- `vibe_build` — BD-01..BD-05
-- `vibe_verify` — you run the checks as you go
+- `vibe_build_loop` — BD-01..BD-05
+- `vibe_verification` — you run the checks as you go
 - `vibe_security` when the slice touches input, auth, data, secrets or dependencies
 
 ## You receive
