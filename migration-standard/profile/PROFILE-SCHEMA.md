@@ -1,7 +1,7 @@
 # `migration.profile.yaml` — Field Specification
 
 The profile is the **only** file a new migration project must author before the pack
-becomes operational. Skills read it through the `mig_project` skill and substitute
+becomes operational. Skills read it through the `mig-project` skill and substitute
 `{{profile.<dotted.path>}}` tokens.
 
 Canonical location: `<repo-root>/.claude/migration.profile.yaml`
@@ -36,10 +36,10 @@ placeholder in a generated deliverable. Report the missing field and ask.
 ### `legacy`
 | Field | Required | Notes |
 |---|---|---|
-| `kind` | ✅ | Selects the analysis heuristics in `mig_legacy_analysis`. |
+| `kind` | ✅ | Selects the analysis heuristics in `mig-legacy-analysis`. |
 | `root` | ✅ | Everything under it is read-only. |
-| `ui_source` / `logic_source` / `db_source` | ✅ | The three locator roots. `/mig_analyze_legacy` builds its map from these. |
-| `readonly` | ✅ | **Must be `true`.** A profile with `readonly: false` is rejected by `/mig_profile_check`. |
+| `ui_source` / `logic_source` / `db_source` | ✅ | The three locator roots. `/mig-analyze-legacy` builds its map from these. |
+| `readonly` | ✅ | **Must be `true`.** A profile with `readonly: false` is rejected by `/mig-profile-check`. |
 | `excluded[]` | — | Legacy artifacts deliberately not migrated. Every entry needs a `reason`; an entry with an empty reason fails the P0 gate. |
 
 ### `target`
@@ -47,19 +47,19 @@ placeholder in a generated deliverable. Report the missing field and ask.
 |---|---|---|
 | `stack.*` | ✅ | Quoted verbatim into the TSD. Free text — the pack does not parse it. |
 | `surfaces[]` | ✅ | One per form factor. Drives which screen-design variants get generated and which ID suffixes are legal. A single-surface project keeps just `PC`. |
-| `build.order[]` | ✅ | Ordered shell commands. `/mig_verify_build` runs them in sequence and stops at the first failure. |
+| `build.order[]` | ✅ | Ordered shell commands. `/mig-verify-build` runs them in sequence and stops at the first failure. |
 
 ### `infrastructure`
 
 Where the **target** code lives, how it is built, where it runs, and how it takes over from a
-legacy system that is still running. Read by `mig_infrastructure` and `mig_infra_engineer`.
+legacy system that is still running. Read by `mig-infrastructure` and `mig-infra-engineer`.
 **There is no default platform**: a task that needs one of these and finds a `<placeholder>`
 stops and asks rather than assuming GitHub (IN-01).
 
 The legacy system's own infrastructure is read-only, like its source (LR-01).
 `legacy_infrastructure` exists so documents can name it; nothing here is a licence to change
 it, and **no pipeline step may deploy to the legacy production environment** —
-`/mig_profile_check` check 31 is Critical for that reason.
+`/mig-profile-check` check 31 is Critical for that reason.
 
 | Field | Required | Notes |
 |---|---|---|
@@ -120,7 +120,7 @@ pipeline deploys to against this list.
 ### `ids`
 Deterministic identity is what makes traceability checkable. Rules:
 
-- `module_pattern` is a real regex; `/mig_profile_check` validates `module_example` against it.
+- `module_pattern` is a real regex; `/mig-profile-check` validates `module_example` against it.
 - `doc_id_format` must contain `{MODULE}`, `{TYPE}` and `{NNN}`.
 - `MODULE_BASE` = module ID with its surface suffix stripped (`KK0030PG` → `KK0030`).
   Message IDs use the base so PC and handheld variants of one screen share a message set.
@@ -128,7 +128,7 @@ Deterministic identity is what makes traceability checkable. Rules:
 
 ### `paths`
 All repo-relative, no leading `./`. `bd_categories[]` is an ordered list — the order is
-the generation order used by `/mig_generate_basic_design` and the orchestrator agent.
+the generation order used by `/mig-generate-basic-design` and the orchestrator agent.
 Each entry names the **skill** that owns that category; adding a category means adding
 (or reusing) a skill.
 
@@ -139,9 +139,9 @@ re-generation of the design set.
 ### `language`
 `by_path[]` binds a directory glob to exactly one language. **A directory has one
 language.** When the same deliverable exists in two languages, they are two directories,
-and `/mig_translate` syncs *business changes*, never raw text.
+and `/mig-translate` syncs *business changes*, never raw text.
 
-`immutable_tokens` is the never-translate list. It is enforced by `mig_translation`.
+`immutable_tokens` is the never-translate list. It is enforced by `mig-translation`.
 
 ### `document`
 `auto_version_bump: false` is a hard default. Automated version bumps destroy the
@@ -152,8 +152,8 @@ approval audit trail — a revision row is added only when a human says so.
 **The pack ships no deliverable templates.** Every organisation has its own forms, in its own
 format — Excel through most of the Japanese SI market, and usually contractual on migration
 work. An invented template is rejected at the first review, after a whole category has been
-written into it. So the form is a project input: collected by `/mig_init`, maintained by
-`/mig_template_register`, used by `mig_document_io`.
+written into it. So the form is a project input: collected by `/mig-init`, maintained by
+`/mig-template-register`, used by `mig-document-io`.
 
 | Field | Required | Notes |
 |---|---|---|
@@ -197,13 +197,13 @@ They are **not** one of NI-01's three anchors:
 
 These documents are usually years out of date and the gap is invisible unless checked. A
 deliverable anchored to an old specification has documented what somebody intended years ago,
-which the client discovers at parallel run. `mig_bd_designer` reports the anchor split —
+which the client discovers at parallel run. `mig-bd-designer` reports the anchor split —
 source versus document — so the risky rows are visible.
 
 ### `mockup`
 
 The visual counterpart of the screen design. In a migration the legacy screen is the UI
-oracle, to the degree `fidelity` says. Read by `mig_mockup` and `mig_mockup_designer`.
+oracle, to the degree `fidelity` says. Read by `mig-mockup` and `mig-mockup-designer`.
 **A mockup is never the specification** (MU-01); the screen design is.
 
 | Field | Required | Notes |
@@ -222,12 +222,12 @@ oracle, to the degree `fidelity` says. Read by `mig_mockup` and `mig_mockup_desi
 in the same CR. A half-updated mockup is worse than a stale one, because it looks current.
 
 ### `gates`
-Free-form assertions per phase. `/mig_trace_check` and the phase commands print them and
+Free-form assertions per phase. `/mig-trace-check` and the phase commands print them and
 refuse to report a phase complete while any assertion is unmet. Add project-specific
 gates here rather than editing skills.
 
 ### `review.families`
-Toggles which checklist families `/mig_review_design` loads. Switching a family off
+Toggles which checklist families `/mig-review-design` loads. Switching a family off
 removes its findings entirely — use it for categories a project genuinely lacks
 (no batch jobs, no printed reports), not to silence findings you do not want to fix.
 
@@ -251,7 +251,7 @@ outrank the ones in the skill.
 
 ### `change_request`
 
-Drives `mig_change_request` and the `/mig_cr_*` commands. A change request is
+Drives `mig-change-request` and the `/mig-cr-*` commands. A change request is
 cross-cutting, not a phase — it can arrive any time from P2 onward — so its gate is keyed
 `gates.CR_change_request` rather than by phase number.
 
@@ -270,7 +270,7 @@ indistinguishable from an invention.
 
 ### `bug_trace`
 
-Drives `mig_bug_trace` and `/mig_trace_bug`. **Every key is optional** — the one exception
+Drives `mig-bug-trace` and `/mig-trace-bug`. **Every key is optional** — the one exception
 to the stop-on-unresolved-token rule above: an absent or empty key means *detect from the
 repository*, because the trace must still run on a project that never configured it. The
 dossiers and `bug-trace-register.csv` live under `paths.bug_traces`.
@@ -282,7 +282,7 @@ dossiers and `bug-trace-register.csv` live under `paths.bug_traces`.
 | `commit_ref_patterns` | extra regexes for ticket keys in commit messages (`WMS-[0-9]+`). CR ids, bug ids and module ids are recognised from `change_request.id_format` and `ids.*` without being listed here |
 
 ### `constraints`
-`readonly_globs` is enforced at the tool level by `hooks/guard_readonly_paths.py`
+`readonly_globs` is enforced at the tool level by `hooks/guard-readonly-paths.py`
 (PreToolUse on Write/Edit). This is the mechanical backstop for the
 "legacy is read-only" rule — the skills state it, the hook enforces it.
 
@@ -290,7 +290,7 @@ dossiers and `bug-trace-register.csv` live under `paths.bug_traces`.
 
 ## Validation
 
-Run `/mig_profile_check` after any profile edit. It verifies:
+Run `/mig-profile-check` after any profile edit. It verifies:
 
 1. every required field is present and non-placeholder (no `<...>` left);
 2. `module_example` matches `module_pattern`;

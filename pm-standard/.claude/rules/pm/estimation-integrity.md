@@ -112,5 +112,5 @@ estimated the testing yet.
 how. Rates copied from a template, a textbook or another organisation are unverified, and
 any estimate built on them says so in its confidence field.
 
-After delivery, feed the actuals back (`/pm_lessons`). An organisation that never compares
+After delivery, feed the actuals back (`/pm-lessons`). An organisation that never compares
 estimate to actual has no estimating capability, only estimating habits.

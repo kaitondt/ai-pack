@@ -6,7 +6,7 @@
 - Persistence and transport shapes (DTOs, entities, wire models) are separate types from
   domain models even when the fields currently coincide. They diverge later; the first
   change request guarantees it.
-- Cross-layer changes are planned before they are written — see `/sdlc_context_map`.
+- Cross-layer changes are planned before they are written — see `/sdlc-context-map`.
 - A module owns its data. Another module reads it through the owner's interface, never by
   reaching into its tables. Shared tables become shared assumptions, and shared assumptions
   break in whichever release nobody was looking.

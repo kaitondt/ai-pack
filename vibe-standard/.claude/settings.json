@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_vibe_profile.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-vibe-profile.py\"",
             "statusMessage": "Loading vibe state...",
             "timeout": 10
           }
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_vibe_bash.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-vibe-bash.py\"",
             "statusMessage": "Checking for irreversible commands...",
             "timeout": 10
           }
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_vibe_paths.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-vibe-paths.py\"",
             "statusMessage": "Checking for secrets and protected paths...",
             "timeout": 10
           }
@@ -42,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_slice_size.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-slice-size.py\"",
             "statusMessage": "Checking slice size...",
             "timeout": 15
           }

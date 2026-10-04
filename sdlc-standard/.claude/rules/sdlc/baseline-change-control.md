@@ -18,7 +18,7 @@ A document is baselined when all four are true:
 4. its version has been set to `{{profile.document.baseline_version}}` and the approval
    recorded in the revision history.
 
-`/sdlc_phase_gate` performs the check and appends the entry to
+`/sdlc-phase-gate` performs the check and appends the entry to
 `{{profile.constraints.baselined}}`. A document called "final" that is not in that list is
 not baselined.
 
@@ -45,7 +45,7 @@ change agreed → requirement updated → design updated → code updated → te
 ```
 
 Code that implements a change the design does not describe creates drift that the next
-`/sdlc_generate_detail_design` run reports as a defect — correctly, because at that point
+`/sdlc-generate-detail-design` run reports as a defect — correctly, because at that point
 nobody can tell whether the code or the document is right.
 
 When urgency forces code first (a production incident), the documentation debt is recorded

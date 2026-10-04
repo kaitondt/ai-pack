@@ -27,7 +27,7 @@ cp pm-standard/profile/pm.profile.yaml <project>/.claude/pm.profile.yaml
 ```
 
 Then merge the `hooks` block of `settings.json` by hand: keep the technical pack's hooks and
-add the three `pm_*` ones. They do not conflict — the guard hooks read different profiles and
+add the three `pm-*` ones. They do not conflict — the guard hooks read different profiles and
 protect different paths — but both must be listed or one silently stops running.
 
 Names do not collide: every skill, command and agent in this pack is prefixed `pm_`, and its
@@ -36,7 +36,7 @@ rule IDs (`PB-`, `ES-`, `RI-`, `DA-`, `PN-`, `MD-`) are distinct from the techni
 ## 2. Configure
 
 ```
-/pm_init
+/pm-init
 ```
 
 It inspects the repository first — the technical profile if one exists, existing document
@@ -47,7 +47,7 @@ Then it writes the profile, scaffolds `pm/`, seeds the registers, and generates 
 Then:
 
 ```
-/pm_profile_check
+/pm-profile-check
 ```
 
 Fix every Critical before running a planning command. A Critical means an artifact produced now
@@ -112,14 +112,14 @@ report.
 ## 3b. Bind the deliverable formats, and install `openpyxl`
 
 Management deliverables are contractual, so their format is a property of the artifact rather
-than a per-task choice. `/pm_init` asks which artifacts the client receives as Excel, which as
+than a per-task choice. `/pm-init` asks which artifacts the client receives as Excel, which as
 Word, which as Markdown, and whether they supply their own forms — and writes the answers to
 `{{profile.documents.registry}}`.
 
 **One binding is not a question: the WBS is delivered as Excel** (MD-09). Markdown and CSV are
 working forms — draft in them freely, `{{profile.documents.working_dir}}` exists for that —
 but the deliverable is the `.xlsx`, and `wbs` sits in `{{profile.documents.binary_final}}`,
-which makes the workbook existing the completion criterion for `/pm_wbs`.
+which makes the workbook existing the completion criterion for `/pm-wbs`.
 
 So `openpyxl` is a prerequisite of this pack, not an optional extra:
 
@@ -129,7 +129,7 @@ pip install python-docx     # only if any artifact is bound to docx
 python -c "import openpyxl; print('xlsx ok')"
 ```
 
-`/pm_profile_check` fails **Critical** on a missing library, on `wbs` not being bound to
+`/pm-profile-check` fails **Critical** on a missing library, on `wbs` not being bound to
 `.xlsx`, and on `paths.wbs` disagreeing with the registry entry — two paths is two WBSs, and
 only one of them gets baselined.
 
@@ -139,11 +139,11 @@ deliverable.
 
 ## 4. Confirm the model and effort
 
-`/pm_init` writes `execution.agent_model` (default `opus`) into every agent file. Effort is
+`/pm-init` writes `execution.agent_model` (default `opus`) into every agent file. Effort is
 session-level and cannot be set from the profile — `execution.intended_effort` only records
 what the project expects, so agree it with the team and set it in your own session.
 
-`/pm_profile_check` flags drift between the profile and the agent frontmatter. Drift here is
+`/pm-profile-check` flags drift between the profile and the agent frontmatter. Drift here is
 easy to miss, because an agent on the wrong model still produces a plausible-looking plan.
 
 ---
@@ -151,18 +151,18 @@ easy to miss, because an agent on the wrong model still produces a plausible-loo
 ## 5. Run the planning sequence, in order
 
 ```
-/pm_charter
-/pm_scope_baseline
-/pm_wbs
-/pm_estimate
-/pm_resource_plan
-/pm_schedule_baseline
-/pm_cost_baseline
-/pm_quality_plan
-/pm_process_define
-/pm_comm_plan
-/pm_risk_assess
-/pm_plan
+/pm-charter
+/pm-scope-baseline
+/pm-wbs
+/pm-estimate
+/pm-resource-plan
+/pm-schedule-baseline
+/pm-cost-baseline
+/pm-quality-plan
+/pm-process-define
+/pm-comm-plan
+/pm-risk-assess
+/pm-plan
 ```
 
 Do not reorder it (see README, "The planning order"). Each step consumes the one before; skipping
@@ -176,11 +176,11 @@ baseline carrying a labelled assumption is honest; one carrying an unlabelled gu
 ## 6. Then run the control loop
 
 ```
-weekly : /pm_status_collect → /pm_report weekly ; /pm_risk_review
-monthly: /pm_status_collect → /pm_evm → /pm_report monthly + /pm_report quality
-         /pm_audit ; /pm_sync_technical
-gates  : /pm_trace_check → /pm_evm → /pm_gate_review → /pm_lessons
-changes: /pm_change_assess → (approval) → /pm_change_apply
+weekly : /pm-status-collect → /pm-report weekly ; /pm-risk-review
+monthly: /pm-status-collect → /pm-evm → /pm-report monthly + /pm-report quality
+         /pm-audit ; /pm-sync-technical
+gates  : /pm-trace-check → /pm-evm → /pm-gate-review → /pm-lessons
+changes: /pm-change-assess → (approval) → /pm-change-apply
 ```
 
 ---
@@ -189,8 +189,8 @@ changes: /pm_change_assess → (approval) → /pm_change_apply
 
 The common case, and the pack is designed for it. Do not try to reconstruct history.
 
-1. `/pm_init`, then `/pm_profile_check`.
-2. `/pm_health_check` — an honest picture of where the project actually is, from the artifacts
+1. `/pm-init`, then `/pm-profile-check`.
+2. `/pm-health-check` — an honest picture of where the project actually is, from the artifacts
    rather than from the last status report.
 3. Baseline **from today**: write the charter if none exists, build the WBS for the remaining
    work, and baseline the current schedule and cost as v1.0 with a note that it is a
@@ -216,14 +216,14 @@ only thing that can explain what happened.
 | Keeping `wbs.md` and `wbs.xlsx` both current | nobody can say which was approved; the baseline register points at one and the team works from the other |
 | Regenerating the workbook from an old working file | whoever edited the workbook directly loses their change, silently, and the file still looks fine |
 | An unstamped file in the working directory | it cannot be used as a regeneration input, because nothing says which version it came from (MD-10) |
-| Installing the pack without `openpyxl` | `/pm_wbs` cannot produce its deliverable, and the failure appears at the point of writing rather than at setup |
+| Installing the pack without `openpyxl` | `/pm-wbs` cannot produce its deliverable, and the failure appears at the point of writing rather than at setup |
 | Typing units into cells (`1,200 h`) instead of using number formats | the column cannot be summed, and somebody will try |
 | Merging cells to make the WBS hierarchy look nice | sorting, filtering and every formula that reads the column break |
 | Letting Excel interpret the code column | `1.2.3` becomes a date and `1.10` becomes `1.1`; format the column as text before writing |
 
 ## 8. When a rule gets in the way
 
-It is sometimes right to deviate — `pm_process` PR-02 exists for that. The discipline is:
+It is sometimes right to deviate — `pm-process` PR-02 exists for that. The discipline is:
 
 1. Record the tailoring, with the reason and the risk accepted.
 2. Name who approved it.
@@ -232,5 +232,5 @@ It is sometimes right to deviate — `pm_process` PR-02 exists for that. The dis
 Schedule pressure is not a tailoring reason. It is a decision to accept risk, recorded with the
 sponsor's name on it.
 
-If a rule turns out to be wrong rather than inconvenient, fix the pack: `/pm_refine_skill`.
+If a rule turns out to be wrong rather than inconvenient, fix the pack: `/pm-refine-skill`.
 That is the difference between a standard and a ritual.

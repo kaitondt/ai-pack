@@ -39,7 +39,7 @@ LEG-RCV-004,REQ-RCV-012,KK0030PG-FC-001,DD-KK0030PG-003,ReceivingQuery.cs#Handle
 
 ## TR-02 — Orphans are defects
 
-Two kinds, both reported by `/mig_trace_check`:
+Two kinds, both reported by `/mig-trace-check`:
 
 | Kind | Meaning | Severity |
 |---|---|---|
@@ -65,7 +65,7 @@ indistinguishable from an invention.
 ## TR-03 — Phase gates are traceability assertions
 
 A phase is complete when its `{{profile.gates.*}}` assertions hold **and** the register
-has no orphans for artifacts owned by that phase. `/mig_trace_check` is the gate check;
+has no orphans for artifacts owned by that phase. `/mig-trace-check` is the gate check;
 run it before declaring any phase done.
 
 ## TR-04 — IDs are permanent
@@ -92,8 +92,8 @@ At P2/P3, these pairs must agree. Each mismatch is a Critical finding:
 | X-10 | Mockup — field set, order, tab order, columns, label text, blocked controls | Legacy screen (skipped when `mockup.fidelity` is `redesigned`) |
 | X-11 | Environments the pipeline deploys to | `{{profile.target.environments}}` |
 
-`/mig_review_design` runs X-01..X-07; `/mig_generate_detail_design` runs X-08 and emits
-the GAP report; `/mig_generate_mockup` runs X-09 and X-10; `/mig_generate_infra` runs X-11.
+`/mig-review-design` runs X-01..X-07; `/mig-generate-detail-design` runs X-08 and emits
+the GAP report; `/mig-generate-mockup` runs X-09 and X-10; `/mig-generate-infra` runs X-11.
 
 X-09 to X-11 exist because all three artifacts are routinely maintained outside the document
 set. The mockup is what everybody looks at, so a field that exists only there gets built —

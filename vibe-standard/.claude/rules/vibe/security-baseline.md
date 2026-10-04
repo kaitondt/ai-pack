@@ -18,7 +18,7 @@
   `REACT_APP_`, `EXPO_PUBLIC_` (or the framework's equivalent) is **public**.
 - Never paste a secret, a customer record or a production dump into a prompt.
 
-The `guard_vibe_paths` hook blocks writes that contain recognisable key formats. When a secret
+The `guard-vibe-paths` hook blocks writes that contain recognisable key formats. When a secret
 has already been committed, removing it from the file is not enough — **rotate it**, then
 clean history if the repository is shared.
 
@@ -30,7 +30,7 @@ work, dropping or truncating tables, `DELETE`/`UPDATE` without `WHERE`, `terrafo
 deploying to production, publishing a package.
 
 It shows the exact command, what it will destroy, and asks the human to run it. The
-`guard_vibe_bash` hook blocks the known patterns plus `{{profile.security.dangerous_commands}}`.
+`guard-vibe-bash` hook blocks the known patterns plus `{{profile.security.dangerous_commands}}`.
 
 ## SB-03 — The server decides; the client is untrusted
 
@@ -82,7 +82,7 @@ Each dependency is code you did not read, running with your permissions.
 | Password hashing via a vetted library, or a managed auth provider | — | ✅ | ✅ | ✅ |
 | Security headers, error pages without stack traces | — | — | ✅ | ✅ |
 | Backups with a tested restore | — | — | ✅ if real user data | ✅ |
-| `/vibe_security_check` passed with no Critical/High open | — | — | before first real user | before every release |
+| `/vibe-security-check` passed with no Critical/High open | — | — | before first real user | before every release |
 
 **A prototype with a public URL is treated as `mvp` for this table**, whatever the profile
 says. The internet does not read the profile.
@@ -91,7 +91,7 @@ says. The internet does not read the profile.
 
 A security control skipped for speed is a `DEBT-*` with `category: security` and a due stage
 **no later than `mvp`**. It cannot be deferred to `production`: once real users exist, it is
-not debt, it is exposure. `/vibe_graduate` refuses promotion past a due security debt.
+not debt, it is exposure. `/vibe-graduate` refuses promotion past a due security debt.
 
 ## Self-check before committing anything that handles input, auth, data or secrets
 

@@ -130,15 +130,15 @@ paths:
   metrics: "docs/品質記録"
   runbook: "docs/運用/運用手順書.md"
   bd_categories:
-    - {key: architecture, dir: "01.方式設計", skill: sdlc_basic_design}
-    - {key: nfr,          dir: "02.非機能設計", skill: sdlc_nfr_design}
-    - {key: screen,       dir: "03.画面設計", skill: sdlc_screen_design}
-    - {key: function,     dir: "04.機能設計", skill: sdlc_function_design}
-    - {key: data,         dir: "05.DB設計", skill: sdlc_data_design}
-    - {key: interface,    dir: "06.インタフェース設計", skill: sdlc_api_design}
-    - {key: file,         dir: "07.ファイル設計", skill: sdlc_basic_design}
-    - {key: report,       dir: "08.帳票設計", skill: sdlc_basic_design}
-    - {key: batch,        dir: "09.バッチ設計", skill: sdlc_batch_design}
+    - {key: architecture, dir: "01.方式設計", skill: sdlc-basic-design}
+    - {key: nfr,          dir: "02.非機能設計", skill: sdlc-nfr-design}
+    - {key: screen,       dir: "03.画面設計", skill: sdlc-screen-design}
+    - {key: function,     dir: "04.機能設計", skill: sdlc-function-design}
+    - {key: data,         dir: "05.DB設計", skill: sdlc-data-design}
+    - {key: interface,    dir: "06.インタフェース設計", skill: sdlc-api-design}
+    - {key: file,         dir: "07.ファイル設計", skill: sdlc-basic-design}
+    - {key: report,       dir: "08.帳票設計", skill: sdlc-basic-design}
+    - {key: batch,        dir: "09.バッチ設計", skill: sdlc-batch-design}
 
 language:
   primary: ja                    # deliverables handed to the client are Japanese
@@ -323,7 +323,7 @@ gates:
   P2_basic_design:
     entry: ["要件定義書 baselined"]
     exit:
-      - "/sdlc_review_design reports zero Critical findings"
+      - "/sdlc-review-design reports zero Critical findings"
       - "SC / FC / API / DT cross-checks pass"
       - "every REQ-* is realised by at least one design item"
       - "基本設計書 客先レビュー完了、承認済み"
@@ -335,7 +335,7 @@ gates:
            "差異報告のオープン項目がゼロ"]
   P4_implementation:
     entry: ["詳細設計書 approved for the module"]
-    exit: ["/sdlc_verify_build passes", "/sdlc_review_commit reports zero Critical",
+    exit: ["/sdlc-verify-build passes", "/sdlc-review-commit reports zero Critical",
            "unit tests for the module pass"]
   P5_unit_test:
     entry: ["code complete for the module"]

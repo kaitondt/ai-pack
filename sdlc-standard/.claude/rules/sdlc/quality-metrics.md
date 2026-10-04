@@ -88,7 +88,7 @@ rule is a failing module that reports green.
 This is the number the client experiences. Every escape is also a phase-containment
 failure somewhere upstream, and the retrospective question is always the same: *which
 check would have caught this, and why did we not run it?* The answer becomes a rule, a
-checklist row or a hook — see `/sdlc_refine_skill`.
+checklist row or a hook — see `/sdlc-refine-skill`.
 
 ## QM-07 — Defect ageing and the S-curve
 
@@ -120,7 +120,7 @@ failure mode nobody notices until the client finds it.
 
 ## QM-09 — Report at gates, not continuously
 
-Metrics are produced by `/sdlc_quality_report` at each phase gate and written to
+Metrics are produced by `/sdlc-quality-report` at each phase gate and written to
 `{{profile.quality.metrics_report}}`. Continuous dashboards invite tuning; gate reports
 invite decisions.
 

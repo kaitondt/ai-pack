@@ -21,13 +21,13 @@ No code is written for a task that has no intent. An intent is an `INT-*` file i
 | **Intent** | one sentence, from the user's point of view: *"A visitor can …"*, *"The admin can …"* |
 | **Done when** | 1–5 observable checks (IF-02) |
 | **Not now** | what this intent deliberately does not do — at least one line |
-| **Slices** | the ordered steps (`INT-007.1`, `INT-007.2`, …), filled by `/vibe_plan` |
+| **Slices** | the ordered steps (`INT-007.1`, `INT-007.2`, …), filled by `/vibe-plan` |
 
 Writing it takes two minutes. Not writing it costs the afternoon in which the AI builds the
 feature you did not mean, well.
 
 A request typed in chat ("add a login page") is **raw material** for an intent, not an intent.
-`/vibe_build` turns it into one — showing it to the human before building — when none exists.
+`/vibe-build` turns it into one — showing it to the human before building — when none exists.
 
 ## IF-02 — "Done when" is observable, or it is not a check
 
@@ -52,7 +52,7 @@ nobody asked for, the audit column, the retry wrapper — is **parked**, not bui
 IDEA-023  Export notes as Markdown  ← noticed while building INT-007.2
 ```
 
-It goes to `{{profile.paths.backlog}}` via `/vibe_park`, with one line of why. The human
+It goes to `{{profile.paths.backlog}}` via `/vibe-park`, with one line of why. The human
 decides whether it becomes an intent. The AI never does.
 
 This applies to the AI's own suggestions most of all. An AI-proposed addition is still an

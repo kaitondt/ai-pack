@@ -24,7 +24,7 @@ AI-written code specifically goes wrong.
 │  vibe.profile.yaml     ← the ONLY file you edit per project      │
 │  (stage, stack, real commands, slice budget, security, release)  │
 └───────────────────────────┬──────────────────────────────────────┘
-                            │ resolved by  skill: vibe_project
+                            │ resolved by  skill: vibe-project
                             ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │  rules/vibe/ — 7 invariant rule families, scaled by stage        │
@@ -72,7 +72,7 @@ the two with something plausible. Every rule in this pack keeps that gap small, 
 What was deliberately **not** taken: document skeletons, revision histories, deliverable
 templates, ID patterns per module, test levels as separate phases, baselines and CR approvals,
 EVM, reporting cadences. They are right for their packs and wrong at this speed — and when a
-project starts needing them, `/vibe_graduate` hands it over (see below).
+project starts needing them, `/vibe-graduate` hands it over (see below).
 
 ---
 
@@ -96,7 +96,7 @@ project starts needing them, `/vibe_graduate` hands it over (see below).
 | 14 | **A public URL means mvp security**, whatever the stage says | SB-07 |
 | 15 | **Every shortcut is a `DEBT-*` with a due stage**; security debt due by mvp | `rules/vibe/debt-ledger.md` DL-01, SB-08 |
 | 16 | **STATE.md is the handoff**; the conversation is not memory | `rules/vibe/session-continuity.md` SC-01, SC-04 |
-| 17 | **The stage changes only through `/vibe_graduate`**, on evidence | `skills/vibe_graduation` GR-02 |
+| 17 | **The stage changes only through `/vibe-graduate`**, on evidence | `skills/vibe-graduation` GR-02 |
 
 ## What is variable (lives in the profile)
 
@@ -135,7 +135,7 @@ Two rules hold the model honest:
 ```
   INTENT ─► SLICE ─► CHECKPOINT ─► BUILD ─► RUN ─► VERIFY ─► REVIEW ─► COMMIT ─► LOG
     ▲                    ▲                             │ ✗ ×3
-    │                    └──── revert, re-slice ◄──────┘ (/vibe_unstuck → /vibe_fix)
+    │                    └──── revert, re-slice ◄──────┘ (/vibe-unstuck → /vibe-fix)
     └──────────────────────────── next slice ◄──────────────────────────────────────┘
 ```
 
@@ -147,24 +147,24 @@ Two rules hold the model honest:
 
 | Area | Commands |
 |---|---|
-| Setup | `/vibe_init` · `/vibe_profile_check` · `/vibe_scaffold` |
-| What to build | `/vibe_product` · `/vibe_intent` · `/vibe_plan` · `/vibe_park` |
-| Build | `/vibe_build` · `/vibe_verify` · `/vibe_review` |
-| When it breaks | `/vibe_fix` · `/vibe_unstuck` |
-| Keep it healthy | `/vibe_debt` · `/vibe_security_check` · `/vibe_refine_skill` |
-| Ship and grow | `/vibe_ship` · `/vibe_graduate` |
-| Sessions | `/vibe_resume` · `/vibe_handoff` · `/vibe_status` |
+| Setup | `/vibe-init` · `/vibe-profile-check` · `/vibe-scaffold` |
+| What to build | `/vibe-product` · `/vibe-intent` · `/vibe-plan` · `/vibe-park` |
+| Build | `/vibe-build` · `/vibe-verify` · `/vibe-review` |
+| When it breaks | `/vibe-fix` · `/vibe-unstuck` |
+| Keep it healthy | `/vibe-debt` · `/vibe-security-check` · `/vibe-refine-skill` |
+| Ship and grow | `/vibe-ship` · `/vibe-graduate` |
+| Sessions | `/vibe-resume` · `/vibe-handoff` · `/vibe-status` |
 
 ## Agents
 
 | Agent | Tools | Does |
 |---|---|---|
-| `vibe_planner` | read-only + Bash | slices an intent; never writes code |
-| `vibe_builder` | read/write | builds one slice; stops at its edges |
-| `vibe_verifier` | read-only + Bash | proves it works; never edits source |
-| `vibe_reviewer` | read-only + Bash | reviews what another context wrote |
-| `vibe_debugger` | read/write | evidence before fix |
-| `vibe_security_auditor` | read-only + Bash | the six holes, the endpoint table, SB-07 |
+| `vibe-planner` | read-only + Bash | slices an intent; never writes code |
+| `vibe-builder` | read/write | builds one slice; stops at its edges |
+| `vibe-verifier` | read-only + Bash | proves it works; never edits source |
+| `vibe-reviewer` | read-only + Bash | reviews what another context wrote |
+| `vibe-debugger` | read/write | evidence before fix |
+| `vibe-security-auditor` | read-only + Bash | the six holes, the endpoint table, SB-07 |
 
 The split is the point: from `mvp`, **the context that wrote the code is not the one that
 verifies or reviews it**. A writer reviewing its own output agrees with itself.
@@ -173,10 +173,10 @@ verifies or reviews it**. A writer reviewing its own output agrees with itself.
 
 | Hook | Event | Enforces |
 |---|---|---|
-| `check_vibe_profile.py` | SessionStart | profile valid; stage vs. reality; `.env` ignored; tree/branch state; open debt & bugs; **prints STATE.md** so the session starts from the handoff |
-| `guard_vibe_bash.py` | PreToolUse (Bash, PowerShell) | **blocks** irreversible commands: `rm -rf` of root/home/cwd, `git reset --hard`, `git clean -f`, force-push, `DROP`/`TRUNCATE`/unscoped `DELETE`, ORM resets, `terraform apply/destroy`, publish, `sudo`, `curl | sh`, plus `security.dangerous_commands` |
-| `guard_vibe_paths.py` | PreToolUse (Write, Edit) | **blocks** writes containing credentials (AWS, GitHub, Anthropic, OpenAI, Stripe, Slack, Google, private keys, DB URLs with passwords, random-looking hardcoded secrets) outside gitignored env files; blocks `security.protected_paths` |
-| `check_slice_size.py` | PostToolUse (Write, Edit) | warns the model when the working tree passes the slice budget, and again at 2× |
+| `check-vibe-profile.py` | SessionStart | profile valid; stage vs. reality; `.env` ignored; tree/branch state; open debt & bugs; **prints STATE.md** so the session starts from the handoff |
+| `guard-vibe-bash.py` | PreToolUse (Bash, PowerShell) | **blocks** irreversible commands: `rm -rf` of root/home/cwd, `git reset --hard`, `git clean -f`, force-push, `DROP`/`TRUNCATE`/unscoped `DELETE`, ORM resets, `terraform apply/destroy`, publish, `sudo`, `curl | sh`, plus `security.dangerous_commands` |
+| `guard-vibe-paths.py` | PreToolUse (Write, Edit) | **blocks** writes containing credentials (AWS, GitHub, Anthropic, OpenAI, Stripe, Slack, Google, private keys, DB URLs with passwords, random-looking hardcoded secrets) outside gitignored env files; blocks `security.protected_paths` |
+| `check-slice-size.py` | PostToolUse (Write, Edit) | warns the model when the working tree passes the slice budget, and again at 2× |
 
 ---
 
@@ -208,7 +208,7 @@ vibe-standard/
 ## Growing out of it
 
 Vibe coding is right for a project until the cost of being wrong exceeds the cost of process.
-`/vibe_graduate handoff` recognises the crossing and maps every vibe record onto the sibling
+`/vibe-graduate handoff` recognises the crossing and maps every vibe record onto the sibling
 packs instead of letting the project drift:
 
 | Signal | Adopt |
@@ -219,7 +219,7 @@ packs instead of letting the project drift:
 
 On handoff to `sdlc-standard`, intents become requirements **marked as assumptions until the
 product owner confirms them** — the sibling pack's rule that code is not a specification still
-holds. `DEC-*` carries over unchanged. Details: `skills/vibe_graduation` GR-04, GR-05.
+holds. `DEC-*` carries over unchanged. Details: `skills/vibe-graduation` GR-04, GR-05.
 
 Staying is also a valid answer. Many products live happily at `production` under this pack.
 
@@ -227,7 +227,7 @@ Staying is also a valid answer. Many products live happily at `production` under
 
 ## Model policy
 
-Every `vibe_*` agent ships with `model: opus`, set from `execution.agent_model`.
+Every `vibe-*` agent ships with `model: opus`, set from `execution.agent_model`.
 
 Vibe coding delegates more judgement to the model than either sibling pack does — there is no
 specification to check against, only an intent and the model's reading of it. The failures are
@@ -236,8 +236,8 @@ version, a test that asserts what the code does, a slice that quietly grew a fea
 cheapest place to buy correctness is the model doing the work.
 
 Downgrade a role via `execution.agent_model_overrides` when it is genuinely mechanical
-(`vibe_verifier` running a fixed command list is the usual candidate). Do not downgrade
-`vibe_reviewer` or `vibe_security_auditor` — they exist to catch what the builder missed.
+(`vibe-verifier` running a fixed command list is the usual candidate). Do not downgrade
+`vibe-reviewer` or `vibe-security-auditor` — they exist to catch what the builder missed.
 
 Reasoning effort is a session-level setting in Claude Code; `execution.intended_effort` records
 it for consistency, and does not enforce it.
@@ -250,10 +250,10 @@ it for consistency, and does not enforce it.
 cp -r vibe-standard/.claude                 <your-project>/.claude     # or merge, see ADOPTION.md
 cp vibe-standard/profile/vibe.profile.yaml  <your-project>/.claude/vibe.profile.yaml
 # then, inside the project:
-/vibe_init
-/vibe_intent "the first thing it should do"
-/vibe_plan INT-001
-/vibe_build INT-001.1
+/vibe-init
+/vibe-intent "the first thing it should do"
+/vibe-plan INT-001
+/vibe-build INT-001.1
 ```
 
 Needs Python 3 for the hooks — without it the secret and destructive-command guards are **off
@@ -270,4 +270,4 @@ existing vibe-coded repo, and troubleshooting.
 | Building something with a client, a contract, or an approved specification | `sdlc-standard` |
 | Rewriting or replatforming an existing system | `migration-standard` |
 | Planning, costing, reporting and governing the project | `pm-standard`, alongside any of them |
-| A vibe-coded product that now has contracts or a growing team | `vibe-standard` → `/vibe_graduate handoff` |
+| A vibe-coded product that now has contracts or a growing team | `vibe-standard` → `/vibe-graduate handoff` |

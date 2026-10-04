@@ -64,7 +64,7 @@ withdrawn, so that the record shows it was raised.
 | Lesson | the risk, issue or CR it was learned from |
 
 An object with no ancestors is either unnecessary or evidence of unplanned work. Both are
-worth knowing, and `/pm_trace_check` reports them.
+worth knowing, and `/pm-trace-check` reports them.
 
 ## PN-05 — Report filenames are sortable and self-describing
 

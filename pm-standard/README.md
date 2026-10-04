@@ -22,7 +22,7 @@ rules, area skills, entry-point commands, delegated agents — different subject
 │  (governance, calendar, WBS, cost, quality, risk, reporting,     │
 │   change control, closing, and the binding to the technical pack)│
 └───────────────────────────┬──────────────────────────────────────┘
-                            │ resolved by  skill: pm_project
+                            │ resolved by  skill: pm-project
                             ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │  rules/pm/ — invariant standards (baselines, estimates, reports) │
@@ -42,20 +42,20 @@ writes `{{profile.schedule.milestones}}`, `{{profile.cost.contingency_percent}}`
 
 | # | Area | Skill | Primary artifact | Entry command |
 |---|---|---|---|---|
-| 1 | Project overview | `pm_project_charter` | project charter | `/pm_charter` |
-| 2 | Requirements / scope | `pm_scope` | scope baseline, RTM | `/pm_scope_baseline` |
-| 3 | Cost / effort | `pm_estimation`, `pm_cost` | estimate, cost baseline, EVM | `/pm_estimate`, `/pm_cost_baseline`, `/pm_evm` |
-| 4 | Project management | `pm_management_plan`, `pm_stakeholder`, `pm_resource` | project management plan | `/pm_plan`, `/pm_comm_plan`, `/pm_resource_plan` |
-| 5 | Process (dev, QA/QC) | `pm_process` | process definition, tailoring, CAPA | `/pm_process_define`, `/pm_audit` |
-| 6 | Schedule | `pm_schedule` | WBS + dictionary (**one Excel workbook**), schedule baseline | `/pm_wbs`, `/pm_schedule_baseline` |
-| 7 | Reporting | `pm_reporting` | daily / weekly / monthly / quarterly / quality | `/pm_status_collect`, `/pm_report` |
-| 8 | Quality | `pm_quality` | quality plan, master test plan | `/pm_quality_plan` |
-| 9 | Risk | `pm_risk` | risk register, issue log | `/pm_risk_assess`, `/pm_risk_review` |
-| 10 | Closing | `pm_closure` | acceptance, final report, lessons | `/pm_closing`, `/pm_lessons` |
+| 1 | Project overview | `pm-project-charter` | project charter | `/pm-charter` |
+| 2 | Requirements / scope | `pm-scope` | scope baseline, RTM | `/pm-scope-baseline` |
+| 3 | Cost / effort | `pm-estimation`, `pm-cost` | estimate, cost baseline, EVM | `/pm-estimate`, `/pm-cost-baseline`, `/pm-evm` |
+| 4 | Project management | `pm-management-plan`, `pm-stakeholder`, `pm-resource` | project management plan | `/pm-plan`, `/pm-comm-plan`, `/pm-resource-plan` |
+| 5 | Process (dev, QA/QC) | `pm-process` | process definition, tailoring, CAPA | `/pm-process-define`, `/pm-audit` |
+| 6 | Schedule | `pm-schedule` | WBS + dictionary (**one Excel workbook**), schedule baseline | `/pm-wbs`, `/pm-schedule-baseline` |
+| 7 | Reporting | `pm-reporting` | daily / weekly / monthly / quarterly / quality | `/pm-status-collect`, `/pm-report` |
+| 8 | Quality | `pm-quality` | quality plan, master test plan | `/pm-quality-plan` |
+| 9 | Risk | `pm-risk` | risk register, issue log | `/pm-risk-assess`, `/pm-risk-review` |
+| 10 | Closing | `pm-closure` | acceptance, final report, lessons | `/pm-closing`, `/pm-lessons` |
 
-Cross-cutting: `pm_change_control` (`/pm_change_assess` → `/pm_change_apply`),
-`/pm_gate_review`, `/pm_trace_check`, `/pm_health_check`, `/pm_sync_technical`,
-`/pm_profile_check`, `/pm_refine_skill`.
+Cross-cutting: `pm-change-control` (`/pm-change-assess` → `/pm-change-apply`),
+`/pm-gate-review`, `/pm-trace-check`, `/pm-health-check`, `/pm-sync-technical`,
+`/pm-profile-check`, `/pm-refine-skill`.
 
 ---
 
@@ -99,7 +99,7 @@ That difference produces the pack's invariants:
 | 13 | **One named owner per decision; authority matched to impact** | `rules/pm/decision-authority.md` DA-01, DA-02 |
 | 14 | **Decisions recorded when made; the log is append-only** | DA-03 |
 | 15 | **IDs are deterministic and permanent**; WBS codes are never reused | `rules/pm/id-naming.md` PN-02, PN-03 |
-| 16 | **Format is a property of the artifact** — and the WBS is delivered as Excel; Markdown and CSV are working forms only | `rules/pm/document-standards.md` MD-09, `skills/pm_document_io` DIO-W |
+| 16 | **Format is a property of the artifact** — and the WBS is delivered as Excel; Markdown and CSV are working forms only | `rules/pm/document-standards.md` MD-09, `skills/pm-document-io` DIO-W |
 | 17 | **A working file is not a deliverable**, and says so on line one — exactly one authority per artifact | `rules/pm/document-standards.md` MD-10 |
 | 16 | **No automatic version bump; every commitment attributable** | `rules/pm/document-standards.md` MD-02, MD-04 |
 
@@ -117,7 +117,7 @@ handover checklist · the binding to the technical pack.
 
 ## Working alongside a technical pack
 
-`/pm_init` detects `sdlc.profile.yaml` or `migration.profile.yaml` and sets
+`/pm-init` detects `sdlc.profile.yaml` or `migration.profile.yaml` and sets
 `integration.technical_pack`. Then the division is fixed:
 
 | The technical pack owns | This pack owns |
@@ -129,7 +129,7 @@ handover checklist · the binding to the technical pack.
 | CR execution on documents and code | CR intake, impact across baselines, CCB approval |
 
 **Never duplicate the technical pack's data into a management document.** Cite it, and let
-`/pm_sync_technical` verify the two still agree. Drift between them is how a project reports
+`/pm-sync-technical` verify the two still agree. Drift between them is how a project reports
 green on a plan that no longer describes the work being done.
 
 The pack also runs standalone (`technical_pack: none`) — for a project managed here whose
@@ -143,7 +143,7 @@ Management deliverables are contractual artifacts, so their format is a property
 artifact rather than a per-task choice. `{{profile.documents.registry}}` binds each one:
 Excel for the tabular and numeric artifacts, Word where the client supplies a form, Markdown
 for narrative documents reviewed in a pull request, CSV for registers exchanged with other
-tools. `pm_document_io` owns the mechanics for all four, and every agent can write them.
+tools. `pm-document-io` owns the mechanics for all four, and every agent can write them.
 
 **The WBS is delivered as Excel.** Draft it in Markdown or CSV if that helps — text is easier
 to restructure than a workbook, and `documents.working_dir` exists for exactly that — but the
@@ -208,8 +208,8 @@ ways a plan turns out to be decorative:
 ## The control loop, which is what the pack does after planning
 
 ```
-plan → execute → measure (/pm_status_collect) → compare (/pm_evm, /pm_trace_check)
-     → decide (/pm_report, /pm_gate_review) → act (/pm_change_assess → /pm_change_apply)
+plan → execute → measure (/pm-status-collect) → compare (/pm-evm, /pm-trace-check)
+     → decide (/pm-report, /pm-gate-review) → act (/pm-change-assess → /pm-change-apply)
      → re-plan, or re-baseline with a recorded reason
 ```
 
@@ -221,7 +221,7 @@ project accumulates metrics while remaining unmanaged.
 
 ## Model policy
 
-Every `pm_*` agent ships with `model: opus`, set from `execution.agent_model`.
+Every `pm-*` agent ships with `model: opus`, set from `execution.agent_model`.
 
 This is deliberate. Management artifacts fail **silently**: an estimate with a missing work
 package, a WBS that omits the testing branch, a report whose RAG does not follow from its own
@@ -240,10 +240,10 @@ Reasoning effort is a session-level setting in Claude Code, not agent frontmatte
 cp -r pm-standard/.claude              <your-project>/.claude      # or merge, see ADOPTION.md
 cp pm-standard/profile/pm.profile.yaml <your-project>/.claude/pm.profile.yaml
 # then, inside the project:
-/pm_init
+/pm-init
 ```
 
-`/pm_init` inspects the repository, detects an installed technical pack, interviews you for
+`/pm-init` inspects the repository, detects an installed technical pack, interviews you for
 what it cannot infer, writes the profile, scaffolds `pm/` and the registers, and generates or
 appends to `CLAUDE.md`. See [ADOPTION.md](ADOPTION.md).
 
@@ -257,4 +257,4 @@ appends to `CLAUDE.md`. See [ADOPTION.md](ADOPTION.md).
 | Building something new | `sdlc-standard` |
 | Running the project around either of those — plan, cost, report, govern | **`pm-standard`, alongside it** |
 | Managing a project whose engineering is done elsewhere | `pm-standard` standalone |
-| A PM taking over a project and needing an honest picture | `pm-standard`, then `/pm_health_check` |
+| A PM taking over a project and needing an honest picture | `pm-standard`, then `/pm-health-check` |

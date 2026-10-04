@@ -137,13 +137,13 @@ paths:
   runbook: "docs/operations/runbook.md"
   # No report or file-interface categories: this product has neither.
   bd_categories:
-    - {key: architecture, dir: "01.architecture", skill: sdlc_basic_design}
-    - {key: nfr,          dir: "02.non-functional", skill: sdlc_nfr_design}
-    - {key: screen,       dir: "03.screen-design", skill: sdlc_screen_design}
-    - {key: function,     dir: "04.function-design", skill: sdlc_function_design}
-    - {key: data,         dir: "05.data-design", skill: sdlc_data_design}
-    - {key: interface,    dir: "06.interface-design", skill: sdlc_api_design}
-    - {key: batch,        dir: "07.batch-design", skill: sdlc_batch_design}
+    - {key: architecture, dir: "01.architecture", skill: sdlc-basic-design}
+    - {key: nfr,          dir: "02.non-functional", skill: sdlc-nfr-design}
+    - {key: screen,       dir: "03.screen-design", skill: sdlc-screen-design}
+    - {key: function,     dir: "04.function-design", skill: sdlc-function-design}
+    - {key: data,         dir: "05.data-design", skill: sdlc-data-design}
+    - {key: interface,    dir: "06.interface-design", skill: sdlc-api-design}
+    - {key: batch,        dir: "07.batch-design", skill: sdlc-batch-design}
 
 language:
   primary: en
@@ -278,7 +278,7 @@ gates:
   P2_basic_design:
     entry: ["SRS baselined"]
     exit:
-      - "/sdlc_review_design reports zero Critical findings"
+      - "/sdlc-review-design reports zero Critical findings"
       - "SC / FC / API / DT cross-checks pass"
       - "every REQ-* is realised by at least one design item"
   P3_detail_design:
@@ -286,7 +286,7 @@ gates:
     exit: ["every FC has a DD or an explicit no-DD decision", "the UT case basis is derivable from the DD"]
   P4_implementation:
     entry: ["DD approved for the module"]
-    exit: ["/sdlc_verify_build passes", "/sdlc_review_commit reports zero Critical", "unit tests pass"]
+    exit: ["/sdlc-verify-build passes", "/sdlc-review-commit reports zero Critical", "unit tests pass"]
   P5_unit_test:
     entry: ["code complete for the module"]
     exit:

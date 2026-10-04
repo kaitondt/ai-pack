@@ -14,7 +14,7 @@ Four things, and the third is the one people miss.
 
 | # | What | Why the pack needs it |
 |---|---|---|
-| 1 | **Git** | the pack lives in the repository; `sdlc_bug_trace` reads history |
+| 1 | **Git** | the pack lives in the repository; `sdlc-bug-trace` reads history |
 | 2 | **Node.js 18+** and **Claude Code** | runs the pack |
 | 3 | **Python 3.9+** | the three guard hooks are Python. Without it they fail silently and baseline protection is off |
 | 4 | **`openpyxl` / `python-docx`** | only if your deliverables are Excel or Word. See step 0d |
@@ -68,7 +68,7 @@ pip install python-pptx     # only to READ .pptx inputs (decision decks, walkthr
 ```
 
 A format enabled in the profile with no working library is a run that fails forty files in
-rather than on the first. `/sdlc_profile_check` check 29 catches it — run it before P2.
+rather than on the first. `/sdlc-profile-check` check 29 catches it — run it before P2.
 
 ### 0e. Verify
 
@@ -101,7 +101,7 @@ they were already written to extend.
 ## 2. Configure
 
 ```
-/sdlc_init
+/sdlc-init
 ```
 
 It inspects the repository first — stack from the build files, build and test commands from
@@ -112,7 +112,7 @@ generates `CLAUDE.md`.
 Then:
 
 ```
-/sdlc_profile_check
+/sdlc-profile-check
 ```
 
 Fix every Critical before running any phase. A Critical means the pack's assumptions do not
@@ -124,12 +124,12 @@ hold — most often an unfilled stakeholder role, or baseline protection switche
 its own forms, usually Excel, usually contractual, and an invented one is rejected at the
 first review — after a whole category has been generated into it.
 
-`/sdlc_init` asks for them. If you skipped it, or a new category starts later:
+`/sdlc-init` asks for them. If you skipped it, or a new category starts later:
 
 ```
-/sdlc_template_register             # inventory: which categories have a form, which do not
-/sdlc_template_register screen      # register one
-/sdlc_template_register --check     # validate without changing the registry
+/sdlc-template-register             # inventory: which categories have a form, which do not
+/sdlc-template-register screen      # register one
+/sdlc-template-register --check     # validate without changing the registry
 ```
 
 Three things it does that are worth knowing about:
@@ -181,11 +181,11 @@ on — and it will be quietly moved the first time a gate would fail.
 
 ## 3e. Confirm the model and effort
 
-`/sdlc_init` writes `execution.agent_model` (default `opus`) into every agent file. Effort
+`/sdlc-init` writes `execution.agent_model` (default `opus`) into every agent file. Effort
 is session-level and cannot be set from the profile — `execution.intended_effort` only
 records what the project expects, so agree it with the team and set it in your session.
 
-`/sdlc_profile_check` compares the profile against the agent frontmatter and warns when they
+`/sdlc-profile-check` compares the profile against the agent frontmatter and warns when they
 disagree. Drift here is easy to miss, because an agent running on the wrong model still
 produces plausible-looking deliverables.
 
@@ -195,12 +195,12 @@ produces plausible-looking deliverables.
 - Baseline a throwaway document (add it to `constraints.baselined`), then ask Claude to edit
   it — the hook must block with `[BL-02]`. **If it does not block, the hooks are not
   running**, and every baseline guarantee in this pack is off. See the FAQ.
-- Run `/sdlc_trace_check` — it should report an empty register, not an error.
-- Run `/sdlc_template_register --check` — every registered template resolves, and every
+- Run `/sdlc-trace-check` — it should report an empty register, not an error.
+- Run `/sdlc-template-register --check` — every registered template resolves, and every
   enabled format has its library.
 - If `{{profile.mockup.kind}}` is not `none`, confirm the surfaces in `mockup.surfaces` all
   name real `system.surfaces[]` entries.
-- If infrastructure matters on this project, run `/sdlc_generate_infra` with no argument —
+- If infrastructure matters on this project, run `/sdlc-generate-infra` with no argument —
   the inventory tells you whether the platform fields resolve and whether the pipeline's
   environments match the profile (X-12).
 
@@ -210,24 +210,24 @@ Do not run them all at once. Each gate exists because the next phase amplifies t
 phase's errors:
 
 ```
-/sdlc_discover                → review scope with the client      → gate P0
-/sdlc_generate_requirements   → SRS review and sign-off           → gate P1  (SRS baselined)
-/sdlc_generate_basic_design   → /sdlc_review_design               → gate P2
-/sdlc_generate_mockup         → X-11 against the screen design    → gate P2
-/sdlc_generate_detail_design  → resolve drift items               → gate P3
-/sdlc_scaffold_codebase       → once, after the architecture is approved
-/sdlc_generate_infra          → pipeline, environments, monitors
-/sdlc_implement_feature       → per module
-/sdlc_generate_test ut|it     → per module / flow
-/sdlc_generate_test st        → whole system, on staging          → gate P7
-/sdlc_uat_prepare → _triage → _report                             → gate P8
-/sdlc_release_check           → go/no-go → cutover
-/sdlc_maintain_*              → per incident
-/sdlc_cr_*                    → per change request, whenever one arrives
+/sdlc-discover                → review scope with the client      → gate P0
+/sdlc-generate-requirements   → SRS review and sign-off           → gate P1  (SRS baselined)
+/sdlc-generate-basic-design   → /sdlc-review-design               → gate P2
+/sdlc-generate-mockup         → X-11 against the screen design    → gate P2
+/sdlc-generate-detail-design  → resolve drift items               → gate P3
+/sdlc-scaffold-codebase       → once, after the architecture is approved
+/sdlc-generate-infra          → pipeline, environments, monitors
+/sdlc-implement-feature       → per module
+/sdlc-generate-test ut|it     → per module / flow
+/sdlc-generate-test st        → whole system, on staging          → gate P7
+/sdlc-uat-prepare → _triage → _report                             → gate P8
+/sdlc-release-check           → go/no-go → cutover
+/sdlc-maintain-*              → per incident
+/sdlc-cr-*                    → per change request, whenever one arrives
 ```
 
 Each generation phase is run as a loop, not a single pass: execute → review in a fresh
-session → `/sdlc_refine_skill` → re-execute. Calibrate the loop on a 2–3 module pilot
+session → `/sdlc-refine-skill` → re-execute. Calibrate the loop on a 2–3 module pilot
 before generating a whole category. See [COMMAND-FLOW.md](COMMAND-FLOW.md).
 
 ---
@@ -244,7 +244,7 @@ The common case: the project started without the pack and is at P3 or P4.
    works.
 3. **Start the traceability register from the current phase forward.** A complete register
    from here is worth more than an invented one from the start.
-4. **Run `/sdlc_trace_check` and expect a bad first report.** The downward orphans are real
+4. **Run `/sdlc-trace-check` and expect a bad first report.** The downward orphans are real
    scope you cannot yet prove is covered; the upward orphans are real work nobody
    requested. Both are findings worth having early.
 5. **Run the P-gate you are entering, not the ones you skipped.** Retroactive gates produce
@@ -263,8 +263,8 @@ pack rather than inside it:
 .claude/rules/<language>/                         stack rules extending rules/common/
 ```
 
-Keep the `sdlc_*` files unmodified so the pack can be updated. When you find yourself
-editing an `sdlc_*` file, ask whether the change is project-specific — if so it belongs in a
+Keep the `sdlc-*` files unmodified so the pack can be updated. When you find yourself
+editing an `sdlc-*` file, ask whether the change is project-specific — if so it belongs in a
 `<key>_*` file; if not, it belongs upstream in the pack.
 
 Register new skills in the profile where they own a design category
@@ -283,7 +283,7 @@ Register new skills in the profile where they own a design category
 | Running ST as "IT again, on staging" | the month-end process, the failover and the volume case are tested never |
 | Attributing every defect to the coding phase | phase containment reports 100% upstream and tells you nothing |
 | Turning off a review family to reduce findings | the findings still exist, now invisible |
-| Editing `sdlc_*` skills for one project's quirk | the pack stops being updatable |
+| Editing `sdlc-*` skills for one project's quirk | the pack stops being updatable |
 | Treating the traceability register as end-of-project paperwork | it becomes unreconstructable and the gates become unverifiable |
 | Generating a category before registering the client's template | the whole category is rejected on formatting, after it is finished |
 | Enabling `xlsx` without installing `openpyxl` | the run fails forty files in, not on the first |
@@ -304,7 +304,7 @@ The most important failure in this list, because nothing announces it. Check in 
    change the three commands in `.claude/settings.json` to `python3`.
 2. **Is `CLAUDE_PROJECT_DIR` resolving?** The hook paths are
    `$CLAUDE_PROJECT_DIR/.claude/hooks/...`. Run the hook by hand to see the real error:
-   `echo '{"tool_input":{"file_path":"x"}}' | python .claude/hooks/guard_protected_paths.py`
+   `echo '{"tool_input":{"file_path":"x"}}' | python .claude/hooks/guard-protected-paths.py`
 3. **Did you merge `settings.json` rather than copying it?** A project that already had a
    `settings.json` keeps its own; the pack's `hooks` block has to be merged in by hand.
 4. **Is the document actually in `constraints.baselined`?** The guard reads that list. A
@@ -316,8 +316,8 @@ edit, and require the `[BL-02]` message. Do this once per machine, not once per 
 ### `[BL-02] BLOCKED` on a document I am supposed to be changing
 
 Working as designed. A baselined document changes through a change request:
-`/sdlc_cr_analyze` → `/sdlc_cr_design`, which writes the CR id to `.claude/.active_cr` and
-unblocks the edit until `/sdlc_cr_report` clears it.
+`/sdlc-cr-analyze` → `/sdlc-cr-design`, which writes the CR id to `.claude/.active_cr` and
+unblocks the edit until `/sdlc-cr-report` clears it.
 
 For a genuine editorial fix that changes no meaning, write `EDITORIAL` to
 `.claude/.active_cr` for the duration and note it in the revision history. If you have to
@@ -325,16 +325,16 @@ think about whether it changes meaning, it changes meaning.
 
 ### An `.active_cr` file is left behind and everything is editable
 
-`/sdlc_cr_report` removes it; an interrupted CR does not. `/sdlc_profile_check` reports the
+`/sdlc-cr-report` removes it; an interrupted CR does not. `/sdlc-profile-check` reports the
 active CR at the bottom of its output for exactly this reason. Delete the file when the CR
 is closed.
 
-### `/sdlc_generate_basic_design` produced Markdown, but the client wants Excel
+### `/sdlc-generate-basic-design` produced Markdown, but the client wants Excel
 
 The template was not registered, and `templates.on_missing` was `skeleton` rather than
 `ask`. The run should have said so in its plan — that line is the warning.
 
-Register the template (`/sdlc_template_register`), set `on_missing: ask`, then regenerate.
+Register the template (`/sdlc-template-register`), set `on_missing: ask`, then regenerate.
 Regenerating is the right move: converting forty Markdown files into the client's form by
 hand costs more and produces inconsistencies the cross-checks will not catch.
 
@@ -353,18 +353,18 @@ Run the DIO-03 fidelity check on the first file of a category, not the fortieth.
 
 ### `openpyxl` / `python-docx` not found, mid-run
 
-`/sdlc_profile_check` check 29 catches this before P2. Install the library, or remove the
+`/sdlc-profile-check` check 29 catches this before P2. Install the library, or remove the
 format from `templates.formats_enabled` — an enabled format with no library is a promise the
 pack cannot keep.
 
 ### A category came out short — files are missing and nothing failed
 
 The known failure mode of long generation runs: context runs out and the last categories are
-silently dropped. The pack's countermeasures are in `sdlc_basic_design` — batch by module,
+silently dropped. The pack's countermeasures are in `sdlc-basic-design` — batch by module,
 10–20 files per call, give the late categories their own dedicated calls, and **count the
 files on disk after each batch** rather than trusting the agent's report.
 
-If it already happened, `/sdlc_generate_basic_design <category>` regenerates one category.
+If it already happened, `/sdlc-generate-basic-design <category>` regenerates one category.
 The plan's `written/expected` line is what tells you which.
 
 ### The mockup and the screen design disagree
@@ -376,7 +376,7 @@ raise it rather than choosing (MU-01).
 If the mockup has a field the design does not, that field is unrequested scope (RS-06) until
 somebody produces a requirement for it.
 
-### `/sdlc_generate_infra` refuses to write anything
+### `/sdlc-generate-infra` refuses to write anything
 
 `infrastructure.owner` is not `this project`, or `repo_may_write_infra` is `false`. That is a
 configuration choice, and usually the correct one — it means another team owns the pipeline.
@@ -388,9 +388,9 @@ changed.
 Correct, and worth understanding rather than working around. A pipeline asserts what it can
 run: build, typecheck, lint, unit tests. It cannot assert that a requirement is testable,
 that a design matches the SRS, or that a defect was attributed to the right injection phase.
-`/sdlc_phase_gate` evaluates the assertions the pipeline cannot (IN-03).
+`/sdlc-phase-gate` evaluates the assertions the pipeline cannot (IN-03).
 
-### `/sdlc_trace_check` reports hundreds of orphans on a project we adopted mid-flight
+### `/sdlc-trace-check` reports hundreds of orphans on a project we adopted mid-flight
 
 Expected, and the report is worth keeping. See *Adopting mid-project* above: back-fill the
 registers rather than the documents, start the register from the current phase forward, and
@@ -399,8 +399,8 @@ scope you cannot yet prove is covered; the upward orphans are work nobody reques
 
 ### Agents are running on a model nobody chose
 
-`/sdlc_profile_check` check 22 compares `execution.agent_model` against the `model:`
-frontmatter of every agent file. Drift happens when the pack is updated and `/sdlc_init` is
+`/sdlc-profile-check` check 22 compares `execution.agent_model` against the `model:`
+frontmatter of every agent file. Drift happens when the pack is updated and `/sdlc-init` is
 not re-run. Re-run its model-policy step, or fix the frontmatter.
 
 Reasoning effort is **session-level** and cannot be set from the profile.

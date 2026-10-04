@@ -158,10 +158,10 @@ mockup:
 
 paths:
   bd_categories:                 # most design categories have nothing to say here
-    - {key: architecture, dir: "01.architecture", skill: mig_basic_design}
-    - {key: data,         dir: "04.data-design",  skill: mig_data_design}
-    - {key: interface,    dir: "05.interface-design", skill: mig_api_design}
-    - {key: batch,        dir: "08.batch-design", skill: mig_batch_design}
+    - {key: architecture, dir: "01.architecture", skill: mig-basic-design}
+    - {key: data,         dir: "04.data-design",  skill: mig-data-design}
+    - {key: interface,    dir: "05.interface-design", skill: mig-api-design}
+    - {key: batch,        dir: "08.batch-design", skill: mig-batch-design}
 
 review:
   families: {screen: false, function: false, api: true, data: true, batch: true}
@@ -305,9 +305,9 @@ constraints:
 
 paths:
   bd_categories:
-    - {key: architecture, dir: "01.architecture", skill: mig_basic_design}
-    - {key: data,         dir: "04.data-design",  skill: mig_data_design}
-    - {key: batch,        dir: "08.batch-design", skill: mig_batch_design}
+    - {key: architecture, dir: "01.architecture", skill: mig-basic-design}
+    - {key: data,         dir: "04.data-design",  skill: mig-data-design}
+    - {key: batch,        dir: "08.batch-design", skill: mig-batch-design}
 
 mockup:
   kind: none
@@ -375,14 +375,14 @@ document:
 
 paths:
   bd_categories:                 # the client's numbering, not the pack's
-    - {key: architecture, dir: "01.方式設計",          skill: mig_basic_design}
-    - {key: screen,       dir: "02.画面設計",          skill: mig_screen_design}
-    - {key: function,     dir: "03.機能設計",          skill: mig_function_design}
-    - {key: data,         dir: "04.DB設計",            skill: mig_data_design}
-    - {key: interface,    dir: "05.インタフェース設計", skill: mig_api_design}
-    - {key: report,       dir: "06.帳票設計",          skill: mig_basic_design}
-    - {key: file,         dir: "07.ファイル設計",       skill: mig_basic_design}
-    - {key: batch,        dir: "08.バッチ設計",        skill: mig_batch_design}
+    - {key: architecture, dir: "01.方式設計",          skill: mig-basic-design}
+    - {key: screen,       dir: "02.画面設計",          skill: mig-screen-design}
+    - {key: function,     dir: "03.機能設計",          skill: mig-function-design}
+    - {key: data,         dir: "04.DB設計",            skill: mig-data-design}
+    - {key: interface,    dir: "05.インタフェース設計", skill: mig-api-design}
+    - {key: report,       dir: "06.帳票設計",          skill: mig-basic-design}
+    - {key: file,         dir: "07.ファイル設計",       skill: mig-basic-design}
+    - {key: batch,        dir: "08.バッチ設計",        skill: mig-batch-design}
 
 mockup:
   kind: html
@@ -399,9 +399,9 @@ change_request:
   min_options: 2
 ```
 
-**Register every form before P2** (`/mig_template_register`), and let the fidelity check run
+**Register every form before P2** (`/mig-template-register`), and let the fidelity check run
 on the first file of each. These forms are usually grid-paper layouts (方眼紙) where one
-logical field is a merged range — `mig_document_io` covers the hazards, but the check is what
+logical field is a merged range — `mig-document-io` covers the hazards, but the check is what
 proves the writer handled *your* forms.
 
 **Check every form has somewhere to record the `LEG-*` anchor.** Many client forms do not
@@ -414,7 +414,7 @@ market always has both, and they are the two categories a long generation run dr
 
 **Questions:** which categories the client actually orders; whether the Vietnamese copy is a
 deliverable or a working aid; whether the client's 変更履歴 lives on a separate sheet (common,
-and it changes how `mig_document_io` writes the revision row); whether the legacy documents
+and it changes how `mig-document-io` writes the revision row); whether the legacy documents
 they hand over are current — they are not, and DIO-08 is the rule that keeps that from
 becoming your problem at parallel run.
 
@@ -424,9 +424,9 @@ becoming your problem at parallel run.
 
 1. Copy `migration.profile.yaml` to `.claude/migration.profile.yaml`.
 2. Apply the overlay. Keep every field the overlay does not mention.
-3. Answer the recipe's closing questions — those are the real decisions, and `/mig_init` will
+3. Answer the recipe's closing questions — those are the real decisions, and `/mig-init` will
    ask about them anyway.
-4. Run `/mig_profile_check`. Fix every Critical before running a phase.
+4. Run `/mig-profile-check`. Fix every Critical before running a phase.
 5. **Record the deviations as decisions.** A recipe that set `fidelity: restyled` or
    `dual_write: true` made a choice with a cost. It belongs in the project's decision record
    with its reason — not as an unexplained difference from the template that the next person

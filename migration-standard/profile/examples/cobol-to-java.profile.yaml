@@ -176,25 +176,25 @@ paths:
   bd_categories:
     - key: architecture
       dir: "01.architecture"
-      skill: mig_basic_design
+      skill: mig-basic-design
     - key: screen
       dir: "02.screen-design"
-      skill: mig_screen_design
+      skill: mig-screen-design
     - key: function
       dir: "03.function-design"
-      skill: mig_function_design
+      skill: mig-function-design
     - key: batch
       dir: "04.batch-design"
-      skill: mig_batch_design
+      skill: mig-batch-design
     - key: data
       dir: "05.data-design"
-      skill: mig_data_design
+      skill: mig-data-design
     - key: interface
       dir: "06.interface-design"
-      skill: mig_api_design
+      skill: mig-api-design
     - key: report
       dir: "07.report-design"
-      skill: mig_basic_design
+      skill: mig-basic-design
 
 language:
   primary: en
@@ -305,10 +305,10 @@ constraints:
 
 # ---------------------------------------------------------------------------
 # EXECUTION - which model the delegated agents run on.
-# Applied to .claude/agents/*.md frontmatter by /mig_init.
+# Applied to .claude/agents/*.md frontmatter by /mig-init.
 # ---------------------------------------------------------------------------
 execution:
-  # Default for every mig_* agent. These roles all produce content whose failure
+  # Default for every mig-* agent. These roles all produce content whose failure
   # modes are silent - invented behaviour, missed anchors, a dropped category -
   # and none of them surface until client review. Cheap models fail there first.
   agent_model: opus

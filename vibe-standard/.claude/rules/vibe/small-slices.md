@@ -32,7 +32,7 @@ From `{{profile.slices}}`:
 | Changed lines | `max_changed_lines` (400) | stop and split the slice |
 | Time | `max_minutes` (60) | stop, commit what runs, re-plan the rest |
 
-The `check_slice_size` hook warns when the working tree passes the budget. Generated files,
+The `check-slice-size` hook warns when the working tree passes the budget. Generated files,
 lockfiles and snapshots do not count (`{{profile.slices.exclude_from_budget}}`).
 
 A slice that cannot be made smaller is a sign the design is tangled — record that as a
@@ -69,7 +69,7 @@ stop. Do not try a fourth variation.
 1. Say what was tried and what each attempt showed.
 2. Preserve the attempt: commit it to a branch `attempt/<slice-id>-<n>` — never discard it.
 3. Return to the checkpoint.
-4. Switch mode: `/vibe_fix` (reproduce → isolate → hypothesis → evidence) or `/vibe_unstuck`
+4. Switch mode: `/vibe-fix` (reproduce → isolate → hypothesis → evidence) or `/vibe-unstuck`
    (re-slice smaller, or ask the human).
 
 The loop in which each fix breaks something else is the characteristic failure of vibe coding.

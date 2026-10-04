@@ -1,3 +1,18 @@
 [submodule "ECC"]
 	path = ECC
 	url = https://github.com/kaitondt/ECC.git
+[submodule "codex"]
+	path = codex
+	url = https://github.com/kaitondt/ai-pack-codex.git
+[submodule "gemini/sdlc-standard"]
+	path = gemini/sdlc-standard
+	url = https://github.com/kaitondt/ai-pack-gemini-sdlc.git
+[submodule "gemini/migration-standard"]
+	path = gemini/migration-standard
+	url = https://github.com/kaitondt/ai-pack-gemini-migration.git
+[submodule "gemini/pm-standard"]
+	path = gemini/pm-standard
+	url = https://github.com/kaitondt/ai-pack-gemini-pm.git
+[submodule "gemini/vibe-standard"]
+	path = gemini/vibe-standard
+	url = https://github.com/kaitondt/ai-pack-gemini-vibe.git

@@ -1,7 +1,7 @@
 # `vibe.profile.yaml` — Field Specification
 
 The profile is the **only** file a project authors before the pack becomes operational. Skills
-read it through `vibe_project` and substitute `{{profile.<dotted.path>}}` tokens.
+read it through `vibe-project` and substitute `{{profile.<dotted.path>}}` tokens.
 
 Canonical location: `<repo-root>/.claude/vibe.profile.yaml`
 
@@ -37,8 +37,8 @@ and ask. Never write a placeholder value into code or a record as if it were rea
 
 ### `stage` ✅
 `spike` · `prototype` · `mvp` · `production`. Decides which rules are in force
-(`skills/vibe_project` — the stage model; VT-08; SB-07). Changed **only** by `/vibe_graduate`,
-which records a `DEC-*`. The `check_vibe_profile` hook reports an invalid value at session start.
+(`skills/vibe-project` — the stage model; VT-08; SB-07). Changed **only** by `/vibe-graduate`,
+which records a `DEC-*`. The `check-vibe-profile` hook reports an invalid value at session start.
 
 ### `team`
 | Field | Notes |
@@ -55,13 +55,13 @@ which records a `DEC-*`. The `check_vibe_profile` hook reports an invalid value 
 
 ### `stack`
 Free text per field: `language`, `framework`, `ui`, `database`, `orm`, `auth`, `hosting`,
-`package_manager`. Recorded as `DEC-001` by `/vibe_scaffold`. Changing any of them later is a
+`package_manager`. Recorded as `DEC-001` by `/vibe-scaffold`. Changing any of them later is a
 decision (IF-05).
 
 ### `commands`
-The **real** commands. `/vibe_verify` runs them in order: `typecheck` → `lint` → `test` →
+The **real** commands. `/vibe-verify` runs them in order: `typecheck` → `lint` → `test` →
 `build` → (`production`) `test_e2e` / `smoke`. `""` means "not configured", which is a finding
-from `mvp` (`/vibe_profile_check` #5).
+from `mvp` (`/vibe-profile-check` #5).
 
 | Field | Notes |
 |---|---|
@@ -69,7 +69,7 @@ from `mvp` (`/vibe_profile_check` #5).
 | `build`, `typecheck`, `lint`, `format`, `test` | |
 | `test_e2e` | required at `production` |
 | `audit` | dependency audit; required in CI from `mvp` (SB-04) |
-| `smoke` | a command proving the deployed app answers; used by `/vibe_ship` |
+| `smoke` | a command proving the deployed app answers; used by `/vibe-ship` |
 
 ### `paths`
 All repo-relative; defaults under `vibe/`. Commit the folder — it is the project's memory.
@@ -82,7 +82,7 @@ All repo-relative; defaults under `vibe/`. Commit the folder — it is the proje
 | `intents` | `INT-NNN-<slug>.md` files |
 | `decisions` · `debt` · `bugs` · `backlog` | the four append-only logs (SC-03) |
 | `reviews` · `releases` | review reports, release notes |
-| `skill_changes` | the refine-loop record (`/vibe_refine_skill`) |
+| `skill_changes` | the refine-loop record (`/vibe-refine-skill`) |
 
 ### `slices`
 | Field | Default | Notes |
@@ -94,7 +94,7 @@ All repo-relative; defaults under `vibe/`. Commit the folder — it is the proje
 | `commit_format` | `{SLICE_ID}: {summary}` | SC-05 |
 | `exclude_from_budget` | `vibe/**`, lockfiles, migrations, snapshots, generated | glob list |
 
-`/vibe_profile_check` flags budgets above 15 files / 800 lines: a budget that large is not one.
+`/vibe-profile-check` flags budgets above 15 files / 800 lines: a budget that large is not one.
 
 ### `loop`
 | Field | Default | Notes |
@@ -115,17 +115,17 @@ All repo-relative; defaults under `vibe/`. Commit the folder — it is the proje
 | `env_files` | files the secret guard allows real values in (gitignored). `.env.example` is never exempt |
 | `allowed_licenses` | SB-04; anything else is a `DEC-*` |
 | `allow_real_data` | `false` below `mvp` (SB-05) |
-| `dangerous_commands` | extra Python regexes blocked by `guard_vibe_bash` — put the production deploy here. YAML double-quoted: escape backslashes (`"fly\\s+deploy"`) |
-| `protected_paths` | globs `guard_vibe_paths` never lets the AI write |
+| `dangerous_commands` | extra Python regexes blocked by `guard-vibe-bash` — put the production deploy here. YAML double-quoted: escape backslashes (`"fly\\s+deploy"`) |
+| `protected_paths` | globs `guard-vibe-paths` never lets the AI write |
 
 ### `debt`
 | Field | Default | Notes |
 |---|---|---|
 | `paydown_every_n_slices` | 5 | DL-05; the counter is computed from git |
-| `block_graduation_on_due` | true | DL-04; `/vibe_profile_check` flags `false` as High |
+| `block_graduation_on_due` | true | DL-04; `/vibe-profile-check` flags `false` as High |
 
 ### `release`
-Free text: `environments`, `deploy`, `rollback`, `monitoring`, `backups`. `/vibe_ship` quotes
+Free text: `environments`, `deploy`, `rollback`, `monitoring`, `backups`. `/vibe-ship` quotes
 `deploy` and `rollback` verbatim to the human. From `mvp`, `rollback` must describe something
 that works for the current release (SH-02 #5).
 
@@ -143,7 +143,7 @@ that works for the current release (SH-02 #5).
 |---|---|
 | `agent_model` | `opus` by default — see README "Model policy" |
 | `intended_effort` | recorded, not enforced; set it in your session |
-| `agent_model_overrides` | per-agent, e.g. `{ vibe_verifier: sonnet }` |
+| `agent_model_overrides` | per-agent, e.g. `{ vibe-verifier: sonnet }` |
 
 ### `language`
 | Field | Notes |

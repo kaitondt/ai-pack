@@ -11,63 +11,63 @@ and the refinement loop that the whole pack is built to support.
 
 | Command | Reads | Writes | Agent |
 |---|---|---|---|
-| `/sdlc_init` | the repository | `sdlc.profile.yaml`, `CLAUDE.md`, directory scaffold, registers | — |
-| `/sdlc_profile_check` | profile | nothing (report only) | — |
-| `/sdlc_template_register` | the client's own forms | `templates.registry`, the field map, the template-gap report | — |
+| `/sdlc-init` | the repository | `sdlc.profile.yaml`, `CLAUDE.md`, directory scaffold, registers | — |
+| `/sdlc-profile-check` | profile | nothing (report only) | — |
+| `/sdlc-template-register` | the client's own forms | `templates.registry`, the field map, the template-gap report | — |
 
 ### Execute — produce artifacts
 
 | Command | Reads | Writes | Agent |
 |---|---|---|---|
-| `/sdlc_discover` | the organisation, existing material | scope, `BR-*`, glossary, decision/assumption/risk logs | `sdlc_analyst` |
-| `/sdlc_generate_requirements` | P0 artifacts | SRS: `REQ-*`, `NFR-*`, use cases, acceptance criteria | `sdlc_analyst` |
-| `/sdlc_generate_basic_design` | SRS | design deliverables per category | `sdlc_bd_orchestrator` → `sdlc_bd_designer` |
-| `/sdlc_generate_mockup` | screen design | prototypes / artboards / Figma check, X-11 results | `sdlc_mockup_designer` |
-| `/sdlc_generate_detail_design` | design docs, code | DD documents, drift reports | `sdlc_dd_designer` |
-| `/sdlc_scaffold_codebase` | architecture §2 §3 §5 §6 §9, the profile's stack | the codebase skeleton, the skeleton record, real `system.build` commands | — |
-| `/sdlc_implement_feature` | design docs | code | `sdlc_implementer` |
-| `/sdlc_generate_infra` | the profile's platform fields, the repository | pipeline definition, IaC, environment matrix, NFR monitors — or proposals when another team owns them | `sdlc_infra_engineer` |
-| `/sdlc_generate_test <level>` | the level's basis document | UT / IT / ST / UAT case documents | `sdlc_tester` |
-| `/sdlc_generate_testscript` | reviewed manual cases, the automation repo | automated scripts | `sdlc_test_automator` |
-| `/sdlc_uat_prepare` | ST results, SRS acceptance criteria | UAT plan, readiness record | `sdlc_uat_coordinator` |
-| `/sdlc_maintain_fix` | an approved investigation | code, documents, regression test | `sdlc_maintenance_engineer` |
-| `/sdlc_cr_design` | an approved CR option | design deliverables, traceability rows | `sdlc_cr_engineer` |
-| `/sdlc_cr_implement` | the updated design documents | code, test cases | `sdlc_cr_engineer` |
-| `/sdlc_translate` | a deliverable | its counterpart in the other language | — |
-| `/sdlc_test_lifecycle` | test artifacts between rounds | history, carried results, condensed tables | — |
+| `/sdlc-discover` | the organisation, existing material | scope, `BR-*`, glossary, decision/assumption/risk logs | `sdlc-analyst` |
+| `/sdlc-generate-requirements` | P0 artifacts | SRS: `REQ-*`, `NFR-*`, use cases, acceptance criteria | `sdlc-analyst` |
+| `/sdlc-generate-basic-design` | SRS | design deliverables per category | `sdlc-bd-orchestrator` → `sdlc-bd-designer` |
+| `/sdlc-generate-mockup` | screen design | prototypes / artboards / Figma check, X-11 results | `sdlc-mockup-designer` |
+| `/sdlc-generate-detail-design` | design docs, code | DD documents, drift reports | `sdlc-dd-designer` |
+| `/sdlc-scaffold-codebase` | architecture §2 §3 §5 §6 §9, the profile's stack | the codebase skeleton, the skeleton record, real `system.build` commands | — |
+| `/sdlc-implement-feature` | design docs | code | `sdlc-implementer` |
+| `/sdlc-generate-infra` | the profile's platform fields, the repository | pipeline definition, IaC, environment matrix, NFR monitors — or proposals when another team owns them | `sdlc-infra-engineer` |
+| `/sdlc-generate-test <level>` | the level's basis document | UT / IT / ST / UAT case documents | `sdlc-tester` |
+| `/sdlc-generate-testscript` | reviewed manual cases, the automation repo | automated scripts | `sdlc-test-automator` |
+| `/sdlc-uat-prepare` | ST results, SRS acceptance criteria | UAT plan, readiness record | `sdlc-uat-coordinator` |
+| `/sdlc-maintain-fix` | an approved investigation | code, documents, regression test | `sdlc-maintenance-engineer` |
+| `/sdlc-cr-design` | an approved CR option | design deliverables, traceability rows | `sdlc-cr-engineer` |
+| `/sdlc-cr-implement` | the updated design documents | code, test cases | `sdlc-cr-engineer` |
+| `/sdlc-translate` | a deliverable | its counterpart in the other language | — |
+| `/sdlc-test-lifecycle` | test artifacts between rounds | history, carried results, condensed tables | — |
 
 ### Verify — read-only, produce findings
 
 | Command | Reads | Writes | Agent |
 |---|---|---|---|
-| `/sdlc_review_design` | deliverables, the SRS | review reports | `sdlc_reviewer` |
-| `/sdlc_review_commit` | the diff, the design | commit review report | `sdlc_reviewer` |
-| `/sdlc_review_testcase` | test cases, the level's basis | edited file / review report | `sdlc_reviewer` |
-| `/sdlc_verify_build` | the repository | build report | — |
-| `/sdlc_trace_check` | register + artifacts on disk | orphan, coverage and gate report | — |
-| `/sdlc_quality_report` | reviews, defect register, test results | metrics report | — |
-| `/sdlc_triage_defects` | a test run's results and evidence | triage report | `sdlc_defect_triager` |
-| `/sdlc_trace_bug` | one defect: baselines, register, docs, code, git history, cases, results | traceability dossier + register row, no other edits | — |
-| `/sdlc_uat_triage` | a client report, docs, code | classification and proposal, no edits | `sdlc_uat_coordinator` |
-| `/sdlc_maintain_intake` | an incident, logs, docs, code | root cause and proposal, no edits | `sdlc_maintenance_engineer` |
-| `/sdlc_cr_analyze` | a change request, docs, code | impact matrix and options, no edits | `sdlc_cr_engineer` |
-| `/sdlc_release_check` | the release package, ST/UAT results | go/no-go record | — |
+| `/sdlc-review-design` | deliverables, the SRS | review reports | `sdlc-reviewer` |
+| `/sdlc-review-commit` | the diff, the design | commit review report | `sdlc-reviewer` |
+| `/sdlc-review-testcase` | test cases, the level's basis | edited file / review report | `sdlc-reviewer` |
+| `/sdlc-verify-build` | the repository | build report | — |
+| `/sdlc-trace-check` | register + artifacts on disk | orphan, coverage and gate report | — |
+| `/sdlc-quality-report` | reviews, defect register, test results | metrics report | — |
+| `/sdlc-triage-defects` | a test run's results and evidence | triage report | `sdlc-defect-triager` |
+| `/sdlc-trace-bug` | one defect: baselines, register, docs, code, git history, cases, results | traceability dossier + register row, no other edits | — |
+| `/sdlc-uat-triage` | a client report, docs, code | classification and proposal, no edits | `sdlc-uat-coordinator` |
+| `/sdlc-maintain-intake` | an incident, logs, docs, code | root cause and proposal, no edits | `sdlc-maintenance-engineer` |
+| `/sdlc-cr-analyze` | a change request, docs, code | impact matrix and options, no edits | `sdlc-cr-engineer` |
+| `/sdlc-release-check` | the release package, ST/UAT results | go/no-go record | — |
 
 ### Decide and record
 
 | Command | Purpose |
 |---|---|
-| `/sdlc_phase_gate` | evaluate entry/exit criteria, baseline the documents, record the decision |
-| `/sdlc_uat_report` | UAT status, and the acceptance record |
-| `/sdlc_maintain_report` | the incident report and its knowledge-base entry |
-| `/sdlc_cr_report` | the change-request report, with actual effort against the estimate |
+| `/sdlc-phase-gate` | evaluate entry/exit criteria, baseline the documents, record the decision |
+| `/sdlc-uat-report` | UAT status, and the acceptance record |
+| `/sdlc-maintain-report` | the incident report and its knowledge-base entry |
+| `/sdlc-cr-report` | the change-request report, with actual effort against the estimate |
 
 ### Support
 
 | Command | Purpose |
 |---|---|
-| `/sdlc_context_map` | plan a change across layers before implementing it |
-| `/sdlc_refine_skill` | feed review findings and RCA conclusions back into the skills and rules |
+| `/sdlc-context-map` | plan a change across layers before implementing it |
+| `/sdlc-refine-skill` | feed review findings and RCA conclusions back into the skills and rules |
 
 ---
 
@@ -77,49 +77,49 @@ An arrow means "must have run, and its gate must have passed".
 
 ```mermaid
 flowchart TD
-  INIT["/sdlc_init"] --> TR["/sdlc_template_register"]
-  INIT --> PC["/sdlc_profile_check"]
+  INIT["/sdlc-init"] --> TR["/sdlc-template-register"]
+  INIT --> PC["/sdlc-profile-check"]
   TR --> PC
-  PC --> P0["/sdlc_discover"]
-  P0 --> P1["/sdlc_generate_requirements"]
-  P1 --> P2["/sdlc_generate_basic_design"]
-  P2 --> MU["/sdlc_generate_mockup"]
-  P2 --> RD["/sdlc_review_design"]
+  PC --> P0["/sdlc-discover"]
+  P0 --> P1["/sdlc-generate-requirements"]
+  P1 --> P2["/sdlc-generate-basic-design"]
+  P2 --> MU["/sdlc-generate-mockup"]
+  P2 --> RD["/sdlc-review-design"]
   MU --> RD
-  RD --> P3["/sdlc_generate_detail_design"]
-  P3 --> P4["/sdlc_implement_feature"]
-  P4 --> VB["/sdlc_verify_build"]
-  P4 --> RC["/sdlc_review_commit"]
-  P4 --> P5["/sdlc_generate_test ut"]
-  P5 --> P6["/sdlc_generate_test it"]
-  P6 --> P7["/sdlc_generate_test st"]
-  P7 --> P8["/sdlc_uat_prepare"]
-  P8 --> UT2["/sdlc_uat_triage"]
-  UT2 --> UR["/sdlc_uat_report"]
-  UR --> REL["/sdlc_release_check"]
-  REL --> P9["/sdlc_maintain_intake"]
-  P9 --> MF["/sdlc_maintain_fix"]
-  MF --> MR["/sdlc_maintain_report"]
-  CRA["/sdlc_cr_analyze"] --> CRD["/sdlc_cr_design"]
-  CRD --> CRI["/sdlc_cr_implement"]
-  CRI --> CRR["/sdlc_cr_report"]
+  RD --> P3["/sdlc-generate-detail-design"]
+  P3 --> P4["/sdlc-implement-feature"]
+  P4 --> VB["/sdlc-verify-build"]
+  P4 --> RC["/sdlc-review-commit"]
+  P4 --> P5["/sdlc-generate-test ut"]
+  P5 --> P6["/sdlc-generate-test it"]
+  P6 --> P7["/sdlc-generate-test st"]
+  P7 --> P8["/sdlc-uat-prepare"]
+  P8 --> UT2["/sdlc-uat-triage"]
+  UT2 --> UR["/sdlc-uat-report"]
+  UR --> REL["/sdlc-release-check"]
+  REL --> P9["/sdlc-maintain-intake"]
+  P9 --> MF["/sdlc-maintain-fix"]
+  MF --> MR["/sdlc-maintain-report"]
+  CRA["/sdlc-cr-analyze"] --> CRD["/sdlc-cr-design"]
+  CRD --> CRI["/sdlc-cr-implement"]
+  CRI --> CRR["/sdlc-cr-report"]
   P1 -.-> CRA
-  GATE["/sdlc_phase_gate"] -.-> P1
+  GATE["/sdlc-phase-gate"] -.-> P1
   GATE -.-> P2
   GATE -.-> P7
   GATE -.-> P8
-  TC["/sdlc_trace_check"] -.-> GATE
-  QR["/sdlc_quality_report"] -.-> GATE
-  CM["/sdlc_context_map"] -.-> P4
-  P2 --> SK["/sdlc_scaffold_codebase"]
+  TC["/sdlc-trace-check"] -.-> GATE
+  QR["/sdlc-quality-report"] -.-> GATE
+  CM["/sdlc-context-map"] -.-> P4
+  P2 --> SK["/sdlc-scaffold-codebase"]
   SK --> P4
   SK -.-> INF
-  INF["/sdlc_generate_infra"] -.-> P4
+  INF["/sdlc-generate-infra"] -.-> P4
   INF -.-> P7
   TR -.-> P2
-  RD -.-> RS["/sdlc_refine_skill"]
+  RD -.-> RS["/sdlc-refine-skill"]
   MR -.-> RS
-  MR -.-> TB["/sdlc_trace_bug"]
+  MR -.-> TB["/sdlc-trace-bug"]
   UR -.-> TB
   TB -.-> RS
   TB -.-> QR
@@ -127,30 +127,30 @@ flowchart TD
 
 Solid = phase sequence. Dotted = called at any point.
 
-**`/sdlc_phase_gate` is where a phase actually ends.** It consumes `/sdlc_trace_check` and
-`/sdlc_quality_report`, records the decision, and baselines the documents it covers. A
+**`/sdlc-phase-gate` is where a phase actually ends.** It consumes `/sdlc-trace-check` and
+`/sdlc-quality-report`, records the decision, and baselines the documents it covers. A
 phase declared complete without it has no record of what was approved.
 
-The `/sdlc_cr_*` chain hangs off the graph rather than sitting in it: a change to a
+The `/sdlc-cr-*` chain hangs off the graph rather than sitting in it: a change to a
 baselined artifact can arrive any time from P1 onward and re-opens the phases it touches.
 Its two non-negotiable arrows are internal — analyse before design, design before code (C4).
 
-**`/sdlc_template_register` is dotted into P2 rather than solid, and that is the one dotted
+**`/sdlc-template-register` is dotted into P2 rather than solid, and that is the one dotted
 arrow worth treating as solid.** It can be run at any time; it should be run before the first
 category is generated. A category produced into the pack's own skeleton when the client
 expected their form is re-work across every file in it, and the run that did it succeeded —
 the plan's template line was the only warning.
 
-**`/sdlc_generate_mockup` sits inside P2**, not after it. The mockup is reviewed with the
+**`/sdlc-generate-mockup` sits inside P2**, not after it. The mockup is reviewed with the
 screen design, and X-11 is a P2 gate item; running it later means the client approved a
 screen design nobody had seen drawn.
 
-**`/sdlc_scaffold_codebase` runs once, between the architecture and the first module.** It
+**`/sdlc-scaffold-codebase` runs once, between the architecture and the first module.** It
 needs only the architecture document, not the whole of P2, so it usually runs while the
-other categories are still being designed. It feeds `/sdlc_generate_infra` because the
+other categories are still being designed. It feeds `/sdlc-generate-infra` because the
 pipeline needs the build commands the skeleton makes real.
 
-**`/sdlc_generate_infra` is dotted into P4 and P7** for two different reasons. P4 because the
+**`/sdlc-generate-infra` is dotted into P4 and P7** for two different reasons. P4 because the
 pipeline asserts that phase's machine-checkable exit criteria (IN-03). P7 because system test
 needs somewhere production-like to run, and discovering at P7 that nothing can deploy there
 is discovering it a phase too late — which is why the environment reconciliation (X-12)
@@ -161,22 +161,22 @@ belongs at P2, with the architecture.
 ## 3. The V-model, expressed as commands
 
 The left side produces a specification; the right side proves it. The pairing determines
-which basis document each `/sdlc_generate_test` run reads:
+which basis document each `/sdlc-generate-test` run reads:
 
 ```
-/sdlc_discover              ←──────────────────────────→  /sdlc_uat_prepare
-  /sdlc_generate_requirements  ←────────────────────→  /sdlc_generate_test st
-    /sdlc_generate_basic_design  ←──────────────→  /sdlc_generate_test it
-      /sdlc_generate_detail_design  ←────────→  /sdlc_generate_test ut
-        /sdlc_implement_feature  ─────────
+/sdlc-discover              ←──────────────────────────→  /sdlc-uat-prepare
+  /sdlc-generate-requirements  ←────────────────────→  /sdlc-generate-test st
+    /sdlc-generate-basic-design  ←──────────────→  /sdlc-generate-test it
+      /sdlc-generate-detail-design  ←────────→  /sdlc-generate-test ut
+        /sdlc-implement-feature  ─────────
 ```
 
 Practical consequences:
 
-- Run `/sdlc_generate_test st` against the **SRS**, not against the screens. A system test
+- Run `/sdlc-generate-test st` against the **SRS**, not against the screens. A system test
   derived from screens is an integration suite that runs late and expensively.
 - Draft cases early, finalise them against the baselined document, and re-check them when a
-  CR changes it. `/sdlc_generate_test` marks its output provisional when the basis is not
+  CR changes it. `/sdlc-generate-test` marks its output provisional when the basis is not
   yet baselined.
 - If no case can be written at a level, the specification at that level is not finished.
   That is a gate failure on the **left** side, not a testing problem on the right.
@@ -192,16 +192,16 @@ back most on the generation phases where one skill produces dozens of artifacts.
    ┌──────────────────────────────────────────────────────────┐
    │                                                          │
    ▼                                                          │
-1. EXECUTE          /sdlc_generate_*        session A         │
+1. EXECUTE          /sdlc-generate-*        session A         │
    │                                                          │
    ▼                                                          │
-2. REVIEW           /sdlc_review_design     session B  ← fresh│
+2. REVIEW           /sdlc-review-design     session B  ← fresh│
    │                 different agent, no shared context       │
    ▼                                                          │
-3. REFINE           /sdlc_refine_skill      session C         │
+3. REFINE           /sdlc-refine-skill      session C         │
    │                 findings → the skill, not just the file  │
    ▼                                                          │
-4. RE-EXECUTE       /sdlc_generate_*        session D  ← fresh│
+4. RE-EXECUTE       /sdlc-generate-*        session D  ← fresh│
    │                                                          │
    └──────────────────────────────────────────────────────────┘
         stop when: 0 Critical AND 0 skill defects this round
@@ -221,7 +221,7 @@ Consequences worth respecting:
 
 - do not paste the generator's explanation into the review session;
 - do not tell the reviewer what the generator intended;
-- `sdlc_reviewer` has `tools: Read, Grep, Glob` — read-only by construction, so it cannot
+- `sdlc-reviewer` has `tools: Read, Grep, Glob` — read-only by construction, so it cannot
   quietly "fix" what it should be reporting.
 
 ### Why step 3 is the one that compounds
@@ -229,7 +229,7 @@ Consequences worth respecting:
 Fixing 46 documents by hand costs 46 units and buys nothing for document 47. Fixing the rule
 that produced the defect costs one unit and buys every future document.
 
-`/sdlc_refine_skill` classifies each finding before touching anything:
+`/sdlc-refine-skill` classifies each finding before touching anything:
 
 | Finding appears | Diagnosis | Fix |
 |---|---|---|
@@ -248,8 +248,8 @@ the finding stops appearing, the defect stays, and the pack now certifies it.
 ### The loop's second input: escaped defects
 
 An escaped defect is the same signal as a repeated review finding, arriving later and at
-higher cost. Every RCA answers "why was it not caught?" (`sdlc_maintenance`), and that
-answer goes into the same classification table. `/sdlc_trace_bug` is how that answer gets
+higher cost. Every RCA answers "why was it not caught?" (`sdlc-maintenance`), and that
+answer goes into the same classification table. `/sdlc-trace-bug` is how that answer gets
 evidence instead of an opinion: an escape statement, and one miss code per check the defect
 passed. A project that runs the loop only on review
 findings learns from its documents; one that also runs it on escapes learns from production.
@@ -297,7 +297,7 @@ question.
 Every skill change invalidates the artifacts generated under the old rule. They were correct
 against a rule that no longer exists.
 
-`/sdlc_refine_skill` records this in `{{profile.paths.reviews}}/skill-changes.md`, with the
+`/sdlc-refine-skill` records this in `{{profile.paths.reviews}}/skill-changes.md`, with the
 list of affected artifacts. Re-review them — or knowingly accept them, and write down that
 you did. What must not happen is the third state: nobody remembers the rule changed.
 
@@ -309,16 +309,16 @@ The pattern is the same; what differs is the review command and the convergence 
 
 | Phase | Execute | Review | Converged when |
 |---|---|---|---|
-| P0 | `/sdlc_discover` | client review of scope + `/sdlc_trace_check` | every `BR-*` has an owner, a priority and a source |
-| P1 | `/sdlc_generate_requirements` | `/sdlc_review_design` (families C, RQ) | R-01..R-08 pass; no TBD; every REQ testable |
-| P2 | `/sdlc_generate_basic_design` | `/sdlc_review_design` | 0 Critical; X-01..X-10 pass |
-| P3 | `/sdlc_generate_detail_design` | `/sdlc_review_design` + the drift report | 0 unresolved drift items; DDs are testable |
-| P4 | `/sdlc_implement_feature` | `/sdlc_review_commit` + `/sdlc_verify_build` | build clean; 0 Critical; no unrequested behaviour |
-| P5/P6 | `/sdlc_generate_test ut\|it` | `/sdlc_review_testcase` + coverage T-01..T-04 | every rule and flow covered, every viewpoint present |
-| P7 | `/sdlc_generate_test st` | execution + `/sdlc_triage_defects` | every REQ and NFR executed and measured; curve flattened |
-| P8 | `/sdlc_uat_prepare` | the client's own execution | every scenario has a verdict; acceptance recorded |
-| P9 | `/sdlc_maintain_fix` | `/sdlc_maintain_intake` re-run on the symptom | symptom gone; regression test passes; preventive action owned |
-| CR | `/sdlc_cr_design` → `/sdlc_cr_implement` | `/sdlc_review_design` on the changed documents | 0 Critical; every required matrix row done or deferred |
+| P0 | `/sdlc-discover` | client review of scope + `/sdlc-trace-check` | every `BR-*` has an owner, a priority and a source |
+| P1 | `/sdlc-generate-requirements` | `/sdlc-review-design` (families C, RQ) | R-01..R-08 pass; no TBD; every REQ testable |
+| P2 | `/sdlc-generate-basic-design` | `/sdlc-review-design` | 0 Critical; X-01..X-10 pass |
+| P3 | `/sdlc-generate-detail-design` | `/sdlc-review-design` + the drift report | 0 unresolved drift items; DDs are testable |
+| P4 | `/sdlc-implement-feature` | `/sdlc-review-commit` + `/sdlc-verify-build` | build clean; 0 Critical; no unrequested behaviour |
+| P5/P6 | `/sdlc-generate-test ut\|it` | `/sdlc-review-testcase` + coverage T-01..T-04 | every rule and flow covered, every viewpoint present |
+| P7 | `/sdlc-generate-test st` | execution + `/sdlc-triage-defects` | every REQ and NFR executed and measured; curve flattened |
+| P8 | `/sdlc-uat-prepare` | the client's own execution | every scenario has a verdict; acceptance recorded |
+| P9 | `/sdlc-maintain-fix` | `/sdlc-maintain-intake` re-run on the symptom | symptom gone; regression test passes; preventive action owned |
+| CR | `/sdlc-cr-design` → `/sdlc-cr-implement` | `/sdlc-review-design` on the changed documents | 0 Critical; every required matrix row done or deferred |
 
 At P4 the loop has a second, cheaper inner cycle: the hooks. A rule enforced by a hook never
 reaches the review, because the violation was blocked at the edit. That is the end state for
@@ -349,26 +349,26 @@ stated precisely enough to be acted on by someone with no context.
 P2 on a real project, from nothing to a passed gate:
 
 ```
-/sdlc_profile_check                            verify the pack is configured
-/sdlc_generate_basic_design architecture       decisions everything else depends on
-/sdlc_generate_basic_design nfr                the measurements P7 will need
-/sdlc_generate_basic_design screen SL0030PG    pilot: one simple, one complex module
+/sdlc-profile-check                            verify the pack is configured
+/sdlc-generate-basic-design architecture       decisions everything else depends on
+/sdlc-generate-basic-design nfr                the measurements P7 will need
+/sdlc-generate-basic-design screen SL0030PG    pilot: one simple, one complex module
         ↓  new session
-/sdlc_review_design SL0030PG                   read-only agent, no shared context
+/sdlc-review-design SL0030PG                   read-only agent, no shared context
         ↓  new session
-/sdlc_refine_skill docs/reviews/...            classify: artifact / skill / hook / checklist
+/sdlc-refine-skill docs/reviews/...            classify: artifact / skill / hook / checklist
         ↓  new session
-/sdlc_generate_basic_design screen SL0030PG    regenerate under the changed rule
+/sdlc-generate-basic-design screen SL0030PG    regenerate under the changed rule
         ↓
    repeat until 0 Critical and 0 skill defects      (bound: 3 rounds)
         ↓
-/sdlc_generate_basic_design screen             full category, converged skill
+/sdlc-generate-basic-design screen             full category, converged skill
         ↓
-/sdlc_review_design screen                     sample, not exhaustive
-/sdlc_trace_check P2                           orphans + coverage
-/sdlc_quality_report P2                        density, and what it predicts for P3
-/sdlc_phase_gate P2 exit                       decision recorded, documents baselined
+/sdlc-review-design screen                     sample, not exhaustive
+/sdlc-trace-check P2                           orphans + coverage
+/sdlc-quality-report P2                        density, and what it predicts for P3
+/sdlc-phase-gate P2 exit                       decision recorded, documents baselined
 ```
 
-From the gate onward those documents change only through `/sdlc_cr_*`. That is the point of
+From the gate onward those documents change only through `/sdlc-cr-*`. That is the point of
 the gate, and it is worth saying out loud to the team on the day it passes.

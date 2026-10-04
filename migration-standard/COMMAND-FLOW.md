@@ -11,52 +11,52 @@ what, and the refinement loop that the whole pack is built to support.
 
 | Command | Reads | Writes | Agent |
 |---|---|---|---|
-| `/mig_init` | the repository | `migration.profile.yaml`, `CLAUDE.md`, directory scaffold, traceability header | — |
-| `/mig_profile_check` | profile | nothing (report only) | — |
-| `/mig_template_register` | the client's own forms | `templates.registry`, the field map, the template-gap report | — |
+| `/mig-init` | the repository | `migration.profile.yaml`, `CLAUDE.md`, directory scaffold, traceability header | — |
+| `/mig-profile-check` | profile | nothing (report only) | — |
+| `/mig-template-register` | the client's own forms | `templates.registry`, the field map, the template-gap report | — |
 
 ### Execute — produce artifacts
 
 | Command | Reads | Writes | Agent |
 |---|---|---|---|
-| `/mig_analyze_legacy` | legacy source | `legacy-inventory.md`, `requirement.md`, `LEG-*` rows | `mig_legacy_analyst` |
-| `/mig_generate_requirements` | P0 output, legacy source | BRD, TSD, FRD, `REQ-*` rows | `mig_requirements_writer` |
-| `/mig_generate_basic_design` | FRD, legacy source | design deliverables per category | `mig_bd_orchestrator` → `mig_bd_designer` |
-| `/mig_generate_mockup` | screen design, legacy UI source and captures | prototypes / artboards / Figma check, X-09 and X-10 results | `mig_mockup_designer` |
-| `/mig_generate_detail_design` | design docs, target code, legacy | DD documents, GAP reports | `mig_dd_designer` |
-| `/mig_scaffold_codebase` | TSD §1 §2 §4 §5 §6 §9, the profile's target stack | the target codebase skeleton, the skeleton record, real `target.build` commands | — |
-| `/mig_implement_feature` | design docs, legacy source | target code | `mig_implementer` |
-| `/mig_generate_infra` | the profile's platform fields, the repository | pipeline, IaC, environment matrix, coexistence and cutover plans — or proposals when another team owns them | `mig_infra_engineer` |
-| `/mig_generate_test` | FC, SC, API docs, legacy | UT / IT documents | `mig_tester` |
-| `/mig_generate_testscript` | reviewed manual cases, the automation repo | automated scripts | `mig_test_automator` |
-| `/mig_uat_fix` | approved investigation | code, documents, regression test | `mig_uat_engineer` |
-| `/mig_cr_design` | an approved CR option | design deliverables, traceability rows | `mig_cr_engineer` |
-| `/mig_cr_implement` | the updated design documents | code, test cases | `mig_cr_engineer` |
-| `/mig_translate` | a deliverable | its counterpart in the other language | — |
+| `/mig-analyze-legacy` | legacy source | `legacy-inventory.md`, `requirement.md`, `LEG-*` rows | `mig-legacy-analyst` |
+| `/mig-generate-requirements` | P0 output, legacy source | BRD, TSD, FRD, `REQ-*` rows | `mig-requirements-writer` |
+| `/mig-generate-basic-design` | FRD, legacy source | design deliverables per category | `mig-bd-orchestrator` → `mig-bd-designer` |
+| `/mig-generate-mockup` | screen design, legacy UI source and captures | prototypes / artboards / Figma check, X-09 and X-10 results | `mig-mockup-designer` |
+| `/mig-generate-detail-design` | design docs, target code, legacy | DD documents, GAP reports | `mig-dd-designer` |
+| `/mig-scaffold-codebase` | TSD §1 §2 §4 §5 §6 §9, the profile's target stack | the target codebase skeleton, the skeleton record, real `target.build` commands | — |
+| `/mig-implement-feature` | design docs, legacy source | target code | `mig-implementer` |
+| `/mig-generate-infra` | the profile's platform fields, the repository | pipeline, IaC, environment matrix, coexistence and cutover plans — or proposals when another team owns them | `mig-infra-engineer` |
+| `/mig-generate-test` | FC, SC, API docs, legacy | UT / IT documents | `mig-tester` |
+| `/mig-generate-testscript` | reviewed manual cases, the automation repo | automated scripts | `mig-test-automator` |
+| `/mig-uat-fix` | approved investigation | code, documents, regression test | `mig-uat-engineer` |
+| `/mig-cr-design` | an approved CR option | design deliverables, traceability rows | `mig-cr-engineer` |
+| `/mig-cr-implement` | the updated design documents | code, test cases | `mig-cr-engineer` |
+| `/mig-translate` | a deliverable | its counterpart in the other language | — |
 
 ### Verify — read-only, produce findings
 
 | Command | Reads | Writes | Agent |
 |---|---|---|---|
-| `/mig_review_design` | deliverables, legacy source | review reports | `mig_reviewer` |
-| `/mig_review_commit` | the diff | commit review report | `mig_reviewer` |
-| `/mig_verify_build` | the repository | build report | — |
-| `/mig_trace_check` | register + artifacts on disk | orphan and gate report | — |
-| `/mig_uat_investigate` | code, docs, legacy | conclusion, no edits | `mig_uat_engineer` |
-| `/mig_review_testcase` | test cases, design, legacy, mockups | edited file / review report | `mig_reviewer` |
-| `/mig_triage_failures` | a test run's results and evidence | triage report | `mig_defect_triager` |
-| `/mig_trace_bug` | one bug: legacy, register, docs, code, git history, cases, results | traceability dossier + register row, no other edits | — |
-| `/mig_cr_analyze` | a change request, code, docs, legacy | impact matrix and options, no edits | `mig_cr_engineer` |
+| `/mig-review-design` | deliverables, legacy source | review reports | `mig-reviewer` |
+| `/mig-review-commit` | the diff | commit review report | `mig-reviewer` |
+| `/mig-verify-build` | the repository | build report | — |
+| `/mig-trace-check` | register + artifacts on disk | orphan and gate report | — |
+| `/mig-uat-investigate` | code, docs, legacy | conclusion, no edits | `mig-uat-engineer` |
+| `/mig-review-testcase` | test cases, design, legacy, mockups | edited file / review report | `mig-reviewer` |
+| `/mig-triage-failures` | a test run's results and evidence | triage report | `mig-defect-triager` |
+| `/mig-trace-bug` | one bug: legacy, register, docs, code, git history, cases, results | traceability dossier + register row, no other edits | — |
+| `/mig-cr-analyze` | a change request, code, docs, legacy | impact matrix and options, no edits | `mig-cr-engineer` |
 
 ### Support
 
 | Command | Purpose |
 |---|---|
-| `/mig_context_map` | plan a change across layers before implementing it |
-| `/mig_refine_skill` | feed review findings back into the skills and rules |
-| `/mig_uat_report` | write the bug report after a fix |
-| `/mig_cr_report` | write the change-request report after implementation |
-| `/mig_test_lifecycle` | version history, result carry-over, condensing, evidence, between rounds |
+| `/mig-context-map` | plan a change across layers before implementing it |
+| `/mig-refine-skill` | feed review findings back into the skills and rules |
+| `/mig-uat-report` | write the bug report after a fix |
+| `/mig-cr-report` | write the change-request report after implementation |
+| `/mig-test-lifecycle` | version history, result carry-over, condensing, evidence, between rounds |
 
 ---
 
@@ -66,77 +66,77 @@ An arrow means "must have run, and its gate must have passed".
 
 ```mermaid
 flowchart TD
-  INIT["/mig_init"] --> TR["/mig_template_register"]
-  INIT --> PC["/mig_profile_check"]
+  INIT["/mig-init"] --> TR["/mig-template-register"]
+  INIT --> PC["/mig-profile-check"]
   TR --> PC
-  PC --> P0["/mig_analyze_legacy"]
-  P0 --> P1["/mig_generate_requirements"]
-  P1 --> P2["/mig_generate_basic_design"]
-  P2 --> MU["/mig_generate_mockup"]
-  P2 --> RD["/mig_review_design"]
+  PC --> P0["/mig-analyze-legacy"]
+  P0 --> P1["/mig-generate-requirements"]
+  P1 --> P2["/mig-generate-basic-design"]
+  P2 --> MU["/mig-generate-mockup"]
+  P2 --> RD["/mig-review-design"]
   MU --> RD
-  RD --> P3["/mig_generate_detail_design"]
-  P3 --> P4["/mig_implement_feature"]
-  P4 --> VB["/mig_verify_build"]
-  P4 --> RC["/mig_review_commit"]
-  P4 --> P5["/mig_generate_test"]
-  P5 --> P7["/mig_uat_investigate"]
-  P7 --> UF["/mig_uat_fix"]
-  UF --> UR["/mig_uat_report"]
-  CRA["/mig_cr_analyze"] --> CRD["/mig_cr_design"]
-  CRD --> CRI["/mig_cr_implement"]
-  CRI --> CRR["/mig_cr_report"]
+  RD --> P3["/mig-generate-detail-design"]
+  P3 --> P4["/mig-implement-feature"]
+  P4 --> VB["/mig-verify-build"]
+  P4 --> RC["/mig-review-commit"]
+  P4 --> P5["/mig-generate-test"]
+  P5 --> P7["/mig-uat-investigate"]
+  P7 --> UF["/mig-uat-fix"]
+  UF --> UR["/mig-uat-report"]
+  CRA["/mig-cr-analyze"] --> CRD["/mig-cr-design"]
+  CRD --> CRI["/mig-cr-implement"]
+  CRI --> CRR["/mig-cr-report"]
   P2 -.-> CRA
-  CM["/mig_context_map"] -.-> P4
-  P1 --> SK["/mig_scaffold_codebase"]
+  CM["/mig-context-map"] -.-> P4
+  P1 --> SK["/mig-scaffold-codebase"]
   SK --> P4
   SK -.-> INF
-  INF["/mig_generate_infra"] -.-> P4
+  INF["/mig-generate-infra"] -.-> P4
   INF -.-> P7
   TR -.-> P2
-  RD -.-> RS["/mig_refine_skill"]
+  RD -.-> RS["/mig-refine-skill"]
   RC -.-> RS
-  TC["/mig_trace_check"] -.-> P2
+  TC["/mig-trace-check"] -.-> P2
   TC -.-> P3
   TC -.-> P4
-  UR -.-> TB["/mig_trace_bug"]
+  UR -.-> TB["/mig-trace-bug"]
   TB -.-> RS
 ```
 
 Solid = phase sequence. Dotted = called at any point.
 
-**`/mig_trace_check` is the gate check for every phase**, not a phase of its own. Run it
+**`/mig-trace-check` is the gate check for every phase**, not a phase of its own. Run it
 before declaring anything complete.
 
-The `/mig_cr_*` chain hangs off the graph rather than sitting in it: a change request can
+The `/mig-cr-*` chain hangs off the graph rather than sitting in it: a change request can
 arrive at any point from P2 onward and re-opens the phases it touches. Its two arrows that
 are not negotiable are internal — analyse before design, design before code (C4).
 
-**`/mig_template_register` is dotted into P2, and it is the one dotted arrow to treat as
+**`/mig-template-register` is dotted into P2, and it is the one dotted arrow to treat as
 solid.** It can run at any time; it should run before the first category is generated. A
 category produced into the pack's own skeleton when the client expected their form is re-work
 across every file in it — and the run that did it *succeeded*. The plan's template line was
 the only warning.
 
-**`/mig_generate_mockup` sits inside P2**, not after it. The mockup is reviewed alongside the
+**`/mig-generate-mockup` sits inside P2**, not after it. The mockup is reviewed alongside the
 screen design, and X-09 and X-10 are P2 gate items. Run later, it means the client approved a
 screen design nobody had seen drawn — and under `fidelity: as-is` the mockup is also the
 cheapest place to catch a screen that drifted from the legacy layout.
 
-**`/mig_scaffold_codebase` runs once, between the TSD and the first module.** It needs only
+**`/mig-scaffold-codebase` runs once, between the TSD and the first module.** It needs only
 the TSD, not the basic design, so it usually runs while P2 is under way. It feeds
-`/mig_generate_infra` because the pipeline needs the build commands the skeleton makes real.
+`/mig-generate-infra` because the pipeline needs the build commands the skeleton makes real.
 
-**`/mig_generate_infra` is dotted into P4 and P7** for two different reasons. P4 because the
+**`/mig-generate-infra` is dotted into P4 and P7** for two different reasons. P4 because the
 pipeline asserts that phase's machine-checkable criteria (IN-04). P7 because UAT and the
 parallel run need somewhere production-like to execute; discovering at P7 that no such
 environment exists is discovering it far too late, which is why the environment
 reconciliation (X-11) and the coexistence design belong at P2.
 
-`/mig_trace_bug` hangs off the graph the same way: it can run on any bug, from any phase,
-and is drawn after `/mig_uat_report` only because that is where it is run most. Its escape
+`/mig-trace-bug` hangs off the graph the same way: it can run on any bug, from any phase,
+and is drawn after `/mig-uat-report` only because that is where it is run most. Its escape
 statement — which check should have caught the bug, and why it did not — is an input to
-`/mig_refine_skill` exactly like a review finding: the same signal, arriving later and at a
+`/mig-refine-skill` exactly like a review finding: the same signal, arriving later and at a
 higher price.
 
 ---
@@ -150,16 +150,16 @@ back most on the generation phases where one skill produces dozens of artifacts.
    ┌──────────────────────────────────────────────────────────┐
    │                                                          │
    ▼                                                          │
-1. EXECUTE          /mig_generate_*        session A          │
+1. EXECUTE          /mig-generate-*        session A          │
    │                                                          │
    ▼                                                          │
-2. REVIEW           /mig_review_design     session B  ← fresh │
+2. REVIEW           /mig-review-design     session B  ← fresh │
    │                 different agent, no shared context       │
    ▼                                                          │
-3. REFINE           /mig_refine_skill      session C          │
+3. REFINE           /mig-refine-skill      session C          │
    │                 findings → the skill, not just the file  │
    ▼                                                          │
-4. RE-EXECUTE       /mig_generate_*        session D  ← fresh │
+4. RE-EXECUTE       /mig-generate-*        session D  ← fresh │
    │                                                          │
    └──────────────────────────────────────────────────────────┘
         stop when: 0 Critical AND 0 skill defects this round
@@ -179,7 +179,7 @@ Consequences worth respecting:
 
 - do not paste the generator's explanation into the review session;
 - do not tell the reviewer what the generator intended;
-- `mig_reviewer` has `tools: Read, Grep, Glob` — read-only by construction, so it cannot
+- `mig-reviewer` has `tools: Read, Grep, Glob` — read-only by construction, so it cannot
   quietly "fix" what it should be reporting.
 
 ### Why step 3 is the one that compounds
@@ -187,7 +187,7 @@ Consequences worth respecting:
 Fixing 46 documents by hand costs 46 units and buys nothing for document 47. Fixing the
 rule that produced the defect costs one unit and buys every future document.
 
-`/mig_refine_skill` classifies each finding before touching anything:
+`/mig-refine-skill` classifies each finding before touching anything:
 
 | Finding appears | Diagnosis | Fix |
 |---|---|---|
@@ -245,7 +245,7 @@ wrong question.
 Every skill change invalidates the artifacts generated under the old rule. They were
 correct against a rule that no longer exists.
 
-`/mig_refine_skill` records this in `{{profile.paths.reviews}}/skill-changes.md`, with the
+`/mig-refine-skill` records this in `{{profile.paths.reviews}}/skill-changes.md`, with the
 list of affected artifacts. Re-review them — or knowingly accept them, and write down that
 you did. What must not happen is the third state: nobody remembers the rule changed.
 
@@ -257,15 +257,15 @@ The pattern is the same; what differs is the review command and the convergence 
 
 | Phase | Execute | Review | Converged when |
 |---|---|---|---|
-| P0 | `/mig_analyze_legacy` | `/mig_trace_check` + spot-read the anchors | no downward orphans; anchors resolve to real lines |
-| P1 | `/mig_generate_requirements` | `/mig_review_design` (family C) | R-01..R-06 pass; no uncited `REQ-*` |
-| P2 | `/mig_generate_basic_design` | `/mig_review_design` | 0 Critical; X-01..X-07 pass |
-| P3 | `/mig_generate_detail_design` | `/mig_review_design` + the GAP report itself | 0 unresolved GAP items |
-| P4 | `/mig_implement_feature` | `/mig_review_commit` + `/mig_verify_build` | build clean; 0 Critical |
-| P5/P6 | `/mig_generate_test` | `/mig_review_testcase` + coverage T-01..T-07 | every FC and flow covered, every viewpoint present |
-| P5/P6 | `/mig_generate_testscript` | run the suite + `/mig_triage_failures` | 0 PRODUCT-DEFECT unexplained, 0 flaky |
-| P7 | `/mig_uat_fix` | `/mig_uat_investigate` re-run on the symptom | symptom gone; regression test passes |
-| CR | `/mig_cr_design` → `/mig_cr_implement` | `/mig_review_design` on the changed documents | 0 Critical; every required matrix row done or deferred |
+| P0 | `/mig-analyze-legacy` | `/mig-trace-check` + spot-read the anchors | no downward orphans; anchors resolve to real lines |
+| P1 | `/mig-generate-requirements` | `/mig-review-design` (family C) | R-01..R-06 pass; no uncited `REQ-*` |
+| P2 | `/mig-generate-basic-design` | `/mig-review-design` | 0 Critical; X-01..X-07 pass |
+| P3 | `/mig-generate-detail-design` | `/mig-review-design` + the GAP report itself | 0 unresolved GAP items |
+| P4 | `/mig-implement-feature` | `/mig-review-commit` + `/mig-verify-build` | build clean; 0 Critical |
+| P5/P6 | `/mig-generate-test` | `/mig-review-testcase` + coverage T-01..T-07 | every FC and flow covered, every viewpoint present |
+| P5/P6 | `/mig-generate-testscript` | run the suite + `/mig-triage-failures` | 0 PRODUCT-DEFECT unexplained, 0 flaky |
+| P7 | `/mig-uat-fix` | `/mig-uat-investigate` re-run on the symptom | symptom gone; regression test passes |
+| CR | `/mig-cr-design` → `/mig-cr-implement` | `/mig-review-design` on the changed documents | 0 Critical; every required matrix row done or deferred |
 
 At P4 the loop has a second, cheaper inner cycle: the hooks. A rule enforced by a hook
 never reaches the review, because the violation was blocked at the edit. That is the end
@@ -296,21 +296,21 @@ stated precisely enough to be acted on by someone with no context.
 P2 on a real project, from nothing to a signed-off category:
 
 ```
-/mig_profile_check                          verify the pack is configured
-/mig_generate_basic_design screen KK0030PG  pilot: one simple, one complex module
+/mig-profile-check                          verify the pack is configured
+/mig-generate-basic-design screen KK0030PG  pilot: one simple, one complex module
         ↓  new session
-/mig_review_design KK0030PG                 read-only agent, no shared context
+/mig-review-design KK0030PG                 read-only agent, no shared context
         ↓  new session
-/mig_refine_skill docs/reviews/...          classify: artifact / skill / hook / checklist
+/mig-refine-skill docs/reviews/...          classify: artifact / skill / hook / checklist
         ↓  new session
-/mig_generate_basic_design screen KK0030PG  regenerate under the changed rule
+/mig-generate-basic-design screen KK0030PG  regenerate under the changed rule
         ↓
    repeat until 0 Critical and 0 skill defects   (bound: 3 rounds)
         ↓
-/mig_generate_basic_design screen           full category, converged skill
+/mig-generate-basic-design screen           full category, converged skill
         ↓
-/mig_review_design screen                   sample, not exhaustive
-/mig_trace_check P2                          gate: orphans + assertions
+/mig-review-design screen                   sample, not exhaustive
+/mig-trace-check P2                          gate: orphans + assertions
         ↓
    report: written/expected, gate pass, Open Items for the client
 ```

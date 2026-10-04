@@ -14,9 +14,9 @@ must be true *every* time belongs in a hook, not only in a skill.
 
 | Event | Matcher | Purpose |
 |---|---|---|
-| SessionStart | — | `check_profile_loaded.py` — fail fast when the profile is missing or unresolved |
-| PreToolUse | `Write\|Edit` | `guard_protected_paths.py` — deny edits to generated files and baselined documents without a CR (`BL-02`, `BL-07`) |
-| PreToolUse | `Write\|Edit` | `check_doc_rules.py` — surface the document rules for the deliverable being written |
+| SessionStart | — | `check-profile-loaded.py` — fail fast when the profile is missing or unresolved |
+| PreToolUse | `Write\|Edit` | `guard-protected-paths.py` — deny edits to generated files and baselined documents without a CR (`BL-02`, `BL-07`) |
+| PreToolUse | `Write\|Edit` | `check-doc-rules.py` — surface the document rules for the deliverable being written |
 | PostToolUse | `Write\|Edit` | formatter, then linter, then incremental type-check |
 | Stop | — | build verification |
 
@@ -34,7 +34,7 @@ Exit code 2 blocks the tool call and returns stderr to the model. Print one acti
 line:
 
 ```
-[BL-02] BLOCKED: docs/01.requirements/SRS.md is baselined at 1.0.0. Changing it needs an approved CR. Run /sdlc_cr_analyze.
+[BL-02] BLOCKED: docs/01.requirements/SRS.md is baselined at 1.0.0. Changing it needs an approved CR. Run /sdlc-cr-analyze.
 ```
 
 Block on invariants: baselined documents, generated files, secrets, oversized files,

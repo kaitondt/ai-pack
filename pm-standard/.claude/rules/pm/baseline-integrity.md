@@ -33,7 +33,7 @@ A change to any of the three is a change to the scope baseline.
 Once baselined, an artifact changes only through a change request approved at the
 authority level `{{profile.change_control.authority}}` requires for its impact.
 
-This is enforced mechanically by `hooks/guard_pm_baselines.py`: edits to a registered
+This is enforced mechanically by `hooks/guard-pm-baselines.py`: edits to a registered
 baselined path are blocked unless `.claude/.active_pm_cr` names an approved CR.
 
 The one exception is an **editorial** correction that changes no commitment — a typo, a
@@ -52,7 +52,7 @@ These must always agree; when they do not, the plan is fiction:
 | Scope ↔ deliverables | every contract deliverable maps to at least one work package |
 | Scope ↔ requirements | every baselined requirement maps to at least one work package |
 
-`/pm_trace_check` runs these. A work package with no schedule entry is work nobody will
+`/pm-trace-check` runs these. A work package with no schedule entry is work nobody will
 do; a schedule entry with no work package is work nobody costed.
 
 ## PB-05 — Actuals never overwrite the baseline

@@ -104,7 +104,7 @@ are legitimate working forms while decomposing — text is easier to restructure
 workbook — but they are never delivered, never cited and never baselined.
 
 A run that reports the WBS complete with only a Markdown file on disk has not produced the
-deliverable, however good the content is. `pm_document_io` DIO-W owns the mechanics, the
+deliverable, however good the content is. `pm-document-io` DIO-W owns the mechanics, the
 workbook layout and the revision hazard.
 
 The reason is not formatting taste. Cost, progress, resource loading and earned value all

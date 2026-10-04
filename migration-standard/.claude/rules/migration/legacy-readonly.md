@@ -5,7 +5,7 @@
 Everything under `{{profile.legacy.root}}` is read-only for the entire project.
 Read, quote, and analyse it. Never `Write`, `Edit`, reformat, "fix", or reorganise it.
 
-This is enforced mechanically by `hooks/guard_readonly_paths.py` against
+This is enforced mechanically by `hooks/guard-readonly-paths.py` against
 `{{profile.constraints.readonly_globs}}`. If a hook blocks you, the hook is right.
 
 Reasons this matters more than it looks:

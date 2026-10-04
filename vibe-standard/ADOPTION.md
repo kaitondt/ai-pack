@@ -40,15 +40,15 @@ cp vibe-standard/profile/vibe.profile.yaml  <your-project>/.claude/vibe.profile.
 
 Merge, do not overwrite:
 
-- copy `rules/vibe/`, `skills/vibe_*`, `commands/vibe_*`, `agents/vibe_*`, `hooks/*vibe*` and
-  `hooks/check_slice_size.py`
+- copy `rules/vibe/`, `skills/vibe-*`, `commands/vibe-*`, `agents/vibe-*`, `hooks/*vibe*` and
+  `hooks/check-slice-size.py`
 - **merge** `settings.json` hook entries into the existing file — add, never replace, the
   existing `hooks` arrays
-- append the pack's `CLAUDE.md` as a section (`/vibe_init` does this)
+- append the pack's `CLAUDE.md` as a section (`/vibe-init` does this)
 
 ### Alongside `pm-standard`
 
-Works as is: install both, run `/pm_init` with `technical_pack: none`. The PM pack manages
+Works as is: install both, run `/pm-init` with `technical_pack: none`. The PM pack manages
 commitments, cost and reporting; this pack keeps the engineering loop honest. Both use
 `DEC-{NNN}` — **point both at the same decision log** (`paths.decisions` here,
 `paths.decision_log` there) so there is one sequence.
@@ -56,7 +56,7 @@ commitments, cost and reporting; this pack keeps the engineering loop honest. Bo
 ### Alongside `sdlc-standard`
 
 Not recommended for the same codebase: the two packs answer "what is the source of truth?"
-differently (an approved requirement vs. the owner's intent). Use `/vibe_graduate handoff` to
+differently (an approved requirement vs. the owner's intent). Use `/vibe-graduate handoff` to
 move from this pack to `sdlc-standard`, rather than running both.
 
 ---
@@ -66,7 +66,7 @@ move from this pack to `sdlc-standard`, rather than running both.
 Inside Claude Code, in the project:
 
 ```
-/vibe_init
+/vibe-init
 ```
 
 It inspects the repo, asks only what it cannot infer (one batch), writes the profile, creates
@@ -76,7 +76,7 @@ users? real personal data?* — because they decide which security rules are in 
 Then:
 
 ```
-/vibe_profile_check
+/vibe-profile-check
 ```
 
 Fix anything Critical before building. Two Criticals matter most: `.env` not ignored, and
@@ -89,17 +89,17 @@ Fix anything Critical before building. Two Criticals matter most: `.env` not ign
 New project:
 
 ```
-/vibe_scaffold                    ← boring stack, DEC-001, lint/test wired, real commands
-/vibe_product                     ← one page; insist on three non-goals
-/vibe_intent "sign up and sign in"
-/vibe_plan INT-001
-/vibe_build INT-001.1
-/vibe_handoff
+/vibe-scaffold                    ← boring stack, DEC-001, lint/test wired, real commands
+/vibe-product                     ← one page; insist on three non-goals
+/vibe-intent "sign up and sign in"
+/vibe-plan INT-001
+/vibe-build INT-001.1
+/vibe-handoff
 ```
 
 Existing vibe-coded repo — follow [COMMAND-FLOW.md §5](COMMAND-FLOW.md): retrofit tooling
-without fixing, intents for existing features, `/vibe_verify all`, `/vibe_debt sweep`,
-`/vibe_security_check`. Resist fixing things during adoption; record them. The ledger is the
+without fixing, intents for existing features, `/vibe-verify all`, `/vibe-debt sweep`,
+`/vibe-security-check`. Resist fixing things during adoption; record them. The ledger is the
 plan.
 
 ---
@@ -107,15 +107,15 @@ plan.
 ## 4. Daily use
 
 ```
-/vibe_resume   →   /vibe_build …   →   /vibe_build …   →   /vibe_handoff
+/vibe-resume   →   /vibe-build …   →   /vibe-build …   →   /vibe-handoff
 ```
 
-- Talk normally. Ask for a feature in your own words — `/vibe_build` turns it into an intent
+- Talk normally. Ask for a feature in your own words — `/vibe-build` turns it into an intent
   and shows it to you before writing code. Read those four lines; it is the cheapest review
   you will ever do.
-- When it starts going in circles, say so or type `/vibe_unstuck`. Do not paste the fourth
+- When it starts going in circles, say so or type `/vibe-unstuck`. Do not paste the fourth
   error.
-- When you have an idea mid-slice, `/vibe_park` it. Finish the slice.
+- When you have an idea mid-slice, `/vibe-park` it. Finish the slice.
 - When the AI asks you a question, it is because the answer changes the code. A guess from you
   is better than a guess from it — at least it is recorded as yours.
 
@@ -129,7 +129,7 @@ Symptom: the AI wrote a key into a file, or ran `git reset --hard`, without bein
 
 ```bash
 python --version
-echo '{"tool_input":{"command":"git reset --hard"}}' | python .claude/hooks/guard_vibe_bash.py; echo "exit=$?"
+echo '{"tool_input":{"command":"git reset --hard"}}' | python .claude/hooks/guard-vibe-bash.py; echo "exit=$?"
 ```
 
 - `exit=2` and a `[SB-02] BLOCKED` message → the hook works; check `settings.json` was merged
@@ -152,18 +152,18 @@ file or the chat, rotate it.
 
 It is meant to. Run the command yourself in your own terminal — that is the rule (SB-02). If a
 built-in pattern is wrong for your project (e.g. you use `terraform apply` against a local-only
-sandbox), edit `BUILTIN` in `guard_vibe_bash.py` and record why as a `DEC-*`.
+sandbox), edit `BUILTIN` in `guard-vibe-bash.py` and record why as a `DEC-*`.
 
 ### The slice-size warning fires constantly
 
-Either slices are genuinely too big — split them (`/vibe_plan`) — or generated files are being
+Either slices are genuinely too big — split them (`/vibe-plan`) — or generated files are being
 counted: add their globs to `slices.exclude_from_budget`. Do not raise the budget because it
 keeps firing; that is the refine loop's "illegitimate" edit.
 
 ### The session starts without knowing where we were
 
 `vibe/STATE.md` is missing or stale. The SessionStart hook prints it when it exists. End every
-session with `/vibe_handoff`.
+session with `/vibe-handoff`.
 
 ---
 
@@ -189,4 +189,4 @@ for a cheaper model.
 
 **When should I leave this pack?**
 When someone other than the owner has to approve what gets built, when there are contracts or
-investors to report to, or when the team passes ~5 people. `/vibe_graduate handoff`.
+investors to report to, or when the team passes ~5 people. `/vibe-graduate handoff`.

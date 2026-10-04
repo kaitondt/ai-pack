@@ -10,7 +10,7 @@ Roles and approvals come from `{{profile.governance}}`.
 Not a team, not a department, not "the client". One person from
 `{{profile.governance}}`, who can say yes and make it stick.
 
-A decision with no named owner is an assumption (see `ASM-*` in `pm_scope`), and it is
+A decision with no named owner is an assumption (see `ASM-*` in `pm-scope`), and it is
 tracked as one — with a confirm-by date and an impact-if-wrong — until someone owns it.
 
 When the profile leaves a governance role unfilled, stop and ask. Producing a plan that

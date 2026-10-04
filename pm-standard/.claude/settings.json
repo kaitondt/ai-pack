@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_pm_profile.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-pm-profile.py\"",
             "statusMessage": "Checking project-management profile...",
             "timeout": 10
           }
@@ -18,13 +18,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_pm_baselines.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-pm-baselines.py\"",
             "statusMessage": "Checking baseline protection...",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_pm_doc_rules.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-pm-doc-rules.py\"",
             "statusMessage": "Loading management document rules...",
             "timeout": 10
           }

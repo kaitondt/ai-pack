@@ -14,7 +14,7 @@ Four things, and the third is the one people miss.
 
 | # | What | Why the pack needs it |
 |---|---|---|
-| 1 | **Git** | the pack lives in the repository; `mig_bug_trace` reads history |
+| 1 | **Git** | the pack lives in the repository; `mig-bug-trace` reads history |
 | 2 | **Node.js 18+** and **Claude Code** | runs the pack |
 | 3 | **Python 3.9+** | the three guard hooks are Python. Without it they fail silently — and in this pack that means **the legacy tree is writable** |
 | 4 | **`openpyxl` / `python-docx`** | only if your deliverables or legacy inputs are Excel or Word. See 0d |
@@ -72,7 +72,7 @@ pip install python-pptx     # only to READ .pptx inputs (client decision decks)
 ```
 
 A format enabled with no working library fails forty files into a run rather than on the
-first. `/mig_profile_check` check 23 catches it — run it before P2.
+first. `/mig-profile-check` check 23 catches it — run it before P2.
 
 ### 0e. Verify
 
@@ -105,7 +105,7 @@ they were already written to extend.
 ## 2. Configure
 
 ```
-/mig_init
+/mig-init
 ```
 
 It inspects the repository first — legacy kind by file extension, target stack from build
@@ -116,7 +116,7 @@ generates `CLAUDE.md`.
 Then:
 
 ```
-/mig_profile_check
+/mig-profile-check
 ```
 
 Fix every Critical before running any phase. A Critical means the pack's safety
@@ -128,12 +128,12 @@ assumptions do not hold — most often a read-only path that is not actually pro
 forms, on migration work they are usually Excel and usually contractual, and an invented one
 is rejected at the first review — after a whole category has been written into it.
 
-`/mig_init` asks for them. If you skipped it, or a new category starts later:
+`/mig-init` asks for them. If you skipped it, or a new category starts later:
 
 ```
-/mig_template_register             # inventory: which categories have a form, which do not
-/mig_template_register screen      # register one
-/mig_template_register --check     # validate without changing the registry
+/mig-template-register             # inventory: which categories have a form, which do not
+/mig-template-register screen      # register one
+/mig-template-register --check     # validate without changing the registry
 ```
 
 What it does that is worth knowing:
@@ -171,11 +171,11 @@ invalidates every downstream reference (ID-04).
 
 ## 3b. Confirm the model and effort
 
-`/mig_init` writes `execution.agent_model` (default `opus`) into every agent file. Effort
+`/mig-init` writes `execution.agent_model` (default `opus`) into every agent file. Effort
 is session-level and cannot be set from the profile — `execution.intended_effort` only
 records what the project expects, so agree it with the team and set it in your session.
 
-Check the two do not drift apart: `/mig_profile_check` compares the profile against the
+Check the two do not drift apart: `/mig-profile-check` compares the profile against the
 agent frontmatter and warns when they disagree. Drift here is easy to miss, because an
 agent running on the wrong model still produces plausible-looking deliverables.
 
@@ -199,13 +199,13 @@ Unique to a migration, and all three are cheap now and contentious later.
   **If it does not block, the hooks are not running**, and the pack's whole safety model is
   off. See the FAQ.
 - Open a new session — the profile check must report clean.
-- Run `/mig_trace_check` — it should report an empty register, not an error.
-- Run `/mig_template_register --check` — every registered template resolves, every enabled
+- Run `/mig-trace-check` — it should report an empty register, not an error.
+- Run `/mig-template-register --check` — every registered template resolves, every enabled
   format has its library, and no legacy document is registered as a template.
 - If `{{profile.mockup.kind}}` is not `none`, confirm every id in `mockup.surfaces` names a
   real `target.surfaces[]` entry, and that every `fidelity_exceptions[]` entry cites a
   decision.
-- Run `/mig_generate_infra` with no argument — the inventory says whether the platform
+- Run `/mig-generate-infra` with no argument — the inventory says whether the platform
   fields resolve, whether the environments reconcile (X-11), and **whether anything deploys
   to the legacy production environment**, which is a Critical finding.
 
@@ -215,21 +215,21 @@ Do not run them all at once. Each phase gate exists because the next phase ampli
 previous phase's errors:
 
 ```
-/mig_analyze_legacy          → review the inventory with the client → gate
-/mig_generate_requirements   → client sign-off on the BRD → gate
-/mig_generate_basic_design   → /mig_review_design → gate
-/mig_generate_mockup         → X-09 / X-10 against design and legacy → gate
-/mig_generate_detail_design  → resolve GAP items → gate
-/mig_scaffold_codebase       → once, after the TSD is approved
-/mig_generate_infra          → pipeline, environments, coexistence, data migration
-/mig_implement_feature       → per module
-/mig_generate_test both      → per module
-/mig_uat_*                   → per bug
-/mig_cr_*                    → per change request, whenever one arrives
+/mig-analyze-legacy          → review the inventory with the client → gate
+/mig-generate-requirements   → client sign-off on the BRD → gate
+/mig-generate-basic-design   → /mig-review-design → gate
+/mig-generate-mockup         → X-09 / X-10 against design and legacy → gate
+/mig-generate-detail-design  → resolve GAP items → gate
+/mig-scaffold-codebase       → once, after the TSD is approved
+/mig-generate-infra          → pipeline, environments, coexistence, data migration
+/mig-implement-feature       → per module
+/mig-generate-test both      → per module
+/mig-uat-*                   → per bug
+/mig-cr-*                    → per change request, whenever one arrives
 ```
 
 Each generation phase is run as a loop, not a single pass: execute → review in a fresh
-session → `/mig_refine_skill` → re-execute. Calibrate the loop on a 2–3 module pilot
+session → `/mig-refine-skill` → re-execute. Calibrate the loop on a 2–3 module pilot
 before generating a whole category. See [COMMAND-FLOW.md](COMMAND-FLOW.md).
 
 ---
@@ -245,8 +245,8 @@ the pack rather than inside it:
 .claude/rules/<language>/                         stack rules extending rules/common/
 ```
 
-Keep the `mig_*` files unmodified so the pack can be updated. When you find yourself
-editing a `mig_*` file, ask whether the change is project-specific — if so it belongs in a
+Keep the `mig-*` files unmodified so the pack can be updated. When you find yourself
+editing a `mig-*` file, ask whether the change is project-specific — if so it belongs in a
 `<key>_*` file; if not, it belongs upstream in the pack.
 
 Register new skills in the profile where they own a design category
@@ -260,7 +260,7 @@ Register new skills in the profile where they own a design category
 | Skipping P0 because "the requirements document already exists" | the existing document is a summary; the anchors it lacks are what P2 needs |
 | Running P2 before the P1 gate | design scope is wrong, discovered at client review |
 | Turning off a review family to reduce findings | the findings still exist, now invisible |
-| Editing `mig_*` skills for one project's quirk | the pack stops being updatable |
+| Editing `mig-*` skills for one project's quirk | the pack stops being updatable |
 | Treating the traceability register as end-of-project paperwork | it becomes unreconstructable and the gates become unverifiable |
 | Generating a category before registering the client's form | the whole category is rejected on formatting, after it is finished |
 | Anchoring behaviour to a legacy document instead of legacy code | you document what somebody intended years ago; parallel run finds out (DIO-08) |
@@ -284,10 +284,10 @@ safety model rests on it. Check in order:
    distributions and some macOS setups only `python3` exists. Install the alias, or change
    the three commands in `.claude/settings.json` to `python3`.
 2. **Is `CLAUDE_PROJECT_DIR` resolving?** Run the hook by hand to see the real error:
-   `echo '{"tool_input":{"file_path":"src/legacy/x.vb"}}' | python .claude/hooks/guard_readonly_paths.py`
+   `echo '{"tool_input":{"file_path":"src/legacy/x.vb"}}' | python .claude/hooks/guard-readonly-paths.py`
 3. **Did you merge `settings.json` rather than copying it?** A project that already had one
    keeps its own; the pack's `hooks` block has to be merged in by hand.
-4. **Does `constraints.readonly_globs` include `legacy.root`?** `/mig_profile_check` check 16
+4. **Does `constraints.readonly_globs` include `legacy.root`?** `/mig-profile-check` check 16
    is exactly this, and it is Critical for this reason.
 
 Verify with the step-4 test: ask for an edit under the legacy root and require the `[LR-01]`
@@ -300,12 +300,12 @@ operation outside this project. If the root cause of a defect is inside a frozen
 object, LR-02 applies: **state the root cause first**, then the workaround as an option —
 never present the workaround as the fix.
 
-### `/mig_generate_basic_design` produced Markdown, but the client wants Excel
+### `/mig-generate-basic-design` produced Markdown, but the client wants Excel
 
 The template was not registered and `templates.on_missing` was `skeleton` rather than `ask`.
 The run should have said so in its plan — that line is the warning.
 
-Register the form (`/mig_template_register`), set `on_missing: ask`, and regenerate.
+Register the form (`/mig-template-register`), set `on_missing: ask`, and regenerate.
 Regenerating is right: converting forty Markdown files into the client's form by hand costs
 more and produces inconsistencies the cross-checks will not catch.
 
@@ -328,17 +328,17 @@ out of date, and the gap is invisible unless you check. Anchors come from
 `{{profile.legacy.logic_source}}` and `{{profile.legacy.ui_source}}`; the document is quoted
 for rationale, which is genuinely valuable and available nowhere else.
 
-`mig_bd_designer` reports the anchor split — source versus document — for exactly this. The
+`mig-bd-designer` reports the anchor split — source versus document — for exactly this. The
 document-anchored rows are the ones to re-check first.
 
 ### A category came out short, and nothing failed
 
 The known failure mode of long generation runs: context runs out and the last categories are
-dropped silently. The countermeasures are in `mig_basic_design` — batch by module, 10–20 files
+dropped silently. The countermeasures are in `mig-basic-design` — batch by module, 10–20 files
 per call, dedicated calls for the late categories (report, file, batch), and **count the files
 on disk after each batch** rather than trusting the agent's report.
 
-If it already happened, `/mig_generate_basic_design <category>` regenerates one category. The
+If it already happened, `/mig-generate-basic-design <category>` regenerates one category. The
 plan's `written/expected` line tells you which.
 
 ### Operators rejected the screens at UAT even though the design was approved
@@ -358,7 +358,7 @@ X-09 doing its job. The answer is never "update whichever is easier": decide aga
 A field present in the mockup and in neither the screen design nor the legacy screen is an
 invention (NI-01), and if it stays there it gets built.
 
-### `/mig_generate_infra` refuses to write anything
+### `/mig-generate-infra` refuses to write anything
 
 `infrastructure.owner` is not `this project`, or `repo_may_write_infra` is `false`. Usually
 correct — it means another team owns the pipeline — and the command produces proposals
@@ -397,7 +397,7 @@ strongest evidence the project can produce.
 rows already diverged — and the rule belongs in the architecture document, not in whichever
 service was written last.
 
-### `/mig_trace_check` reports hundreds of orphans on a project we adopted mid-flight
+### `/mig-trace-check` reports hundreds of orphans on a project we adopted mid-flight
 
 Expected. Back-fill the **register**, not the documents, from the current phase forward. The
 first report is a finding list, not a failure: the downward orphans are legacy behaviour you
@@ -406,8 +406,8 @@ ancestor — which in a migration is either an unrecorded CR or an invention.
 
 ### Agents are running on a model nobody chose
 
-`/mig_profile_check` check 17 compares `execution.agent_model` against each agent's `model:`
-frontmatter. Drift happens when the pack is updated and `/mig_init` is not re-run. Re-run its
+`/mig-profile-check` check 17 compares `execution.agent_model` against each agent's `model:`
+frontmatter. Drift happens when the pack is updated and `/mig-init` is not re-run. Re-run its
 model-policy step, or fix the frontmatter.
 
 Reasoning effort is **session-level** and cannot be set from the profile;

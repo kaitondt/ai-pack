@@ -1,7 +1,7 @@
 # ============================================================================
 #  MIGRATION PROJECT PROFILE
 #  The single source of project-specific truth for the Migration Skill Pack.
-#  Every mig_* skill resolves {{profile.*}} tokens from this file.
+#  Every mig-* skill resolves {{profile.*}} tokens from this file.
 #  Location (fixed): <repo-root>/.claude/migration.profile.yaml
 # ============================================================================
 schema_version: "1.0"
@@ -26,7 +26,7 @@ legacy:
   readonly: true                 # NEVER set false. Guards and hooks depend on it.
   screen_capture_dir: "docs/legacy-captures" # optional screenshots of the old UI
   # Artifacts whose behaviour must NOT be reproduced (obsolete / dead code).
-  # Each entry needs a reason; used by /mig_analyze_legacy to scope out.
+  # Each entry needs a reason; used by /mig-analyze-legacy to scope out.
   excluded:
     - id: ""
       reason: ""
@@ -82,7 +82,7 @@ target:
       data: "live"
       readonly: true
   build:
-    order:                       # exact build order; used by /mig_verify_build
+    order:                       # exact build order; used by /mig-verify-build
       - "<step 1 command>"
       - "<step 2 command>"
     typecheck: "<command>"
@@ -93,7 +93,7 @@ target:
 # INFRASTRUCTURE - where the TARGET code lives, how it is built, where it runs,
 # and how it takes over from the legacy system. Every field is declared: the
 # pack does not assume GitHub, does not assume a cloud, does not assume
-# containers. mig_infrastructure resolves these into the platform's vocabulary.
+# containers. mig-infrastructure resolves these into the platform's vocabulary.
 #
 # The legacy system's own infrastructure is READ-ONLY, like its source (LR-01).
 # Nothing here is a licence to change it.
@@ -176,7 +176,7 @@ infrastructure:
   parallel_run:
     enabled: true
     # The migration's strongest verification tool: same input to both systems,
-    # outputs compared field by field. Read by mig_test_it and the cutover plan.
+    # outputs compared field by field. Read by mig-test-it and the cutover plan.
     environment: parallel
     compare: ["screen output", "report output", "batch output files", "database state"]
     tolerance: "exact"           # "exact", or the named fields allowed to differ and why
@@ -239,28 +239,28 @@ paths:
   bd_categories:
     - key: architecture
       dir: "01.architecture"
-      skill: mig_basic_design
+      skill: mig-basic-design
     - key: screen
       dir: "02.screen-design"
-      skill: mig_screen_design
+      skill: mig-screen-design
     - key: function
       dir: "03.function-design"
-      skill: mig_function_design
+      skill: mig-function-design
     - key: data
       dir: "04.data-design"
-      skill: mig_data_design
+      skill: mig-data-design
     - key: interface
       dir: "05.interface-design"
-      skill: mig_api_design
+      skill: mig-api-design
     - key: report
       dir: "06.report-design"
-      skill: mig_basic_design
+      skill: mig-basic-design
     - key: file
       dir: "07.file-design"
-      skill: mig_basic_design
+      skill: mig-basic-design
     - key: batch
       dir: "08.batch-design"
-      skill: mig_batch_design
+      skill: mig-batch-design
 
 # ---------------------------------------------------------------------------
 # LANGUAGE - deliverable language is fixed per directory, never mixed.
@@ -303,8 +303,8 @@ document:
 # organisation has its own, in its own format, and a template invented here is
 # rejected at the first review - after a whole category has been written into it.
 #
-# Collected by /mig_init, maintained by /mig_template_register, used by
-# mig_document_io. Distinct from legacy documents, which are read-only INPUTS
+# Collected by /mig-init, maintained by /mig-template-register, used by
+# mig-document-io. Distinct from legacy documents, which are read-only INPUTS
 # and are never authoritative about behaviour (DIO-08).
 # ---------------------------------------------------------------------------
 templates:
@@ -317,7 +317,7 @@ templates:
   # Per-category registration. `key` matches a paths.bd_categories[].key, or one
   # of: requirements, detail, test_ut, test_it, test_uat, review, cr_report,
   # uat_report, legacy_inventory.
-  # Empty at init; /mig_init appends one entry per form the client supplies.
+  # Empty at init; /mig-init appends one entry per form the client supplies.
   registry:
     - key: ""
       path: ""                   # repo-relative, under templates.root
@@ -398,13 +398,13 @@ gates:
     - "every REQ-* cites at least one LEG-*"
     - "BRD, TSD and FRD generated and cross-consistent"
   P2_basic_design:
-    - "/mig_review_design reports zero Critical findings"
+    - "/mig-review-design reports zero Critical findings"
     - "SC / FC / API cross-checks pass"
   P3_detail_design:
     - "GAP report has zero unresolved items"
   P4_implementation:
-    - "/mig_verify_build passes"
-    - "/mig_review_commit reports zero Critical findings"
+    - "/mig-verify-build passes"
+    - "/mig-review-commit reports zero Critical findings"
   P5_unit_test:
     - "every FC has at least one UT case"
     - "unit test suite green"
@@ -441,17 +441,17 @@ constraints:
   stored_procedures_readonly: true
   generated_files_glob: "**/*.generated.*"
   secrets_policy: "never commit secrets; .env.example documents the required keys"
-  # Absolute-deny edit paths. Enforced by hooks/guard_readonly_paths.py.
+  # Absolute-deny edit paths. Enforced by hooks/guard-readonly-paths.py.
   readonly_globs:
     - "src/legacy/**"
     - "**/*.generated.*"
 
 # ---------------------------------------------------------------------------
 # EXECUTION - which model the delegated agents run on.
-# Applied to .claude/agents/*.md frontmatter by /mig_init.
+# Applied to .claude/agents/*.md frontmatter by /mig-init.
 # ---------------------------------------------------------------------------
 execution:
-  # Default for every mig_* agent. These roles all produce content whose failure
+  # Default for every mig-* agent. These roles all produce content whose failure
   # modes are silent - invented behaviour, missed anchors, a dropped category -
   # and none of them surface until client review. Cheap models fail there first.
   agent_model: opus
@@ -480,7 +480,7 @@ testing:
     batches: ["Pilot", "Batch1", "Batch2", "Batch3"]
   pipeline:
     # Points where the run stops for a human. Removing one removes the review
-    # it existed to buy - see mig_test_ut.
+    # it existed to buy - see mig-test-ut.
     human_pauses: ["after_qna", "after_checklist"]
     keep_retry_history: true           # never delete a superseded checkpoint
     max_review_rounds: 3               # then escalate instead of looping
@@ -519,7 +519,7 @@ testing:
 
 # ---------------------------------------------------------------------------
 # CHANGE REQUEST - client-initiated spec changes. Cross-cutting: a CR can arrive
-# in any phase from P2 onward. Drives mig_change_request and the /mig_cr_* commands.
+# in any phase from P2 onward. Drives mig-change-request and the /mig-cr-* commands.
 # ---------------------------------------------------------------------------
 change_request:
   id_format: "CR-{NNN}"          # must match the client's CR list; "CR-{YYYY}-{NNN}" is common too
@@ -548,7 +548,7 @@ change_request:
             CR-NEW, CR-REMOVE, CR-CLARIFY, CR-OUT-OF-SCOPE]
 
 # ---------------------------------------------------------------------------
-# BUG TRACE - cross-phase bug traceability (mig_bug_trace, /mig_trace_bug).
+# BUG TRACE - cross-phase bug traceability (mig-bug-trace, /mig-trace-bug).
 # Every key is optional: absent or empty means "detect from the repository".
 # ---------------------------------------------------------------------------
 bug_trace:

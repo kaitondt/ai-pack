@@ -6,7 +6,7 @@
 - Persistence and transport shapes (DTOs, DAOs, wire models) are separate types from
   domain models even when the fields currently coincide. They diverge later; migrations
   guarantee it.
-- Cross-layer changes are planned before they are written — see `/mig_context_map`.
+- Cross-layer changes are planned before they are written — see `/mig-context-map`.
 
 ## Data flow
 

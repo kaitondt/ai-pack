@@ -1,7 +1,7 @@
 # `sdlc.profile.yaml` — Field Specification
 
 The profile is the **only** file a new project must author before the pack becomes
-operational. Skills read it through the `sdlc_project` skill and substitute
+operational. Skills read it through the `sdlc-project` skill and substitute
 `{{profile.<dotted.path>}}` tokens.
 
 Canonical location: `<repo-root>/.claude/sdlc.profile.yaml`
@@ -34,12 +34,12 @@ placeholder in a generated deliverable. Report the missing field and ask.
 | `copyright` | ✅ | Rendered as the footer of every deliverable. |
 | `start_date` | ✅ | Anchors "as of" statements; converts relative dates to absolute. |
 | `delivery_model` | ✅ | `waterfall` · `iterative-waterfall` · `agile-with-gates`. Sets how hard a gate blocks; under `agile-with-gates`, P4–P6 run per sprint and only RA/BD/ST/UAT are hard stops. The assertions themselves never change. |
-| `contract_type` | ✅ | `fixed-price` · `time-and-materials` · `internal`. Read by `sdlc_change_request`: under fixed-price a scope change is a contractual event and the Phase 2 estimate is mandatory. |
+| `contract_type` | ✅ | `fixed-price` · `time-and-materials` · `internal`. Read by `sdlc-change-request`: under fixed-price a scope change is a contractual event and the Phase 2 estimate is mandatory. |
 | `release_cadence` | — | Quoted in the release and maintenance plans. |
 
 ### `stakeholders`
 Every role is required. **A decision with no owner cannot be recorded, and an unrecorded
-decision is an assumption** (RS-02). `/sdlc_profile_check` fails Critical on an unset role.
+decision is an assumption** (RS-02). `/sdlc-profile-check` fails Critical on an unset role.
 
 `approvers[]` extends the set for projects where a steering group signs baselines.
 
@@ -57,13 +57,13 @@ decision is an assumption** (RS-02). `/sdlc_profile_check` fails Critical on an 
 | `architecture` | ✅ | Free text; the layer model the detail design follows. |
 | `surfaces[]` | ✅ | One per form factor. Drives which screen-design variants get generated and which ID suffixes are legal. A single-surface project keeps just `PC`. |
 | `environments[]` | ✅ | Named environments the deliverables and tests refer to. **Exactly one should be marked `production_like: true`** — that is where system test runs, and without it P7 has nowhere to measure. |
-| `build.order[]` | ✅ | Ordered shell commands. `/sdlc_verify_build` runs them in sequence and stops at the first failure. |
+| `build.order[]` | ✅ | Ordered shell commands. `/sdlc-verify-build` runs them in sequence and stops at the first failure. |
 | `build.typecheck` / `lint` / `test_*` | ✅ | Run after the build order, in that sequence. |
 
 ### `infrastructure`
 
-Where the code lives, how it is built, and where it runs. Read by `sdlc_infrastructure` and
-`sdlc_infra_engineer`. **There is no default platform**: a task that needs one of these and
+Where the code lives, how it is built, and where it runs. Read by `sdlc-infrastructure` and
+`sdlc-infra-engineer`. **There is no default platform**: a task that needs one of these and
 finds a `<placeholder>` stops and asks rather than assuming GitHub (IN-01).
 
 | Field | Required | Notes |
@@ -72,7 +72,7 @@ finds a `<placeholder>` stops and asks rather than assuming GitHub (IN-01).
 | `scm.review_unit` | ✅ | "pull request" / "merge request", used verbatim. The client's team searches for the words their own tools use. |
 | `scm.branching_model` · `protected_branches[]` | — | Protected branches require a passing pipeline and a review, or the pipeline is advisory. |
 | `ci.platform` | ✅ | `github-actions` · `gitlab-ci` · `azure-pipelines` · `jenkins` · `circleci` · `none`. `none` is an answer, not a gap to fill. |
-| `ci.definition_path` | ✅ | Where the pipeline file goes. `/sdlc_profile_check` warns when it does not match the platform's convention. |
+| `ci.definition_path` | ✅ | Where the pipeline file goes. `/sdlc-profile-check` warns when it does not match the platform's convention. |
 | `ci.stages[]` | ✅ | In order. Each maps to a `system.build` command, or is explicitly extra — a stage running something no developer can reproduce is a stage nobody can debug. |
 | `ci.enforces_gates[]` | — | Which phase gates the pipeline asserts **mechanically**. Only the machine-checkable ones belong here (IN-03); a green pipeline is evidence for these and nothing else. |
 | `cd.*` | — | Strategy, which environments need approval, and the deployment pattern. On mobile, `canary` is the only rollback that exists. |
@@ -84,7 +84,7 @@ finds a `<placeholder>` stops and asks rather than assuming GitHub (IN-01).
 | `observability.*` | — | Where logs, metrics, traces and alerts go, and who receives them. |
 | `observability.nfr_monitors_required` | — | When true, every measurable `NFR-PERF/AVAIL/OPS-*` needs a monitor row with a signal, a destination and a threshold (IN-06). An availability target with no monitor is one the client reports to you. |
 | `owner` | ✅ | `this project` · `platform team` · `client ops`. Changes what the pack may **write** versus only **request**. |
-| `repo_may_write_infra` | ✅ | When false, `sdlc_infra_engineer` produces proposals and reviews, never commits. Set it false whenever `owner` is not this project. |
+| `repo_may_write_infra` | ✅ | When false, `sdlc-infra-engineer` produces proposals and reviews, never commits. Set it false whenever `owner` is not this project. |
 
 **X-12** reconciles the environments the pipeline deploys to against `system.environments`.
 An environment the pipeline knows about and the profile does not is where system test runs
@@ -93,7 +93,7 @@ against the wrong data.
 ### `ids`
 Deterministic identity is what makes traceability checkable. Rules:
 
-- `module_pattern` is a real regex; `/sdlc_profile_check` validates `module_example`
+- `module_pattern` is a real regex; `/sdlc-profile-check` validates `module_example`
   against it.
 - `doc_id_format` must contain `{MODULE}`, `{TYPE}` and `{NNN}`.
 - `MODULE_BASE` = module ID with its surface suffix stripped (`SL0030PG` → `SL0030`).
@@ -108,7 +108,7 @@ Deterministic identity is what makes traceability checkable. Rules:
 
 ### `paths`
 All repo-relative, no leading `./`. `bd_categories[]` is an ordered list — the order is the
-generation order used by `/sdlc_generate_basic_design` and the orchestrator agent. Each
+generation order used by `/sdlc-generate-basic-design` and the orchestrator agent. Each
 entry names the **skill** that owns that category; adding a category means adding (or
 reusing) a skill.
 
@@ -139,7 +139,7 @@ Shared skeleton for every deliverable. Two fields carry more weight than they lo
   the raw input to review density (QM-02) — without it, the metric cannot be computed from
   artifacts.
 
-`initial_version` is `0.x` for drafts; `baseline_version` is what `/sdlc_phase_gate` sets
+`initial_version` is `0.x` for drafts; `baseline_version` is what `/sdlc-phase-gate` sets
 when it baselines a document.
 
 ### `templates`
@@ -147,19 +147,19 @@ when it baselines a document.
 **The pack ships no deliverable templates.** Every organisation has its own forms, in its
 own format — Excel in most of the Japanese SI market — and an invented template is rejected
 at the first review, after a whole category has been generated into it. So the template is a
-project input: collected by `/sdlc_init`, maintained by `/sdlc_template_register`, and used
-by `sdlc_document_io`.
+project input: collected by `/sdlc-init`, maintained by `/sdlc-template-register`, and used
+by `sdlc-document-io`.
 
 | Field | Required | Notes |
 |---|---|---|
 | `root` | ✅ | Where templates live. Originals as received go under `root/_received/` with their date, and are never edited. |
 | `on_missing` | ✅ | `ask` (default, safest) · `skeleton` (generate from the category skill's own sections, and say so per run) · `block`. `skeleton` is an agreement recorded as a `DEC-*`, not a fallback. |
-| `formats_enabled[]` | ✅ | `md` · `xlsx` · `docx` · `csv`. Each needs a working library — `/sdlc_profile_check` check 29 verifies it, because a missing library fails on file forty, not file one. |
+| `formats_enabled[]` | ✅ | `md` · `xlsx` · `docx` · `csv`. Each needs a working library — `/sdlc-profile-check` check 29 verifies it, because a missing library fails on file forty, not file one. |
 | `registry[].key` | ✅ | A `paths.bd_categories[].key`, or one of `requirements` · `detail` · `test_ut` · `test_it` · `test_st` · `test_uat` · `review` · `cr_report` · `incident` · `gate_record` · `release_note`. |
 | `registry[].path` · `format` | ✅ | Repo-relative, under `root`. Add each to `constraints.readonly_globs`: the template is an input, and every deliverable is written into a **copy**. |
 | `registry[].output_format` | — | Empty means "same as the template". A deliberate split (Markdown working copy, Excel for delivery) is recorded here once, never decided per file (DS-12). |
 | `registry[].sheet` · `header_rows` | — | `xlsx` only. Read from the template itself when empty. `header_rows` covers the client's header block — document id, system name, approval stamps. |
-| `registry[].fields[]` | — | Left empty, `sdlc_document_io` derives the field map from the placeholders in the file (DIO-04). |
+| `registry[].fields[]` | — | Left empty, `sdlc-document-io` derives the field map from the placeholders in the file (DIO-04). |
 | `registry[].status` | ✅ | `provided` · `none`. A `provided` entry whose file is missing is **Critical**: the team believes a form is in force. |
 | `template_wins_over_skill` | ✅ | The template outranks the category skill's section list and DS-01 (DS-11). Content the skill needs and the template cannot hold is a **template gap**, reported once to the document owner — never resolved by inventing a section. |
 | `preserve_unfilled_structure` | ✅ | Round-trip fidelity: writing changes nothing outside the filled fields — not a column width, not a merged range, not the print area (DIO-03). Verify on the first file of each category. |
@@ -171,7 +171,7 @@ runs — which is how a category passes P2 without anyone having read it.
 ### `mockup`
 
 The visual counterpart of the screen design, in whatever form the project uses. Read by
-`sdlc_mockup` and `sdlc_mockup_designer`. **A mockup is never the specification** (MU-01).
+`sdlc-mockup` and `sdlc-mockup-designer`. **A mockup is never the specification** (MU-01).
 
 | Field | Required | Notes |
 |---|---|---|
@@ -189,14 +189,14 @@ to it in the same CR. A half-updated mockup is worse than a stale one, because i
 current.
 
 ### `gates`
-One entry per phase, each with `entry` and `exit` lists of assertions. `/sdlc_phase_gate`
+One entry per phase, each with `entry` and `exit` lists of assertions. `/sdlc-phase-gate`
 evaluates them one by one, with evidence, and records the decision.
 
 Assertions are written as **checkable statements**, not aspirations. "Quality is good" is
 not an assertion; "every `REQ-*` has an executed ST case" is.
 
 Add project-specific assertions freely — they are the cheapest place to encode a lesson
-learned. Removing one because it keeps failing is the failure mode `/sdlc_refine_skill`
+learned. Removing one because it keeps failing is the failure mode `/sdlc-refine-skill`
 warns about.
 
 ### `review`
@@ -217,21 +217,21 @@ in addition to the review report.
 ### `constraints`
 | Field | Notes |
 |---|---|
-| `baseline_change_requires_cr` | **Must be `true`** for BL-02 to be enforced. `/sdlc_profile_check` fails Critical otherwise. |
+| `baseline_change_requires_cr` | **Must be `true`** for BL-02 to be enforced. `/sdlc-profile-check` fails Critical otherwise. |
 | `production_change_via_release_only` | Enforces BL-04 in the maintenance skill. |
 | `db_schema_owner` | `this project` · `<other team>` · `frozen`. Drives the C3 constraint in change requests and the data-design mode. |
-| `readonly_globs[]` | Enforced by `hooks/guard_protected_paths.py`. |
-| `baselined[]` | Appended by `/sdlc_phase_gate` when a gate passes. The hook reads it to block edits without an active CR. |
+| `readonly_globs[]` | Enforced by `hooks/guard-protected-paths.py`. |
+| `baselined[]` | Appended by `/sdlc-phase-gate` when a gate passes. The hook reads it to block edits without an active CR. |
 
 ### `execution`
-`agent_model` is applied to every `.claude/agents/sdlc_*.md` by `/sdlc_init`.
+`agent_model` is applied to every `.claude/agents/sdlc-*.md` by `/sdlc-init`.
 `intended_effort` **records** the session-level reasoning effort the project expects — it
 cannot enforce it, because effort is not agent frontmatter in Claude Code.
 
 ### `testing`
 | Field | Notes |
 |---|---|
-| `levels[]` | **The V-model binding.** Each level names the specification it verifies (`basis`), the environment it runs on, and its owner. `/sdlc_generate_test` reads this to decide which document to work from. |
+| `levels[]` | **The V-model binding.** Each level names the specification it verifies (`basis`), the environment it runs on, and its owner. `/sdlc-generate-test` reads this to decide which document to work from. |
 | `viewpoints[]` | The enabled coverage viewpoints. Disable one only when it cannot apply. |
 | `pipeline.human_pauses[]` | Which pauses the project keeps. **Removing a pause removes the review it existed to buy** — the first buys answers that stop invention, the second buys coverage review while it is cheap. |
 | `system_test.*` | What P7 covers beyond functional regression: performance, security, failover, volume, operability. |
@@ -261,10 +261,10 @@ cannot enforce it, because effort is not agent frontmatter in Claude Code.
 
 ### `bug_trace`
 
-Drives `sdlc_bug_trace` and `/sdlc_trace_bug`. **Every key is optional** — the one exception
+Drives `sdlc-bug-trace` and `/sdlc-trace-bug`. **Every key is optional** — the one exception
 to the stop-on-unresolved-token rule above: an absent or empty key means *detect from the
 repository*, because the trace must still run on a project that never configured it. The
-dossiers and `bug-trace-register.csv` live under `paths.bug_traces`; `/sdlc_quality_report`
+dossiers and `bug-trace-register.csv` live under `paths.bug_traces`; `/sdlc-quality-report`
 reads the register for an evidenced containment matrix.
 
 | Field | Notes |

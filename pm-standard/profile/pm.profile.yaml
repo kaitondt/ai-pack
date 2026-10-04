@@ -1,7 +1,7 @@
 # ============================================================================
 #  PROJECT MANAGEMENT PROFILE
 #  The single source of management truth for the PM Skill Pack (PMBOK-aligned).
-#  Every pm_* skill resolves {{profile.*}} tokens from this file.
+#  Every pm-* skill resolves {{profile.*}} tokens from this file.
 #  Location (fixed): <repo-root>/.claude/pm.profile.yaml
 #
 #  This pack manages the PROJECT. A sibling pack (sdlc-standard or
@@ -29,7 +29,7 @@ project:
   delivery_model: iterative-waterfall
   # Fixed-price makes every scope change a contractual event and makes the cost
   # baseline the vendor risk. Time-and-materials makes it the client risk. Read
-  # by pm_change_control and pm_cost - the same change is a different decision
+  # by pm-change-control and pm-cost - the same change is a different decision
   # under each.
   contract_type: fixed-price     # fixed-price | time-and-materials | milestone-based | internal
   currency: "USD"
@@ -303,7 +303,7 @@ process:
 # ---------------------------------------------------------------------------
 # QUALITY - quality objectives, the master test plan and what gets measured.
 # When a technical pack is installed these targets should MATCH its
-# quality.targets - /pm_sync_technical checks that they do.
+# quality.targets - /pm-sync-technical checks that they do.
 # ---------------------------------------------------------------------------
 quality:
   plan_path: "pm/quality/quality-plan.md"
@@ -570,8 +570,8 @@ paths:
 
 # ---------------------------------------------------------------------------
 # BASELINES - the register of what is baselined, and the mechanical protection
-# around it. /pm_gate_review and the approval steps append to `registered`;
-# hooks/guard_pm_baselines.py reads it and blocks edits to a registered path
+# around it. /pm-gate-review and the approval steps append to `registered`;
+# hooks/guard-pm-baselines.py reads it and blocks edits to a registered path
 # unless .claude/.active_pm_cr names an approved change request (PB-03).
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -580,7 +580,7 @@ paths:
 #
 # Management deliverables are contractual. Their format is a property of the
 # artifact, agreed once, not chosen per task because one was easier to write.
-# Read by pm_document_io.
+# Read by pm-document-io.
 # ---------------------------------------------------------------------------
 documents:
   formats_enabled: [md, xlsx, docx, csv]
@@ -675,7 +675,7 @@ documents:
 
   # Artifacts whose final form MUST be a binary office format. A run that ends
   # with only a Markdown file for one of these has not produced the deliverable,
-  # however complete the content is. /pm_profile_check enforces the binding.
+  # however complete the content is. /pm-profile-check enforces the binding.
   binary_final: [wbs, wbs_dictionary]
 
 baselines:
@@ -729,12 +729,12 @@ language:
 
 # ---------------------------------------------------------------------------
 # INTEGRATION - binding to the pack that manages the product.
-# Set technical_pack to auto and /pm_init detects which profile exists.
+# Set technical_pack to auto and /pm-init detects which profile exists.
 # ---------------------------------------------------------------------------
 integration:
   technical_pack: auto            # auto | sdlc | migration | none
-  technical_profile_path: ""      # filled by /pm_init, e.g. .claude/sdlc.profile.yaml
-  # What binds to what. /pm_sync_technical verifies these stay consistent; drift
+  technical_profile_path: ""      # filled by /pm-init, e.g. .claude/sdlc.profile.yaml
+  # What binds to what. /pm-sync-technical verifies these stay consistent; drift
   # here is how a project reports green on a plan that no longer describes the
   # work being done.
   bindings:
@@ -744,7 +744,7 @@ integration:
     defect_register: "technical"         # which pack owns the defect data
     test_levels: "technical"             # which pack owns level definitions
   # Mapping of management milestones to technical phase gates. Filled by
-  # /pm_init or /pm_sync_technical.
+  # /pm-init or /pm-sync-technical.
   milestone_gate_map:
     - milestone: "M1"
       gate: "P1"

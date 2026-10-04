@@ -40,8 +40,8 @@ tracks client approval cycles, not edits.
 
 ## DS-03 — Section structure is fixed per category
 
-Each design category defines its section skeleton in its own skill (`mig_screen_design`,
-`mig_function_design`, …). Sections are neither reordered nor omitted; an unused section
+Each design category defines its section skeleton in its own skill (`mig-screen-design`,
+`mig-function-design`, …). Sections are neither reordered nor omitted; an unused section
 carries an explicit "not applicable" line rather than disappearing.
 
 ## DS-04 — Scope discipline per section
@@ -115,7 +115,7 @@ have, or in Open Items, and the missing column is reported as a gap. A deliverab
 anchors is not a migration deliverable.
 
 Where no template is registered, `{{profile.templates.on_missing}}` decides, and the run
-report says which branch it took. `mig_document_io` owns the mechanics.
+report says which branch it took. `mig-document-io` owns the mechanics.
 
 ## DS-11 — Format follows the category, not the task
 

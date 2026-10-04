@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_profile_loaded.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-profile-loaded.py\"",
             "statusMessage": "Checking migration profile...",
             "timeout": 10
           }
@@ -18,13 +18,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_readonly_paths.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-readonly-paths.py\"",
             "statusMessage": "Checking read-only paths...",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_doc_rules.py\"",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-doc-rules.py\"",
             "statusMessage": "Loading document rules...",
             "timeout": 10
           }

@@ -87,7 +87,7 @@ soon.
 | Build / typecheck / lint green | — | ✅ | ✅ | ✅ |
 | Core-flow checks automated | — | — | ✅ | ✅ |
 | Full test suite green before commit | — | — | ✅ | ✅ |
-| Independent review of each slice (`/vibe_review`) | — | on request | ✅ | ✅ |
+| Independent review of each slice (`/vibe-review`) | — | on request | ✅ | ✅ |
 | CI runs the suite on every push | — | — | ✅ | ✅ |
 | E2E smoke on a production-like environment before release | — | — | — | ✅ |
 

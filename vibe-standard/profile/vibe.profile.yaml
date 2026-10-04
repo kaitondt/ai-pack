@@ -1,11 +1,11 @@
 # ============================================================================
 #  VIBE CODING PROJECT PROFILE
 #  The single source of project-specific truth for the Vibe Skill Pack.
-#  Every vibe_* skill resolves {{profile.*}} tokens from this file.
+#  Every vibe-* skill resolves {{profile.*}} tokens from this file.
 #  Location (fixed): <repo-root>/.claude/vibe.profile.yaml
 #
 #  Short on purpose. If you find yourself wanting more fields than this, the
-#  project has probably outgrown vibe coding - run /vibe_graduate.
+#  project has probably outgrown vibe coding - run /vibe-graduate.
 # ============================================================================
 schema_version: "1.0"
 
@@ -18,8 +18,8 @@ project:
 
 # ---------------------------------------------------------------------------
 # STAGE - the single most important field. It decides which rules are in
-# force (see skills/vibe_project, "The stage model"). Change it only through
-# /vibe_graduate, never by editing this line.
+# force (see skills/vibe-project, "The stage model"). Change it only through
+# /vibe-graduate, never by editing this line.
 #   spike      - answer a question; throwaway; never merged to the main branch
 #   prototype  - show it to someone; synthetic data only
 #   mvp        - real users; core flows tested; security baseline in force
@@ -60,7 +60,7 @@ stack:
   package_manager: "<npm | pnpm | yarn | bun | pip | uv | poetry | go | cargo>"
 
 # ---------------------------------------------------------------------------
-# COMMANDS - the real commands. /vibe_verify runs them; nothing is reported
+# COMMANDS - the real commands. /vibe-verify runs them; nothing is reported
 # green that did not run. Leave "" for a command the project does not have yet.
 # ---------------------------------------------------------------------------
 commands:
@@ -93,7 +93,7 @@ paths:
   skill_changes: "vibe/skill-changes.md"
 
 # ---------------------------------------------------------------------------
-# SLICES - the step size (SS-02). The check_slice_size hook reads these.
+# SLICES - the step size (SS-02). The check-slice-size hook reads these.
 # ---------------------------------------------------------------------------
 slices:
   max_files: 8
@@ -137,12 +137,12 @@ security:
   env_files: [".env", ".env.local", ".env.development.local"]
   allowed_licenses: ["MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "0BSD"]
   allow_real_data: false           # true only from mvp, and only in the real environment
-  # Extra command patterns (Python regex) the guard_vibe_bash hook blocks,
+  # Extra command patterns (Python regex) the guard-vibe-bash hook blocks,
   # on top of its built-ins. Put your production deploy command here.
   dangerous_commands:
     - "vercel\\s+--prod"
     - "fly\\s+deploy"
-  # Files the AI never writes (guard_vibe_paths). Generated code, vendored code.
+  # Files the AI never writes (guard-vibe-paths). Generated code, vendored code.
   protected_paths:
     - "**/*.generated.*"
     - "vendor/**"
@@ -155,7 +155,7 @@ debt:
   block_graduation_on_due: true    # DL-04 - leave true
 
 # ---------------------------------------------------------------------------
-# RELEASE - how it ships. Read by /vibe_ship.
+# RELEASE - how it ships. Read by /vibe-ship.
 # ---------------------------------------------------------------------------
 release:
   environments: ["local", "preview", "production"]
@@ -165,7 +165,7 @@ release:
   backups: "<how and how often, or 'no persistent data'>"
 
 # ---------------------------------------------------------------------------
-# GRADUATION - what happens after production. See skills/vibe_graduation.
+# GRADUATION - what happens after production. See skills/vibe-graduation.
 # ---------------------------------------------------------------------------
 graduation:
   # Extra promotion criteria this project adds to the pack's list, per stage.
@@ -185,12 +185,12 @@ integration:
   sibling_packs: auto
 
 # ---------------------------------------------------------------------------
-# EXECUTION - model policy for the vibe_* agents (see README, "Model policy").
+# EXECUTION - model policy for the vibe-* agents (see README, "Model policy").
 # ---------------------------------------------------------------------------
 execution:
   agent_model: opus
   intended_effort: "<low | medium | high>"   # recorded, not enforced
-  agent_model_overrides: {}        # e.g. { vibe_verifier: sonnet }
+  agent_model_overrides: {}        # e.g. { vibe-verifier: sonnet }
 
 language:
   docs: "en"                       # language of vibe/*.md files

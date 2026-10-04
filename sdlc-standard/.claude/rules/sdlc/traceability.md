@@ -92,8 +92,8 @@ Two consequences, both enforced at the gates:
 ## TR-04 — Phase gates are traceability assertions
 
 A phase is complete when every assertion in `{{profile.gates.<phase>.exit}}` holds **and**
-the register has no orphans for the artifacts that phase owns. `/sdlc_trace_check` is the
-gate check; `/sdlc_phase_gate` records the result. Run both before declaring anything done.
+the register has no orphans for the artifacts that phase owns. `/sdlc-trace-check` is the
+gate check; `/sdlc-phase-gate` records the result. Run both before declaring anything done.
 
 ## TR-05 — IDs are permanent
 
@@ -120,9 +120,9 @@ At P2/P3 these pairs must agree. Each mismatch is a Critical finding:
 | X-11 | Mockup — fields, columns, buttons, messages, states, navigation, permissions | Screen design |
 | X-12 | Environments the pipeline deploys to | `{{profile.system.environments}}` |
 
-`/sdlc_review_design` runs X-01..X-07, X-09 and X-10; `/sdlc_generate_detail_design` runs
-X-08 and emits the drift report; `/sdlc_generate_mockup` runs X-11 (sub-checks a..g);
-`/sdlc_generate_infra` runs X-12.
+`/sdlc-review-design` runs X-01..X-07, X-09 and X-10; `/sdlc-generate-detail-design` runs
+X-08 and emits the drift report; `/sdlc-generate-mockup` runs X-11 (sub-checks a..g);
+`/sdlc-generate-infra` runs X-12.
 
 X-11 and X-12 exist because both artifacts are routinely maintained outside the document
 set. A mockup is the artifact everyone looks at, so a field that exists only there gets

@@ -1,7 +1,7 @@
 # `pm.profile.yaml` — Field Specification
 
 The profile is the **only** file a new project must author before the pack becomes operational.
-Skills read it through the `pm_project` skill and substitute `{{profile.<dotted.path>}}` tokens.
+Skills read it through the `pm-project` skill and substitute `{{profile.<dotted.path>}}` tokens.
 
 Canonical location: `<repo-root>/.claude/pm.profile.yaml`
 
@@ -34,7 +34,7 @@ into a management deliverable — a made-up date or amount is read as a commitme
 | `copyright` | ✅ | Rendered as the footer of every deliverable. |
 | `start_date`, `planned_end_date` | ✅ | Anchor every "as of" statement; convert relative dates to absolute. |
 | `delivery_model` | ✅ | `waterfall` · `iterative-waterfall` · `agile-with-gates`. Sets how hard a gate blocks and whether baselines are per release. |
-| `contract_type` | ✅ | `fixed-price` · `time-and-materials` · `milestone-based` · `internal`. Read by `pm_change_control` and `pm_cost`: the same change is a different decision under each, and it determines **who is harmed** by skipping change control. |
+| `contract_type` | ✅ | `fixed-price` · `time-and-materials` · `milestone-based` · `internal`. Read by `pm-change-control` and `pm-cost`: the same change is a different decision under each, and it determines **who is harmed** by skipping change control. |
 | `currency` | ✅ | Every amount in every document. |
 | `engagement_model` | ✅ | `onshore` · `offshore` · `hybrid` · `internal`. Drives the communication design (SE-07) more than any other single field. |
 | `time_zones` | — | Used when deriving decision latency into durations (WB-08). |
@@ -42,7 +42,7 @@ into a management deliverable — a made-up date or amount is read as a commitme
 ### `governance`
 
 Every role is required. **A decision with no owner cannot be recorded, and an unrecorded
-decision is an assumption** (DA-01). `/pm_profile_check` fails Critical on an unset role.
+decision is an assumption** (DA-01). `/pm-profile-check` fails Critical on an unset role.
 
 | Field | Notes |
 |---|---|
@@ -62,7 +62,7 @@ The arithmetic behind every duration and cost.
 | `productive_hours_per_day` | ✅ **The important one.** Real available time after meetings, support and context switching. Equal to `hours_per_day` is a Warning: it makes every duration ~19% optimistic (EM-04). |
 | `planned_absence_allowance` | Leave, training, sickness. Applied in the duration derivation. |
 | `holidays_calendar` | Per location — an offshore project has two, and they differ. |
-| `freeze_periods[]` | No-release windows. `/pm_schedule_baseline` respects them. |
+| `freeze_periods[]` | No-release windows. `/pm-schedule-baseline` respects them. |
 
 ### `scope`
 
@@ -125,7 +125,7 @@ The arithmetic behind every duration and cost.
 | Field | Notes |
 |---|---|
 | `objectives[]` | Attribute + target + measurement method. A non-functional target without its condition cannot be passed or failed (QP-01). |
-| `targets` | ✅ Must **match** the technical pack's `quality.targets` where one exists (QP-02). `/pm_sync_technical` reports drift. |
+| `targets` | ✅ Must **match** the technical pack's `quality.targets` where one exists (QP-02). `/pm-sync-technical` reports drift. |
 | `test_levels[]` | Owner, environment, entry and exit criteria per level. Entry criteria that are not enforced are the most expensive politeness in project management (QP-05). |
 | `defect_severity[]` | Definitions and fix SLAs, agreed **before** testing starts. Severity is never adjusted to pass a gate (QP-07). |
 
@@ -183,7 +183,7 @@ The arithmetic behind every duration and cost.
 ### `documents`
 
 The final form of each management artifact, and the scratch forms allowed while producing it.
-Read by `pm_document_io`. Management deliverables are contractual: **format is a property of
+Read by `pm-document-io`. Management deliverables are contractual: **format is a property of
 the artifact**, agreed once, not chosen per task because one was quicker to write.
 
 | Field | Required | Notes |
@@ -202,7 +202,7 @@ the artifact**, agreed once, not chosen per task because one was quicker to writ
 
 #### The WBS is delivered as Excel
 
-`wbs` is in `binary_final` and `paths.wbs` ends in `.xlsx`. `/pm_profile_check` fails Critical
+`wbs` is in `binary_final` and `paths.wbs` ends in `.xlsx`. `/pm-profile-check` fails Critical
 on either being otherwise, and the rule is stated in `rules/pm/document-standards.md` MD-09.
 
 Markdown and CSV are legitimate **working** forms — text is easier to restructure than a
@@ -216,7 +216,7 @@ The WBS and its dictionary live in **one workbook, two sheets**
 (`registry[wbs].dictionary_in_same_workbook`), for the same reason: two files drift, and the
 dictionary is the half that silently stops matching.
 
-`pm_document_io` DIO-W owns the workbook layout — text-formatted code column, frozen and
+`pm-document-io` DIO-W owns the workbook layout — text-formatted code column, frozen and
 filtered header, outline grouping, no merged cells in the data region, the 100% rule as a live
 formula, per-branch totals — and the revision hazard: **never regenerate the workbook from a
 working file whose stamp is older than the workbook.** Somebody edited it directly, and the
@@ -226,8 +226,8 @@ regeneration erases that without either of you noticing.
 
 | Field | Notes |
 |---|---|
-| `change_requires_cr` | ✅ Must stay `true` (PB-03). Enforced by `hooks/guard_pm_baselines.py`. |
-| `active_cr_file` | `.claude/.active_pm_cr`. Written by `/pm_change_apply`, cleared when the CR closes. |
+| `change_requires_cr` | ✅ Must stay `true` (PB-03). Enforced by `hooks/guard-pm-baselines.py`. |
+| `active_cr_file` | `.claude/.active_pm_cr`. Written by `/pm-change-apply`, cleared when the CR closes. |
 | `readonly_globs[]` | Always denied, CR or not: archived snapshots. |
 | `registered[]` | Path, artifact, version, approver, date. Appended when an approval baselines a document. The guard hook reads this list. |
 
@@ -253,8 +253,8 @@ regeneration erases that without either of you noticing.
 
 | Field | Notes |
 |---|---|
-| `technical_pack` | `auto` · `sdlc` · `migration` · `none`. `/pm_init` detects it. |
-| `technical_profile_path` | Filled by `/pm_init`. |
+| `technical_pack` | `auto` · `sdlc` · `migration` · `none`. `/pm-init` detects it. |
+| `technical_profile_path` | Filled by `/pm-init`. |
 | `bindings` | What binds to what, and which pack owns each kind of data. `quality_targets: inherit` is the safe default. |
 | `milestone_gate_map[]` | Milestone ↔ phase gate. **Every payment milestone should appear here** — one that does not has no technical exit criteria behind it. |
 
@@ -262,7 +262,7 @@ regeneration erases that without either of you noticing.
 
 | Field | Notes |
 |---|---|
-| `agent_model` | Default `opus`, written into every agent's frontmatter by `/pm_init`. |
+| `agent_model` | Default `opus`, written into every agent's frontmatter by `/pm-init`. |
 | `agent_model_overrides` | Per-agent downgrade, for genuinely mechanical roles only. |
 | `intended_effort` | Records the reasoning effort the project runs at. Session-level in Claude Code — this field documents it, it does not enforce it. |
 
@@ -270,7 +270,7 @@ regeneration erases that without either of you noticing.
 
 ## Validation
 
-`/pm_profile_check` enforces this document. The Critical checks, in short: the profile exists,
+`/pm-profile-check` enforces this document. The Critical checks, in short: the profile exists,
 every governance role is filled, approvals are defined, `auto_version_bump` is false,
 `change_requires_cr` is true, change authority has thresholds, schedule baseline and working
 file differ, reserves are non-zero under fixed-price, and no baseline-register entry points at a

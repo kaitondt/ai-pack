@@ -43,13 +43,13 @@ The code at the shortcut carries a marker with the ID:
 // DEBT-014: notes stored in a JSON file; move to Postgres before mvp
 ```
 
-- A `TODO` / `FIXME` / `HACK` **without** a `DEBT-*` id is flagged by `/vibe_review`. Either it
+- A `TODO` / `FIXME` / `HACK` **without** a `DEBT-*` id is flagged by `/vibe-review`. Either it
   becomes a debt, or it is fixed, or it is deleted.
 - Never close a debt by deleting its marker. Closing cites the commit that paid it.
 
 ## DL-04 — Graduation is blocked by debts due
 
-`/vibe_graduate <stage>` fails while any open debt has `due` at or before `<stage>`. The
+`/vibe-graduate <stage>` fails while any open debt has `due` at or before `<stage>`. The
 options are: pay it, or re-date it with a `DEC-*` that states why the risk is acceptable and who
 accepted it. Security debts cannot be re-dated past `mvp` (SB-08).
 
@@ -59,8 +59,8 @@ accepted it. Security debts cannot be re-dated past `mvp` (SB-08).
 slice is a debt paydown, chosen by risk × due-soonest.
 
 The counter is not stored anywhere — it is computed from git: the number of `INT-*` commits
-since the most recent `DEBT-*` commit (SC-05 makes this one `git log` away). `/vibe_status`
-and `/vibe_build` show it.
+since the most recent `DEBT-*` commit (SC-05 makes this one `git log` away). `/vibe-status`
+and `/vibe-build` show it.
 
 A debt paydown is a refactor slice (SS-07): behaviour does not change, checks green before
 and after.
@@ -72,7 +72,7 @@ and after.
 - A debt discovered that someone took earlier is recorded as found, not as new; it is
   information about where shortcuts go unrecorded.
 - A ledger with zero open debts on a vibe-coded project is not clean; it is incomplete.
-  `/vibe_review` looks for unrecorded ones.
+  `/vibe-review` looks for unrecorded ones.
 
 ## Self-check before committing a slice
 

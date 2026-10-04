@@ -14,9 +14,9 @@ must be true *every* time belongs in a hook, not only in a skill.
 
 | Event | Matcher | Purpose |
 |---|---|---|
-| PreToolUse | `Write\|Edit` | `guard_readonly_paths.py` — deny writes under legacy/generated paths (`LR-01`, `LR-04`) |
-| PreToolUse | `Write\|Edit` | `check_doc_rules.py` — remind of document rules when the path is a deliverable |
-| SessionStart | — | `check_profile_loaded.py` — fail fast when the profile is missing or unresolved |
+| PreToolUse | `Write\|Edit` | `guard-readonly-paths.py` — deny writes under legacy/generated paths (`LR-01`, `LR-04`) |
+| PreToolUse | `Write\|Edit` | `check-doc-rules.py` — remind of document rules when the path is a deliverable |
+| SessionStart | — | `check-profile-loaded.py` — fail fast when the profile is missing or unresolved |
 | PostToolUse | `Write\|Edit` | formatter, then linter, then incremental type-check |
 | Stop | — | build verification |
 

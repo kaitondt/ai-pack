@@ -59,8 +59,8 @@ round recorded with zero findings is a signal, not an achievement.
 
 ## DS-04 — Section structure is fixed per category
 
-Each design category defines its section skeleton in its own skill (`sdlc_screen_design`,
-`sdlc_function_design`, …). Sections are neither reordered nor omitted; an unused section
+Each design category defines its section skeleton in its own skill (`sdlc-screen-design`,
+`sdlc-function-design`, …). Sections are neither reordered nor omitted; an unused section
 carries an explicit "not applicable" line rather than disappearing.
 
 ## DS-05 — Scope discipline per section
@@ -140,7 +140,7 @@ Where no template is registered, `{{profile.templates.on_missing}}` decides — 
 generated from the pack's own skeleton says so in the run report, so nobody mistakes it for
 the client's form.
 
-`sdlc_document_io` owns the mechanics.
+`sdlc-document-io` owns the mechanics.
 
 ## DS-12 — Format follows the category, not the task
 

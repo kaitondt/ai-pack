@@ -35,7 +35,7 @@ Before the first edit of a session:
 3. If they disagree (uncommitted changes nobody mentioned, commits after the last STATE.md
    update), **report the discrepancy first**. Something happened that the handoff missed.
 
-`/vibe_resume` does this. The `check_vibe_profile` hook prints STATE.md at session start so
+`/vibe-resume` does this. The `check-vibe-profile` hook prints STATE.md at session start so
 the first message already has it.
 
 ## SC-03 — The logs are append-only

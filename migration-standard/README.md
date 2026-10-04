@@ -17,7 +17,7 @@ out into **one profile file**; everything methodological stayed in the pack.
 │  migration.profile.yaml     ← the ONLY file you edit per project │
 │  (stack, ID patterns, paths, languages, phase gates, counts) │
 └───────────────────────────┬──────────────────────────────────┘
-                            │ resolved by  skill: mig_project
+                            │ resolved by  skill: mig-project
                             ▼
 ┌──────────────────────────────────────────────────────────────┐
 │  rules/  — invariant standards (traceability, no-invention)   │
@@ -46,11 +46,11 @@ and not a generic SDLC pack.
 | 4 | **Blocked features stop the run** — disabled-but-present legacy features are escalated, never silently enabled | `rules/migration/no-invention.md` §BLOCKED |
 | 5 | **Deterministic IDs** — `{MODULE}-{TYPE}-{NNN}` everywhere, never translated | `rules/migration/id-naming.md` |
 | 6 | **Document standards** — fixed section skeleton, revision history, no auto version bump | `rules/migration/document-standards.md` |
-| 7 | **Phase gates** — a phase cannot start until its predecessor's gate passes | `skills/mig_project` §Phase Model |
-| 8 | **The pack ships no deliverable templates** — the client's own form is registered and outranks the pack's skeleton, and it never suspends NI-01 | `rules/migration/document-standards.md` DS-10, `skills/mig_document_io` |
-| 9 | **A legacy document is evidence of intent, never of behaviour** — the legacy code is the oracle | `skills/mig_document_io` DIO-08 |
-| 10 | **The legacy screen is the UI oracle**, to the degree `mockup.fidelity` states — reproduce, do not improve, in pixels as much as in rules | `skills/mig_mockup` MU-02, MU-03 |
-| 11 | **No default platform, and legacy infrastructure is read-only** — nothing deploys to the legacy production environment | `skills/mig_infrastructure` IN-01, IN-02 |
+| 7 | **Phase gates** — a phase cannot start until its predecessor's gate passes | `skills/mig-project` §Phase Model |
+| 8 | **The pack ships no deliverable templates** — the client's own form is registered and outranks the pack's skeleton, and it never suspends NI-01 | `rules/migration/document-standards.md` DS-10, `skills/mig-document-io` |
+| 9 | **A legacy document is evidence of intent, never of behaviour** — the legacy code is the oracle | `skills/mig-document-io` DIO-08 |
+| 10 | **The legacy screen is the UI oracle**, to the degree `mockup.fidelity` states — reproduce, do not improve, in pixels as much as in rules | `skills/mig-mockup` MU-02, MU-03 |
+| 11 | **No default platform, and legacy infrastructure is read-only** — nothing deploys to the legacy production environment | `skills/mig-infrastructure` IN-01, IN-02 |
 
 ## What is variable (lives in the profile)
 
@@ -74,11 +74,11 @@ through most of the Japanese SI market — and on migration work they are usuall
 A template invented here would be rejected at the first review, *after* a whole category had
 been generated into it.
 
-So the form is a project input. `/mig_init` asks for it and `/mig_template_register` takes it
+So the form is a project input. `/mig-init` asks for it and `/mig-template-register` takes it
 in — opening the file, deriving the field map from its own placeholders, reporting where it
 disagrees with the category skill, checking it has somewhere to record the `LEG-*` anchor,
 and running a round-trip fidelity check on the first file so a writer that destroys merged
-ranges is caught before forty documents exist. `mig_document_io` owns the mechanics for
+ranges is caught before forty documents exist. `mig-document-io` owns the mechanics for
 Markdown, Excel, Word and CSV.
 
 The same skill draws a line this pack needs and a greenfield pack does not: **legacy
@@ -90,12 +90,12 @@ Two more things the pack refuses to assume:
 - **Mockups** take whichever form the project uses — HTML prototype, design canvas, Figma or
   image exports — and are held to the legacy screen at the fidelity `mockup.fidelity`
   declares. Under `as-is`, a reordered field is a defect, not an improvement: NI-02 applies to
-  pixels, and the mockup is where modernisation otherwise arrives unpriced (`mig_mockup`).
+  pixels, and the mockup is where modernisation otherwise arrives unpriced (`mig-mockup`).
 - **Infrastructure** has no default platform, and the legacy system's infrastructure is as
   read-only as its source. Beyond the usual pipeline and IaC, this is where a migration keeps
   what a greenfield project has no equivalent of: coexistence and which system owns the data,
   data migration judged on reconciliation rather than on completing, the parallel run, and a
-  rollback whose target is a system that never stopped (`mig_infrastructure`).
+  rollback whose target is a system that never stopped (`mig-infrastructure`).
 
 ---
 
@@ -129,7 +129,7 @@ migration-standard/
 
 ## Model policy
 
-Every `mig_*` agent ships with `model: opus`, set from `execution.agent_model` in the
+Every `mig-*` agent ships with `model: opus`, set from `execution.agent_model` in the
 profile.
 
 This is deliberate, not a default. The agent roles all produce work whose failure
@@ -153,33 +153,33 @@ of a parity defect found in UAT is larger by an order of magnitude.
 
 | Phase | Name | Command | Deliverable | Gate to exit |
 |---|---|---|---|---|
-| **P0** | Legacy Analysis | `/mig_analyze_legacy` | `legacy-inventory.md`, `LEG-*` catalogue | 100% of in-scope legacy artifacts catalogued |
-| **P1** | Requirements | `/mig_generate_requirements` | `requirement.md` → BRD → TSD → FRD | every `REQ-*` cites a `LEG-*` |
-| **P2** | Basic Design | `/mig_generate_basic_design` | screen / function / data / API / batch / report design | `/mig_review_design` clean; cross-doc checks pass |
-| **P2** | Mockup | `/mig_generate_mockup` | prototypes / artboards / Figma check, at the profile's fidelity | X-09 and X-10 clean |
-| **P3** | Detail Design | `/mig_generate_detail_design` | DD per module + BD↔code GAP report | zero unresolved GAP items |
-| **P1→P4** | Target codebase skeleton | `/mig_scaffold_codebase` | layout, layer projects, cross-cutting plumbing, real build commands | builds clean; legacy untouched |
-| **P4** | Implementation | `/mig_implement_feature` | code across all layers | `/mig_verify_build` + `/mig_review_commit` pass |
-| **P2/P4** | Infrastructure | `/mig_generate_infra` | pipeline, environments, IaC; coexistence, data migration, cutover, rollback | X-11 clean; nothing deploys to legacy prod |
-| **P5** | Unit Test | `/mig_generate_test ut` | UT design + automated tests | UT design ↔ FC coverage 100% |
-| **P6** | Integration Test | `/mig_generate_test it` | IT design + results | every screen flow covered |
-| **P7** | UAT | `/mig_uat_investigate` → `_fix` → `_report` | bug reports, closure log | all bugs closed or accepted |
+| **P0** | Legacy Analysis | `/mig-analyze-legacy` | `legacy-inventory.md`, `LEG-*` catalogue | 100% of in-scope legacy artifacts catalogued |
+| **P1** | Requirements | `/mig-generate-requirements` | `requirement.md` → BRD → TSD → FRD | every `REQ-*` cites a `LEG-*` |
+| **P2** | Basic Design | `/mig-generate-basic-design` | screen / function / data / API / batch / report design | `/mig-review-design` clean; cross-doc checks pass |
+| **P2** | Mockup | `/mig-generate-mockup` | prototypes / artboards / Figma check, at the profile's fidelity | X-09 and X-10 clean |
+| **P3** | Detail Design | `/mig-generate-detail-design` | DD per module + BD↔code GAP report | zero unresolved GAP items |
+| **P1→P4** | Target codebase skeleton | `/mig-scaffold-codebase` | layout, layer projects, cross-cutting plumbing, real build commands | builds clean; legacy untouched |
+| **P4** | Implementation | `/mig-implement-feature` | code across all layers | `/mig-verify-build` + `/mig-review-commit` pass |
+| **P2/P4** | Infrastructure | `/mig-generate-infra` | pipeline, environments, IaC; coexistence, data migration, cutover, rollback | X-11 clean; nothing deploys to legacy prod |
+| **P5** | Unit Test | `/mig-generate-test ut` | UT design + automated tests | UT design ↔ FC coverage 100% |
+| **P6** | Integration Test | `/mig-generate-test it` | IT design + results | every screen flow covered |
+| **P7** | UAT | `/mig-uat-investigate` → `_fix` → `_report` | bug reports, closure log | all bugs closed or accepted |
 
 Change requests are **cross-cutting, not a phase**: a client spec change can arrive any
-time from P2 onward and re-opens the phases it touches. `mig_change_request` and
-`/mig_cr_analyze` → `/mig_cr_design` → `/mig_cr_implement` → `/mig_cr_report` run it behind
+time from P2 onward and re-opens the phases it touches. `mig-change-request` and
+`/mig-cr-analyze` → `/mig-cr-design` → `/mig-cr-implement` → `/mig-cr-report` run it behind
 two approvals — the option, then the document diff — and record the CR id as the
 traceability ancestor for behaviour the legacy never had.
 
-P5–P7 have their own skill family: `mig_test_design` (viewpoints and writing rules),
-`mig_test_ut` / `mig_test_it` (the checkpoint pipelines with human pauses),
-`mig_test_automation`, `mig_test_review`, `mig_defect_triage`, `mig_test_artifact_lifecycle`.
+P5–P7 have their own skill family: `mig-test-design` (viewpoints and writing rules),
+`mig-test-ut` / `mig-test-it` (the checkpoint pipelines with human pauses),
+`mig-test-automation`, `mig-test-review`, `mig-defect-triage`, `mig-test-artifact-lifecycle`.
 
-Cross-cutting at any phase: `/mig_trace_check`, `/mig_review_design`,
-`/mig_translate`, `/mig_context_map`, `/mig_verify_build`, `/mig_template_register`,
-`/mig_refine_skill`.
+Cross-cutting at any phase: `/mig-trace-check`, `/mig-review-design`,
+`/mig-translate`, `/mig-context-map`, `/mig-verify-build`, `/mig-template-register`,
+`/mig-refine-skill`.
 
-Any bug, from any phase, can be traced end to end with `/mig_trace_bug` (`mig_bug_trace`):
+Any bug, from any phase, can be traced end to end with `/mig-trace-bug` (`mig-bug-trace`):
 the chain from legacy to test with the first broken link marked, the introducing commit and
 everything that happened to that code since, and — when it was found later than it should
 have been — the evidenced reason each earlier check missed it.
@@ -195,11 +195,11 @@ are built for: [COMMAND-FLOW.md](COMMAND-FLOW.md).**
 cp -r migration-standard/.claude  <your-project>/.claude
 cp migration-standard/profile/migration.profile.yaml  <your-project>/.claude/migration.profile.yaml
 # then, inside the project:
-/mig_init
-/mig_template_register      # take the client's own deliverable forms in
+/mig-init
+/mig-template-register      # take the client's own deliverable forms in
 ```
 
-`/mig_init` interviews you for the profile fields it cannot infer, writes the profile, takes
+`/mig-init` interviews you for the profile fields it cannot infer, writes the profile, takes
 the deliverable templates in, generates `CLAUDE.md`, and prints the phase plan.
 
 Needs Python 3 for the guard hooks — without it they fail silently and **the legacy tree is

@@ -1,7 +1,7 @@
 # ============================================================================
 #  SOFTWARE DEVELOPMENT PROJECT PROFILE
 #  The single source of project-specific truth for the SDLC Skill Pack.
-#  Every sdlc_* skill resolves {{profile.*}} tokens from this file.
+#  Every sdlc-* skill resolves {{profile.*}} tokens from this file.
 #  Location (fixed): <repo-root>/.claude/sdlc.profile.yaml
 # ============================================================================
 schema_version: "1.0"
@@ -19,7 +19,7 @@ project:
   #   agile-with-gates    - sprints inside P4..P6, gates at RA / BD / ST / UAT
   delivery_model: iterative-waterfall
   # Fixed-price makes a scope change a contractual event; T&M makes it a planning
-  # event. Change control is stricter under fixed-price - sdlc_change_request
+  # event. Change control is stricter under fixed-price - sdlc-change-request
   # reads this field.
   contract_type: fixed-price     # fixed-price | time-and-materials | internal
   release_cadence: "<e.g. monthly minor, quarterly major>"
@@ -98,7 +98,7 @@ system:
       purpose: "live"
       data: "live"
   build:
-    order:                       # exact build order; used by /sdlc_verify_build
+    order:                       # exact build order; used by /sdlc-verify-build
       - "<step 1 command>"
       - "<step 2 command>"
     typecheck: "<command>"
@@ -111,7 +111,7 @@ system:
 # INFRASTRUCTURE - where the code lives, how it is built, and where it runs.
 # Every field is a free-text or enumerated declaration: the pack does not
 # assume GitHub, does not assume a cloud, and does not assume containers.
-# sdlc_infrastructure resolves these into the platform's own vocabulary.
+# sdlc-infrastructure resolves these into the platform's own vocabulary.
 # ---------------------------------------------------------------------------
 infrastructure:
   # Source control and code review. Drives where the CI definition is written,
@@ -233,28 +233,28 @@ paths:
   bd_categories:
     - key: architecture
       dir: "01.architecture"
-      skill: sdlc_basic_design
+      skill: sdlc-basic-design
     - key: nfr
       dir: "02.non-functional"
-      skill: sdlc_nfr_design
+      skill: sdlc-nfr-design
     - key: screen
       dir: "03.screen-design"
-      skill: sdlc_screen_design
+      skill: sdlc-screen-design
     - key: function
       dir: "04.function-design"
-      skill: sdlc_function_design
+      skill: sdlc-function-design
     - key: data
       dir: "05.data-design"
-      skill: sdlc_data_design
+      skill: sdlc-data-design
     - key: interface
       dir: "06.interface-design"
-      skill: sdlc_api_design
+      skill: sdlc-api-design
     - key: report
       dir: "07.report-design"
-      skill: sdlc_basic_design
+      skill: sdlc-basic-design
     - key: batch
       dir: "08.batch-design"
-      skill: sdlc_batch_design
+      skill: sdlc-batch-design
 
 # ---------------------------------------------------------------------------
 # LANGUAGE - deliverable language is fixed per directory, never mixed.
@@ -299,8 +299,8 @@ document:
 # organisation has its own, in its own format, and a template invented here
 # is rejected at the first review.
 #
-# Collected by /sdlc_init and maintained by /sdlc_template_register.
-# Read by sdlc_document_io, which owns the read/write mechanics per format.
+# Collected by /sdlc-init and maintained by /sdlc-template-register.
+# Read by sdlc-document-io, which owns the read/write mechanics per format.
 # ---------------------------------------------------------------------------
 templates:
   root: "docs/templates"
@@ -310,12 +310,12 @@ templates:
   #   block    - refuse to generate the category at all
   on_missing: ask
   # Formats the agents may read and write. A format listed here must have a
-  # working toolchain - /sdlc_profile_check verifies each one.
+  # working toolchain - /sdlc-profile-check verifies each one.
   formats_enabled: [md, xlsx, docx, csv]
   # Per-category registration. `key` matches a paths.bd_categories[].key, or one
   # of: requirements, detail, test_ut, test_it, test_st, test_uat, review,
   # cr_report, incident, gate_record, release_note.
-  # Empty at init; /sdlc_init appends one entry per template the user provides.
+  # Empty at init; /sdlc-init appends one entry per template the user provides.
   registry:
     - key: ""
       path: ""                   # repo-relative, under templates.root
@@ -326,7 +326,7 @@ templates:
       sheet: ""
       header_rows: 0
       # Cells or headings the generator must fill, named as the template names
-      # them. Left empty, sdlc_document_io derives them from the placeholders
+      # them. Left empty, sdlc-document-io derives them from the placeholders
       # it finds in the file.
       fields: []
       status: none               # provided | none
@@ -396,7 +396,7 @@ gates:
   P2_basic_design:
     entry: ["SRS baselined"]
     exit:
-      - "/sdlc_review_design reports zero Critical findings"
+      - "/sdlc-review-design reports zero Critical findings"
       - "SC / FC / API / DT cross-checks pass"
       - "every REQ-* is realised by at least one design item"
   P3_detail_design:
@@ -407,8 +407,8 @@ gates:
   P4_implementation:
     entry: ["DD approved for the module"]
     exit:
-      - "/sdlc_verify_build passes"
-      - "/sdlc_review_commit reports zero Critical findings"
+      - "/sdlc-verify-build passes"
+      - "/sdlc-review-commit reports zero Critical findings"
       - "unit tests for the module pass"
   P5_unit_test:
     entry: ["code complete for the module"]
@@ -463,8 +463,8 @@ review:
   output_dir: "{{profile.paths.reviews}}"
 
 # ---------------------------------------------------------------------------
-# QUALITY - metrics, targets and the defect model. Read by sdlc_quality_metrics
-# and /sdlc_quality_report. Targets are project agreements, not universal truths:
+# QUALITY - metrics, targets and the defect model. Read by sdlc-quality-metrics
+# and /sdlc-quality-report. Targets are project agreements, not universal truths:
 # set them from your own history, then hold them.
 # ---------------------------------------------------------------------------
 quality:
@@ -505,12 +505,12 @@ constraints:
   db_schema_owner: "this project"      # "this project" | "<other team>" | "frozen"
   secrets_policy: "never commit secrets; .env.example documents the required keys"
   generated_files_glob: "**/*.generated.*"
-  # Absolute-deny edit paths. Enforced by hooks/guard_protected_paths.py.
+  # Absolute-deny edit paths. Enforced by hooks/guard-protected-paths.py.
   readonly_globs:
     - "**/*.generated.*"
     - "docs/**/_baselined/**"
   # Documents that are baselined. Editing one requires an approved CR.
-  # Appended by /sdlc_phase_gate when a gate passes.
+  # Appended by /sdlc-phase-gate when a gate passes.
   baselined:
     - path: ""
       version: ""
@@ -519,10 +519,10 @@ constraints:
 
 # ---------------------------------------------------------------------------
 # EXECUTION - which model the delegated agents run on.
-# Applied to .claude/agents/*.md frontmatter by /sdlc_init.
+# Applied to .claude/agents/*.md frontmatter by /sdlc-init.
 # ---------------------------------------------------------------------------
 execution:
-  # Default for every sdlc_* agent. These roles produce content whose failure
+  # Default for every sdlc-* agent. These roles produce content whose failure
   # modes are silent - an untestable requirement, a design that quietly drops a
   # rule, a test case that asserts what the code does instead of what the spec
   # says. None of it fails loudly; it fails at UAT.
@@ -672,7 +672,7 @@ maintenance:
   knowledge_base: "{{profile.paths.maintenance}}/knowledge-base.md"
 
 # ---------------------------------------------------------------------------
-# BUG TRACE - cross-phase bug traceability (sdlc_bug_trace, /sdlc_trace_bug).
+# BUG TRACE - cross-phase bug traceability (sdlc-bug-trace, /sdlc-trace-bug).
 # Every key is optional: absent or empty means "detect from the repository".
 # ---------------------------------------------------------------------------
 bug_trace:

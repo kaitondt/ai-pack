@@ -68,14 +68,14 @@ document:
 
 paths:
   bd_categories:                 # the client's category numbering, not the pack's
-    - {key: architecture, dir: "01.方式設計",        skill: sdlc_basic_design}
-    - {key: nfr,          dir: "02.非機能設計",      skill: sdlc_nfr_design}
-    - {key: screen,       dir: "03.画面設計",        skill: sdlc_screen_design}
-    - {key: function,     dir: "04.機能設計",        skill: sdlc_function_design}
-    - {key: data,         dir: "05.DB設計",          skill: sdlc_data_design}
-    - {key: interface,    dir: "06.インタフェース設計", skill: sdlc_api_design}
-    - {key: report,       dir: "07.帳票設計",        skill: sdlc_basic_design}
-    - {key: batch,        dir: "08.バッチ設計",      skill: sdlc_batch_design}
+    - {key: architecture, dir: "01.方式設計",        skill: sdlc-basic-design}
+    - {key: nfr,          dir: "02.非機能設計",      skill: sdlc-nfr-design}
+    - {key: screen,       dir: "03.画面設計",        skill: sdlc-screen-design}
+    - {key: function,     dir: "04.機能設計",        skill: sdlc-function-design}
+    - {key: data,         dir: "05.DB設計",          skill: sdlc-data-design}
+    - {key: interface,    dir: "06.インタフェース設計", skill: sdlc-api-design}
+    - {key: report,       dir: "07.帳票設計",        skill: sdlc-basic-design}
+    - {key: batch,        dir: "08.バッチ設計",      skill: sdlc-batch-design}
 
 mockup:
   kind: html
@@ -97,9 +97,9 @@ this market always has. `self_contained` mockups because the reviewer opens them
 network share on a locked-down machine. `dictionary` because JP↔VN term drift is invisible
 to both sides until a reviewer sees two words for one table.
 
-**Run `/sdlc_template_register` before P2, not during it.** Register every form, and let the
+**Run `/sdlc-template-register` before P2, not during it.** Register every form, and let the
 fidelity check run on the first file of each. Excel forms in this market are usually
-grid-paper layouts (方眼紙) where one logical field spans a merged range — `sdlc_document_io`
+grid-paper layouts (方眼紙) where one logical field spans a merged range — `sdlc-document-io`
 covers the hazards, but the check is what tells you the writer handled *your* forms.
 
 **Questions the recipe cannot answer:** which categories the client actually orders (not
@@ -302,7 +302,7 @@ testing:
 **Why.** Two surfaces, always, with their own id suffixes — an iOS-only screen design that
 gets "adapted" for Android without its own document is the most common source of divergence.
 `figma` read-only because the design team owns the file and an edit made from a build tool is
-invisible to them (`sdlc_mockup`). Canary deployment because **there is no rollback on
+invisible to them (`sdlc-mockup`). Canary deployment because **there is no rollback on
 mobile**: you cannot un-ship a version, you can only ship another one and wait, which is why
 the staged rollout is the release plan rather than a refinement of it.
 
@@ -312,7 +312,7 @@ Two things to write into the project's own rules, because no profile field cover
   months. Every API change states which app versions it must keep working, and that is an
   `NFR-COMPL-*` with an ST case.
 - **Store review is a release step with an unpredictable duration.** It belongs in the
-  cutover plan (`sdlc_release`), with what happens if it is rejected.
+  cutover plan (`sdlc-release`), with what happens if it is rejected.
 
 **Questions:** minimum OS versions, and whether that is a requirement or an assumption;
 whether the client's UAT can run on TestFlight/internal testing; who owns the store accounts.
@@ -327,12 +327,12 @@ defaults to are the wrong ones.
 ```yaml
 paths:
   bd_categories:
-    - {key: architecture, dir: "01.architecture",     skill: sdlc_basic_design}
-    - {key: nfr,          dir: "02.non-functional",   skill: sdlc_nfr_design}
-    - {key: data,         dir: "03.data-design",      skill: sdlc_data_design}
-    - {key: batch,        dir: "04.pipeline-design",  skill: sdlc_batch_design}
-    - {key: interface,    dir: "05.interface-design", skill: sdlc_api_design}
-    - {key: screen,       dir: "06.screen-design",    skill: sdlc_screen_design}  # small, often admin only
+    - {key: architecture, dir: "01.architecture",     skill: sdlc-basic-design}
+    - {key: nfr,          dir: "02.non-functional",   skill: sdlc-nfr-design}
+    - {key: data,         dir: "03.data-design",      skill: sdlc-data-design}
+    - {key: batch,        dir: "04.pipeline-design",  skill: sdlc-batch-design}
+    - {key: interface,    dir: "05.interface-design", skill: sdlc-api-design}
+    - {key: screen,       dir: "06.screen-design",    skill: sdlc-screen-design}  # small, often admin only
 
 mockup:
   kind: none                     # a decision, stated, not an absence
@@ -390,10 +390,10 @@ mockup:
 
 paths:
   bd_categories:                 # four, not eight
-    - {key: architecture, dir: "01.architecture",     skill: sdlc_basic_design}
-    - {key: screen,       dir: "02.screen-design",    skill: sdlc_screen_design}
-    - {key: data,         dir: "03.data-design",      skill: sdlc_data_design}
-    - {key: interface,    dir: "04.interface-design", skill: sdlc_api_design}
+    - {key: architecture, dir: "01.architecture",     skill: sdlc-basic-design}
+    - {key: screen,       dir: "02.screen-design",    skill: sdlc-screen-design}
+    - {key: data,         dir: "03.data-design",      skill: sdlc-data-design}
+    - {key: interface,    dir: "04.interface-design", skill: sdlc-api-design}
 
 review:
   families: {nfr: true, batch: false, report: false}
@@ -432,8 +432,8 @@ recipe is the project that quietly becomes a product and keeps the lightweight p
 1. Copy `sdlc.profile.yaml` to `.claude/sdlc.profile.yaml`.
 2. Apply the overlay. Keep every field the overlay does not mention.
 3. Answer the recipe's closing questions — those are the real decisions, and they are the
-   ones `/sdlc_init` will ask about anyway.
-4. Run `/sdlc_profile_check`. Fix every Critical before running a phase.
+   ones `/sdlc-init` will ask about anyway.
+4. Run `/sdlc-profile-check`. Fix every Critical before running a phase.
 5. **Record the deviations as decisions.** A recipe that turned off the ST phase or set
    `on_missing: skeleton` made a choice; it belongs in `{{profile.paths.decision_log}}` as a
    `DEC-*` with its reason, not as an unexplained difference from the template that the next

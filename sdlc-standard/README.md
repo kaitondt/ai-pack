@@ -18,7 +18,7 @@ development project has a different problem.
 │  sdlc.profile.yaml     ← the ONLY file you edit per project      │
 │  (stack, ids, paths, gates, quality targets, SLAs, test levels)  │
 └───────────────────────────┬──────────────────────────────────────┘
-                            │ resolved by  skill: sdlc_project
+                            │ resolved by  skill: sdlc-project
                             ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │  rules/  — invariant standards (sourcing, traceability, baseline) │
@@ -71,10 +71,10 @@ decided and someone wrote down. That single difference produces every substantiv
 | 8 | **Deterministic IDs** — `{MODULE}-{TYPE}-{NNN}`, never translated, never renumbered | `rules/sdlc/id-naming.md` |
 | 9 | **Document standards** — fixed skeleton, review record, no automatic version bump | `rules/sdlc/document-standards.md` |
 | 10 | **Metrics are evidence, never tuned** — a defect is attributed to the phase that injected it | `rules/sdlc/quality-metrics.md` |
-| 11 | **Phase gates** — a phase cannot start until its predecessor's exit criteria hold | `skills/sdlc_project` §Phase model |
-| 12 | **The pack ships no deliverable templates** — the client's own form is registered and outranks the pack's skeleton; nothing is invented into a form nobody agreed | `rules/sdlc/document-standards.md` DS-11, `skills/sdlc_document_io` |
-| 13 | **A mockup is never the specification** — the screen design is, and X-11 keeps them from diverging | `skills/sdlc_mockup` MU-01 |
-| 14 | **No default platform** — SCM, CI, hosting and IaC are read from the profile, and infrastructure another team owns is proposed, never committed | `skills/sdlc_infrastructure` IN-01 |
+| 11 | **Phase gates** — a phase cannot start until its predecessor's exit criteria hold | `skills/sdlc-project` §Phase model |
+| 12 | **The pack ships no deliverable templates** — the client's own form is registered and outranks the pack's skeleton; nothing is invented into a form nobody agreed | `rules/sdlc/document-standards.md` DS-11, `skills/sdlc-document-io` |
+| 13 | **A mockup is never the specification** — the screen design is, and X-11 keeps them from diverging | `skills/sdlc-mockup` MU-01 |
+| 14 | **No default platform** — SCM, CI, hosting and IaC are read from the profile, and infrastructure another team owns is proposed, never committed | `skills/sdlc-infrastructure` IN-01 |
 
 ## What is variable (lives in the profile)
 
@@ -94,11 +94,11 @@ through most of the Japanese SI market — and they are frequently contractual. 
 invented here would be rejected at the first review, and rejected *after* a whole category
 had been generated into it.
 
-So the form is a project input. `/sdlc_init` asks for it, `/sdlc_template_register` takes it
+So the form is a project input. `/sdlc-init` asks for it, `/sdlc-template-register` takes it
 in — opening the file, deriving the field map from its own placeholders, reporting where it
 disagrees with the category skill, and running a round-trip fidelity check on the first file
 so that a writer which destroys merged ranges is found before forty documents exist.
-`sdlc_document_io` owns the mechanics for Markdown, Excel, Word and CSV, and the rule that a
+`sdlc-document-io` owns the mechanics for Markdown, Excel, Word and CSV, and the rule that a
 registered template **outranks** the pack's own skeleton (DS-11).
 
 Where no template exists, `templates.on_missing` decides — and a run that used the pack's
@@ -110,11 +110,11 @@ The same principle covers the other two things a project cannot be assumed into:
 - **Mockups** take whichever form the project uses — HTML prototype, design canvas, Figma, or
   image exports — and the pack reads, creates and edits each. What it never does is let a
   mockup become the specification: X-11 cross-checks it against the screen design, per screen
-  (`sdlc_mockup`).
+  (`sdlc-mockup`).
 - **Infrastructure** has no default platform. GitHub, GitLab, Azure Repos, Bitbucket and
   Jenkins are read from the profile, along with hosting, IaC and — crucially — **who owns
   them**. Where a platform team owns the pipeline, the pack produces proposals, not commits
-  (`sdlc_infrastructure`).
+  (`sdlc-infrastructure`).
 
 ---
 
@@ -150,33 +150,33 @@ sdlc-standard/
 
 | Phase | Name | Command | Deliverable | Verified by |
 |---|---|---|---|---|
-| **P0** | Inception & discovery | `/sdlc_discover` | scope, stakeholders, glossary, `BR-*`, decision/assumption/risk logs | P8 |
-| **P1** | Requirements analysis | `/sdlc_generate_requirements` | SRS: `REQ-*`, `NFR-*`, use cases, acceptance criteria | P7, P8 |
-| **P2** | Basic design | `/sdlc_generate_basic_design` | architecture, NFR, screen, function, data, interface, report, batch | P6 |
-| **P2** | Mockups | `/sdlc_generate_mockup` | prototypes / artboards / Figma check, in the project's form | P6, P8 |
-| **P3** | Detail design | `/sdlc_generate_detail_design` | DD per module + drift report | P5 |
-| **P2→P4** | Codebase skeleton | `/sdlc_scaffold_codebase` | layout, layer projects, cross-cutting plumbing, real build commands | — |
-| **P4** | Implementation | `/sdlc_implement_feature` | code across all layers | P5 |
-| **P2/P4** | Infrastructure | `/sdlc_generate_infra` | pipeline, environments, IaC, NFR monitors | P7 |
-| **P5** | Unit test | `/sdlc_generate_test ut` | UT cases + automated tests | — |
-| **P6** | Integration test | `/sdlc_generate_test it` | IT cases, interface failure set | — |
-| **P7** | System test | `/sdlc_generate_test st` | business scenarios + NFR measurements | — |
-| **P8** | UAT | `/sdlc_uat_prepare` → `_triage` → `_report` | UAT plan, acceptance record | — |
-| **P9** | Maintenance | `/sdlc_maintain_intake` → `_fix` → `_report` | incident records, RCA, knowledge base | — |
+| **P0** | Inception & discovery | `/sdlc-discover` | scope, stakeholders, glossary, `BR-*`, decision/assumption/risk logs | P8 |
+| **P1** | Requirements analysis | `/sdlc-generate-requirements` | SRS: `REQ-*`, `NFR-*`, use cases, acceptance criteria | P7, P8 |
+| **P2** | Basic design | `/sdlc-generate-basic-design` | architecture, NFR, screen, function, data, interface, report, batch | P6 |
+| **P2** | Mockups | `/sdlc-generate-mockup` | prototypes / artboards / Figma check, in the project's form | P6, P8 |
+| **P3** | Detail design | `/sdlc-generate-detail-design` | DD per module + drift report | P5 |
+| **P2→P4** | Codebase skeleton | `/sdlc-scaffold-codebase` | layout, layer projects, cross-cutting plumbing, real build commands | — |
+| **P4** | Implementation | `/sdlc-implement-feature` | code across all layers | P5 |
+| **P2/P4** | Infrastructure | `/sdlc-generate-infra` | pipeline, environments, IaC, NFR monitors | P7 |
+| **P5** | Unit test | `/sdlc-generate-test ut` | UT cases + automated tests | — |
+| **P6** | Integration test | `/sdlc-generate-test it` | IT cases, interface failure set | — |
+| **P7** | System test | `/sdlc-generate-test st` | business scenarios + NFR measurements | — |
+| **P8** | UAT | `/sdlc-uat-prepare` → `_triage` → `_report` | UAT plan, acceptance record | — |
+| **P9** | Maintenance | `/sdlc-maintain-intake` → `_fix` → `_report` | incident records, RCA, knowledge base | — |
 
-Between P8 and P9: `/sdlc_release_check` — go/no-go, cutover, rehearsed rollback.
+Between P8 and P9: `/sdlc-release-check` — go/no-go, cutover, rehearsed rollback.
 
 Change requests are **cross-cutting, not a phase**: a change to a baselined artifact can
-arrive any time from P1 onward and re-opens the phases it touches. `sdlc_change_request` and
-`/sdlc_cr_analyze` → `/sdlc_cr_design` → `/sdlc_cr_implement` → `/sdlc_cr_report` run it
+arrive any time from P1 onward and re-opens the phases it touches. `sdlc-change-request` and
+`/sdlc-cr-analyze` → `/sdlc-cr-design` → `/sdlc-cr-implement` → `/sdlc-cr-report` run it
 behind two approvals — the option, then the document diff.
 
-Cross-cutting at any phase: `/sdlc_phase_gate`, `/sdlc_trace_check`, `/sdlc_quality_report`,
-`/sdlc_review_design`, `/sdlc_review_commit`, `/sdlc_verify_build`, `/sdlc_context_map`,
-`/sdlc_translate`, `/sdlc_template_register`, `/sdlc_refine_skill`.
+Cross-cutting at any phase: `/sdlc-phase-gate`, `/sdlc-trace-check`, `/sdlc-quality-report`,
+`/sdlc-review-design`, `/sdlc-review-commit`, `/sdlc-verify-build`, `/sdlc-context-map`,
+`/sdlc-translate`, `/sdlc-template-register`, `/sdlc-refine-skill`.
 
-Any defect, from any phase, can be traced end to end with `/sdlc_trace_bug`
-(`sdlc_bug_trace`): the chain from business requirement to test with the first broken link
+Any defect, from any phase, can be traced end to end with `/sdlc-trace-bug`
+(`sdlc-bug-trace`): the chain from business requirement to test with the first broken link
 marked against the baselines, the introducing commit and everything that happened to that
 code since, and — when it was found later than the V-model says it should have been — the
 evidenced reason each earlier check missed it. It is what turns the injection phase from a
@@ -214,7 +214,7 @@ the month-end process.
 
 ## Model policy
 
-Every `sdlc_*` agent ships with `model: opus`, set from `execution.agent_model` in the
+Every `sdlc-*` agent ships with `model: opus`, set from `execution.agent_model` in the
 profile.
 
 This is deliberate, not a default. The agent roles all produce work whose failure modes are
@@ -240,11 +240,11 @@ a requirements defect found in UAT is larger by an order of magnitude.
 cp -r sdlc-standard/.claude              <your-project>/.claude
 cp sdlc-standard/profile/sdlc.profile.yaml  <your-project>/.claude/sdlc.profile.yaml
 # then, inside the project:
-/sdlc_init
-/sdlc_template_register      # take the client's own deliverable forms in
+/sdlc-init
+/sdlc-template-register      # take the client's own deliverable forms in
 ```
 
-`/sdlc_init` inspects the repository, interviews you for what it cannot infer, writes the
+`/sdlc-init` inspects the repository, interviews you for what it cannot infer, writes the
 profile, takes the deliverable templates in, generates `CLAUDE.md`, scaffolds the directories
 and registers, and prints the phase plan.
 
@@ -263,5 +263,5 @@ Starting points per project shape: [profile/PROFILE-RECIPES.md](profile/PROFILE-
 |---|---|
 | Rewriting or replatforming an existing system, behaviour must be preserved | `migration-standard` |
 | Building something new, or a substantial new subsystem | `sdlc-standard` |
-| Migration that also adds significant new capability | `migration-standard` as the base; take `sdlc_requirements`, `sdlc_nfr_design` and `sdlc_test_st` from here for the new parts |
+| Migration that also adds significant new capability | `migration-standard` as the base; take `sdlc-requirements`, `sdlc-nfr-design` and `sdlc-test-st` from here for the new parts |
 | Maintaining a system either pack delivered | `sdlc-standard`, P9 |
