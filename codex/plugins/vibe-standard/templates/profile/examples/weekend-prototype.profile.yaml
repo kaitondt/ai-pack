@@ -1,0 +1,128 @@
+# Example: a solo weekend prototype, heading for a demo to friends.
+# Next.js + SQLite, runs locally and on a Vercel preview URL that is NOT shared publicly.
+schema_version: "1.0"
+
+project:
+  key: NOTE
+  name: "Quicknote"
+  one_liner: "A minimal notes app for people who hate folders - tag, search, done."
+  owner: "Minh"
+  start_date: "2026-09-12"
+
+stage: prototype
+
+team:
+  shape: solo
+  reviewers: []
+
+product:
+  users: ["someone who writes lots of short notes on a laptop"]
+  core_flows:
+    - "sign up and sign in with email"
+    - "create, edit and delete a note"
+    - "tag a note and filter by tag"
+    - "search notes by text"
+  public_url: false        # preview URL only shared with two friends in person
+
+stack:
+  language: "TypeScript 5"
+  framework: "Next.js 15 (App Router, server actions)"
+  ui: "Tailwind CSS + shadcn/ui"
+  database: "SQLite (better-sqlite3) - Postgres planned for mvp (DEBT-003)"
+  orm: "Drizzle"
+  auth: "Auth.js with email magic link"
+  hosting: "Vercel preview"
+  package_manager: "pnpm"
+
+commands:
+  install: "pnpm install"
+  dev: "pnpm dev"
+  dev_url: "http://localhost:3000"
+  build: "pnpm build"
+  typecheck: "pnpm tsc --noEmit"
+  lint: "pnpm lint"
+  format: "pnpm prettier --write ."
+  test: "pnpm vitest run"
+  test_e2e: ""
+  audit: ""
+  smoke: ""
+
+paths:
+  vibe_root: "vibe"
+  product: "vibe/PRODUCT.md"
+  state: "vibe/STATE.md"
+  intents: "vibe/intents"
+  decisions: "vibe/decisions.md"
+  debt: "vibe/debt.md"
+  bugs: "vibe/bugs.md"
+  backlog: "vibe/backlog.md"
+  reviews: "vibe/reviews"
+  releases: "vibe/releases"
+  skill_changes: "vibe/skill-changes.md"
+
+slices:
+  max_files: 8
+  max_changed_lines: 400
+  max_minutes: 60
+  require_clean_tree: true
+  commit_format: "{SLICE_ID}: {summary}"
+  exclude_from_budget:
+    - "vibe/**"
+    - "pnpm-lock.yaml"
+    - "drizzle/**"
+    - "**/*.generated.*"
+
+loop:
+  max_fix_attempts: 3
+  attempt_branch_prefix: "attempt/"
+
+verification:
+  add:
+    prototype: []
+    mvp: []
+    production: []
+  ui_check: "playwright"
+
+security:
+  secret_store: ".env.local locally; Vercel project env vars"
+  env_files: [".env", ".env.local"]
+  allowed_licenses: ["MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "0BSD"]
+  allow_real_data: false
+  dangerous_commands:
+    - "vercel\\s+(?:deploy\\s+)?--prod"
+    - "drizzle-kit\\s+push"
+  protected_paths:
+    - "**/*.generated.*"
+    - "drizzle/meta/**"
+
+debt:
+  paydown_every_n_slices: 5
+  block_graduation_on_due: true
+
+release:
+  environments: ["local", "preview"]
+  deploy: "git push to a branch -> Vercel preview build"
+  rollback: "promote the previous preview deployment in the Vercel dashboard"
+  monitoring: "none yet (DEBT-006, due mvp)"
+  backups: "none - synthetic data only"
+
+graduation:
+  extra_criteria:
+    prototype: []
+    mvp:
+      - "SQLite replaced by Postgres (DEBT-003)"
+      - "magic-link emails sent from a verified domain"
+    production: []
+  handoff_to: "stay"
+
+integration:
+  sibling_packs: auto
+
+execution:
+  agent_model: opus
+  intended_effort: "medium"
+  agent_model_overrides: {}
+
+language:
+  docs: "en"
+  conversation: "vi"

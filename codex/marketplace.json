@@ -1,0 +1,56 @@
+{
+  "name": "ai-pack",
+  "interface": {
+    "displayName": "AI Pack for Codex"
+  },
+  "plugins": [
+    {
+      "name": "sdlc-standard",
+      "source": {
+        "source": "local",
+        "path": "./plugins/sdlc-standard"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "migration-standard",
+      "source": {
+        "source": "local",
+        "path": "./plugins/migration-standard"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "pm-standard",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pm-standard"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "vibe-standard",
+      "source": {
+        "source": "local",
+        "path": "./plugins/vibe-standard"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

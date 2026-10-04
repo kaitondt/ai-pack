@@ -1,0 +1,32 @@
+{
+  "name": "sdlc-standard",
+  "version": "0.1.0",
+  "description": "Build new software with requirements, design, traceability, testing, and gates.",
+  "author": {
+    "name": "ThucND",
+    "url": "https://github.com/kaitondt"
+  },
+  "homepage": "https://github.com/kaitondt/ai-pack/tree/main/sdlc-standard",
+  "repository": "https://github.com/kaitondt/ai-pack",
+  "keywords": [
+    "sdlc",
+    "requirements",
+    "testing",
+    "traceability"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI Pack: sdlc-standard",
+    "shortDescription": "Build new software with requirements, design, traceability, testing, and gates.",
+    "longDescription": "Build new software with requirements, design, traceability, testing, and gates.",
+    "developerName": "ThucND",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use sdlc-standard to help me with this software-project task."
+    ]
+  }
+}

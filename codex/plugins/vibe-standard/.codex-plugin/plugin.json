@@ -1,0 +1,32 @@
+{
+  "name": "vibe-standard",
+  "version": "0.1.0",
+  "description": "Build AI-assisted products with intent, small slices, verification, debt, and stage gates.",
+  "author": {
+    "name": "ThucND",
+    "url": "https://github.com/kaitondt"
+  },
+  "homepage": "https://github.com/kaitondt/ai-pack/tree/main/vibe-standard",
+  "repository": "https://github.com/kaitondt/ai-pack",
+  "keywords": [
+    "vibe-coding",
+    "mvp",
+    "verification",
+    "guardrails"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI Pack: vibe-standard",
+    "shortDescription": "Build AI-assisted products with intent, small slices, verification, debt, and stage gates.",
+    "longDescription": "Build AI-assisted products with intent, small slices, verification, debt, and stage gates.",
+    "developerName": "ThucND",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use vibe-standard to help me with this software-project task."
+    ]
+  }
+}
