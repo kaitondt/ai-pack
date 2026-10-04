@@ -406,6 +406,19 @@ marketplace named **`{marketplace}`**:
 Each plugin uses the Agent Plugins 1.0 layout: `plugin.json`, portable `skills/`, and
 `com.github.copilot/` with custom agents (`*.agent.md`), slash commands and hooks.
 
+## Requirements
+
+A GitHub Copilot subscription, Python 3 on `PATH` as `python` (guard hooks), and either VS Code
+with Copilot Chat or the Copilot CLI — run `copilot` once and `/login`:
+
+```sh
+curl -fsSL https://gh.io/copilot-install | bash    # macOS, Linux
+winget install GitHub.Copilot                      # Windows
+npm install -g @github/copilot                     # any platform (Node.js 22+)
+brew install --cask copilot-cli                    # or Homebrew
+copilot --version
+```
+
 ## Install
 
 Copilot CLI:

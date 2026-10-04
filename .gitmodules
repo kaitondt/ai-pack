@@ -22,3 +22,6 @@
 [submodule "claude"]
 	path = claude
 	url = https://github.com/kaitondt/ai-pack-claude.git
+[submodule "antigravity"]
+	path = antigravity
+	url = https://github.com/kaitondt/ai-pack-antigravity.git

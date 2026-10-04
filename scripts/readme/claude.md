@@ -14,6 +14,17 @@ one plugin per pack:
 **Requirements:** Claude Code with plugin support, `git` (to fetch the marketplace), and
 Python 3 on `PATH` as `python` (the guard hooks are Python; without it they fail silently).
 
+Install Claude Code, then run `claude` once to sign in (Pro, Max, Team, Enterprise or Console
+account):
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash          # macOS, Linux, WSL
+irm https://claude.ai/install.ps1 | iex                 # Windows PowerShell
+brew install --cask claude-code                         # or Homebrew
+winget install Anthropic.ClaudeCode                     # or WinGet
+claude --version
+```
+
 ## Install as a Claude Code plugin
 
 ### 1. Add the marketplace (once per machine)

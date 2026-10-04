@@ -14,6 +14,23 @@ Four independently installable Gemini CLI extensions, generated from the Claude 
 Each extension ships slash commands (`commands/*.toml`), skills, subagents (`agents/`), hooks
 (`hooks/hooks.json`) and adoption templates (`templates/`).
 
+> **Using Antigravity (CLI `agy` or the IDE)?** These are Gemini CLI extensions
+> (`gemini-extension.json`); Antigravity has its own plugin format and does not load them. Use
+> [ai-pack-antigravity](https://github.com/kaitondt/ai-pack-antigravity) instead.
+
+## Requirements
+
+Install Gemini CLI (Node.js 20+) and run `gemini` once to sign in; the guard hooks also need
+Python 3 on `PATH` as `python`.
+
+```sh
+npm install -g @google/gemini-cli        # any platform
+brew install gemini-cli                  # or Homebrew
+gemini --version
+```
+
+Since 2026-06-18 Gemini CLI is replaced by the Antigravity CLI for unpaid and Google One users.
+
 ## Install
 
 ```sh

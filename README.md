@@ -1,4 +1,4 @@
-# AI Pack — Skill Packs for Claude Code, Codex, Gemini CLI and GitHub Copilot
+# AI Pack — Skill Packs for Claude Code, Codex, Gemini CLI, Antigravity and GitHub Copilot
 
 A set of **project-agnostic AI skill packs** for delivering and managing software projects.
 The methodology lives in the pack; everything project-specific (stack, IDs, paths, gates,
@@ -39,6 +39,29 @@ cost, by which date, approved by whom — and runs alongside either of them or s
 
 ---
 
+## Install the AI CLIs
+
+Every install below goes through the AI's own CLI (or its chat), so install the CLI first. The
+packs also need, on every machine:
+
+- **git** with access to the private `kaitondt/ai-pack-*` repositories — e.g. install the
+  GitHub CLI and run `gh auth login`;
+- **Python 3** on `PATH` as `python` — the guard hooks are Python and fail silently without it.
+
+| AI | macOS / Linux | Windows | Alternatives | First run |
+|---|---|---|---|---|
+| Claude Code | `curl -fsSL https://claude.ai/install.sh \| bash` | PowerShell: `irm https://claude.ai/install.ps1 \| iex` | `brew install --cask claude-code` · `winget install Anthropic.ClaudeCode` · `npm install -g @anthropic-ai/claude-code` | `claude`, sign in in the browser (Pro, Max, Team, Enterprise or Console account) |
+| Codex | `curl -fsSL https://chatgpt.com/codex/install.sh \| sh` | `npm install -g @openai/codex` | `brew install --cask codex` | `codex` → **Sign in with ChatGPT** |
+| Gemini CLI | `npm install -g @google/gemini-cli` (Node.js 20+) | same | `brew install gemini-cli` · `npx @google/gemini-cli` | `gemini`, sign in with Google |
+| Antigravity CLI (`agy`) | `curl -fsSL https://antigravity.google/cli/install.sh \| bash` | PowerShell: `irm https://antigravity.google/cli/install.ps1 \| iex` | the Antigravity IDE (no CLI needed for the IDE install) | `agy`, sign in in the browser |
+| GitHub Copilot CLI | `curl -fsSL https://gh.io/copilot-install \| bash` | `winget install GitHub.Copilot` | `npm install -g @github/copilot` (Node.js 22+) · `brew install --cask copilot-cli` | `copilot` → `/login` (needs a Copilot subscription) |
+
+Check each with `<cli> --version` (`claude`, `codex`, `gemini`, `agy`, `copilot`). Since
+2026-06-18 Gemini CLI is replaced by the Antigravity CLI for unpaid and Google One users — if
+that is you, use the Antigravity plugins.
+
+---
+
 ## Quick install
 
 All repositories are private: the machine needs `git` credentials with access to them (for
@@ -51,6 +74,7 @@ chose.
 | Claude Code | [ai-pack-claude](https://github.com/kaitondt/ai-pack-claude) | [claude/README.md](claude/README.md) |
 | Codex | [ai-pack-codex](https://github.com/kaitondt/ai-pack-codex) | [codex/README.md](codex/README.md) |
 | Gemini CLI | `ai-pack-gemini-<pack>` (one per pack) | [gemini/README.md](gemini/README.md) |
+| Antigravity (CLI `agy`, IDE) | [ai-pack-antigravity](https://github.com/kaitondt/ai-pack-antigravity) | [antigravity/README.md](antigravity/README.md) |
 | GitHub Copilot (CLI, VS Code) | [ai-pack-copilot](https://github.com/kaitondt/ai-pack-copilot) | [copilot/README.md](copilot/README.md) |
 
 Each AI can be set up from a **terminal** or from **inside the chat** (slash commands typed in
@@ -112,6 +136,21 @@ In chat (a `gemini` session):
 Restart `gemini` (or run `/extensions restart`) so the commands and skills load, then
 `/vibe-init`.
 
+### Antigravity
+
+Antigravity (CLI and IDE) has its own plugin format: the Gemini CLI extensions above do **not**
+install there. Clone the Antigravity build and install a plugin folder:
+
+```bash
+git clone https://github.com/kaitondt/ai-pack-antigravity <dir>/ai-pack-antigravity
+agy plugin install <dir>/ai-pack-antigravity/plugins/vibe-standard
+```
+
+In chat (an `agy` session): `/plugin install <dir>/ai-pack-antigravity/plugins/vibe-standard`.
+Antigravity IDE: copy `plugins/vibe-standard` into `~/.gemini/config/plugins/` (Windows:
+`%USERPROFILE%\.gemini\config\plugins\`) and restart the IDE. Then run `/vibe-init` (commands are
+shipped as skills of the same name).
+
 ### GitHub Copilot
 
 Terminal (Copilot CLI):
@@ -153,6 +192,7 @@ to the context.
 | Copilot – CLI | No | Installed per machine |
 | Gemini CLI | Limit it | Install, `disable --scope user`, then `enable --scope workspace` in the project |
 | Codex | No | Installed per machine; or vendor the skills into `.agents/skills/` (no guard hooks) |
+| Antigravity | **Yes** | Copy the plugin folder into the project's `.agents/plugins/` |
 
 **Claude Code** — commit `.claude/settings.json` so the repository itself declares the
 marketplace and the plugin; teammates are offered both when they open the project, and no other
@@ -210,6 +250,7 @@ The init command writes the profile, the rules and a context file into the proje
 | Claude Code | `.claude/<pack>.profile.yaml` | `.claude/rules/` | `CLAUDE.md` |
 | Codex | `.codex/<pack>.profile.yaml` | `.codex/rules/` | `AGENTS.md` |
 | Gemini CLI | `.gemini/<pack>.profile.yaml` | `.gemini/rules/` (imported) | `GEMINI.md` |
+| Antigravity | `.agents/<pack>.profile.yaml` | `.agents/rules/` (always-on) | `.agents/rules/<prefix>-context.md` |
 | GitHub Copilot | `.github/<pack>.profile.yaml` | `.github/instructions/` | `.github/copilot-instructions.md` |
 
 Several AIs can work on the same project: initialise once, copy the filled profile to the other
@@ -271,6 +312,7 @@ ai-pack/
 │   ├── build-claude-plugins.py      → claude/
 │   ├── build-codex-plugins.py       → codex/
 │   ├── build-gemini-extensions.py   → gemini/<pack>/
+│   ├── build-antigravity-plugins.py → antigravity/
 │   ├── build-copilot-plugins.py     → copilot/
 │   ├── migrate-project-names.py     ← upgrade a 1.x project to 2.0 names
 │   └── readme/                      ← README sources for generated repositories
@@ -278,6 +320,7 @@ ai-pack/
 ├── codex/             (submodule → ai-pack-codex)
 ├── copilot/           (submodule → ai-pack-copilot)
 ├── gemini/<pack>/     (submodules → ai-pack-gemini-sdlc | -migration | -pm | -vibe)
+├── antigravity/       (submodule → ai-pack-antigravity)
 └── ECC/               (submodule → ECC)
 ```
 

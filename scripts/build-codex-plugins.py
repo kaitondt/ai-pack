@@ -219,6 +219,18 @@ This marketplace publishes four separately installable Codex plugins:
 - `pm-standard`: project governance and controls
 - `vibe-standard`: fast AI-assisted delivery with safety rails
 
+## Requirements
+
+Install the Codex CLI and run `codex` once to sign in (**Sign in with ChatGPT**); the guard hooks
+also need Python 3 on `PATH` as `python`.
+
+```sh
+curl -fsSL https://chatgpt.com/codex/install.sh | sh     # macOS, Linux
+npm install -g @openai/codex                             # any platform, incl. Windows
+brew install --cask codex                                # or Homebrew
+codex --version
+```
+
 ## Install
 
 This marketplace is published as its own (private) repository,
