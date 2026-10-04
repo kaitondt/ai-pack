@@ -58,6 +58,11 @@ after installing.
 | `local` | `<project>/.claude/settings.local.json` — not committed | only you, only this repository |
 | `user` (default) | `~/.claude/settings.json` | you want the pack in every repository |
 
+**Project only:** `project` and `local` enable the plugin in this repository and nowhere else
+(the plugin files sit in your user cache, but are only active where a settings file enables
+them). For a repository that declares everything itself — no `marketplace add` needed on any
+machine — commit the snippet in [Team setup](#team-setup-install-automatically-for-everyone).
+
 Each pack adds roughly 4k–9k tokens of skill descriptions to every session, so enable only the
 packs a project uses. `pm-standard` combines with `sdlc-standard` or `migration-standard`:
 install both.

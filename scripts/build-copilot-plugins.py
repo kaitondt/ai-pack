@@ -433,6 +433,24 @@ repositories) and install from the Plugins list or **Extensions → @agentPlugin
 
 Start a new chat session after installing.
 
+### Project-only install
+
+VS Code reads workspace plugin settings: commit `.github/copilot/settings.json` and the
+repository declares the marketplace and the plugin itself — VS Code recommends it the first time
+a chat message is sent in the workspace, and no other workspace has it enabled:
+
+```json
+{{
+  "extraKnownMarketplaces": {{
+    "{marketplace}": {{ "source": {{ "source": "github", "repo": "kaitondt/ai-pack-copilot" }} }}
+  }},
+  "enabledPlugins": {{ "vibe-standard@{marketplace}": true }}
+}}
+```
+
+Copilot CLI installs plugins per machine (`~/.copilot/installed-plugins/`). Its hooks stay
+inactive in any repository without `.github/<profile>.yaml`.
+
 The repository is private: installing needs `git` credentials with access to it.
 
 ## Adopt in a project

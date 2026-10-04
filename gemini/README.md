@@ -37,6 +37,19 @@ Inside a `gemini` session the same operations are slash commands:
 
 Restart `gemini` (or run `/extensions restart`) after installing so the commands and skills load.
 
+### Project-only install
+
+Extensions are always installed per machine and enabled everywhere by default. To use a pack in
+one project only, switch it off for the user and back on for that workspace:
+
+```sh
+gemini extensions disable vibe-standard --scope user
+cd <project> && gemini extensions enable vibe-standard --scope workspace
+```
+
+(In chat: `/extensions disable ...` / `/extensions enable ...`, then restart `gemini`.) The
+hooks are inactive anyway in any repository without `.gemini/<profile>.yaml`.
+
 ## Adopt in a project
 
 Run `/<prefix>-init` (e.g. `/vibe-init`). It writes `.gemini/<profile>.yaml`, copies the rules

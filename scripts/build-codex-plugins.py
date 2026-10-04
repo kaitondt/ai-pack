@@ -239,6 +239,21 @@ plugins are installed from inside the Codex TUI: run `/plugins`, switch to the *
 select the plugin and install it (Space toggles an installed plugin on or off). Start a new
 thread afterwards.
 
+### Project-only install
+
+Codex has no project-level plugin install: plugin state lives in `~/.codex/config.toml`, so an
+installed plugin is available in every repository. Its guard hooks stay inactive in any
+repository without `.codex/<profile>.yaml`, and `/plugins` → Space switches it off machine-wide
+when needed. To keep a pack inside one repository instead, copy only its skills there — Codex
+reads skills from `.agents/skills/`:
+
+```powershell
+mkdir .agents/skills
+cp -r ./ai-pack-codex/plugins/vibe-standard/skills/* .agents/skills/
+```
+
+That vendored copy has no guard hooks and must be re-copied when the pack is updated.
+
 ## Adopt a plugin in a project
 
 Copy the selected plugin's `templates/profile/<profile>.yaml` to `.codex/`, copy `templates/rules/` to `.codex/rules/`, and copy `templates/AGENTS.md` to the repository's `AGENTS.md`. Then invoke the `<prefix>-workflow` skill (or describe the task normally).

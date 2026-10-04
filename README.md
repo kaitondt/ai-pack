@@ -138,6 +138,69 @@ list or from **Extensions → `@agentPlugins`**.
 
 Then start a new session and run `/vibe-init`.
 
+### Install for one project only
+
+Only Claude Code (and Copilot in VS Code) record a true project-level install in a settings file
+committed with the repository. Gemini CLI, Codex and Copilot CLI always install per machine; you
+then limit where the pack is active. Either way, the guard hooks only act in a repository that
+has the pack's profile — elsewhere the pack changes nothing, it only adds its skill descriptions
+to the context.
+
+| AI | Project-only? | How |
+|---|---|---|
+| Claude Code | **Yes** | `--scope project` (whole team, `.claude/settings.json`) or `--scope local` (only you, `.claude/settings.local.json`) |
+| Copilot – VS Code | **Yes** | Commit `.github/copilot/settings.json` (below) |
+| Copilot – CLI | No | Installed per machine |
+| Gemini CLI | Limit it | Install, `disable --scope user`, then `enable --scope workspace` in the project |
+| Codex | No | Installed per machine; or vendor the skills into `.agents/skills/` (no guard hooks) |
+
+**Claude Code** — commit `.claude/settings.json` so the repository itself declares the
+marketplace and the plugin; teammates are offered both when they open the project, and no other
+repository has it enabled:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "ai-pack": { "source": { "source": "github", "repo": "kaitondt/ai-pack-claude" } }
+  },
+  "enabledPlugins": { "vibe-standard@ai-pack": true }
+}
+```
+
+**Copilot in VS Code** — commit `.github/copilot/settings.json`; VS Code recommends the plugin
+the first time a chat message is sent in the workspace:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "ai-pack-copilot": { "source": { "source": "github", "repo": "kaitondt/ai-pack-copilot" } }
+  },
+  "enabledPlugins": { "vibe-standard@ai-pack-copilot": true }
+}
+```
+
+**Gemini CLI** — install once, switch it off everywhere, then on for this project:
+
+```bash
+gemini extensions install https://github.com/kaitondt/ai-pack-gemini-vibe
+gemini extensions disable vibe-standard --scope user
+cd <project> && gemini extensions enable vibe-standard --scope workspace
+```
+
+(In chat: `/extensions disable …` / `/extensions enable …`, then restart `gemini`.)
+
+**Codex** — there is no project install: plugin state lives in `~/.codex/config.toml`. Install
+normally (the guards stay inactive in repositories without `.codex/vibe.profile.yaml`; `/plugins`
+→ Space toggles the plugin off machine-wide when you need to), or keep the pack inside the
+repository by copying only its skills, which Codex reads from `.agents/skills/`:
+
+```bash
+mkdir -p .agents/skills
+cp -r <dir>/ai-pack-codex/plugins/vibe-standard/skills/* .agents/skills/
+```
+
+That vendored copy has no guard hooks and must be re-copied when the pack is updated.
+
 ### Where each AI keeps the project files
 
 The init command writes the profile, the rules and a context file into the project:
