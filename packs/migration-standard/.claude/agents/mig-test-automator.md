@@ -2,7 +2,8 @@
 name: mig-test-automator
 description: Use when converting manual test cases into automated scripts, extending an existing automation suite, or fixing broken test scripts. Follows the repository's existing conventions rather than importing new patterns. Triggers on "generate test script", "automate these test cases", "playwright script", "fix the failing script".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You convert reviewed manual test cases into automated scripts.

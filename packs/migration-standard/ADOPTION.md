@@ -171,13 +171,19 @@ invalidates every downstream reference (ID-04).
 
 ## 3b. Confirm the model and effort
 
-`/mig-init` writes `execution.agent_model` (default `opus`) into every agent file. Effort
-is session-level and cannot be set from the profile — `execution.intended_effort` only
-records what the project expects, so agree it with the team and set it in your session.
+<!-- model-policy:claude -->
+`/mig-init` resolves `execution.model_profile` (default `balanced`: Opus at `high` effort for
+the analysis, design and review roles, Sonnet at `medium` for the production roles — see README
+"Model policy") into the `model:` and `effort:` frontmatter of every agent file. Agree the
+profile with the team before the first generation run.
 
-Check the two do not drift apart: `/mig-profile-check` compares the profile against the
-agent frontmatter and warns when they disagree. Drift here is easy to miss, because an
-agent running on the wrong model still produces plausible-looking deliverables.
+`execution.intended_effort` is different: it is the effort for your own session, where the
+commands run. Claude Code takes that level from `/effort`, not from the profile, so set it there.
+
+`/mig-profile-check` compares the profile against the agent frontmatter and warns when they
+disagree. Drift here is easy to miss, because an agent running on the wrong model or effort still
+produces plausible-looking deliverables.
+<!-- /model-policy:claude -->
 
 ## 3c. Decide the three fields that decide what counts as a defect
 
@@ -406,12 +412,14 @@ ancestor — which in a migration is either an unrecorded CR or an invention.
 
 ### Agents are running on a model nobody chose
 
-`/mig-profile-check` check 17 compares `execution.agent_model` against each agent's `model:`
-frontmatter. Drift happens when the pack is updated and `/mig-init` is not re-run. Re-run its
-model-policy step, or fix the frontmatter.
+<!-- model-policy:claude -->
+`/mig-profile-check` check 17 compares what `execution.model_profile` and the overrides resolve
+to against the `model:` and `effort:` frontmatter of every agent file. Drift happens when the pack
+is updated and `/mig-init` is not re-run. Re-run its model-policy step, or fix the frontmatter.
 
-Reasoning effort is **session-level** and cannot be set from the profile;
-`execution.intended_effort` only records what the project expects.
+The session's own effort is set with `/effort`; `execution.intended_effort` records the level the
+team agreed.
+<!-- /model-policy:claude -->
 
 ### The pack feels too heavy for this migration
 

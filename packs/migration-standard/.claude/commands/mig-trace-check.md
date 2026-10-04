@@ -1,5 +1,7 @@
 ---
 description: "Check the traceability register: orphan detection in both directions, phase-gate assertions, and coverage per phase. Run before declaring any phase complete. Usage: /mig-trace-check [phase, module id, or nothing for everything]"
+model: sonnet
+effort: medium
 ---
 
 # Traceability check

@@ -3,6 +3,7 @@ name: sdlc-bd-designer
 description: Use when writing individual basic design deliverables — screen, function, interface, data, batch, report or non-functional design documents — for one module or business area. Triggers on "generate screen design", "write function design", "API design document", "design document for module".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
 model: opus
+effort: high
 ---
 
 You write basic design deliverables for one module or business area at a time.

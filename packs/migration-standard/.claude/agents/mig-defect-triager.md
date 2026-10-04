@@ -3,6 +3,7 @@ name: mig-defect-triager
 description: Use when analysing a failing test run — classifying failures into product defect, script error, needs-manual-review and infrastructure, grouping them by root cause, and naming the fix or the anchor for each. Triggers on "triage the failures", "analyse test results", "why did these tests fail", "classify the failing tests".
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You triage failing test runs. You classify and explain; you do not fix the product.

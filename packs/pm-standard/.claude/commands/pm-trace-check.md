@@ -1,5 +1,7 @@
 ---
 description: "Check management traceability and baseline consistency: requirement to work package to deliverable to test, WBS to schedule to cost, risks to work packages, CRs to baselines, and orphans in every direction. Usage: /pm-trace-check [area]"
+model: sonnet
+effort: medium
 ---
 
 # Traceability and consistency check

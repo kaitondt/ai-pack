@@ -286,6 +286,32 @@ dossiers and `bug-trace-register.csv` live under `paths.bug_traces`.
 (PreToolUse on Write/Edit). This is the mechanical backstop for the
 "legacy is read-only" rule — the skills state it, the hook enforces it.
 
+### `execution`
+
+<!-- model-policy:claude -->
+| Field | Notes |
+|---|---|
+| `model_profile` | `quality` · `balanced` (default) · `budget`. `/mig-init` resolves it, through the two tables below, to the `model:` and `effort:` frontmatter of every `mig-*` agent. |
+| `agent_model_overrides` | `{agent: model}` — wins over `model_profile` for that one agent. Raise a role the project depends on, or lower one that is genuinely mechanical here. |
+| `agent_effort_overrides` | `{agent: effort}` — `low` · `medium` · `high` · `xhigh` · `max`; wins over `model_profile` for that one agent. |
+| `agent_model` | **Deprecated.** One model for every agent, from older profiles. Read as `quality` when it is `opus` and `budget` when it is `sonnet`; `/mig-profile-check` asks for it to be replaced by `model_profile`. |
+| `intended_effort` | The effort for your own session, where the commands run. Agents do not use it — they take theirs from `model_profile`. Claude Code reads the session level from `/effort`, not from the profile, so set it there. |
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+| Tier | Agents | Why |
+|---|---|---|
+| heavy | `mig-legacy-analyst`, `mig-requirements-writer`, `mig-bd-orchestrator`, `mig-bd-designer`, `mig-dd-designer`, `mig-reviewer`, `mig-defect-triager`, `mig-cr-engineer` | Analysis, design, review and triage. Their failures are silent and plausible, and surface only at review, UAT or acceptance. |
+| standard | `mig-implementer`, `mig-tester`, `mig-test-automator`, `mig-infra-engineer`, `mig-mockup-designer`, `mig-uat-engineer` | Production work from an approved document. Build, tests and a heavy-tier review catch what they get wrong. |
+
+The pack ships the `balanced` values in each agent's frontmatter, so a `balanced` project with
+no overrides needs no agent edits.
+<!-- /model-policy:claude -->
+
 ---
 
 ## Validation

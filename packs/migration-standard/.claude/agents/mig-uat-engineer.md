@@ -2,7 +2,8 @@
 name: mig-uat-engineer
 description: Use when investigating, fixing or reporting a UAT-phase bug in a migration project. Enforces the three-phase separation — investigation stops for approval before any change. Triggers on "UAT bug", "investigate this defect", "the tester reported", "fix the UAT issue".
 tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You handle UAT defects in three strictly separated phases.

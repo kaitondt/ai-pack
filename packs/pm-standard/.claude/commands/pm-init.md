@@ -87,17 +87,48 @@ Create `{{profile.documents.working_dir}}` and add it to the project's `.gitigno
 `working_retention` is `keep` — scratch files in version control are how a draft ends up
 looking like a deliverable.
 
-## Step 6 — Generate CLAUDE.md
+## Step 6 — Apply the model policy
+
+<!-- model-policy:claude -->
+Resolve a model and an effort level for every `.claude/agents/pm-*.md` from
+`{{profile.execution.model_profile}}`:
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+- **heavy** — `pm-planner`, `pm-estimator`, `pm-risk-manager`, `pm-change-analyst`
+- **standard** — `pm-controller`, `pm-quality-manager`, `pm-closer`
+
+An entry in `{{profile.execution.agent_model_overrides}}` or
+`{{profile.execution.agent_effort_overrides}}` wins over the table for that agent. A profile
+that still sets the deprecated `execution.agent_model` and no `model_profile` reads `opus` as
+`quality` and `sonnet` as `budget`; offer to replace the field.
+
+Set each agent's `model:` and `effort:` frontmatter to the resolved values. The pack ships the
+`balanced` values, so a `balanced` profile with no overrides changes no file — say so instead of
+rewriting them.
+
+Then tell the user that `{{profile.execution.intended_effort}}` is for their own session,
+where the commands run: Claude Code takes the session level from `/effort`, not from the
+profile, so they set it there. Agents are not affected by it.
+<!-- /model-policy:claude -->
+
+## Step 7 — Generate CLAUDE.md
 
 From the pack's `CLAUDE.md` template, with profile values resolved. If the project already
 has one — likely, when a technical pack is installed — **append** a project-management
 section rather than overwriting it.
 
-## Step 7 — Report
+## Step 8 — Report
 
 ```
 PM pack initialised
   Profile        : .claude/pm.profile.yaml
+  Agent model    : {{profile.execution.model_profile}} — {n} opus · {n} sonnet · {n} overridden
+  Effort         : agents {n} xhigh · {n} high · {n} medium; session {{profile.execution.intended_effort}} — set with /effort
   Technical pack : {sdlc | migration | none} ({path})
   Scaffolded     : {n} directories, {n} registers
   Formats        : {n} artifacts bound   binary_final: {list}

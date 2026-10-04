@@ -129,23 +129,42 @@ migration-standard/
 
 ## Model policy
 
-Every `mig-*` agent ships with `model: opus`, set from `execution.agent_model` in the
-profile.
+<!-- model-policy:claude -->
+`execution.model_profile` sets the model **and the reasoning effort** of every `mig-*` agent by
+**tier**. `/mig-init` writes the result into the agent frontmatter (`model:` and `effort:`).
 
-This is deliberate, not a default. The agent roles all produce work whose failure
-modes are **silent**: a behaviour invented instead of anchored, a message subtly retyped,
-a business rule whose branch order drifted, a design category dropped at the end of a long
-generation run. None of that fails loudly — it fails at client review, weeks later, after
-downstream documents were built on top of it. Cheaper models degrade exactly there first,
-and the degradation is invisible in the run log.
+| `model_profile` | heavy tier | standard tier | Use when |
+|---|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` | large or poorly documented legacy systems, fixed-price contracts |
+| `balanced` (default) | opus · `high` | sonnet · `medium` | most projects |
+| `budget` | sonnet · `high` | sonnet · `medium` | a small, well-understood legacy system |
 
-Reasoning effort is a **session-level** setting in Claude Code, not agent frontmatter.
-`execution.intended_effort` records the level the project runs at so the team is
-consistent; it does not enforce it. Set it in your own session.
+| Tier | Agents |
+|---|---|
+| heavy | `mig-legacy-analyst`, `mig-requirements-writer`, `mig-bd-orchestrator`, `mig-bd-designer`, `mig-dd-designer`, `mig-reviewer`, `mig-defect-triager`, `mig-cr-engineer` |
+| standard | `mig-implementer`, `mig-tester`, `mig-test-automator`, `mig-infra-engineer`, `mig-mockup-designer`, `mig-uat-engineer` |
 
-Downgrade a specific role via `execution.agent_model_overrides` when it is genuinely
-mechanical. Do not downgrade the design, analysis or review roles to save cost — the cost
-of a parity defect found in UAT is larger by an order of magnitude.
+The analysis, design, review and triage roles produce work whose failure modes are
+**silent**: a behaviour invented instead of anchored, a business rule whose branch order drifted,
+a design category dropped at the end of a long generation run. None of that fails loudly — it
+fails at client review, weeks later, after downstream documents were built on top of it.
+Cheaper models and shallower reasoning degrade exactly there first, and the degradation is
+invisible in the run log. Those roles stay on Opus in every profile but `budget`, and never drop
+below `high` effort.
+
+The production roles work from a document that has already been reviewed and approved: code
+from the detail design, test cases from the specification, a pipeline from the infrastructure
+design. Build, tests, the parallel run and the `mig-reviewer` check what they produce, so they
+run on Sonnet at `medium` under `balanced`.
+
+`execution.agent_model_overrides` and `execution.agent_effort_overrides` change one agent, in
+either direction. Do not lower the heavy tier to save cost — the cost of a parity defect found in UAT is larger by an order of magnitude.
+
+Commands run in your session, not in an agent. `/mig-verify-build` runs on Haiku — it runs the build and reports the output. `/mig-profile-check`, `/mig-trace-check` and `/mig-template-register` run on Sonnet at `medium`
+effort. Every other command runs on the model and effort of your session —
+`execution.intended_effort` records the level the team agreed; set it with `/effort`. To change a
+command's model or effort, copy it into the project and edit its frontmatter.
+<!-- /model-policy:claude -->
 
 ---
 

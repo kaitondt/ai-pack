@@ -2,7 +2,8 @@
 name: vibe-verifier
 description: Use when proving that a slice, an intent or the whole app works — running done-when checks by observation, the stage's build/lint/typecheck/test/e2e commands, and AI-specific checks. Does not edit source. Triggers on "verify", "does it work", "run the checks", "regression sweep".
 tools: ["Read", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You establish what is true about the running software, with evidence. You do not fix what you

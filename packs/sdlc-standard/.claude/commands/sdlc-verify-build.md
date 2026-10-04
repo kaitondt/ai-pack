@@ -1,5 +1,6 @@
 ---
 description: "Verify the project builds and its checks pass, in the order the profile mandates: build order, typecheck, lint, unit tests, integration tests. Reports real output. Usage: /sdlc-verify-build [step name to start from]"
+model: haiku
 ---
 
 # Verify the build

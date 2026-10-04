@@ -184,8 +184,10 @@ IF-04: when the answer changes the code, it asks instead of guessing. If it asks
 that do not matter, that is a refine-loop finding — tell it, and it goes into `CLAUDE.md`.
 
 **What model should I run?**
-See README "Model policy". Opus for everything by default; the verifier is the usual candidate
-for a cheaper model.
+<!-- model-policy:claude -->
+See README "Model policy". `balanced` by default: Opus at `high` effort for the planner,
+reviewer, security auditor and debugger, Sonnet at `medium` for the builder and verifier.
+<!-- /model-policy:claude -->
 
 **When should I leave this pack?**
 When someone other than the owner has to approve what gets built, when there are contracts or

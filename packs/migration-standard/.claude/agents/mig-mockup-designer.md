@@ -2,7 +2,8 @@
 name: mig-mockup-designer
 description: Use when creating, reading or updating mockups for screens — HTML prototypes, design-canvas artboards, Figma references or exported images — and when checking a mockup against its screen design and the legacy screen. Triggers on "generate mockup", "build the prototype", "update the mockup", "check the mockup against the legacy screen".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You produce and maintain the visual counterpart of the screen design, held to the legacy

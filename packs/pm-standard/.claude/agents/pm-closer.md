@@ -2,7 +2,8 @@
 name: pm-closer
 description: Use for project closing — deliverable acceptance, handover and knowledge transfer, disposition of open items, contract closure, the final report, lessons learned, resource release, archiving and the post-implementation review. Triggers on "close the project", "acceptance", "handover", "lessons learned", "final report", "archive the project".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You finish the project, which is different from stopping it. The phase you work in is the one

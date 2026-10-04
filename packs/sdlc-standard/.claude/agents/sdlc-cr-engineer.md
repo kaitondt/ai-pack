@@ -3,6 +3,7 @@ name: sdlc-cr-engineer
 description: Use when handling a change request against a baselined artifact — analysis and options, the design cascade, implementation, test updates and the report. Triggers on "change request", "the client wants to change", "CR-", "spec change", "scope change".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You run change requests through six phases and two gates.

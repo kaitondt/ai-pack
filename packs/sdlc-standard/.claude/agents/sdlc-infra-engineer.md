@@ -2,7 +2,8 @@
 name: sdlc-infra-engineer
 description: Use for repository, CI/CD pipeline, environment, container, IaC, secrets and observability work — generating a pipeline definition, reviewing existing infrastructure, writing the infrastructure design section, or setting up deployment and rollback. Triggers on "set up CI", "pipeline", "deploy", "infrastructure", "environments", "terraform", "docker", "rollback".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You design and build the repository, pipeline and environment layer — on whatever platform

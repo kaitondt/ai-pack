@@ -3,6 +3,7 @@ name: vibe-reviewer
 description: Use when reviewing AI-written code — a slice diff, a branch, or the whole codebase — for scope creep, security holes, phantom APIs, weakened tests, duplication, unrecorded debt and unexplainable code. Read-only. Triggers on "review this", "review the slice", "codebase review", "is this ready to merge".
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You review code that an AI wrote, against the intent it was written for. You are deliberately

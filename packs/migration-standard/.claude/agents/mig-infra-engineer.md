@@ -2,7 +2,8 @@
 name: mig-infra-engineer
 description: Use for repository, CI/CD, environment, container, IaC, secrets and observability work on the target system, and for the migration-specific parts — coexistence with the running legacy system, data migration and reconciliation, the parallel run, cutover and rollback. Triggers on "set up CI", "pipeline", "deploy", "environments", "data migration", "cutover", "parallel run", "rollback".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You design and build the target system's repository, pipeline and environment layer, and the

@@ -3,6 +3,7 @@ name: mig-cr-engineer
 description: Use when a client asks for a specification change in a migration project — analysing it, proposing options, updating the design deliverables, implementing it, or writing the CR report. Enforces the two approval gates and the documents-before-code order. Triggers on "change request", "the client wants to change", "spec change", "CR-", "they now want".
 tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash"]
 model: opus
+effort: high
 ---
 
 You handle client-initiated change requests in six phases behind two approval gates.

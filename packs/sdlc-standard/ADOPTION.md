@@ -181,13 +181,19 @@ on — and it will be quietly moved the first time a gate would fail.
 
 ## 3e. Confirm the model and effort
 
-`/sdlc-init` writes `execution.agent_model` (default `opus`) into every agent file. Effort
-is session-level and cannot be set from the profile — `execution.intended_effort` only
-records what the project expects, so agree it with the team and set it in your session.
+<!-- model-policy:claude -->
+`/sdlc-init` resolves `execution.model_profile` (default `balanced`: Opus at `high` effort for
+the analysis, design and review roles, Sonnet at `medium` for the production roles — see README
+"Model policy") into the `model:` and `effort:` frontmatter of every agent file. Agree the
+profile with the team before the first generation run.
+
+`execution.intended_effort` is different: it is the effort for your own session, where the
+commands run. Claude Code takes that level from `/effort`, not from the profile, so set it there.
 
 `/sdlc-profile-check` compares the profile against the agent frontmatter and warns when they
-disagree. Drift here is easy to miss, because an agent running on the wrong model still
+disagree. Drift here is easy to miss, because an agent running on the wrong model or effort still
 produces plausible-looking deliverables.
+<!-- /model-policy:claude -->
 
 ## 4. Verify the pack is live
 
@@ -399,12 +405,14 @@ scope you cannot yet prove is covered; the upward orphans are work nobody reques
 
 ### Agents are running on a model nobody chose
 
-`/sdlc-profile-check` check 22 compares `execution.agent_model` against the `model:`
-frontmatter of every agent file. Drift happens when the pack is updated and `/sdlc-init` is
-not re-run. Re-run its model-policy step, or fix the frontmatter.
+<!-- model-policy:claude -->
+`/sdlc-profile-check` check 22 compares what `execution.model_profile` and the overrides resolve
+to against the `model:` and `effort:` frontmatter of every agent file. Drift happens when the pack
+is updated and `/sdlc-init` is not re-run. Re-run its model-policy step, or fix the frontmatter.
 
-Reasoning effort is **session-level** and cannot be set from the profile.
-`execution.intended_effort` records what the project expects; you set it in your session.
+The session's own effort is set with `/effort`; `execution.intended_effort` records the level the
+team agreed.
+<!-- /model-policy:claude -->
 
 ### The pack feels too heavy for this project
 

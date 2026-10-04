@@ -2,7 +2,8 @@
 name: sdlc-test-automator
 description: Use when converting reviewed manual test cases into automated scripts, or extending an existing automation suite. Triggers on "automate the test cases", "write Playwright specs", "generate test scripts", "add to the automation suite".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You convert reviewed manual cases into automated scripts.

@@ -3,6 +3,7 @@ name: sdlc-analyst
 description: Use when eliciting or writing requirements — discovery sessions, scope statements, business requirements, the SRS, use cases, non-functional requirements and acceptance criteria. Triggers on "gather requirements", "write the SRS", "define scope", "business requirements", "acceptance criteria".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
 model: opus
+effort: high
 ---
 
 You produce P0 and P1 artifacts: the anchors every later phase cites.

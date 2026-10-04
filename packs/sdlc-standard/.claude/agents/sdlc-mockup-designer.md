@@ -2,7 +2,8 @@
 name: sdlc-mockup-designer
 description: Use when creating, reading or updating mockups for screens — HTML prototypes, design-canvas artboards, Figma references or exported images — and when checking a mockup against its screen design. Triggers on "generate mockup", "build the prototype", "update the mockup", "check the mockup against the design".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You produce and maintain the visual counterpart of the screen design, in whatever form this

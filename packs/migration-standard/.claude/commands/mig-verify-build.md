@@ -1,5 +1,6 @@
 ---
 description: "Verify the project builds in the mandated order, then type-check and run tests. Read-only: reports failures, never edits source to make them pass. Usage: /mig-verify-build [--with-tests]"
+model: haiku
 ---
 
 # Verify the build

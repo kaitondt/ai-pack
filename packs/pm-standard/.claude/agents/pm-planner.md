@@ -3,6 +3,7 @@ name: pm-planner
 description: Use when producing project planning artifacts — project charter, scope statement, WBS and WBS dictionary, schedule, project management plan, resource plan, RACI, stakeholder and communications plan. Triggers on "write the charter", "build the WBS", "create the project plan", "staffing plan", "communications plan", "define scope".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You produce the planning artifacts every later phase measures itself against.

@@ -753,10 +753,16 @@ integration:
 # EXECUTION - which model the delegated agents run on.
 # ---------------------------------------------------------------------------
 execution:
-  # Management artifacts fail silently too: an estimate with a missing work
-  # package, a report whose RAG does not follow from its own numbers, a risk
-  # register that lists only the risks that have already happened. None of it
-  # fails loudly - it fails at the steering committee, or at acceptance.
-  agent_model: opus
-  agent_model_overrides: {}
-  intended_effort: "extra high"
+  # Model and effort profile for the pm-* agents. Each agent is in one tier:
+  #   heavy    - analysis, design, review, triage: silent failure modes that
+  #              only surface at review, UAT or the steering committee.
+  #   standard - production work from an approved document (code, tests,
+  #              infra, mockups, reports), checked by build, tests and review.
+  # quality  : heavy opus xhigh,   standard opus high
+  # balanced : heavy opus high,    standard sonnet medium   (pack default)
+  # budget   : heavy sonnet high,  standard sonnet medium
+  # The tier of every agent is listed in PROFILE-SCHEMA.md, "execution".
+  model_profile: balanced
+  agent_model_overrides: {}        # per-agent, wins over the profile
+  agent_effort_overrides: {}       # per-agent effort: low | medium | high | xhigh | max
+  intended_effort: "xhigh"

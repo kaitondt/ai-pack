@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "codex"
-VERSION = "0.1.0"
+VERSION = "1.1.0"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 
@@ -28,9 +28,27 @@ PACKS = (
 )
 
 
+PRODUCT = "Codex"
+# Pack sources wrap the Claude-only model/effort policy in these markers. Other builds replace
+# the block with a note, after the product rename, so the note can still name Claude Code.
+MODEL_POLICY = re.compile(r"<!-- model-policy:claude -->\n.*?<!-- /model-policy:claude -->\n?", re.S)
+MODEL_NOTE = (
+    "> **Model and effort on {product}:** the agents in this build run on the model and reasoning\n"
+    "> effort selected in your session. The `model:` and `effort:` agent fields,\n"
+    "> `execution.model_profile`, `agent_model_overrides` and `agent_effort_overrides` take effect\n"
+    "> only in the Claude Code build of this pack, so any check comparing agent models with the\n"
+    "> profile does not apply here: report it as N/A. Use your strongest model for analysis,\n"
+    "> design, review and triage work, and a faster one for production work from an approved\n"
+    "> document.\n")
+
+
+def model_note(text):
+    return MODEL_POLICY.sub(lambda m: MODEL_NOTE.format(product=PRODUCT), text)
+
+
 def codex_text(text: str) -> str:
     """Make filesystem references portable to a Codex project installation."""
-    return (text.replace(".claude", ".codex")
+    return model_note(text.replace(".claude", ".codex")
                 .replace("CLAUDE_PROJECT_DIR", "CODEX_PROJECT_DIR")
                 .replace("CLAUDE_PLUGIN_ROOT", "PLUGIN_ROOT")
                 .replace("Claude Code", "Codex")

@@ -64,12 +64,41 @@ anything in this command.
 
 Ensure `.gitignore` covers `.env*` except `.env.example`, and `.claude/.slice_warned`.
 
-## Step 5 — Generate CLAUDE.md
+## Step 5 — Apply the model policy
+
+<!-- model-policy:claude -->
+Resolve a model and an effort level for every `.claude/agents/vibe-*.md` from
+`{{profile.execution.model_profile}}`:
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+- **heavy** — `vibe-planner`, `vibe-reviewer`, `vibe-security-auditor`, `vibe-debugger`
+- **standard** — `vibe-builder`, `vibe-verifier`
+
+An entry in `{{profile.execution.agent_model_overrides}}` or
+`{{profile.execution.agent_effort_overrides}}` wins over the table for that agent. A profile
+that still sets the deprecated `execution.agent_model` and no `model_profile` reads `opus` as
+`quality` and `sonnet` as `budget`; offer to replace the field.
+
+Set each agent's `model:` and `effort:` frontmatter to the resolved values. The pack ships the
+`balanced` values, so a `balanced` profile with no overrides changes no file — say so instead of
+rewriting them.
+
+Then tell the user that `{{profile.execution.intended_effort}}` is for their own session,
+where the commands run: Claude Code takes the session level from `/effort`, not from the
+profile, so they set it there. Agents are not affected by it.
+<!-- /model-policy:claude -->
+
+## Step 6 — Generate CLAUDE.md
 
 From the pack's `.claude/CLAUDE.md` template with profile values resolved. If a `CLAUDE.md`
 exists, **append** the vibe section rather than overwriting.
 
-## Step 6 — Check the hooks run
+## Step 7 — Check the hooks run
 
 ```bash
 python --version
@@ -79,11 +108,13 @@ echo '{"tool_input":{"command":"git reset --hard"}}' | python .claude/hooks/guar
 Exit `2` means the guard works. Anything else: the hooks are not running and SB-01/SB-02
 enforcement is off — see ADOPTION.md troubleshooting.
 
-## Step 7 — Report
+## Step 8 — Report
 
 ```
 Vibe pack initialised
   Profile     : .claude/vibe.profile.yaml
+  Agent model : {{profile.execution.model_profile}} — {n} opus · {n} sonnet · {n} overridden
+  Effort      : agents {n} xhigh · {n} high · {n} medium; session {{profile.execution.intended_effort}} — set with /effort
   Stage       : {stage}   (reality check: public URL {y/n} · other users {y/n} · real data {y/n})
   Stack       : {language / framework / db}
   Commands    : dev {ok} · test {ok|none} · lint {ok|none} · typecheck {ok|none} · build {ok}

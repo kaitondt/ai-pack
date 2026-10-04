@@ -1,5 +1,7 @@
 ---
 description: "Register, inspect or validate the project's own deliverable templates — the forms the client supplies, in Markdown, Excel, Word or CSV — and the legacy documents that are read-only inputs. Run at init, when a new category starts, and when the client issues a new template version. Usage: /mig-template-register [category key | template path | --check]"
+model: sonnet
+effort: medium
 ---
 
 # Register a deliverable template

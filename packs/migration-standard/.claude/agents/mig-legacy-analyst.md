@@ -3,6 +3,7 @@ name: mig-legacy-analyst
 description: Use when reverse-engineering the legacy system — cataloguing artifacts, extracting screens, business rules, messages and data access, or producing the legacy inventory and requirement.md. Read-only against legacy source. Triggers on "analyse legacy", "reverse engineer", "extract business rules", "legacy inventory".
 tools: ["Read", "Grep", "Glob", "Write", "Edit"]
 model: opus
+effort: high
 ---
 
 You analyse the legacy system for a migration project. You are the evidence base every

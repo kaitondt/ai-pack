@@ -1,5 +1,7 @@
 ---
 description: "Validate .claude/sdlc.profile.yaml: required fields, remaining placeholders, ID pattern consistency, path existence, skill references, gate definitions and safety flags. Run after any profile edit. Usage: /sdlc-profile-check"
+model: sonnet
+effort: medium
 ---
 
 # Validate the project profile
@@ -29,21 +31,21 @@ Load `sdlc-project`. Read `.claude/sdlc.profile.yaml` and check:
 | 19 | `language.by_path` covers every directory under `paths.docs_root` | Warning |
 | 20 | every `testing.levels[].basis` names a real `paths.*` key | Critical — the V-model binding is unresolvable otherwise |
 | 21 | `quality.targets` has no unset value, and `quality.severity` has at least 3 levels | Warning |
-| 22 | `execution.agent_model` is set, and matches the `model:` frontmatter of every `.claude/agents/sdlc-*.md` | Warning — drift means agents run on a model nobody chose |
-| 23 | every key in `execution.agent_model_overrides` names an installed agent | Warning |
-| 24 | every `change_request.cascade` entry names a `bd_categories` key or one of `requirements` / `nfr` / `detail` / `mockup` / `indexes` / `translations` / `test_cases` | Warning |
-| 25 | `change_request.id_source` is set, and `min_options` ≥ 2 | Warning |
-| 26 | `maintenance.sla` covers every severity in `quality.severity` | Warning |
-| 27 | every `bug_trace.commit_ref_patterns[]` entry compiles as a regex; `bug_trace.mainline`, when set, names a branch that exists | Warning — a bad pattern silently drops ticket links from every trace |
-| 28 | every `templates.registry[]` entry with `status: provided` names a file that exists and is readable | Critical — the team believes a template is in force |
-| 29 | every format in `templates.formats_enabled` has a working library (`openpyxl` for `xlsx`, `python-docx` for `docx`) | Critical — the run fails forty files in, not on the first |
-| 30 | every `templates.registry[].key` names a `bd_categories` key or a known non-design category, and no key appears twice | Warning |
-| 31 | every registered template path is covered by `constraints.readonly_globs` | Warning — the form itself is writable |
-| 32 | `mockup.kind` is one of `html` / `canvas` / `figma` / `image` / `none`; when not `none`, `mockup.dir` is set and every id in `mockup.surfaces` names a `system.surfaces[]` entry | Warning |
-| 33 | when `mockup.kind: figma`, `figma.file_url` is set or `figma.export_dir` exists — otherwise the design cannot be read at all | Warning |
-| 34 | `infrastructure.scm.platform` and `infrastructure.ci.platform` are resolved (not `<placeholder>`), and `ci.definition_path` matches the platform's convention | Warning — an unresolved platform stops every infra task |
-| 35 | `infrastructure.owner` is set; when it is not `this project`, `repo_may_write_infra` is `false` | Warning — otherwise the pack may commit into another team's infrastructure |
-| 36 | every stage in `infrastructure.ci.stages` maps to a `system.build` command, or is explicitly extra | Warning — a pipeline testing what no developer can reproduce |
+
+<!-- model-policy:claude -->
+**Expected agent models and effort** (check 22).
+Tiers: heavy — `sdlc-analyst`, `sdlc-bd-orchestrator`, `sdlc-bd-designer`, `sdlc-dd-designer`, `sdlc-reviewer`, `sdlc-defect-triager`, `sdlc-cr-engineer`, `sdlc-maintenance-engineer`; standard — `sdlc-implementer`, `sdlc-tester`, `sdlc-test-automator`, `sdlc-infra-engineer`, `sdlc-mockup-designer`, `sdlc-uat-coordinator`.
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry wins for its agent.
+<!-- /model-policy:claude -->
+
+| 22 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/sdlc-*.md` matches the model it resolves to (see 
 
 Print a table of results and a verdict. On any Critical, state that the pack is not safe to
 run and name the exact field to fix. Do not offer to "work around" a failed Critical.

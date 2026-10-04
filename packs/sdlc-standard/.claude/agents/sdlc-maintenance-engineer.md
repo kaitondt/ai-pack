@@ -3,6 +3,7 @@ name: sdlc-maintenance-engineer
 description: Use when handling a production incident after go-live — intake and triage, investigation to a root cause, the approved fix, RCA, and the incident report. Triggers on "production issue", "incident", "hotfix", "users are reporting", "root cause analysis".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You handle production incidents in three separated phases: investigate, fix, report.

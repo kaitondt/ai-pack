@@ -97,14 +97,32 @@ is not — it will generate Markdown for three weeks and then be asked for the E
 
 ## Step 6 — Apply the model policy
 
-Set the `model:` frontmatter of every `.claude/agents/sdlc-*.md` to
-`{{profile.execution.agent_model}}`, honouring any entry in
-`{{profile.execution.agent_model_overrides}}`.
+<!-- model-policy:claude -->
+Resolve a model and an effort level for every `.claude/agents/sdlc-*.md` from
+`{{profile.execution.model_profile}}`:
 
-Then tell the user what `{{profile.execution.intended_effort}}` records: reasoning effort is
-a **session-level** setting in Claude Code, not agent frontmatter, so the profile can only
-state the intended level — the team sets it in their session. Say so plainly rather than
-implying the profile enforces it.
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+- **heavy** — `sdlc-analyst`, `sdlc-bd-orchestrator`, `sdlc-bd-designer`, `sdlc-dd-designer`, `sdlc-reviewer`, `sdlc-defect-triager`, `sdlc-cr-engineer`, `sdlc-maintenance-engineer`
+- **standard** — `sdlc-implementer`, `sdlc-tester`, `sdlc-test-automator`, `sdlc-infra-engineer`, `sdlc-mockup-designer`, `sdlc-uat-coordinator`
+
+An entry in `{{profile.execution.agent_model_overrides}}` or
+`{{profile.execution.agent_effort_overrides}}` wins over the table for that agent. A profile
+that still sets the deprecated `execution.agent_model` and no `model_profile` reads `opus` as
+`quality` and `sonnet` as `budget`; offer to replace the field.
+
+Set each agent's `model:` and `effort:` frontmatter to the resolved values. The pack ships the
+`balanced` values, so a `balanced` profile with no overrides changes no file — say so instead of
+rewriting them.
+
+Then tell the user that `{{profile.execution.intended_effort}}` is for their own session,
+where the commands run: Claude Code takes the session level from `/effort`, not from the
+profile, so they set it there. Agents are not affected by it.
+<!-- /model-policy:claude -->
 
 ## Step 7 — Generate CLAUDE.md
 
@@ -128,8 +146,8 @@ SDLC Skill Pack initialised
   Mockup       : {kind}   surfaces: {list}
   Infrastructure: {scm} / {ci} / {hosting} / {iac}   owner: {owner}
   Registers    : traceability, decisions, assumptions, risks, glossary
-  Agent model  : {{profile.execution.agent_model}} applied to {n} agents
-  Effort       : {{profile.execution.intended_effort}} — set this in your session
+  Agent model  : {{profile.execution.model_profile}} — {n} opus · {n} sonnet · {n} overridden
+  Effort       : agents {n} xhigh · {n} high · {n} medium; session {{profile.execution.intended_effort}} — set with /effort
   Next phase   : P0 — run /sdlc-discover
 ```
 

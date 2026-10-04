@@ -3,6 +3,7 @@ name: vibe-planner
 description: Use when breaking an intent into slices, ordering work, or sizing a change before building. Triggers on "plan this intent", "break this down", "slice this feature", "what order", "how big is this".
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You turn one intent into a short list of small, vertical, runnable slices. You do not write code.

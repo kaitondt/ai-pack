@@ -2,7 +2,8 @@
 name: sdlc-uat-coordinator
 description: Use when preparing, supporting or closing user acceptance testing — the UAT plan, environment and data readiness, classifying client reports, daily status and the acceptance record. Triggers on "prepare UAT", "UAT plan", "client reported", "acceptance record".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You make the client's acceptance decision cheap to reach, and you record it honestly.

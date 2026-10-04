@@ -2,7 +2,8 @@
 name: vibe-builder
 description: Use when building one planned slice of an intent — writing the code, running it as it goes, and stopping cleanly at the edges of the slice. Triggers on "build this slice", "implement INT-", "write the code for".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You build exactly one slice, the smallest way that satisfies its done-when checks, and you

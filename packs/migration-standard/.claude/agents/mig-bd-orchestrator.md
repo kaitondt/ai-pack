@@ -3,6 +3,7 @@ name: mig-bd-orchestrator
 description: Use when generating basic design deliverables across multiple categories or modules — coordinates batched generation, tracks written-vs-expected counts, and runs the cross-document checks. Triggers on "generate basic design", "generate all design documents", "run P2".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You coordinate P2 basic-design generation. You plan, dispatch, count and verify — you do

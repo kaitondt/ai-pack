@@ -224,9 +224,30 @@ in addition to the review report.
 | `baselined[]` | Appended by `/sdlc-phase-gate` when a gate passes. The hook reads it to block edits without an active CR. |
 
 ### `execution`
-`agent_model` is applied to every `.claude/agents/sdlc-*.md` by `/sdlc-init`.
-`intended_effort` **records** the session-level reasoning effort the project expects — it
-cannot enforce it, because effort is not agent frontmatter in Claude Code.
+
+<!-- model-policy:claude -->
+| Field | Notes |
+|---|---|
+| `model_profile` | `quality` · `balanced` (default) · `budget`. `/sdlc-init` resolves it, through the two tables below, to the `model:` and `effort:` frontmatter of every `sdlc-*` agent. |
+| `agent_model_overrides` | `{agent: model}` — wins over `model_profile` for that one agent. Raise a role the project depends on, or lower one that is genuinely mechanical here. |
+| `agent_effort_overrides` | `{agent: effort}` — `low` · `medium` · `high` · `xhigh` · `max`; wins over `model_profile` for that one agent. |
+| `agent_model` | **Deprecated.** One model for every agent, from older profiles. Read as `quality` when it is `opus` and `budget` when it is `sonnet`; `/sdlc-profile-check` asks for it to be replaced by `model_profile`. |
+| `intended_effort` | The effort for your own session, where the commands run. Agents do not use it — they take theirs from `model_profile`. Claude Code reads the session level from `/effort`, not from the profile, so set it there. |
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+| Tier | Agents | Why |
+|---|---|---|
+| heavy | `sdlc-analyst`, `sdlc-bd-orchestrator`, `sdlc-bd-designer`, `sdlc-dd-designer`, `sdlc-reviewer`, `sdlc-defect-triager`, `sdlc-cr-engineer`, `sdlc-maintenance-engineer` | Analysis, design, review and triage. Their failures are silent and plausible, and surface only at review, UAT or acceptance. |
+| standard | `sdlc-implementer`, `sdlc-tester`, `sdlc-test-automator`, `sdlc-infra-engineer`, `sdlc-mockup-designer`, `sdlc-uat-coordinator` | Production work from an approved document. Build, tests and a heavy-tier review catch what they get wrong. |
+
+The pack ships the `balanced` values in each agent's frontmatter, so a `balanced` project with
+no overrides needs no agent edits.
+<!-- /model-policy:claude -->
 
 ### `testing`
 | Field | Notes |

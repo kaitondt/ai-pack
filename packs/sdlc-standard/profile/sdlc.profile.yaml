@@ -522,15 +522,21 @@ constraints:
 # Applied to .claude/agents/*.md frontmatter by /sdlc-init.
 # ---------------------------------------------------------------------------
 execution:
-  # Default for every sdlc-* agent. These roles produce content whose failure
-  # modes are silent - an untestable requirement, a design that quietly drops a
-  # rule, a test case that asserts what the code does instead of what the spec
-  # says. None of it fails loudly; it fails at UAT.
-  agent_model: opus
-  agent_model_overrides: {}
-  # Reasoning effort is a session-level setting in Claude Code, not agent
-  # frontmatter. Record the intended level here so the team runs consistently.
-  intended_effort: "extra high"
+  # Model and effort profile for the sdlc-* agents. Each agent is in one tier:
+  #   heavy    - analysis, design, review, triage: silent failure modes that
+  #              only surface at review, UAT or the steering committee.
+  #   standard - production work from an approved document (code, tests,
+  #              infra, mockups, reports), checked by build, tests and review.
+  # quality  : heavy opus xhigh,   standard opus high
+  # balanced : heavy opus high,    standard sonnet medium   (pack default)
+  # budget   : heavy sonnet high,  standard sonnet medium
+  # The tier of every agent is listed in PROFILE-SCHEMA.md, "execution".
+  model_profile: balanced
+  agent_model_overrides: {}        # per-agent, wins over the profile
+  agent_effort_overrides: {}       # per-agent effort: low | medium | high | xhigh | max
+  # Effort for your own session, where the commands run. Agents take theirs
+  # from model_profile; the session level is set with /effort, not from here.
+  intended_effort: "xhigh"
 
 # ---------------------------------------------------------------------------
 # TESTING - P5..P8 artifacts, pipeline shape, automation and evidence.

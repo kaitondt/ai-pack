@@ -1,5 +1,7 @@
 ---
 description: "Register, inspect or validate the project's own deliverable templates — the forms the client supplies, in Markdown, Excel, Word or CSV. Run at init, whenever a new category starts, and whenever the client issues a new template version. Usage: /sdlc-template-register [category key | template path | --check]"
+model: sonnet
+effort: medium
 ---
 
 # Register a deliverable template

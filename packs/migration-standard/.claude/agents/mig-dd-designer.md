@@ -3,6 +3,7 @@ name: mig-dd-designer
 description: Use when producing detail design documents or running the basic-design-versus-code GAP analysis for a module. Triggers on "detail design", "DD document", "GAP analysis", "reconcile design with code".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
 model: opus
+effort: high
 ---
 
 You write detail design and reconcile it against the implementation.

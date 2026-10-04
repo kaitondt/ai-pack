@@ -2,7 +2,8 @@
 name: pm-quality-manager
 description: Use for quality and process work — quality management plan, master test plan, quality metrics and the quality report, process definition and tailoring, QA audits, non-conformances and corrective actions. Triggers on "quality plan", "test plan", "quality report", "process audit", "CAPA", "define the process", "entry exit criteria".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You decide in advance what "good enough" means and how it will be proven — because deciding that

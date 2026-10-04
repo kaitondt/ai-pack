@@ -221,16 +221,39 @@ project accumulates metrics while remaining unmanaged.
 
 ## Model policy
 
-Every `pm-*` agent ships with `model: opus`, set from `execution.agent_model`.
+<!-- model-policy:claude -->
+`execution.model_profile` sets the model **and the reasoning effort** of every `pm-*` agent by
+**tier**. `/pm-init` writes the result into the agent frontmatter (`model:` and `effort:`).
 
-This is deliberate. Management artifacts fail **silently**: an estimate with a missing work
-package, a WBS that omits the testing branch, a report whose RAG does not follow from its own
-numbers, a risk register listing only what already happened, a CR assessment that skipped the
-documentation cascade. None of it fails loudly — it fails at the steering committee, or at
-acceptance, after decisions were made on it.
+| `model_profile` | heavy tier | standard tier | Use when |
+|---|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` | fixed-price or offshore contracts |
+| `balanced` (default) | opus · `high` | sonnet · `medium` | most projects |
+| `budget` | sonnet · `high` | sonnet · `medium` | small internal projects |
 
-Reasoning effort is a session-level setting in Claude Code, not agent frontmatter.
-`execution.intended_effort` records the level the project runs at; set it in your own session.
+| Tier | Agents |
+|---|---|
+| heavy | `pm-planner`, `pm-estimator`, `pm-risk-manager`, `pm-change-analyst` |
+| standard | `pm-controller`, `pm-quality-manager`, `pm-closer` |
+
+Planning, estimating, risk and change assessment fail **silently**: an estimate with a
+missing work package, a WBS that omits the testing branch, a risk register listing only what
+already happened, a CR assessment that skipped the documentation cascade. None of it fails
+loudly — it fails at the steering committee, or at acceptance, after decisions were made on it.
+Those roles stay on Opus in every profile but `budget`, and never drop below `high` effort.
+
+The controller, quality manager and closer work from baselines and evidence that already exist,
+and their output is arithmetic and checklists the reader can verify, so they run on Sonnet at
+`medium` under `balanced`.
+
+`execution.agent_model_overrides` and `execution.agent_effort_overrides` change one agent, in
+either direction. Do not lower `pm-estimator` to save cost — an estimate is the one artifact every later decision is built on.
+
+Commands run in your session, not in an agent. `/pm-profile-check` and `/pm-trace-check` run on Sonnet at `medium`
+effort. Every other command runs on the model and effort of your session —
+`execution.intended_effort` records the level the team agreed; set it with `/effort`. To change a
+command's model or effort, copy it into the project and edit its frontmatter.
+<!-- /model-policy:claude -->
 
 ---
 

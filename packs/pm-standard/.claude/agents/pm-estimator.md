@@ -3,6 +3,7 @@ name: pm-estimator
 description: Use when estimating or costing — effort, duration and cost estimates, estimate review, the cost baseline, budget structure, reserves and change-request estimates. Triggers on "estimate this", "how long will it take", "cost baseline", "review this estimate", "size the change".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You produce numbers that will be treated as commitments, so you produce them with their method,

@@ -19,7 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "gemini"
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 GITHUB = "https://github.com/kaitondt"
 
@@ -180,9 +180,27 @@ PLUGIN_NOTE = """
 NOTE_TARGETS = ("-init.md", "-profile-check.md", "-refine-skill.md")
 
 
+PRODUCT = "Gemini CLI"
+# Pack sources wrap the Claude-only model/effort policy in these markers. Other builds replace
+# the block with a note, after the product rename, so the note can still name Claude Code.
+MODEL_POLICY = re.compile(r"<!-- model-policy:claude -->\n.*?<!-- /model-policy:claude -->\n?", re.S)
+MODEL_NOTE = (
+    "> **Model and effort on {product}:** the agents in this build run on the model and reasoning\n"
+    "> effort selected in your session. The `model:` and `effort:` agent fields,\n"
+    "> `execution.model_profile`, `agent_model_overrides` and `agent_effort_overrides` take effect\n"
+    "> only in the Claude Code build of this pack, so any check comparing agent models with the\n"
+    "> profile does not apply here: report it as N/A. Use your strongest model for analysis,\n"
+    "> design, review and triage work, and a faster one for production work from an approved\n"
+    "> document.\n")
+
+
+def model_note(text):
+    return MODEL_POLICY.sub(lambda m: MODEL_NOTE.format(product=PRODUCT), text)
+
+
 def gemini_text(text):
     """Retarget filesystem and product references from Claude Code to Gemini CLI."""
-    return (text.replace("CLAUDE_PROJECT_DIR", "GEMINI_PROJECT_DIR")
+    return model_note(text.replace("CLAUDE_PROJECT_DIR", "GEMINI_PROJECT_DIR")
                 .replace("CLAUDE_PLUGIN_ROOT", "EXTENSION_ROOT")
                 .replace(".claude/CLAUDE.md", ".gemini/GEMINI.md")
                 .replace("CLAUDE.md", "GEMINI.md")

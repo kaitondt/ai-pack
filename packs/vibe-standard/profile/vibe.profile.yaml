@@ -188,9 +188,19 @@ integration:
 # EXECUTION - model policy for the vibe-* agents (see README, "Model policy").
 # ---------------------------------------------------------------------------
 execution:
-  agent_model: opus
-  intended_effort: "<low | medium | high>"   # recorded, not enforced
+  # Model and effort profile for the vibe-* agents. Each agent is in one tier:
+  #   heavy    - analysis, design, review, triage: silent failure modes that
+  #              only surface at review, UAT or the steering committee.
+  #   standard - production work from an approved document (code, tests,
+  #              infra, mockups, reports), checked by build, tests and review.
+  # quality  : heavy opus xhigh,   standard opus high
+  # balanced : heavy opus high,    standard sonnet medium   (pack default)
+  # budget   : heavy sonnet high,  standard sonnet medium
+  # The tier of every agent is listed in PROFILE-SCHEMA.md, "execution".
+  model_profile: balanced
+  intended_effort: "<low | medium | high | xhigh | max>"   # your session's effort; agents use model_profile
   agent_model_overrides: {}        # e.g. { vibe-verifier: sonnet }
+  agent_effort_overrides: {}       # per-agent effort: low | medium | high | xhigh | max
 
 language:
   docs: "en"                       # language of vibe/*.md files

@@ -139,12 +139,19 @@ deliverable.
 
 ## 4. Confirm the model and effort
 
-`/pm-init` writes `execution.agent_model` (default `opus`) into every agent file. Effort is
-session-level and cannot be set from the profile — `execution.intended_effort` only records
-what the project expects, so agree it with the team and set it in your own session.
+<!-- model-policy:claude -->
+`/pm-init` resolves `execution.model_profile` (default `balanced`: Opus at `high` effort for
+the analysis, design and review roles, Sonnet at `medium` for the production roles — see README
+"Model policy") into the `model:` and `effort:` frontmatter of every agent file. Agree the
+profile with the team before the first generation run.
 
-`/pm-profile-check` flags drift between the profile and the agent frontmatter. Drift here is
-easy to miss, because an agent on the wrong model still produces a plausible-looking plan.
+`execution.intended_effort` is different: it is the effort for your own session, where the
+commands run. Claude Code takes that level from `/effort`, not from the profile, so set it there.
+
+`/pm-profile-check` compares the profile against the agent frontmatter and warns when they
+disagree. Drift here is easy to miss, because an agent running on the wrong model or effort still
+produces plausible-looking deliverables.
+<!-- /model-policy:claude -->
 
 ---
 

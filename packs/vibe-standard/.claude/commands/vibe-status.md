@@ -1,5 +1,6 @@
 ---
 description: "Honest project status computed from the files and git — intents, core flows, checks, broken, debt, backlog, distance to the next stage. Read-only. Usage: /vibe-status"
+model: haiku
 ---
 
 # Status

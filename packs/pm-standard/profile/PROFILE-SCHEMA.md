@@ -260,11 +260,29 @@ regeneration erases that without either of you noticing.
 
 ### `execution`
 
+<!-- model-policy:claude -->
 | Field | Notes |
 |---|---|
-| `agent_model` | Default `opus`, written into every agent's frontmatter by `/pm-init`. |
-| `agent_model_overrides` | Per-agent downgrade, for genuinely mechanical roles only. |
-| `intended_effort` | Records the reasoning effort the project runs at. Session-level in Claude Code — this field documents it, it does not enforce it. |
+| `model_profile` | `quality` · `balanced` (default) · `budget`. `/pm-init` resolves it, through the two tables below, to the `model:` and `effort:` frontmatter of every `pm-*` agent. |
+| `agent_model_overrides` | `{agent: model}` — wins over `model_profile` for that one agent. Raise a role the project depends on, or lower one that is genuinely mechanical here. |
+| `agent_effort_overrides` | `{agent: effort}` — `low` · `medium` · `high` · `xhigh` · `max`; wins over `model_profile` for that one agent. |
+| `agent_model` | **Deprecated.** One model for every agent, from older profiles. Read as `quality` when it is `opus` and `budget` when it is `sonnet`; `/pm-profile-check` asks for it to be replaced by `model_profile`. |
+| `intended_effort` | The effort for your own session, where the commands run. Agents do not use it — they take theirs from `model_profile`. Claude Code reads the session level from `/effort`, not from the profile, so set it there. |
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+| Tier | Agents | Why |
+|---|---|---|
+| heavy | `pm-planner`, `pm-estimator`, `pm-risk-manager`, `pm-change-analyst` | Analysis, design, review and triage. Their failures are silent and plausible, and surface only at review, UAT or acceptance. |
+| standard | `pm-controller`, `pm-quality-manager`, `pm-closer` | Production work from an approved document. Build, tests and a heavy-tier review catch what they get wrong. |
+
+The pack ships the `balanced` values in each agent's frontmatter, so a `balanced` project with
+no overrides needs no agent edits.
+<!-- /model-policy:claude -->
 
 ---
 

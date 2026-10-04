@@ -227,20 +227,40 @@ Staying is also a valid answer. Many products live happily at `production` under
 
 ## Model policy
 
-Every `vibe-*` agent ships with `model: opus`, set from `execution.agent_model`.
+<!-- model-policy:claude -->
+`execution.model_profile` sets the model **and the reasoning effort** of every `vibe-*` agent by
+**tier**. `/vibe-init` writes the result into the agent frontmatter (`model:` and `effort:`).
 
-Vibe coding delegates more judgement to the model than either sibling pack does — there is no
-specification to check against, only an intent and the model's reading of it. The failures are
-silent and plausible: an ownership check missing from one endpoint, an API from the wrong major
-version, a test that asserts what the code does, a slice that quietly grew a feature. The
-cheapest place to buy correctness is the model doing the work.
+| `model_profile` | heavy tier | standard tier | Use when |
+|---|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` | the `production` stage, or an app that handles real users' data |
+| `balanced` (default) | opus · `high` | sonnet · `medium` | most projects |
+| `budget` | sonnet · `high` | sonnet · `medium` | a `spike` or a weekend prototype |
 
-Downgrade a role via `execution.agent_model_overrides` when it is genuinely mechanical
-(`vibe-verifier` running a fixed command list is the usual candidate). Do not downgrade
-`vibe-reviewer` or `vibe-security-auditor` — they exist to catch what the builder missed.
+| Tier | Agents |
+|---|---|
+| heavy | `vibe-planner`, `vibe-reviewer`, `vibe-security-auditor`, `vibe-debugger` |
+| standard | `vibe-builder`, `vibe-verifier` |
 
-Reasoning effort is a session-level setting in Claude Code; `execution.intended_effort` records
-it for consistency, and does not enforce it.
+Vibe coding delegates more judgement to the model than either sibling pack does — there is
+no specification to check against, only an intent and the model's reading of it. The failures
+are silent and plausible: an ownership check missing from one endpoint, an API from the wrong
+major version, a slice that quietly grew a feature. The planning, review, security and debugging
+roles exist to catch exactly that, so they stay on Opus in every profile but `budget`, and never
+drop below `high` effort.
+
+`vibe-builder` writes one small slice at a time, and `vibe-verifier` runs a fixed list of
+commands. Both are checked by the reviewer and the done-when checks, so they run on Sonnet at
+`medium` under `balanced`.
+
+`execution.agent_model_overrides` and `execution.agent_effort_overrides` change one agent, in
+either direction. Do not lower `vibe-reviewer` or `vibe-security-auditor` — they exist to catch what the builder missed.
+
+Commands run in your session, not in an agent. `/vibe-status` runs on Haiku — it counts files and git state. `/vibe-profile-check` runs on Sonnet at `medium`
+effort. Every other command runs on the model and effort of your session —
+`execution.intended_effort` records the level the team agreed; set it with `/effort`. To change a
+command's model or effort, copy it into the project and edit its frontmatter.
+<!-- /model-policy:claude -->
 
 ---
 

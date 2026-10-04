@@ -139,11 +139,30 @@ that works for the current release (SH-02 #5).
 `sibling_packs: auto` detects `.claude/sdlc.profile.yaml` and `.claude/pm.profile.yaml`.
 
 ### `execution`
+
+<!-- model-policy:claude -->
 | Field | Notes |
 |---|---|
-| `agent_model` | `opus` by default — see README "Model policy" |
-| `intended_effort` | recorded, not enforced; set it in your session |
-| `agent_model_overrides` | per-agent, e.g. `{ vibe-verifier: sonnet }` |
+| `model_profile` | `quality` · `balanced` (default) · `budget`. `/vibe-init` resolves it, through the two tables below, to the `model:` and `effort:` frontmatter of every `vibe-*` agent. |
+| `agent_model_overrides` | `{agent: model}` — wins over `model_profile` for that one agent. Raise a role the project depends on, or lower one that is genuinely mechanical here. |
+| `agent_effort_overrides` | `{agent: effort}` — `low` · `medium` · `high` · `xhigh` · `max`; wins over `model_profile` for that one agent. |
+| `agent_model` | **Deprecated.** One model for every agent, from older profiles. Read as `quality` when it is `opus` and `budget` when it is `sonnet`; `/vibe-profile-check` asks for it to be replaced by `model_profile`. |
+| `intended_effort` | The effort for your own session, where the commands run. Agents do not use it — they take theirs from `model_profile`. Claude Code reads the session level from `/effort`, not from the profile, so set it there. |
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+| Tier | Agents | Why |
+|---|---|---|
+| heavy | `vibe-planner`, `vibe-reviewer`, `vibe-security-auditor`, `vibe-debugger` | Analysis, design, review and triage. Their failures are silent and plausible, and surface only at review, UAT or acceptance. |
+| standard | `vibe-builder`, `vibe-verifier` | Production work from an approved document. Build, tests and a heavy-tier review catch what they get wrong. |
+
+The pack ships the `balanced` values in each agent's frontmatter, so a `balanced` project with
+no overrides needs no agent edits.
+<!-- /model-policy:claude -->
 
 ### `language`
 | Field | Notes |

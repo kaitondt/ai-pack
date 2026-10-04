@@ -1,5 +1,7 @@
 ---
 description: "Check the traceability register: orphan detection in both directions, V-model coverage per level, and the phase-gate traceability assertions. Run before declaring any phase complete. Usage: /sdlc-trace-check [phase, module id, or nothing for everything]"
+model: sonnet
+effort: medium
 ---
 
 # Traceability check

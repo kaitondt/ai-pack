@@ -26,7 +26,7 @@ OUT = ROOT / "copilot"
 MARKETPLACE = "ai-pack-copilot"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack-copilot"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 NS = "com.github.copilot"
 
@@ -212,13 +212,31 @@ NOTE_TARGETS = ("-init.md", "-profile-check.md", "-refine-skill.md")
 RULE_REF = re.compile(r"(?<![\w./-])(?:\.claude/)?rules/([a-z0-9-]+)/([a-z0-9-]+)\.md")
 
 
+PRODUCT = "GitHub Copilot"
+# Pack sources wrap the Claude-only model/effort policy in these markers. Other builds replace
+# the block with a note, after the product rename, so the note can still name Claude Code.
+MODEL_POLICY = re.compile(r"<!-- model-policy:claude -->\n.*?<!-- /model-policy:claude -->\n?", re.S)
+MODEL_NOTE = (
+    "> **Model and effort on {product}:** the agents in this build run on the model and reasoning\n"
+    "> effort selected in your session. The `model:` and `effort:` agent fields,\n"
+    "> `execution.model_profile`, `agent_model_overrides` and `agent_effort_overrides` take effect\n"
+    "> only in the Claude Code build of this pack, so any check comparing agent models with the\n"
+    "> profile does not apply here: report it as N/A. Use your strongest model for analysis,\n"
+    "> design, review and triage work, and a faster one for production work from an approved\n"
+    "> document.\n")
+
+
+def model_note(text):
+    return MODEL_POLICY.sub(lambda m: MODEL_NOTE.format(product=PRODUCT), text)
+
+
 def copilot_text(text):
     """Retarget filesystem and product references from Claude Code to GitHub Copilot."""
     text = text.replace(".claude/CLAUDE.md", ".github/copilot-instructions.md")
     text = RULE_REF.sub(r".github/instructions/\1/\2.instructions.md", text)
     text = text.replace(".claude/rules", ".github/instructions")
     text = re.sub(r"(?<![\w.-])CLAUDE\.md", ".github/copilot-instructions.md", text)
-    return text.replace(".claude", ".github").replace("Claude Code", "GitHub Copilot")
+    return model_note(text.replace(".claude", ".github").replace("Claude Code", "GitHub Copilot"))
 
 
 def clean_dir(path):

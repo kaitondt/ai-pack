@@ -123,6 +123,29 @@ claude plugin uninstall sdlc-standard@ai-pack --scope project
 Uninstalling removes the pack's commands, skills, agents and hooks. It leaves the profile,
 `.claude/rules/`, `CLAUDE.md` and every generated deliverable in the project.
 
+### Upgrading a project to 2.1
+
+2.1.0 replaces the single `execution.agent_model` with a **model and effort profile**.
+Analysis, design, review and triage agents stay on Opus; production agents (implementer, tester,
+infra, mockup, …) move to Sonnet, and every agent now carries an `effort:` level. See each pack's
+README, "Model policy".
+
+The plugin agents ship the `balanced` values, so they take effect as soon as the plugin is
+updated. To bring the profile in line, edit `execution` in the project's profile:
+
+```yaml
+execution:
+  model_profile: balanced        # quality = every agent on Opus, as before 2.1 · budget = all Sonnet
+  agent_model_overrides: {}
+  agent_effort_overrides: {}
+  intended_effort: "xhigh"       # your session's effort; set it with /effort
+```
+
+and delete the `agent_model:` line. A profile that keeps `agent_model: opus` is read as
+`quality`; `/<prefix>-profile-check` then reports the plugin agents as drift until you either
+switch to `balanced` or run the `/<prefix>-init` model-policy step, which copies the agents into
+`.claude/agents/` with Opus.
+
 ### Upgrading a project from 1.x to 2.0
 
 2.0.0 renamed every command, skill, agent and hook from snake_case to kebab-case

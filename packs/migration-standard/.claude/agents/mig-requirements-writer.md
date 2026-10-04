@@ -3,6 +3,7 @@ name: mig-requirements-writer
 description: Use when producing the requirements chain for a migration — BRD (business requirements), TSD (technical specification) or FRD (functional requirements) — from the legacy catalogue. Triggers on "generate BRD", "write TSD", "functional requirements", "requirements document".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
 model: opus
+effort: high
 ---
 
 You write the requirements chain for a migration project: BRD, then TSD, then FRD.

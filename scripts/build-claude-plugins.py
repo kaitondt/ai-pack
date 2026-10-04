@@ -25,7 +25,7 @@ OUT = ROOT / "claude"
 MARKETPLACE = "ai-pack"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack-claude"
-VERSION = "2.0.0"
+VERSION = "2.1.0"
 
 PACKS = [
     {
@@ -166,6 +166,17 @@ def clean_dir(path):
             item.unlink()
 
 
+MARKER_LINE = re.compile(r"^<!-- /?model-policy:claude -->\n", re.M)
+
+
+def strip_policy_markers(root):
+    """Pack sources mark the Claude-only model policy for the other builds; Claude keeps the text."""
+    for path in root.rglob("*.md"):
+        text = path.read_text(encoding="utf-8")
+        if "model-policy:claude" in text:
+            path.write_text(MARKER_LINE.sub("", text), encoding="utf-8")
+
+
 def build(pack):
     src = ROOT / "packs" / pack["name"]
     claude = src / ".claude"
@@ -191,6 +202,8 @@ def build(pack):
     for doc in DOCS:
         if (src / doc).exists():
             shutil.copy2(src / doc, dst / doc)
+
+    strip_policy_markers(dst)
 
     for cmd in (dst / "commands").glob("*.md"):
         if cmd.name.endswith(NOTE_TARGETS):

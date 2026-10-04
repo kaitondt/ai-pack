@@ -2,7 +2,8 @@
 name: mig-implementer
 description: Use when implementing a migrated module across the layers — data access, domain, application, transport, shared types and UI — from approved design documents. Triggers on "implement module", "build the feature", "write the code for".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You implement migrated modules from approved design documents.

@@ -2,7 +2,8 @@
 name: mig-tester
 description: Use when generating unit test design (UT) or integration test design (IT) documents for a migrated module, or writing the automated tests that implement them. Triggers on "generate test cases", "UT design", "IT design", "test document for module".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You design tests that prove the new system does what the old one did.

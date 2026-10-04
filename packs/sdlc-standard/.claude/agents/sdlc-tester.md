@@ -2,7 +2,8 @@
 name: sdlc-tester
 description: Use when writing test case documents at any level — unit, integration, system or acceptance — through the checkpoint pipeline. Triggers on "generate test cases", "write UT", "IT scenarios", "system test scenarios", "test design".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
-model: opus
+model: sonnet
+effort: medium
 ---
 
 You write test case documents at one level at a time.

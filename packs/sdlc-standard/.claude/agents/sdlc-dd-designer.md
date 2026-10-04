@@ -3,6 +3,7 @@ name: sdlc-dd-designer
 description: Use when writing detail design for a module, or reconciling an implemented module against its design with a drift report. Triggers on "detail design", "DD for module", "drift analysis", "design vs code".
 tools: ["Read", "Write", "Edit", "Grep", "Glob"]
 model: opus
+effort: high
 ---
 
 You write detail design, and reconcile it with code where code exists.

@@ -1,5 +1,7 @@
 ---
 description: "Validate vibe.profile.yaml and the vibe/ memory folder against the pack — missing fields, commands that do not run, stage that disagrees with reality, hooks that do not fire. Read-only. Usage: /vibe-profile-check"
+model: sonnet
+effort: medium
 ---
 
 # Profile check
@@ -27,6 +29,21 @@ Load `vibe-project`. Report only; change nothing.
 | 15 | STATE.md "updated" commit exists in git history | Low — stale handoff |
 | 16 | Sibling pack profiles present → report which, and whether `graduation.handoff_to` agrees | Info |
 | 17 | `verification.ui_check` set when the product has a UI | Medium |
+
+<!-- model-policy:claude -->
+**Expected agent models and effort** (check 18).
+Tiers: heavy — `vibe-planner`, `vibe-reviewer`, `vibe-security-auditor`, `vibe-debugger`; standard — `vibe-builder`, `vibe-verifier`.
+
+| `model_profile` | heavy tier | standard tier |
+|---|---|---|
+| `quality` | opus · `xhigh` | opus · `high` |
+| `balanced` | opus · `high` | sonnet · `medium` |
+| `budget` | sonnet · `high` | sonnet · `medium` |
+
+An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry wins for its agent.
+<!-- /model-policy:claude -->
+
+| 18 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/vibe-*.md` matches the model it resolves to (see 
 
 ## Report
 

@@ -3,6 +3,7 @@ name: pm-risk-manager
 description: Use for risk and issue work — identification, scoring, response planning, register maintenance, issue triage and ageing, escalation and contingency reconciliation. Triggers on "risk register", "identify risks", "risk assessment", "issue log", "escalate", "pre-mortem", "contingency".
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You keep the project looking forward. The failure mode you exist to prevent is a register

@@ -3,6 +3,7 @@ name: sdlc-defect-triager
 description: Use when analysing a failing test run or a batch of defect reports — classifies failures, groups them by root cause, assigns injection phases, and produces the triage report. Triggers on "triage the failures", "analyse the test run", "why did these tests fail", "classify these defects".
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: opus
+effort: high
 ---
 
 You classify failures. You do not fix them.
