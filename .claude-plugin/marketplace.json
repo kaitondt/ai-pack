@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Project-agnostic Claude Code skill packs: sdlc, migration, pm, vibe",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "sdlc-standard",
       "source": "./claude/plugins/sdlc-standard",
       "description": "Project-agnostic SDLC pack for building something new, P0 Inception to P9 Maintenance: requirements, basic/detail design, implementation, test levels, UAT, change requests, traceability.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "ThucND",
         "url": "https://github.com/kaitondt"
@@ -33,7 +33,7 @@
       "name": "migration-standard",
       "source": "./claude/plugins/migration-standard",
       "description": "Pack for rewriting or replatforming a legacy system where behaviour must be preserved: legacy analysis, gap-driven design, no-invention rules, read-only legacy guards.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "ThucND",
         "url": "https://github.com/kaitondt"
@@ -52,7 +52,7 @@
       "name": "pm-standard",
       "source": "./claude/plugins/pm-standard",
       "description": "PMBOK-aligned project management pack: charter, scope/WBS, estimation, cost and schedule baselines, EVM, reporting, quality, risk, change control, closing.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "ThucND",
         "url": "https://github.com/kaitondt"
@@ -72,7 +72,7 @@
       "name": "vibe-standard",
       "source": "./claude/plugins/vibe-standard",
       "description": "Vibe coding with guard rails: intent -> slice -> run -> verify -> commit, stage model spike/prototype/mvp/production, debt ledger, and handoff to sdlc/pm when the project outgrows it.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "ThucND",
         "url": "https://github.com/kaitondt"

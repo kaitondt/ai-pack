@@ -1,6 +1,6 @@
 {
   "name": "migration-standard",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Pack for rewriting or replatforming a legacy system where behaviour must be preserved: legacy analysis, gap-driven design, no-invention rules, read-only legacy guards.",
   "author": {
     "name": "ThucND",

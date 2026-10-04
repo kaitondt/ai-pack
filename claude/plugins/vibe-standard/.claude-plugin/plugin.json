@@ -1,6 +1,6 @@
 {
   "name": "vibe-standard",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Vibe coding with guard rails: intent -> slice -> run -> verify -> commit, stage model spike/prototype/mvp/production, debt ledger, and handoff to sdlc/pm when the project outgrows it.",
   "author": {
     "name": "ThucND",

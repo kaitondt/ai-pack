@@ -174,6 +174,20 @@ claude plugin uninstall sdlc-standard@ai-pack --scope project
 Uninstalling removes the pack's commands, skills, agents and hooks. It leaves the profile,
 `.claude/rules/`, `CLAUDE.md` and every generated deliverable in the project.
 
+### Upgrading a project from 1.x to 2.0
+
+2.0.0 renamed every command, skill, agent and hook from snake_case to kebab-case
+(`/vibe_build` → `/vibe-build`, `vibe_project` → `vibe-project`). After updating the plugin,
+rewrite the names in the files the pack put into the project (`CLAUDE.md`, `.claude/rules/`,
+agent/skill overrides; profile keys are left alone):
+
+```bash
+python <ai-pack>/scripts/migrate-project-names.py <project>            # preview
+python <ai-pack>/scripts/migrate-project-names.py <project> --apply    # write
+```
+
+Add `--docs` to also update mentions in the project's other Markdown files.
+
 ### How the plugin install differs from the copy install
 
 - **Hooks** come from the plugin and only act in projects that have the pack's profile

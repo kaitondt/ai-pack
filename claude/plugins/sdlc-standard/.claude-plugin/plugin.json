@@ -1,6 +1,6 @@
 {
   "name": "sdlc-standard",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Project-agnostic SDLC pack for building something new, P0 Inception to P9 Maintenance: requirements, basic/detail design, implementation, test levels, UAT, change requests, traceability.",
   "author": {
     "name": "ThucND",
