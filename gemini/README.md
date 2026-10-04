@@ -25,6 +25,18 @@ gemini extensions update vibe-standard                          # after a new ve
 
 The repositories are private: installing from GitHub needs `git` credentials with access to them.
 
+### From the chat
+
+Inside a `gemini` session the same operations are slash commands:
+
+```text
+/extensions install https://github.com/kaitondt/ai-pack-gemini-vibe
+/extensions list
+/extensions update vibe-standard
+```
+
+Restart `gemini` (or run `/extensions restart`) after installing so the commands and skills load.
+
 ## Adopt in a project
 
 Run `/<prefix>-init` (e.g. `/vibe-init`). It writes `.gemini/<profile>.yaml`, copies the rules
