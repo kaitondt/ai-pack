@@ -1,7 +1,9 @@
-# AI Pack — Claude Code Skill Packs
+# AI Pack — Skill Packs for Claude Code, Codex, Gemini CLI and GitHub Copilot
 
-A set of **project-agnostic Claude Code skill packs** for delivering and managing software
-projects. Each pack is a drop-in `.claude/` folder plus one profile file: the methodology lives
+A set of **project-agnostic AI skill packs** for delivering and managing software projects.
+This repository holds the pack sources and the build scripts; each AI's installable build lives
+in its own repository, linked here as a git submodule (see
+[Repositories](#repositories-one-per-ai)). Each pack is a drop-in `.claude/` folder plus one profile file: the methodology lives
 in the pack, and everything project-specific (stack, IDs, paths, gates, templates) lives in
 the profile.
 
@@ -78,8 +80,9 @@ Principles common to all packs:
 
 ## Install as a Claude Code plugin
 
-This repository is a Claude Code plugin marketplace named **`ai-pack`**, published at
-<https://github.com/kaitondt/ai-pack>. It offers one plugin per pack:
+The Claude Code plugin marketplace **`ai-pack`** is published from its own repository,
+<https://github.com/kaitondt/ai-pack-claude> (the `claude/` submodule here). It offers one plugin
+per pack:
 
 | Plugin | Init command | Profile it creates |
 |---|---|---|
@@ -96,15 +99,15 @@ Python 3 on `PATH` as `python` (the guard hooks are Python; without it they fail
 Inside Claude Code:
 
 ```text
-/plugin marketplace add kaitondt/ai-pack
+/plugin marketplace add kaitondt/ai-pack-claude
 ```
 
 or from a terminal — any of these forms works:
 
 ```bash
-claude plugin marketplace add kaitondt/ai-pack                          # GitHub shorthand
-claude plugin marketplace add https://github.com/kaitondt/ai-pack.git   # full git URL
-claude plugin marketplace add F:/2.AI/ai-pack                           # local clone (for pack authors)
+claude plugin marketplace add kaitondt/ai-pack-claude                          # GitHub shorthand
+claude plugin marketplace add https://github.com/kaitondt/ai-pack-claude.git   # full git URL
+claude plugin marketplace add F:/2.AI/ai-pack/claude                           # local submodule (pack authors)
 ```
 
 If the repository is private, the machine needs git credentials that can clone it.
@@ -154,7 +157,7 @@ offered the marketplace and the pack on their first session:
 ```json
 {
   "extraKnownMarketplaces": {
-    "ai-pack": { "source": { "source": "github", "repo": "kaitondt/ai-pack" } }
+    "ai-pack": { "source": { "source": "github", "repo": "kaitondt/ai-pack-claude" } }
   },
   "enabledPlugins": {
     "sdlc-standard@ai-pack": true,
@@ -207,32 +210,53 @@ Add `--docs` to also update mentions in the project's other Markdown files.
 | `/sdlc-init` is not found | The session started before the install — restart Claude Code. Check `claude plugin list`. |
 | No `plugin root:` line at session start | The plugin is disabled in this scope, or `python` is not on `PATH`. |
 | Guards never block anything | The profile `.claude/<pack>.profile.yaml` does not exist yet — run the init command. |
-| `marketplace add` fails | No git access to the repository, or a typo in `kaitondt/ai-pack`. |
+| `marketplace add` fails | No git access to the repository, or a typo in `kaitondt/ai-pack-claude`. |
 | `its network source differs from the one declared for it in settings` | A marketplace named `ai-pack` is already declared with another source (e.g. a local path, or the shorthand instead of the full URL). Run `claude plugin marketplace remove ai-pack`, then add it again. |
+
+### Moving from the old marketplace source
+
+Until 2.0.0 the marketplace lived at the root of `kaitondt/ai-pack`. It now lives in
+`kaitondt/ai-pack-claude`; the marketplace name (`ai-pack`) and the plugin ids
+(`vibe-standard@ai-pack`, ...) are unchanged. In a project that installed from the old source:
+
+1. In the project's `.claude/settings.json`, change `extraKnownMarketplaces.ai-pack.source.repo`
+   to `kaitondt/ai-pack-claude` (skip if the file has no `extraKnownMarketplaces`).
+2. Re-point the marketplace and reinstall (removing a marketplace uninstalls its plugins; the
+   profile, rules, `CLAUDE.md` and deliverables in the project are not touched):
+
+   ```bash
+   claude plugin marketplace remove ai-pack
+   claude plugin marketplace add kaitondt/ai-pack-claude
+   claude plugin install vibe-standard@ai-pack --scope project
+   ```
+
+3. Restart Claude Code and check for the `[vibe] plugin root: ...` line.
 
 ### For pack maintainers
 
-The `claude/plugins/` folder and `.claude-plugin/marketplace.json` are **generated**. Edit the packs,
-then rebuild, validate and commit:
+`claude/` is **generated**. Edit the packs, then rebuild, validate, and publish the submodule:
 
 ```bash
-python scripts/build-plugins.py
-claude plugin validate .
+python scripts/build-claude-plugins.py
+claude plugin validate ./claude
+git -C claude add -A && git -C claude commit -m "..." && git -C claude push
+git add claude && git commit -m "Bump Claude plugins"
 ```
 
-Bump `VERSION` in `scripts/build-plugins.py` when releasing; installed copies only update when
-the version changes. Users then run `claude plugin marketplace update ai-pack` and
+Bump `VERSION` in `scripts/build-claude-plugins.py` when releasing; installed copies only update
+when the version changes. Users then run `claude plugin marketplace update ai-pack` and
 `claude plugin update <pack>@ai-pack`.
 
-## Install for Gemini CLI, Codex and GitHub Copilot
+## Repositories (one per AI)
 
-The same four packs are generated for **Gemini CLI**, **Codex** and **GitHub Copilot**. Each build lives in its own
-private repository, included here as a git submodule — clone with
+The four packs are built for **Claude Code**, **Codex**, **Gemini CLI** and **GitHub Copilot**.
+Each build lives in its own private repository, included here as a git submodule — clone with
 `git clone --recurse-submodules https://github.com/kaitondt/ai-pack` (or run
 `git submodule update --init` in an existing clone).
 
 | Path (submodule) | Repository | What it is |
 |---|---|---|
+| `claude` | [ai-pack-claude](https://github.com/kaitondt/ai-pack-claude) | Claude Code marketplace `ai-pack` with the four plugins |
 | `gemini/sdlc-standard` | [ai-pack-gemini-sdlc](https://github.com/kaitondt/ai-pack-gemini-sdlc) | Gemini CLI extension |
 | `gemini/migration-standard` | [ai-pack-gemini-migration](https://github.com/kaitondt/ai-pack-gemini-migration) | Gemini CLI extension |
 | `gemini/pm-standard` | [ai-pack-gemini-pm](https://github.com/kaitondt/ai-pack-gemini-pm) | Gemini CLI extension |
@@ -241,6 +265,9 @@ private repository, included here as a git submodule — clone with
 | `copilot` | [ai-pack-copilot](https://github.com/kaitondt/ai-pack-copilot) | GitHub Copilot marketplace (Copilot CLI, VS Code) with the four plugins |
 
 ```bash
+claude plugin marketplace add kaitondt/ai-pack-claude
+claude plugin install sdlc-standard@ai-pack --scope project
+
 gemini extensions install https://github.com/kaitondt/ai-pack-gemini-sdlc
 
 copilot plugin marketplace add kaitondt/ai-pack-copilot
@@ -253,7 +280,8 @@ Then run `/sdlc-init`: the profile goes to `.gemini/sdlc.profile.yaml`, rules to
 [`copilot/README.md`](copilot/README.md). For Copilot, the profile goes to
 `.github/sdlc.profile.yaml` and the rules to `.github/instructions/`.
 
-**Releasing:** run `python scripts/build-gemini-extensions.py` /
+**Releasing:** run `python scripts/build-claude-plugins.py` /
+`python scripts/build-gemini-extensions.py` /
 `python scripts/build-codex-plugins.py` / `python scripts/build-copilot-plugins.py`, commit and push inside each changed submodule, then
 commit the updated submodule pointers in this repository.
 
@@ -300,8 +328,7 @@ pack's `ADOPTION.md` covers installation and troubleshooting.
 
 | Path | What it is |
 |---|---|
-| `claude/plugins/`, `.claude-plugin/` | Generated Claude Code plugins, and the marketplace manifest (it must stay at the repository root for `marketplace add kaitondt/ai-pack`). |
-| `scripts/build-plugins.py` | Regenerates `claude/plugins/` and the marketplace from the four packs. |
+| `claude/` (submodule), `scripts/build-claude-plugins.py` | Generated Claude Code plugins and marketplace, and their builder. |
 | `codex/` (submodule), `scripts/build-codex-plugins.py` | Generated Codex plugins and marketplace, and their builder. |
 | `gemini/<pack>/` (submodules), `scripts/build-gemini-extensions.py` | Generated Gemini CLI extensions, and their builder. |
 | `copilot/` (submodule), `scripts/build-copilot-plugins.py` | Generated GitHub Copilot plugins and marketplace, and their builder. |
