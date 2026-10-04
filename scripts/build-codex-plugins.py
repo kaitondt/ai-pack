@@ -209,7 +209,11 @@ def main() -> None:
     clean_dir(OUT)
     entries = [build_pack(*pack) for pack in PACKS]
     marketplace = {"name": "ai-pack", "interface": {"displayName": "AI Pack for Codex"}, "plugins": entries}
-    (OUT / "marketplace.json").write_text(json.dumps(marketplace, indent=2) + "\n", encoding="utf-8")
+    # Codex looks for the manifest at <root>/.agents/plugins/marketplace.json; plugin source
+    # paths stay relative to the marketplace root.
+    manifest = OUT / ".agents" / "plugins" / "marketplace.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(json.dumps(marketplace, indent=2) + "\n", encoding="utf-8")
     (OUT / "README.md").write_text("""# AI Pack for Codex
 
 This marketplace publishes four separately installable Codex plugins:
@@ -236,17 +240,21 @@ codex --version
 This marketplace is published as its own (private) repository,
 https://github.com/kaitondt/ai-pack-codex, and appears in `ai-pack` as the `codex/` submodule.
 
-```powershell
-git clone https://github.com/kaitondt/ai-pack-codex
-codex plugin marketplace add ./ai-pack-codex
+```sh
+codex plugin marketplace add kaitondt/ai-pack-codex
 codex plugin add vibe-standard@ai-pack
+codex plugin list
 ```
+
+The marketplace manifest is `.agents/plugins/marketplace.json`. A local clone works too:
+`codex plugin marketplace add <path>/ai-pack-codex` (the repository root, not `plugins/`). To
+update later: `codex plugin marketplace upgrade ai-pack`, then start a new thread.
 
 Replace `vibe-standard` with the plugin you need. Start a new Codex thread after installation.
 
 ### From the chat
 
-Adding the marketplace is a one-time terminal step (the first two lines above). After that,
+Adding the marketplace is a one-time terminal step (the first line above). After that,
 plugins are installed from inside the Codex TUI: run `/plugins`, switch to the **ai-pack** tab,
 select the plugin and install it (Space toggles an installed plugin on or off). Start a new
 thread afterwards.

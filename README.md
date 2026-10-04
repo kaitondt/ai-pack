@@ -105,16 +105,17 @@ a new session) and `/vibe-init`.
 Terminal:
 
 ```bash
-git clone https://github.com/kaitondt/ai-pack-codex <dir>/ai-pack-codex
-codex plugin marketplace add <dir>/ai-pack-codex
+codex plugin marketplace add kaitondt/ai-pack-codex
 codex plugin add vibe-standard@ai-pack
 ```
 
-In chat: the marketplace still has to be added once from a terminal (the two first lines above);
+In chat: the marketplace still has to be added once from a terminal (the first line above);
 then, in the Codex TUI, run `/plugins`, switch to the **ai-pack** tab, select `vibe-standard` and
 install it. Start a new thread afterwards.
 
-Either way, copy the adoption files from `<dir>/ai-pack-codex/plugins/vibe-standard/templates/`
+Either way, copy the adoption files from a clone
+(`git clone https://github.com/kaitondt/ai-pack-codex <dir>/ai-pack-codex`) —
+`<dir>/ai-pack-codex/plugins/vibe-standard/templates/`
 (`profile/vibe.profile.yaml` → `.codex/`, `rules/` → `.codex/rules/`, `AGENTS.md` → repository
 root) and ask Codex in chat: *"Use the `vibe-workflow` skill to run the `vibe-init` procedure."*
 
