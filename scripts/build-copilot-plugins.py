@@ -415,9 +415,23 @@ copilot plugin marketplace add kaitondt/ai-pack-copilot
 copilot plugin install vibe-standard@{marketplace}
 ```
 
-VS Code: Command Palette → **Chat: Install Plugin From Source** →
-`https://github.com/kaitondt/ai-pack-copilot`, or add the marketplace and pick the plugin under
-**Extensions → @agentPlugins**.
+### From the chat
+
+Copilot CLI session:
+
+```text
+/plugin marketplace add kaitondt/ai-pack-copilot
+/plugin install vibe-standard@{marketplace}
+/plugin marketplace browse {marketplace}
+```
+
+VS Code: open the Chat view → **gear icon** → **Plugins**, or run **Chat: Install Plugin From
+Source** from the Command Palette with `https://github.com/kaitondt/ai-pack-copilot.git`. To
+browse the marketplace in VS Code, add it to the `chat.plugins.marketplaces` setting
+(`["https://github.com/kaitondt/ai-pack-copilot.git"]` — the `.git` URL form works for private
+repositories) and install from the Plugins list or **Extensions → @agentPlugins**.
+
+Start a new chat session after installing.
 
 The repository is private: installing needs `git` credentials with access to it.
 

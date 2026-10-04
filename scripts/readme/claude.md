@@ -42,8 +42,15 @@ Run this from the root of the project that will use the pack:
 claude plugin install sdlc-standard@ai-pack --scope project
 ```
 
-or, inside Claude Code, `/plugin` → **Discover** → `ai-pack` → pick the pack → choose the
-scope. Restart Claude Code (or open a new session) after installing.
+or from the chat, in a Claude Code session opened in the project:
+
+```text
+/plugin install sdlc-standard@ai-pack
+```
+
+which opens the plugin's panel — pick the **project** scope there. `/plugin` → **Discover** →
+`ai-pack` browses all four packs the same way. Run `/reload-plugins` (or open a new session)
+after installing.
 
 | Scope | Where it is recorded | Use it when |
 |---|---|---|

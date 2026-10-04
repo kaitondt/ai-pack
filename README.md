@@ -53,16 +53,32 @@ chose.
 | Gemini CLI | `ai-pack-gemini-<pack>` (one per pack) | [gemini/README.md](gemini/README.md) |
 | GitHub Copilot (CLI, VS Code) | [ai-pack-copilot](https://github.com/kaitondt/ai-pack-copilot) | [copilot/README.md](copilot/README.md) |
 
+Each AI can be set up from a **terminal** or from **inside the chat** (slash commands typed in
+the AI's own session). Both end the same way: a new session, then the pack's init command.
+
 ### Claude Code
+
+Terminal:
 
 ```bash
 claude plugin marketplace add kaitondt/ai-pack-claude
 claude plugin install vibe-standard@ai-pack --scope project
 ```
 
-Then, in a new session: `/vibe-init`.
+In chat (a Claude Code session opened in the project):
+
+```text
+/plugin marketplace add kaitondt/ai-pack-claude
+/plugin install vibe-standard@ai-pack
+```
+
+The second command opens the plugin's panel: install it with the **project** scope so it is
+recorded in `.claude/settings.json` for the whole team. Or browse with `/plugin` → **Discover** → `ai-pack`. Then run `/reload-plugins` (or open
+a new session) and `/vibe-init`.
 
 ### Codex
+
+Terminal:
 
 ```bash
 git clone https://github.com/kaitondt/ai-pack-codex <dir>/ai-pack-codex
@@ -70,27 +86,57 @@ codex plugin marketplace add <dir>/ai-pack-codex
 codex plugin add vibe-standard@ai-pack
 ```
 
-Then copy the adoption files from `<dir>/ai-pack-codex/plugins/vibe-standard/templates/`
+In chat: the marketplace still has to be added once from a terminal (the two first lines above);
+then, in the Codex TUI, run `/plugins`, switch to the **ai-pack** tab, select `vibe-standard` and
+install it. Start a new thread afterwards.
+
+Either way, copy the adoption files from `<dir>/ai-pack-codex/plugins/vibe-standard/templates/`
 (`profile/vibe.profile.yaml` → `.codex/`, `rules/` → `.codex/rules/`, `AGENTS.md` → repository
-root) and ask Codex to run the `vibe-init` procedure through the `vibe-workflow` skill.
+root) and ask Codex in chat: *"Use the `vibe-workflow` skill to run the `vibe-init` procedure."*
 
 ### Gemini CLI
+
+Terminal:
 
 ```bash
 gemini extensions install https://github.com/kaitondt/ai-pack-gemini-vibe
 ```
 
-Then, in `gemini`: `/vibe-init`.
+In chat (a `gemini` session):
+
+```text
+/extensions install https://github.com/kaitondt/ai-pack-gemini-vibe
+/extensions list
+```
+
+Restart `gemini` (or run `/extensions restart`) so the commands and skills load, then
+`/vibe-init`.
 
 ### GitHub Copilot
+
+Terminal (Copilot CLI):
 
 ```bash
 copilot plugin marketplace add kaitondt/ai-pack-copilot
 copilot plugin install vibe-standard@ai-pack-copilot
 ```
 
-In VS Code: Command Palette → **Chat: Install Plugin From Source** →
-`https://github.com/kaitondt/ai-pack-copilot`. Then, in chat: `/vibe-init`.
+In chat — Copilot CLI session:
+
+```text
+/plugin marketplace add kaitondt/ai-pack-copilot
+/plugin install vibe-standard@ai-pack-copilot
+```
+
+In chat — VS Code: open the Chat view → **gear icon** → **Plugins**, or run
+**Chat: Install Plugin From Source** from the Command Palette with
+`https://github.com/kaitondt/ai-pack-copilot.git`. To browse the marketplace there instead, add
+it to the `chat.plugins.marketplaces` setting
+(`"chat.plugins.marketplaces": ["https://github.com/kaitondt/ai-pack-copilot.git"]` — the
+`.git` URL form works for private repositories) and install `vibe-standard` from the Plugins
+list or from **Extensions → `@agentPlugins`**.
+
+Then start a new session and run `/vibe-init`.
 
 ### Where each AI keeps the project files
 

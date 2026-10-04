@@ -232,6 +232,13 @@ codex plugin add vibe-standard@ai-pack
 
 Replace `vibe-standard` with the plugin you need. Start a new Codex thread after installation.
 
+### From the chat
+
+Adding the marketplace is a one-time terminal step (the first two lines above). After that,
+plugins are installed from inside the Codex TUI: run `/plugins`, switch to the **ai-pack** tab,
+select the plugin and install it (Space toggles an installed plugin on or off). Start a new
+thread afterwards.
+
 ## Adopt a plugin in a project
 
 Copy the selected plugin's `templates/profile/<profile>.yaml` to `.codex/`, copy `templates/rules/` to `.codex/rules/`, and copy `templates/AGENTS.md` to the repository's `AGENTS.md`. Then invoke the `<prefix>-workflow` skill (or describe the task normally).
