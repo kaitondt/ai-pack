@@ -224,9 +224,9 @@ Bump `VERSION` in `scripts/build-plugins.py` when releasing; installed copies on
 the version changes. Users then run `claude plugin marketplace update ai-pack` and
 `claude plugin update <pack>@ai-pack`.
 
-## Install for Gemini CLI and Codex
+## Install for Gemini CLI, Codex and GitHub Copilot
 
-The same four packs are generated for **Gemini CLI** and **Codex**. Each build lives in its own
+The same four packs are generated for **Gemini CLI**, **Codex** and **GitHub Copilot**. Each build lives in its own
 private repository, included here as a git submodule — clone with
 `git clone --recurse-submodules https://github.com/kaitondt/ai-pack` (or run
 `git submodule update --init` in an existing clone).
@@ -238,17 +238,23 @@ private repository, included here as a git submodule — clone with
 | `gemini/pm-standard` | [ai-pack-gemini-pm](https://github.com/kaitondt/ai-pack-gemini-pm) | Gemini CLI extension |
 | `gemini/vibe-standard` | [ai-pack-gemini-vibe](https://github.com/kaitondt/ai-pack-gemini-vibe) | Gemini CLI extension |
 | `codex` | [ai-pack-codex](https://github.com/kaitondt/ai-pack-codex) | Codex marketplace with the four plugins |
+| `copilot` | [ai-pack-copilot](https://github.com/kaitondt/ai-pack-copilot) | GitHub Copilot marketplace (Copilot CLI, VS Code) with the four plugins |
 
 ```bash
 gemini extensions install https://github.com/kaitondt/ai-pack-gemini-sdlc
+
+copilot plugin marketplace add kaitondt/ai-pack-copilot
+copilot plugin install sdlc-standard@ai-pack-copilot
 ```
 
 Then run `/sdlc-init`: the profile goes to `.gemini/sdlc.profile.yaml`, rules to
 `.gemini/rules/`, and a `GEMINI.md` that imports them is generated at the repository root. See
-[`gemini/README.md`](gemini/README.md) and [`codex/README.md`](codex/README.md).
+[`gemini/README.md`](gemini/README.md), [`codex/README.md`](codex/README.md) and
+[`copilot/README.md`](copilot/README.md). For Copilot, the profile goes to
+`.github/sdlc.profile.yaml` and the rules to `.github/instructions/`.
 
 **Releasing:** run `python scripts/build-gemini-extensions.py` /
-`python scripts/build-codex-plugins.py`, commit and push inside each changed submodule, then
+`python scripts/build-codex-plugins.py` / `python scripts/build-copilot-plugins.py`, commit and push inside each changed submodule, then
 commit the updated submodule pointers in this repository.
 
 ---
@@ -298,3 +304,4 @@ pack's `ADOPTION.md` covers installation and troubleshooting.
 | `scripts/build-plugins.py` | Regenerates `claude/plugins/` and the marketplace from the four packs. |
 | `codex/` (submodule), `scripts/build-codex-plugins.py` | Generated Codex plugins and marketplace, and their builder. |
 | `gemini/<pack>/` (submodules), `scripts/build-gemini-extensions.py` | Generated Gemini CLI extensions, and their builder. |
+| `copilot/` (submodule), `scripts/build-copilot-plugins.py` | Generated GitHub Copilot plugins and marketplace, and their builder. |

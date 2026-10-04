@@ -16,3 +16,6 @@
 [submodule "gemini/vibe-standard"]
 	path = gemini/vibe-standard
 	url = https://github.com/kaitondt/ai-pack-gemini-vibe.git
+[submodule "copilot"]
+	path = copilot
+	url = https://github.com/kaitondt/ai-pack-copilot.git
