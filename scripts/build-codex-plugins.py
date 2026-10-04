@@ -39,7 +39,8 @@ MODEL_NOTE = (
     "> only in the Claude Code build of this pack, so any check comparing agent models with the\n"
     "> profile does not apply here: report it as N/A. Use your strongest model for analysis,\n"
     "> design, review and triage work, and a faster one for production work from an approved\n"
-    "> document.\n")
+    "> document. How to set both: \"Choosing the model and effort\" in the AI Pack for\n"
+    "> {product} README.\n")
 
 
 def model_note(text):
@@ -266,7 +267,7 @@ codex plugin list
 
 The marketplace manifest is `.agents/plugins/marketplace.json`. A local clone works too:
 `codex plugin marketplace add <path>/ai-pack-codex` (the repository root, not `plugins/`). To
-update later: `codex plugin marketplace upgrade ai-pack`, then start a new thread.
+update later, see **Update** below.
 
 Replace `vibe-standard` with the plugin you need. Start a new Codex thread after installation.
 
@@ -292,9 +293,65 @@ cp -r ./ai-pack-codex/plugins/vibe-standard/skills/* .agents/skills/
 
 That vendored copy has no guard hooks and must be re-copied when the pack is updated.
 
+## Update
+
+```sh
+codex plugin marketplace upgrade ai-pack     # fetch the latest catalogue
+codex plugin add vibe-standard@ai-pack       # reinstall: upgrade does not update installed plugins
+```
+
+Then start a new thread. Copies vendored into `.agents/skills/` (project-only install) are not
+updated — copy them again.
+
+### After updating: bring the project in line
+
+Updating the plugin replaces the pack's commands, skills, agents and hooks. It does **not** touch
+what you copied into each project when adopting the plugin:
+
+- `.codex/rules/` — compare it with the plugin's `templates/rules/` and copy the files that changed.
+  Keep your own edits: a local rule change belongs in the pack's source, not only in one project.
+- `AGENTS.md` — regenerate the pack's section only when the release notes say its template
+  changed.
+- `.codex/<profile>.yaml` — run the profile check (ask `$<prefix>-workflow` to run
+  `references/commands/<prefix>-profile-check.md`) in a new thread. It reports fields a new release
+  added or renamed; fill them in and run it again until it is clean.
+
 ## Adopt a plugin in a project
 
 Copy the selected plugin's `templates/profile/<profile>.yaml` to `.codex/`, copy `templates/rules/` to `.codex/rules/`, and copy `templates/AGENTS.md` to the repository's `AGENTS.md`. Then invoke the `<prefix>-workflow` skill (or describe the task normally).
+
+## Choosing the model and effort
+
+In this build every command and agent runs on the model and reasoning effort of your session —
+the per-agent `model:` / `effort:` tiers of the Claude Code build do not carry over. Match the
+session to the work, and switch between commands when the kind of work changes:
+
+| Work | Commands (examples) | Model | Effort |
+|---|---|---|---|
+| Analysis, design, review, triage, estimating, planning | `*-generate-requirements`, `*-generate-basic-design`, `*-generate-detail-design`, `*-review-*`, `*-cr-analyze`, `*-trace-bug`, `*-uat-investigate`, `sdlc-maintain-intake`, `pm-estimate`, `pm-risk-assess`, `pm-change-assess`, `vibe-plan`, `vibe-review`, `vibe-security-check`, `vibe-fix` | your strongest | high — the highest level for fixed-price or regulated work |
+| Production from an approved document | `*-implement-feature`, `*-cr-implement`, `*-generate-test`, `*-generate-testscript`, `*-generate-infra`, `*-generate-mockup`, `*-uat-fix`, `pm-report`, `pm-evm`, `vibe-build`, `vibe-verify` | a fast, capable one | medium |
+| Mechanical checks | `*-verify-build`, `*-profile-check`, `*-trace-check`, `*-template-register`, `vibe-status` | the fastest | low |
+
+Do not drop the first row to save cost: its mistakes are silent and plausible, and surface only
+at review, UAT or acceptance. The `execution` block of the profile (`model_profile`, overrides)
+is read only by the Claude Code build; `intended_effort` is still a useful record of the level
+the team agreed.
+
+### How to set it in Codex
+
+```toml
+# ~/.codex/config.toml — the default for every thread
+model = "<model>"
+model_reasoning_effort = "high"        # a level the model advertises: low, medium, high, xhigh, ...
+plan_mode_reasoning_effort = "xhigh"   # optional: deeper reasoning while planning only
+```
+
+- **One session:** `codex -m <model> -c model_reasoning_effort="medium"` — `-c` overrides any
+  config key for that run.
+- **Mid-thread:** `/model` switches the model.
+- **Named setups:** keep one config per kind of work (for example `design.config.toml` with
+  `high`, `build.config.toml` with `medium` in `$CODEX_HOME`) and start with
+  `codex --profile design` or `codex --profile build`.
 
 The generated files in this directory are rebuilt with:
 

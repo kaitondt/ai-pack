@@ -123,6 +123,21 @@ claude plugin uninstall sdlc-standard@ai-pack --scope project
 Uninstalling removes the pack's commands, skills, agents and hooks. It leaves the profile,
 `.claude/rules/`, `CLAUDE.md` and every generated deliverable in the project.
 
+In a session, `/plugin` opens the plugin manager, where marketplaces can be refreshed and
+plugins updated. Installed copies only change when the pack's version is bumped.
+
+### After updating: bring the project in line
+
+Updating the plugin replaces the pack's commands, skills, agents and hooks. It does **not** touch
+what `/<prefix>-init` copied into each project:
+
+- `.claude/rules/` — compare it with the plugin's `templates/rules/` and copy the files that changed.
+  Keep your own edits: a local rule change belongs in the pack's source, not only in one project.
+- `CLAUDE.md` — regenerate the pack's section only when the release notes say its template
+  changed.
+- `.claude/<profile>.yaml` — run `/<prefix>-profile-check` in a new session after the restart. It reports fields a new release
+  added or renamed; fill them in and run it again until it is clean.
+
 ### Upgrading a project to 2.1
 
 2.1.0 replaces the single `execution.agent_model` with a **model and effort profile**.

@@ -175,7 +175,8 @@ MODEL_NOTE = (
     "> only in the Claude Code build of this pack, so any check comparing agent models with the\n"
     "> profile does not apply here: report it as N/A. Use your strongest model for analysis,\n"
     "> design, review and triage work, and a faster one for production work from an approved\n"
-    "> document.\n")
+    "> document. How to set both: \"Choosing the model and effort\" in the AI Pack for\n"
+    "> {product} README.\n")
 
 
 def model_note(text):

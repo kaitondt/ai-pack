@@ -223,7 +223,8 @@ MODEL_NOTE = (
     "> only in the Claude Code build of this pack, so any check comparing agent models with the\n"
     "> profile does not apply here: report it as N/A. Use your strongest model for analysis,\n"
     "> design, review and triage work, and a faster one for production work from an approved\n"
-    "> document.\n")
+    "> document. How to set both: \"Choosing the model and effort\" in the AI Pack for\n"
+    "> {product} README.\n")
 
 
 def model_note(text):
@@ -484,12 +485,72 @@ inactive in any repository without `.github/<profile>.yaml`.
 
 The repository is private: installing needs `git` credentials with access to it.
 
+## Update
+
+Copilot CLI:
+
+```sh
+copilot plugin marketplace update {marketplace}    # refresh the catalogue
+copilot plugin update vibe-standard                 # or: copilot plugin update --all
+```
+
+In chat: `/plugin marketplace update {marketplace}`, or press **R** in the Marketplace view of
+`/plugin`; then start a new session.
+
+VS Code checks agent plugins for updates every 24 hours; to update now, run **Extensions: Check
+for Extension Updates** from the Command Palette. A workspace that enables the plugin through
+`.github/copilot/settings.json` gets the update the same way.
+
+### After updating: bring the project in line
+
+Updating the plugin replaces the pack's commands, skills, agents and hooks. It does **not** touch
+what `/<prefix>-init` copied into each project:
+
+- `.github/instructions/` — compare it with the plugin's `templates/rules/` and copy the files that changed.
+  Keep your own edits: a local rule change belongs in the pack's source, not only in one project.
+- `.github/copilot-instructions.md` — regenerate the pack's section only when the release notes say its template
+  changed.
+- `.github/<profile>.yaml` — run `/<prefix>-profile-check` in a new session. It reports fields a new release
+  added or renamed; fill them in and run it again until it is clean.
+
 ## Adopt in a project
 
 Run `/<prefix>-init` (e.g. `/vibe-init`). It writes the profile to `.github/<profile>.yaml`,
 copies the rules into `.github/instructions/` as `*.instructions.md` (`applyTo: "**"`), and
 generates `.github/copilot-instructions.md`. The hooks only act in a repository that has
 `.github/<profile>.yaml`; elsewhere they are no-ops apart from a session-start hint.
+
+## Choosing the model and effort
+
+In this build every command and agent runs on the model and reasoning effort of your session —
+the per-agent `model:` / `effort:` tiers of the Claude Code build do not carry over. Match the
+session to the work, and switch between commands when the kind of work changes:
+
+| Work | Commands (examples) | Model | Effort |
+|---|---|---|---|
+| Analysis, design, review, triage, estimating, planning | `*-generate-requirements`, `*-generate-basic-design`, `*-generate-detail-design`, `*-review-*`, `*-cr-analyze`, `*-trace-bug`, `*-uat-investigate`, `sdlc-maintain-intake`, `pm-estimate`, `pm-risk-assess`, `pm-change-assess`, `vibe-plan`, `vibe-review`, `vibe-security-check`, `vibe-fix` | your strongest | high — the highest level for fixed-price or regulated work |
+| Production from an approved document | `*-implement-feature`, `*-cr-implement`, `*-generate-test`, `*-generate-testscript`, `*-generate-infra`, `*-generate-mockup`, `*-uat-fix`, `pm-report`, `pm-evm`, `vibe-build`, `vibe-verify` | a fast, capable one | medium |
+| Mechanical checks | `*-verify-build`, `*-profile-check`, `*-trace-check`, `*-template-register`, `vibe-status` | the fastest | low |
+
+Do not drop the first row to save cost: its mistakes are silent and plausible, and surface only
+at review, UAT or acceptance. The `execution` block of the profile (`model_profile`, overrides)
+is read only by the Claude Code build; `intended_effort` is still a useful record of the level
+the team agreed.
+
+### How to set it in GitHub Copilot
+
+- **Mid-session:** `/model` switches the model, and lets you set the reasoning effort on models
+  that support it.
+- **At start-up:** `copilot --model <model>`, or the `COPILOT_MODEL` environment variable.
+- **Default:** `~/.copilot/settings.json` (or `$COPILOT_HOME/settings.json`):
+
+  ```json
+  {{ "model": "<model>", "effortLevel": "high" }}
+  ```
+
+  `effortLevel` applies only to models with adjustable reasoning effort.
+- **Which model:** for example an Opus-class model for the first row, a Sonnet-class model for
+  the second and `claude-haiku-4.5` for mechanical checks — or the equivalent GPT models.
 
 ## Differences from the Claude plugins
 
