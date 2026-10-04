@@ -1,11 +1,14 @@
 # AI Pack — Skill Packs for Claude Code, Codex, Gemini CLI and GitHub Copilot
 
 A set of **project-agnostic AI skill packs** for delivering and managing software projects.
-This repository holds the pack sources and the build scripts; each AI's installable build lives
-in its own repository, linked here as a git submodule (see
-[Repositories](#repositories-one-per-ai)). Each pack is a drop-in `.claude/` folder plus one profile file: the methodology lives
-in the pack, and everything project-specific (stack, IDs, paths, gates, templates) lives in
-the profile.
+The methodology lives in the pack; everything project-specific (stack, IDs, paths, gates,
+templates) lives in one profile file per project.
+
+This repository is the **hub**: it holds the pack sources and the build scripts. Each AI's
+installable build is generated from here and published in its own repository, linked below as a
+git submodule.
+
+## The packs
 
 | Pack | Use it for | Prefix | Skills | Commands | Agents |
 |---|---|---|---|---|---|
@@ -21,49 +24,7 @@ cost, by which date, approved by whom — and runs alongside either of them or s
 **loop** — intent → slice → run → verify → commit — then hands a project over to them via
 `/vibe-graduate` when it outgrows vibe coding.
 
----
-
-## Shared architecture
-
-All four packs are built the same way:
-
-```
-<pack>/
-├── README.md             ← what the pack is, its invariant rules, phase/area model
-├── ADOPTION.md           ← ~30-minute onboarding for a new project
-├── COMMAND-FLOW.md       ← how the commands chain, and the refine loop
-├── profile/
-│   ├── <pack>.profile.yaml   ← template: the ONLY file you edit per project
-│   ├── PROFILE-SCHEMA.md     ← field-by-field spec
-│   └── examples/             ← worked profiles for typical project shapes
-└── .claude/
-    ├── CLAUDE.md         ← project-instruction template
-    ├── settings.json
-    ├── hooks/            ← guard hooks (Python 3)
-    ├── rules/            ← invariant standards, loaded for every task
-    ├── skills/           ← phase/area knowledge, loaded on demand
-    ├── commands/         ← slash-command entry points
-    └── agents/           ← delegated workers with narrow tool sets
-```
-
-Skills never hardcode project values. They write `{{profile.*}}` tokens that the spine skill
-(`sdlc-project`, `mig-project`, `pm-project`) resolves from the profile at load time.
-
-Principles common to all packs:
-
-- **Traceability is explicit and machine-checkable** — every artifact cites its source ID
-  (in `vibe-standard`, lightly: intent → slice → commit → check).
-- **Baselines are change-controlled** — approved documents change only through a CR.
-- **No invention** — nothing is specified without an anchor (legacy source, requirement,
-  recorded decision, or approved change); otherwise it is an open question or a labelled
-  assumption.
-- **No deliverable templates shipped** — the client's own forms (Excel/Word/Markdown/CSV) are
-  registered and outrank the pack's skeleton.
-- **Agents run on `model: opus`** by default, because the failure modes are silent.
-
----
-
-## Which pack do I want?
+### Which pack do I want?
 
 | Situation | Pack |
 |---|---|
@@ -78,257 +39,150 @@ Principles common to all packs:
 
 ---
 
-## Install as a Claude Code plugin
+## Quick install
 
-The Claude Code plugin marketplace **`ai-pack`** is published from its own repository,
-<https://github.com/kaitondt/ai-pack-claude> (the `claude/` submodule here). It offers one plugin
-per pack:
+All repositories are private: the machine needs `git` credentials with access to them (for
+example `gh auth login`). The guard hooks need Python 3 on `PATH` as `python`. Run the commands
+from the root of your project; the examples install `vibe-standard` — swap in the pack you
+chose.
 
-| Plugin | Init command | Profile it creates |
+| AI | Repository | Details |
 |---|---|---|
-| `sdlc-standard@ai-pack` | `/sdlc-init` | `.claude/sdlc.profile.yaml` |
-| `migration-standard@ai-pack` | `/mig-init` | `.claude/migration.profile.yaml` |
-| `pm-standard@ai-pack` | `/pm-init` | `.claude/pm.profile.yaml` |
-| `vibe-standard@ai-pack` | `/vibe-init` | `.claude/vibe.profile.yaml` |
+| Claude Code | [ai-pack-claude](https://github.com/kaitondt/ai-pack-claude) | [claude/README.md](claude/README.md) |
+| Codex | [ai-pack-codex](https://github.com/kaitondt/ai-pack-codex) | [codex/README.md](codex/README.md) |
+| Gemini CLI | `ai-pack-gemini-<pack>` (one per pack) | [gemini/README.md](gemini/README.md) |
+| GitHub Copilot (CLI, VS Code) | [ai-pack-copilot](https://github.com/kaitondt/ai-pack-copilot) | [copilot/README.md](copilot/README.md) |
 
-**Requirements:** Claude Code with plugin support, `git` (to fetch the marketplace), and
-Python 3 on `PATH` as `python` (the guard hooks are Python; without it they fail silently).
-
-### 1. Add the marketplace (once per machine)
-
-Inside Claude Code:
-
-```text
-/plugin marketplace add kaitondt/ai-pack-claude
-```
-
-or from a terminal — any of these forms works:
-
-```bash
-claude plugin marketplace add kaitondt/ai-pack-claude                          # GitHub shorthand
-claude plugin marketplace add https://github.com/kaitondt/ai-pack-claude.git   # full git URL
-claude plugin marketplace add F:/2.AI/ai-pack/claude                           # local submodule (pack authors)
-```
-
-If the repository is private, the machine needs git credentials that can clone it.
-
-### 2. Install the pack(s) you need
-
-Run this from the root of the project that will use the pack:
-
-```bash
-claude plugin install sdlc-standard@ai-pack --scope project
-```
-
-or, inside Claude Code, `/plugin` → **Discover** → `ai-pack` → pick the pack → choose the
-scope. Restart Claude Code (or open a new session) after installing.
-
-| Scope | Where it is recorded | Use it when |
-|---|---|---|
-| `project` (recommended) | `<project>/.claude/settings.json` — commit it | the whole team uses the pack in this repository |
-| `local` | `<project>/.claude/settings.local.json` — not committed | only you, only this repository |
-| `user` (default) | `~/.claude/settings.json` | you want the pack in every repository |
-
-Each pack adds roughly 4k–9k tokens of skill descriptions to every session, so enable only the
-packs a project uses. `pm-standard` combines with `sdlc-standard` or `migration-standard`:
-install both.
-
-### 3. Initialise the project
-
-In a new Claude Code session in the project, run the pack's init command (`/sdlc-init`,
-`/mig-init`, `/pm-init`, `/vibe-init`; the namespaced form `/sdlc-standard:sdlc-init` also
-works). It writes the profile, copies the pack's rules into `.claude/rules/`, and generates
-`CLAUDE.md`. Commit what it creates. Then continue as the pack's `ADOPTION.md` describes.
-
-In scripts and CI (`claude -p`), use the namespaced form — `claude -p "/vibe-standard:vibe-status"`
-is expanded directly, while a bare `/vibe-status` is passed to the model as text and only works
-if the model decides to run it. From Git Bash on Windows, also set `MSYS_NO_PATHCONV=1`, or
-Bash rewrites `/vibe-status` into a Windows path before Claude Code sees it.
-
-To check the install: `claude plugin list` shows the pack as enabled, and a new session
-prints `[sdlc] plugin root: …` (or `[migration]`, `[pm]`, `[vibe]`) followed by the profile
-status.
-
-### Team setup: install automatically for everyone
-
-Commit this to the project's `.claude/settings.json`. Teammates who trust the folder are
-offered the marketplace and the pack on their first session:
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "ai-pack": { "source": { "source": "github", "repo": "kaitondt/ai-pack-claude" } }
-  },
-  "enabledPlugins": {
-    "sdlc-standard@ai-pack": true,
-    "pm-standard@ai-pack": true
-  }
-}
-```
-
-### Update and uninstall
-
-```bash
-claude plugin marketplace update ai-pack          # fetch the latest catalogue
-claude plugin update sdlc-standard@ai-pack        # then restart Claude Code
-claude plugin uninstall sdlc-standard@ai-pack --scope project
-```
-
-Uninstalling removes the pack's commands, skills, agents and hooks. It leaves the profile,
-`.claude/rules/`, `CLAUDE.md` and every generated deliverable in the project.
-
-### Upgrading a project from 1.x to 2.0
-
-2.0.0 renamed every command, skill, agent and hook from snake_case to kebab-case
-(`/vibe_build` → `/vibe-build`, `vibe_project` → `vibe-project`). After updating the plugin,
-rewrite the names in the files the pack put into the project (`CLAUDE.md`, `.claude/rules/`,
-agent/skill overrides; profile keys are left alone):
-
-```bash
-python <ai-pack>/scripts/migrate-project-names.py <project>            # preview
-python <ai-pack>/scripts/migrate-project-names.py <project> --apply    # write
-```
-
-Add `--docs` to also update mentions in the project's other Markdown files.
-
-### How the plugin install differs from the copy install
-
-- **Hooks** come from the plugin and only act in projects that have the pack's profile
-  (`.claude/<pack>.profile.yaml`). Elsewhere they are no-ops apart from a session-start hint.
-- **Rules** cannot be loaded by a plugin, so `/<prefix>-init` copies them from the plugin's
-  `templates/rules/` into the project's `.claude/rules/`, and generates `CLAUDE.md` from
-  `templates/CLAUDE.md`.
-- **Agents and skills are read-only** in the plugin cache. To change an agent's model, copy it
-  into the project's `.claude/agents/`, where a project agent overrides the plugin one.
-- **Do not mix both installs** in one project: a copied `.claude/settings.json` plus the plugin
-  runs every hook twice.
-
-### Troubleshooting
-
-| Symptom | Cause / fix |
-|---|---|
-| `/sdlc-init` is not found | The session started before the install — restart Claude Code. Check `claude plugin list`. |
-| No `plugin root:` line at session start | The plugin is disabled in this scope, or `python` is not on `PATH`. |
-| Guards never block anything | The profile `.claude/<pack>.profile.yaml` does not exist yet — run the init command. |
-| `marketplace add` fails | No git access to the repository, or a typo in `kaitondt/ai-pack-claude`. |
-| `its network source differs from the one declared for it in settings` | A marketplace named `ai-pack` is already declared with another source (e.g. a local path, or the shorthand instead of the full URL). Run `claude plugin marketplace remove ai-pack`, then add it again. |
-
-### Moving from the old marketplace source
-
-Until 2.0.0 the marketplace lived at the root of `kaitondt/ai-pack`. It now lives in
-`kaitondt/ai-pack-claude`; the marketplace name (`ai-pack`) and the plugin ids
-(`vibe-standard@ai-pack`, ...) are unchanged. In a project that installed from the old source:
-
-1. In the project's `.claude/settings.json`, change `extraKnownMarketplaces.ai-pack.source.repo`
-   to `kaitondt/ai-pack-claude` (skip if the file has no `extraKnownMarketplaces`).
-2. Re-point the marketplace and reinstall (removing a marketplace uninstalls its plugins; the
-   profile, rules, `CLAUDE.md` and deliverables in the project are not touched):
-
-   ```bash
-   claude plugin marketplace remove ai-pack
-   claude plugin marketplace add kaitondt/ai-pack-claude
-   claude plugin install vibe-standard@ai-pack --scope project
-   ```
-
-3. Restart Claude Code and check for the `[vibe] plugin root: ...` line.
-
-### For pack maintainers
-
-`claude/` is **generated**. Edit the packs, then rebuild, validate, and publish the submodule:
-
-```bash
-python scripts/build-claude-plugins.py
-claude plugin validate ./claude
-git -C claude add -A && git -C claude commit -m "..." && git -C claude push
-git add claude && git commit -m "Bump Claude plugins"
-```
-
-Bump `VERSION` in `scripts/build-claude-plugins.py` when releasing; installed copies only update
-when the version changes. Users then run `claude plugin marketplace update ai-pack` and
-`claude plugin update <pack>@ai-pack`.
-
-## Repositories (one per AI)
-
-The four packs are built for **Claude Code**, **Codex**, **Gemini CLI** and **GitHub Copilot**.
-Each build lives in its own private repository, included here as a git submodule — clone with
-`git clone --recurse-submodules https://github.com/kaitondt/ai-pack` (or run
-`git submodule update --init` in an existing clone).
-
-| Path (submodule) | Repository | What it is |
-|---|---|---|
-| `claude` | [ai-pack-claude](https://github.com/kaitondt/ai-pack-claude) | Claude Code marketplace `ai-pack` with the four plugins |
-| `gemini/sdlc-standard` | [ai-pack-gemini-sdlc](https://github.com/kaitondt/ai-pack-gemini-sdlc) | Gemini CLI extension |
-| `gemini/migration-standard` | [ai-pack-gemini-migration](https://github.com/kaitondt/ai-pack-gemini-migration) | Gemini CLI extension |
-| `gemini/pm-standard` | [ai-pack-gemini-pm](https://github.com/kaitondt/ai-pack-gemini-pm) | Gemini CLI extension |
-| `gemini/vibe-standard` | [ai-pack-gemini-vibe](https://github.com/kaitondt/ai-pack-gemini-vibe) | Gemini CLI extension |
-| `codex` | [ai-pack-codex](https://github.com/kaitondt/ai-pack-codex) | Codex marketplace with the four plugins |
-| `copilot` | [ai-pack-copilot](https://github.com/kaitondt/ai-pack-copilot) | GitHub Copilot marketplace (Copilot CLI, VS Code) with the four plugins |
+### Claude Code
 
 ```bash
 claude plugin marketplace add kaitondt/ai-pack-claude
-claude plugin install sdlc-standard@ai-pack --scope project
-
-gemini extensions install https://github.com/kaitondt/ai-pack-gemini-sdlc
-
-copilot plugin marketplace add kaitondt/ai-pack-copilot
-copilot plugin install sdlc-standard@ai-pack-copilot
+claude plugin install vibe-standard@ai-pack --scope project
 ```
 
-Then run `/sdlc-init`: the profile goes to `.gemini/sdlc.profile.yaml`, rules to
-`.gemini/rules/`, and a `GEMINI.md` that imports them is generated at the repository root. See
-[`gemini/README.md`](gemini/README.md), [`codex/README.md`](codex/README.md) and
-[`copilot/README.md`](copilot/README.md). For Copilot, the profile goes to
-`.github/sdlc.profile.yaml` and the rules to `.github/instructions/`.
+Then, in a new session: `/vibe-init`.
 
-**Releasing:** run `python scripts/build-claude-plugins.py` /
-`python scripts/build-gemini-extensions.py` /
-`python scripts/build-codex-plugins.py` / `python scripts/build-copilot-plugins.py`, commit and push inside each changed submodule, then
-commit the updated submodule pointers in this repository.
-
----
-
-## Quick start (copy install)
-
-Copy a pack into your project, copy its profile template, then run the pack's init command
-inside Claude Code:
+### Codex
 
 ```bash
-# Development project
-cp -r sdlc-standard/.claude                <your-project>/.claude
-cp sdlc-standard/profile/sdlc.profile.yaml <your-project>/.claude/sdlc.profile.yaml
-# in Claude Code:  /sdlc-init  then  /sdlc-template-register
-
-# Migration project
-cp -r migration-standard/.claude                     <your-project>/.claude
-cp migration-standard/profile/migration.profile.yaml <your-project>/.claude/migration.profile.yaml
-# in Claude Code:  /mig-init  then  /mig-template-register
-
-# Vibe coding
-cp -r vibe-standard/.claude                <your-project>/.claude
-cp vibe-standard/profile/vibe.profile.yaml <your-project>/.claude/vibe.profile.yaml
-# in Claude Code:  /vibe-init  then  /vibe-intent "..."  →  /vibe-plan  →  /vibe-build
-
-# Project management (merge into an existing .claude/ if a technical pack is installed)
-cp -r pm-standard/.claude              <your-project>/.claude
-cp pm-standard/profile/pm.profile.yaml <your-project>/.claude/pm.profile.yaml
-# in Claude Code:  /pm-init
+git clone https://github.com/kaitondt/ai-pack-codex <dir>/ai-pack-codex
+codex plugin marketplace add <dir>/ai-pack-codex
+codex plugin add vibe-standard@ai-pack
 ```
 
-When combining `pm-standard` with a technical pack, merge the `.claude/` folders rather than
-overwriting — see [pm-standard/ADOPTION.md](pm-standard/ADOPTION.md). `/pm-init` detects the
-installed technical pack automatically.
+Then copy the adoption files from `<dir>/ai-pack-codex/plugins/vibe-standard/templates/`
+(`profile/vibe.profile.yaml` → `.codex/`, `rules/` → `.codex/rules/`, `AGENTS.md` → repository
+root) and ask Codex to run the `vibe-init` procedure through the `vibe-workflow` skill.
 
-**Requirements:** Python 3 for the guard hooks (without it they fail silently and the
-protections are off), plus `openpyxl` / `python-docx` if deliverables are Excel or Word. Each
-pack's `ADOPTION.md` covers installation and troubleshooting.
+### Gemini CLI
+
+```bash
+gemini extensions install https://github.com/kaitondt/ai-pack-gemini-vibe
+```
+
+Then, in `gemini`: `/vibe-init`.
+
+### GitHub Copilot
+
+```bash
+copilot plugin marketplace add kaitondt/ai-pack-copilot
+copilot plugin install vibe-standard@ai-pack-copilot
+```
+
+In VS Code: Command Palette → **Chat: Install Plugin From Source** →
+`https://github.com/kaitondt/ai-pack-copilot`. Then, in chat: `/vibe-init`.
+
+### Where each AI keeps the project files
+
+The init command writes the profile, the rules and a context file into the project:
+
+| AI | Profile | Rules | Context file |
+|---|---|---|---|
+| Claude Code | `.claude/<pack>.profile.yaml` | `.claude/rules/` | `CLAUDE.md` |
+| Codex | `.codex/<pack>.profile.yaml` | `.codex/rules/` | `AGENTS.md` |
+| Gemini CLI | `.gemini/<pack>.profile.yaml` | `.gemini/rules/` (imported) | `GEMINI.md` |
+| GitHub Copilot | `.github/<pack>.profile.yaml` | `.github/instructions/` | `.github/copilot-instructions.md` |
+
+Several AIs can work on the same project: initialise once, copy the filled profile to the other
+AIs' locations and keep the copies identical (each AI's guard hooks read only its own profile).
+Deliverables (e.g. `vibe/`, `docs/`) are shared.
 
 ---
 
-## Other contents
+## Shared architecture
 
-| Path | What it is |
-|---|---|
-| `claude/` (submodule), `scripts/build-claude-plugins.py` | Generated Claude Code plugins and marketplace, and their builder. |
-| `codex/` (submodule), `scripts/build-codex-plugins.py` | Generated Codex plugins and marketplace, and their builder. |
-| `gemini/<pack>/` (submodules), `scripts/build-gemini-extensions.py` | Generated Gemini CLI extensions, and their builder. |
-| `copilot/` (submodule), `scripts/build-copilot-plugins.py` | Generated GitHub Copilot plugins and marketplace, and their builder. |
+All four packs are built the same way. `.claude/` is the canonical source; the build scripts
+translate it for each AI.
+
+```
+<pack>/
+├── README.md             ← what the pack is, its invariant rules, phase/area model
+├── ADOPTION.md           ← ~30-minute onboarding for a new project
+├── COMMAND-FLOW.md       ← how the commands chain, and the refine loop
+├── profile/
+│   ├── <pack>.profile.yaml   ← template: the ONLY file you edit per project
+│   ├── PROFILE-SCHEMA.md     ← field-by-field spec
+│   └── examples/             ← worked profiles for typical project shapes
+└── .claude/
+    ├── CLAUDE.md         ← project-instruction template
+    ├── settings.json     ← hook registrations
+    ├── hooks/            ← guard hooks (Python 3)
+    ├── rules/            ← invariant standards, loaded for every task
+    ├── skills/           ← phase/area knowledge, loaded on demand
+    ├── commands/         ← slash-command entry points
+    └── agents/           ← delegated workers with narrow tool sets
+```
+
+Skills never hardcode project values. They write `{{profile.*}}` tokens that the spine skill
+(`sdlc-project`, `mig-project`, `pm-project`, `vibe-project`) resolves from the profile at load
+time.
+
+Principles common to all packs:
+
+- **Traceability is explicit and machine-checkable** — every artifact cites its source ID
+  (in `vibe-standard`, lightly: intent → slice → commit → check).
+- **Baselines are change-controlled** — approved documents change only through a CR.
+- **No invention** — nothing is specified without an anchor (legacy source, requirement,
+  recorded decision, or approved change); otherwise it is an open question or a labelled
+  assumption.
+- **No deliverable templates shipped** — the client's own forms (Excel/Word/Markdown/CSV) are
+  registered and outrank the pack's skeleton.
+- **Guard hooks enforce the hard rules** (read-only paths, baselines, secrets, irreversible
+  commands) and stay inactive in any repository without the pack's profile.
+
+---
+
+## Repository layout
+
+```
+ai-pack/
+├── sdlc-standard/  migration-standard/  pm-standard/  vibe-standard/   ← pack sources
+├── scripts/
+│   ├── build-claude-plugins.py      → claude/
+│   ├── build-codex-plugins.py       → codex/
+│   ├── build-gemini-extensions.py   → gemini/<pack>/
+│   ├── build-copilot-plugins.py     → copilot/
+│   ├── migrate-project-names.py     ← upgrade a 1.x project to 2.0 names
+│   └── readme/                      ← README sources for generated repositories
+├── claude/            (submodule → ai-pack-claude)
+├── codex/             (submodule → ai-pack-codex)
+├── copilot/           (submodule → ai-pack-copilot)
+├── gemini/<pack>/     (submodules → ai-pack-gemini-sdlc | -migration | -pm | -vibe)
+└── ECC/               (submodule → ECC)
+```
+
+Clone with `git clone --recurse-submodules https://github.com/kaitondt/ai-pack`, or run
+`git submodule update --init` in an existing clone.
+
+### Releasing
+
+Never edit the generated submodules by hand. Edit the pack sources, then for each AI:
+
+```bash
+python scripts/build-<ai>-*.py                            # rebuild the submodule
+git -C <submodule> add -A && git -C <submodule> commit -m "..." && git -C <submodule> push
+git add <submodule> && git commit -m "Bump <ai> build"     # record the new pointer here
+```
+
+Bump the `VERSION` constant in the build script when a change must reach installed copies;
+each AI's README describes how users then update.
