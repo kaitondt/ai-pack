@@ -162,23 +162,23 @@ The packs can also be copied straight into a project from a clone of
 
 ```bash
 # Development project
-cp -r sdlc-standard/.claude                <your-project>/.claude
-cp sdlc-standard/profile/sdlc.profile.yaml <your-project>/.claude/sdlc.profile.yaml
+cp -r packs/sdlc-standard/.claude                <your-project>/.claude
+cp packs/sdlc-standard/profile/sdlc.profile.yaml <your-project>/.claude/sdlc.profile.yaml
 # in Claude Code:  /sdlc-init  then  /sdlc-template-register
 
 # Migration project
-cp -r migration-standard/.claude                     <your-project>/.claude
-cp migration-standard/profile/migration.profile.yaml <your-project>/.claude/migration.profile.yaml
+cp -r packs/migration-standard/.claude                     <your-project>/.claude
+cp packs/migration-standard/profile/migration.profile.yaml <your-project>/.claude/migration.profile.yaml
 # in Claude Code:  /mig-init  then  /mig-template-register
 
 # Vibe coding
-cp -r vibe-standard/.claude                <your-project>/.claude
-cp vibe-standard/profile/vibe.profile.yaml <your-project>/.claude/vibe.profile.yaml
+cp -r packs/vibe-standard/.claude                <your-project>/.claude
+cp packs/vibe-standard/profile/vibe.profile.yaml <your-project>/.claude/vibe.profile.yaml
 # in Claude Code:  /vibe-init  then  /vibe-intent "..."  →  /vibe-plan  →  /vibe-build
 
 # Project management (merge into an existing .claude/ if a technical pack is installed)
-cp -r pm-standard/.claude              <your-project>/.claude
-cp pm-standard/profile/pm.profile.yaml <your-project>/.claude/pm.profile.yaml
+cp -r packs/pm-standard/.claude              <your-project>/.claude
+cp packs/pm-standard/profile/pm.profile.yaml <your-project>/.claude/pm.profile.yaml
 # in Claude Code:  /pm-init
 ```
 

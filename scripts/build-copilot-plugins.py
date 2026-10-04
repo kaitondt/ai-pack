@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build GitHub Copilot agent plugins (Copilot CLI, VS Code) from the four canonical packs.
 
-Source of truth stays in <pack>/.claude/ and <pack>/profile/. This script regenerates copilot/
+Source of truth stays in packs/<pack>/.claude/ and packs/<pack>/profile/. This script regenerates copilot/
 as a Copilot plugin marketplace (.github/plugin/marketplace.json) whose plugins use the
 Agent Plugins 1.0 layout:
 
@@ -340,7 +340,7 @@ def instructions(rules_dir, dst):
 
 
 def build(pack):
-    src = ROOT / pack["name"]
+    src = ROOT / "packs" / pack["name"]
     claude = src / ".claude"
     dst = OUT / "plugins" / pack["name"]
     ns = dst / NS

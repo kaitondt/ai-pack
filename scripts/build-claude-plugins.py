@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build Claude Code plugins + a marketplace from the four skill packs.
 
-Source of truth stays in <pack>/.claude/ and <pack>/profile/ (so the "copy .claude/" install
+Source of truth stays in packs/<pack>/.claude/ and packs/<pack>/profile/ (so the "copy .claude/" install
 keeps working). This script regenerates claude/ as a Claude Code marketplace:
 claude/.claude-plugin/marketplace.json plus claude/plugins/<pack>/ in the layout the plugin
 loader expects. claude/ is the git submodule https://github.com/kaitondt/ai-pack-claude; commit
@@ -167,7 +167,7 @@ def clean_dir(path):
 
 
 def build(pack):
-    src = ROOT / pack["name"]
+    src = ROOT / "packs" / pack["name"]
     claude = src / ".claude"
     dst = OUT / "plugins" / pack["name"]
     dst.mkdir(parents=True)

@@ -133,7 +133,7 @@ raise SystemExit(run(stdin))
 
 
 def build_pack(name: str, prefix: str, profile: str, description: str, keywords: list[str]) -> dict:
-    source = ROOT / name / ".claude"
+    source = ROOT / "packs" / name / ".claude"
     dest = OUT / "plugins" / name
     skills = dest / "skills"
     copy_text_tree(source / "skills", skills)
@@ -154,7 +154,7 @@ def build_pack(name: str, prefix: str, profile: str, description: str, keywords:
                 script = command.rsplit("/", 1)[-1].replace('"', "")
                 hook["command"] = f'python "${{PLUGIN_ROOT}}/hooks/run-hook.py" {profile} {script}' + (" --always" if event == "SessionStart" else "")
     (dest / "hooks" / "hooks.json").write_text(json.dumps({"hooks": hooks}, indent=2) + "\n", encoding="utf-8")
-    copy_text_tree(ROOT / name / "profile", dest / "templates" / "profile")
+    copy_text_tree(ROOT / "packs" / name / "profile", dest / "templates" / "profile")
 
     command_names = sorted(path.stem for path in (source / "commands").glob("*.md"))
     (skills / f"{prefix}-workflow" / "SKILL.md").parent.mkdir(parents=True, exist_ok=True)
@@ -173,7 +173,7 @@ def build_pack(name: str, prefix: str, profile: str, description: str, keywords:
         "version": VERSION,
         "description": description,
         "author": OWNER,
-        "homepage": f"{REPOSITORY}/tree/main/{name}",
+        "homepage": f"{REPOSITORY}/tree/main/packs/{name}",
         "repository": REPOSITORY,
         "keywords": keywords,
         "skills": "./skills/",

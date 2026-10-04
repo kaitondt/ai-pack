@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build Gemini CLI extensions from the four canonical Claude packs.
 
-Source of truth stays in <pack>/.claude/ and <pack>/profile/. This script regenerates
+Source of truth stays in packs/<pack>/.claude/ and packs/<pack>/profile/. This script regenerates
 gemini/<pack>/ as a self-contained Gemini CLI extension (gemini-extension.json at its root).
 Each gemini/<pack>/ is its own git submodule (repo_name()); commit and push there after a
 rebuild, then commit the new submodule pointers in ai-pack.
@@ -329,7 +329,7 @@ def clean_dir(path):
 
 
 def build(pack):
-    src = ROOT / pack["name"]
+    src = ROOT / "packs" / pack["name"]
     claude = src / ".claude"
     dst = OUT / pack["name"]
     clean_dir(dst)

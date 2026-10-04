@@ -29,7 +29,7 @@ def pack_names():
     """Old snake_case name -> new kebab-case name, from the current pack sources."""
     names = {}
     for pack in PACKS:
-        claude = ROOT / pack / ".claude"
+        claude = ROOT / "packs" / pack / ".claude"
         found = [p.stem for p in (claude / "commands").glob("*.md")]
         found += [p.stem for p in (claude / "agents").glob("*.md")]
         found += [p.name for p in (claude / "skills").iterdir() if p.is_dir()]

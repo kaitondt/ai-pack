@@ -12,10 +12,10 @@ git submodule.
 
 | Pack | Use it for | Prefix | Skills | Commands | Agents |
 |---|---|---|---|---|---|
-| [`sdlc-standard`](sdlc-standard/README.md) | Building something new (greenfield or a new subsystem), P0 Inception → P9 Maintenance | `sdlc-` | 33 | 37 | 14 |
-| [`migration-standard`](migration-standard/README.md) | Rewriting or replatforming a legacy system where behaviour must be preserved | `mig-` | 28 | 31 | 14 |
-| [`pm-standard`](pm-standard/README.md) | Managing the project itself (PMBOK-aligned): charter, scope, cost, schedule, reporting, quality, risk, closing | `pm-` | 16 | 28 | 7 |
-| [`vibe-standard`](vibe-standard/README.md) | Vibe coding — building fast with AI (spike → prototype → MVP → production), with intents, small slices, evidence and guard rails | `vibe-` | 13 | 20 | 6 |
+| [`sdlc-standard`](packs/sdlc-standard/README.md) | Building something new (greenfield or a new subsystem), P0 Inception → P9 Maintenance | `sdlc-` | 33 | 37 | 14 |
+| [`migration-standard`](packs/migration-standard/README.md) | Rewriting or replatforming a legacy system where behaviour must be preserved | `mig-` | 28 | 31 | 14 |
+| [`pm-standard`](packs/pm-standard/README.md) | Managing the project itself (PMBOK-aligned): charter, scope, cost, schedule, reporting, quality, risk, closing | `pm-` | 16 | 28 | 7 |
+| [`vibe-standard`](packs/vibe-standard/README.md) | Vibe coding — building fast with AI (spike → prototype → MVP → production), with intents, small slices, evidence and guard rails | `vibe-` | 13 | 20 | 6 |
 
 The two technical packs (`sdlc`, `migration`) manage the **product** — what is built and
 whether it is correct. `pm-standard` manages the **project** — what was committed, at what
@@ -111,11 +111,12 @@ Deliverables (e.g. `vibe/`, `docs/`) are shared.
 
 ## Shared architecture
 
-All four packs are built the same way. `.claude/` is the canonical source; the build scripts
-translate it for each AI.
+All four packs live in [`packs/`](packs/README.md) and are built the same way. Their `.claude/`
+folder is the **canonical source for every AI**, not a Claude-only copy: the build scripts
+translate it into each AI's format. Edit packs here; never edit the generated submodules.
 
 ```
-<pack>/
+packs/<pack>/
 ├── README.md             ← what the pack is, its invariant rules, phase/area model
 ├── ADOPTION.md           ← ~30-minute onboarding for a new project
 ├── COMMAND-FLOW.md       ← how the commands chain, and the refine loop
@@ -156,7 +157,7 @@ Principles common to all packs:
 
 ```
 ai-pack/
-├── sdlc-standard/  migration-standard/  pm-standard/  vibe-standard/   ← pack sources
+├── packs/          ← pack SOURCES: sdlc-standard/ migration-standard/ pm-standard/ vibe-standard/
 ├── scripts/
 │   ├── build-claude-plugins.py      → claude/
 │   ├── build-codex-plugins.py       → codex/
