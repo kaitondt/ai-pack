@@ -194,6 +194,7 @@ Uninstalling removes the pack's commands, skills, agents and hooks. It leaves th
 | No `plugin root:` line at session start | The plugin is disabled in this scope, or `python` is not on `PATH`. |
 | Guards never block anything | The profile `.claude/<pack>.profile.yaml` does not exist yet — run the init command. |
 | `marketplace add` fails | No git access to the repository, or a typo in `kaitondt/ai-pack`. |
+| `its network source differs from the one declared for it in settings` | A marketplace named `ai-pack` is already declared with another source (e.g. a local path, or the shorthand instead of the full URL). Run `claude plugin marketplace remove ai-pack`, then add it again. |
 
 ### For pack maintainers
 

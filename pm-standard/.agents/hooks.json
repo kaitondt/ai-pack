@@ -1,0 +1,28 @@
+{
+  "pack-hooks": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python \"./hooks/check_pm_profile.py\"",
+        "timeout": 10
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "write_to_file|multi_replace_file_content|replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"./hooks/guard_pm_baselines.py\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python \"./hooks/check_pm_doc_rules.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
