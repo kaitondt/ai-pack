@@ -122,19 +122,19 @@ paths:
   design_root: "docs/02.basic-design"
   detail_design: "docs/03.detail-design"
   test_design: "docs/04.test-design"
-  reviews: "docs/reviews"
-  drift_reports: "docs/drift"
-  uat: "uat"
-  maintenance: "maintenance"
-  change_requests: "change-requests"
-  bug_traces: "bug-trace"
+  reviews: "docs/08.reviews"
+  drift_reports: "docs/05.drift"
+  uat: "08.uat"
+  maintenance: "09.maintenance"
+  change_requests: "10.change-requests"
+  bug_traces: "11.bug-trace"
   traceability: "docs/traceability.csv"
   decision_log: "docs/00.inception/decision-log.md"
   assumption_log: "docs/00.inception/assumption-log.md"
   risk_register: "docs/00.inception/risk-register.md"
   glossary: "docs/00.inception/glossary.md"
-  metrics: "docs/metrics"
-  runbook: "docs/operations/runbook.md"
+  metrics: "docs/06.metrics"
+  runbook: "docs/07.operations/runbook.md"
   # No report or file-interface categories: this product has neither.
   bd_categories:
     - {key: architecture, dir: "01.architecture", skill: sdlc-basic-design}
@@ -150,8 +150,8 @@ language:
   working: en
   by_path:
     - {path: "docs/**", lang: en}
-    - {path: "uat/**", lang: en}
-    - {path: "bug-trace/**", lang: en}
+    - {path: "08.uat/**", lang: en}
+    - {path: "11.bug-trace/**", lang: en}
   immutable_tokens:
     - "module IDs"
     - "document IDs"
@@ -323,7 +323,7 @@ review:
              api: true, data: true, nfr: true, batch: true, report: false}
   severity_levels: ["Critical", "Warning", "Suggestion"]
   record_in_document: true
-  output_dir: "docs/reviews"
+  output_dir: "docs/08.reviews"
 
 quality:
   size_unit: KLOC
@@ -343,7 +343,7 @@ quality:
     - {id: S3, label: "Medium", definition: "function impaired, acceptable workaround exists"}
     - {id: S4, label: "Low", definition: "cosmetic or minor inconvenience"}
   injection_phases: [P1, P2, P3, P4, P5, P6, P7, P8]
-  metrics_report: "docs/metrics/quality-report.md"
+  metrics_report: "docs/06.metrics/quality-report.md"
 
 constraints:
   baseline_change_requires_cr: true
@@ -378,7 +378,7 @@ testing:
     step_subdir: "Step"
     it_plan: "test/it-plan"
     st_plan: "test/st-plan"
-    uat_plan: "uat/plan"
+    uat_plan: "08.uat/plan"
     automation_root: "e2e"
     evidence_root: "test/evidence"
     results_root: "test/results"
@@ -455,4 +455,4 @@ maintenance:
     retro_documentation_days: 3
   rca_required_for: [S1, S2]
   regression_test_required: true
-  knowledge_base: "maintenance/knowledge-base.md"
+  knowledge_base: "09.maintenance/knowledge-base.md"

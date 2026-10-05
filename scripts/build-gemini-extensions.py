@@ -19,7 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "gemini"
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 GITHUB = "https://github.com/kaitondt"
 

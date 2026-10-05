@@ -18,7 +18,7 @@ ROOT = os.environ.get("CLAUDE_PROJECT_DIR", ".")
 PROFILE = os.path.join(ROOT, ".claude", "pm.profile.yaml")
 ACTIVE_CR = os.path.join(ROOT, ".claude", ".active_pm_cr")
 
-FALLBACK_GLOBS = ["pm/closing/archive/**"]
+FALLBACK_GLOBS = ["pm/13.closing/archive/**"]
 
 
 def read_globs(path):

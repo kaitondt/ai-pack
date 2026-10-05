@@ -20,7 +20,7 @@ legacy:
   logic_source: "src/legacy/Fukudaryu_SokoManageSystem"
   db_source: "src/legacy/procedure"
   readonly: true
-  screen_capture_dir: "src/wms/docs/legacy-captures"
+  screen_capture_dir: "src/wms/docs/01.legacy-captures"
   excluded:
     - id: "LEG-MENU-014"
       reason: "Button disabled in every state of SetMenuBtnEnable - blocked feature, client confirmed out of scope"
@@ -174,10 +174,10 @@ paths:
   detail_design: "src/wms/docs/deliverables_jp/10.詳細設計"
   test_design: "src/wms/docs/deliverables_jp/09.テスト設計"
   reviews: "src/wms/docs/checklists"
-  gap_reports: "src/wms/docs/gap"
-  uat_reports: "uat-bug"
+  gap_reports: "src/wms/docs/06.gap"
+  uat_reports: "07.uat-bug"
   change_requests: "change-request"
-  bug_traces: "bug-trace"
+  bug_traces: "09.bug-trace"
   traceability: "src/wms/docs/traceability.csv"
   bd_categories:
     - key: architecture
@@ -213,11 +213,11 @@ language:
       lang: ja
     - path: "src/wms/docs/deliverables/**"
       lang: vi
-    - path: "uat-bug/**"
+    - path: "07.uat-bug/**"
       lang: vi
     - path: "change-request/**"
       lang: vi
-    - path: "bug-trace/**"
+    - path: "09.bug-trace/**"
       lang: vi
   immutable_tokens:
     - "screen IDs"
@@ -263,7 +263,7 @@ templates:
   preserve_unfilled_structure: true
   # The old system's design documents, from the 2011 build. Inputs only: several
   # describe screens that were removed years ago (DIO-08).
-  legacy_documents_dir: "src/wms/docs/legacy-documents"
+  legacy_documents_dir: "src/wms/docs/00.legacy-documents"
 
 mockup:
   enabled: true

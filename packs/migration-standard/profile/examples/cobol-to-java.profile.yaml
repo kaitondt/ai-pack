@@ -163,12 +163,12 @@ ids:
 
 paths:
   docs_root: "docs"
-  requirements: "docs/requirements"
-  design_root: "docs/design"
-  detail_design: "docs/detail-design"
-  test_design: "docs/test-design"
-  reviews: "docs/reviews"
-  gap_reports: "docs/gap"
+  requirements: "docs/02.requirements"
+  design_root: "docs/03.design"
+  detail_design: "docs/04.detail-design"
+  test_design: "docs/05.test-design"
+  reviews: "docs/07.reviews"
+  gap_reports: "docs/06.gap"
   uat_reports: "docs/uat"
   change_requests: "docs/change-requests"
   bug_traces: "docs/bug-trace"
@@ -234,12 +234,12 @@ templates:
   preserve_unfilled_structure: true
   # Printed COBOL program specifications from the 1990s, scanned to PDF. Useful for
   # rationale, wrong about behaviour more often than not (DIO-08).
-  legacy_documents_dir: "docs/legacy-documents"
+  legacy_documents_dir: "docs/00.legacy-documents"
 
 mockup:
   enabled: true
   kind: html
-  dir: "docs/design/09.mockup"
+  dir: "docs/03.design/09.mockup"
   surfaces: [WEB]
   naming: "{MODULE}_{screen name}"
   # A 24x80 terminal layout is a constraint that no longer exists. Field set, field

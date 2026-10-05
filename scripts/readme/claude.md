@@ -138,6 +138,18 @@ what `/<prefix>-init` copied into each project:
 - `.claude/<profile>.yaml` — run `/<prefix>-profile-check` in a new session after the restart. It reports fields a new release
   added or renamed; fill them in and run it again until it is clean.
 
+### Upgrading a project to 2.2
+
+2.2.0 gives the directories `/<prefix>-init` scaffolds **numeric prefixes**, so a listing follows
+the lifecycle instead of the alphabet: `pm/01.charter` … `pm/13.closing` in PMBOK order, and
+`docs/05.drift`, `docs/08.reviews`, `08.uat`, `09.maintenance`, … in development-lifecycle order
+(`docs/00.legacy-documents` … `07.uat-bug` for migration). vibe is unchanged.
+
+Only new projects pick up the new names. An existing project keeps working as it is, because every
+command reads the paths from its profile. To adopt the numbering, rename the directories with
+`git mv` and update the matching `paths.*` entries in the profile (plus any other key that holds
+one of those paths), then run `/<prefix>-profile-check`.
+
 ### Upgrading a project to 2.1
 
 2.1.0 replaces the single `execution.agent_model` with a **model and effort profile**.

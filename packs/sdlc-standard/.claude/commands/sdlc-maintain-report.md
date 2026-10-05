@@ -1,5 +1,5 @@
 ---
-description: "P9 phase 3 — write the incident report into maintenance/, append a knowledge-base entry, and record the preventive action. An existing report for the same incident is appended to, never overwritten. Usage: /sdlc-maintain-report [path to an existing report]"
+description: "P9 phase 3 — write the incident report into 09.maintenance/, append a knowledge-base entry, and record the preventive action. An existing report for the same incident is appended to, never overwritten. Usage: /sdlc-maintain-report [path to an existing report]"
 ---
 
 # P9 — Incident report

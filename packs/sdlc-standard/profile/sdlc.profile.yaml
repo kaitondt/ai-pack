@@ -216,19 +216,19 @@ paths:
   design_root: "docs/02.basic-design"
   detail_design: "docs/03.detail-design"
   test_design: "docs/04.test-design"
-  reviews: "docs/reviews"
-  drift_reports: "docs/drift"          # DD <-> code divergence reports
-  uat: "uat"
-  maintenance: "maintenance"
-  change_requests: "change-requests"
-  bug_traces: "bug-trace"              # per-bug traceability dossiers + bug-trace-register.csv
+  reviews: "docs/08.reviews"
+  drift_reports: "docs/05.drift"          # DD <-> code divergence reports
+  uat: "08.uat"
+  maintenance: "09.maintenance"
+  change_requests: "10.change-requests"
+  bug_traces: "11.bug-trace"              # per-bug traceability dossiers + bug-trace-register.csv
   traceability: "docs/traceability.csv"
   decision_log: "docs/00.inception/decision-log.md"
   assumption_log: "docs/00.inception/assumption-log.md"
   risk_register: "docs/00.inception/risk-register.md"
   glossary: "docs/00.inception/glossary.md"
-  metrics: "docs/metrics"
-  runbook: "docs/operations/runbook.md"
+  metrics: "docs/06.metrics"
+  runbook: "docs/07.operations/runbook.md"
   # Basic-design categories, in generation order. Rename freely per project.
   bd_categories:
     - key: architecture
@@ -547,7 +547,7 @@ testing:
     step_subdir: "Step"                # intermediate checkpoint files
     it_plan: "test/it-plan"
     st_plan: "test/st-plan"
-    uat_plan: "uat/plan"
+    uat_plan: "08.uat/plan"
     automation_root: "test/automation"
     evidence_root: "test/evidence"
     results_root: "test/results"

@@ -1,5 +1,5 @@
 ---
-description: "CR phase 6 — write the change-request report into change-requests/, record actual effort against the estimate, and clear the active-CR marker. An existing report for the same CR is appended to, never overwritten. Usage: /sdlc-cr-report [path to an existing report]"
+description: "CR phase 6 — write the change-request report into 10.change-requests/, record actual effort against the estimate, and clear the active-CR marker. An existing report for the same CR is appended to, never overwritten. Usage: /sdlc-cr-report [path to an existing report]"
 ---
 
 # CR — Report

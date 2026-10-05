@@ -106,7 +106,7 @@ endpoint. Client decisions arrive as PowerPoint. These are **read**, not summari
 filename and not assumed to match the version you saw last month.
 
 Cite the source file path and its date wherever a document depends on it. "Per the client's
-interface spec" is not a citation; "per `docs/legacy-documents/IF_SPEC_v3.xlsx` sheet
+interface spec" is not a citation; "per `docs/00.legacy-documents/IF_SPEC_v3.xlsx` sheet
 `API-014`, received 2026/03/12" is.
 
 ### DIO-07 — Binary deliverables are still reviewable

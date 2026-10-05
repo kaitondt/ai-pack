@@ -57,7 +57,7 @@ RULES = [
      "describe the internals a UT case can be written against; when code exists, run the "
      "drift check and decide every verdict against the DESIGN, never by editing the "
      "document to match the code."),
-    (("test", "テスト", "/uat"),
+    (("test", "テスト", "uat/"),
      "[TEST] Test design: expected values come from the baselined specification with an "
      "anchor, never from what the implementation currently returns; state the level the "
      "case belongs to and the document it verifies; viewpoint VP-10 (rounding, precision, "
@@ -98,7 +98,7 @@ def main():
     lower = fp.lower()
     # A deliverable lives under docs_root, or under one of the record trees. Match on
     # path segments so a repo-relative path like "test/cases/..." is recognised too.
-    in_tree = bool(re.search(r"(^|/)(test|uat|maintenance|change-requests)/", lower)) \
+    in_tree = bool(re.search(r"(^|/)(\d+\.)?(test|uat|maintenance|change-requests)/", lower)) \
         or re.search(r"(^|/){}/".format(re.escape(root.lower())), lower) is not None
     if not in_tree:
         return 0

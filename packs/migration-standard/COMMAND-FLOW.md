@@ -301,7 +301,7 @@ P2 on a real project, from nothing to a signed-off category:
         ↓  new session
 /mig-review-design KK0030PG                 read-only agent, no shared context
         ↓  new session
-/mig-refine-skill docs/reviews/...          classify: artifact / skill / hook / checklist
+/mig-refine-skill docs/07.reviews/...          classify: artifact / skill / hook / checklist
         ↓  new session
 /mig-generate-basic-design screen KK0030PG  regenerate under the changed rule
         ↓

@@ -42,7 +42,7 @@ leaves the keyboard, grids that page in memory.
 ```yaml
 legacy:
   kind: vbnet                    # or delphi | powerbuilder | access
-  screen_capture_dir: "docs/legacy-captures"
+  screen_capture_dir: "docs/01.legacy-captures"
 
 target:
   surfaces:
@@ -367,7 +367,7 @@ templates:
   formats_enabled: [md, xlsx, docx, csv]
   template_wins_over_skill: true
   preserve_unfilled_structure: true
-  legacy_documents_dir: "docs/legacy-documents"
+  legacy_documents_dir: "docs/00.legacy-documents"
 
 document:
   date_format: "YYYY/MM/DD"
@@ -387,7 +387,7 @@ paths:
 mockup:
   kind: html
   fidelity: as-is
-  dir: "docs/design/09.モックアップ"
+  dir: "docs/03.design/09.モックアップ"
   html:
     self_contained: true         # opened from a file share, offline, on a locked-down machine
 

@@ -58,10 +58,16 @@ technical pack exists, **inherit** its quality targets rather than inventing a s
 Create, from `{{profile.paths}}`:
 
 ```
-pm/charter  pm/plan  pm/scope  pm/schedule  pm/cost  pm/process  pm/quality
-pm/registers  pm/reports/{daily,weekly,monthly,quarterly,quality,_data}
-pm/changes  pm/resource  pm/meetings  pm/closing/archive
+pm/01.charter  pm/02.plan  pm/03.scope  pm/04.schedule  pm/05.cost  pm/06.quality
+pm/07.process  pm/08.resource  pm/09.meetings  pm/10.registers  pm/11.changes
+pm/12.reports/{daily,weekly,monthly,quarterly,quality,_data}  pm/13.closing/archive
 ```
+
+The numeric prefixes put the tree in PMBOK order — initiating (charter), planning (plan,
+scope, schedule, cost, quality, process, resource, communications, risk), monitoring and
+controlling (changes, reports), closing — instead of alphabetical. Keep them when a
+profile renames a directory; `pm/_working` stays unnumbered because it is scratch, not a
+deliverable area.
 
 Seed each register with its header row, so the first entry has a shape to follow: risk
 register, issue log, decision log, assumption log, action log, change register, CAPA log,

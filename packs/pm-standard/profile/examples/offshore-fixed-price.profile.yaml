@@ -66,7 +66,7 @@ calendar:
   working_days: ["Mon", "Tue", "Wed", "Thu", "Fri"]
   hours_per_day: 8
   productive_hours_per_day: 6.0     # offshore: daily overlap meeting + clarification load
-  holidays_calendar: "pm/resource/holidays-jp-vn-2026.md"
+  holidays_calendar: "pm/08.resource/holidays-jp-vn-2026.md"
   planned_absence_allowance: "10%"  # includes Tet, which removes a full week in February
   freeze_periods:
     - name: "Client year-end close"
@@ -128,7 +128,7 @@ scope:
     traceability: "docs/traceability.csv"
     owner: "client_pm"
     change_threshold_requires_cr: "any change to a baselined requirement"
-  assumptions_log: "pm/registers/assumption-log.md"
+  assumptions_log: "pm/10.registers/assumption-log.md"
   constraints:
     - "Handheld hardware fixed to the client's existing Keyence terminals (contract §4.2)"
     - "Accounting interface format frozen by the other vendor; change needs 6 weeks notice"
@@ -174,9 +174,9 @@ wbs:
 
 schedule:
   method: critical-path
-  baseline_path: "pm/schedule/schedule-baseline.md"
-  working_file: "pm/schedule/schedule.md"
-  tool: "MS Project, exported weekly to pm/schedule/"
+  baseline_path: "pm/04.schedule/schedule-baseline.md"
+  working_file: "pm/04.schedule/schedule.md"
+  tool: "MS Project, exported weekly to pm/04.schedule/"
   progress_measurement: "0-50-100"
   buffer_policy:
     project_buffer: "12% of critical path duration"
@@ -222,7 +222,7 @@ cost:
   size_unit: person-hours
   estimation_methods: ["wbs-bottom-up", "three-point-pert", "parametric", "analogous"]
   productivity:
-    basis: "measured on KRS-2024-007 (same stack, same client, 14 screens) — actuals in pm/closing/archive of that project"
+    basis: "measured on KRS-2024-007 (same stack, same client, 14 screens) — actuals in pm/13.closing/archive of that project"
     rates:
       - unit: "simple screen (PC)"
         hours: 18
@@ -258,7 +258,7 @@ cost:
       rate: 3100
   contingency_percent: 12           # fixed-price, offshore, one unspecified external interface
   management_reserve_percent: 5
-  baseline_path: "pm/cost/cost-baseline.md"
+  baseline_path: "pm/05.cost/cost-baseline.md"
   earned_value:
     enabled: true
     eac_formula: current-rate
@@ -271,19 +271,19 @@ cost:
 process:
   lifecycle: "waterfall with phase gates, per sdlc-standard P0..P9"
   standard_ref: "ISO 9001 QMS (vendor), plus client 開発標準 v3.2"
-  tailoring_record: "pm/process/tailoring.md"
+  tailoring_record: "pm/07.process/tailoring.md"
   development_process_ref: ".claude/sdlc.profile.yaml"
   qa:
     owner: "qa_lead"
     activities: ["process audit", "peer-review compliance check", "metrics review",
                  "gate review", "corrective action tracking", "client standard compliance check"]
     audit_cadence: "monthly"
-    audit_record: "pm/quality/audits"
+    audit_record: "pm/06.quality/audits"
   qc:
     activities: ["document review (JP native check)", "code review", "unit test",
                  "integration test", "system test", "UAT support"]
-    entry_exit_criteria_ref: "pm/quality/quality-plan.md"
-  process_assets: "pm/process/assets"
+    entry_exit_criteria_ref: "pm/06.quality/quality-plan.md"
+  process_assets: "pm/07.process/assets"
   definition_of_done:
     - "code reviewed and merged"
     - "unit tests pass, coverage target met"
@@ -291,11 +291,11 @@ process:
     - "test case updated and executed"
     - "traceability row updated"
     - "no open Critical review finding"
-  corrective_actions: "pm/registers/capa-log.md"
+  corrective_actions: "pm/10.registers/capa-log.md"
 
 quality:
-  plan_path: "pm/quality/quality-plan.md"
-  test_plan_path: "pm/quality/master-test-plan.md"
+  plan_path: "pm/06.quality/quality-plan.md"
+  test_plan_path: "pm/06.quality/master-test-plan.md"
   objectives:
     - attribute: "functional correctness"
       target: "zero open S1/S2 at acceptance"
@@ -356,8 +356,8 @@ quality:
   quality_report_cadence: "monthly, and at every phase gate"
 
 risk:
-  register: "pm/registers/risk-register.md"
-  issue_log: "pm/registers/issue-log.md"
+  register: "pm/10.registers/risk-register.md"
+  issue_log: "pm/10.registers/issue-log.md"
   categories: ["scope", "schedule", "cost", "quality", "resource", "technical",
                "external-dependency", "client", "contractual", "security", "compliance",
                "language-and-communication"]
@@ -379,12 +379,12 @@ risk:
     high: "15-25"
   response_types: ["avoid", "mitigate", "transfer", "accept", "escalate"]
   review_cadence: "weekly for high exposure, monthly for the full register"
-  contingency_drawdown_log: "pm/cost/contingency-drawdown.md"
+  contingency_drawdown_log: "pm/05.cost/contingency-drawdown.md"
   escalate_above_exposure: 12        # lowered: fixed-price, so cost risk lands on the vendor
   issue_sla_hours: {S1: 4, S2: 24, S3: 72, S4: "next cycle"}
 
 reporting:
-  root: "pm/reports"
+  root: "pm/12.reports"
   rag_definitions:
     green: "on plan, or recoverable inside the buffer without a client decision"
     amber: "a decision or action is needed to stay on plan; named and dated"
@@ -397,7 +397,7 @@ reporting:
       content: ["yesterday done", "today planned", "blockers with owner and age",
                 "defect inflow", "questions needing a JP-side answer"]
       max_length: "one screen"
-      path: "pm/reports/daily"
+      path: "pm/12.reports/daily"
     - id: weekly
       audience: ["client_pm", "delivery_manager", "project_manager"]
       channel: "JP written report plus a 30-minute call, Friday 16:00 JST"
@@ -406,7 +406,7 @@ reporting:
                 "completed and planned work packages", "top 5 risks and issues",
                 "decisions needed from the client with by-dates", "change requests in flight",
                 "quality snapshot", "resource changes"]
-      path: "pm/reports/weekly"
+      path: "pm/12.reports/weekly"
     - id: monthly
       audience: ["sponsor", "steering_committee", "client_pm"]
       channel: "JP report plus the steering meeting"
@@ -414,7 +414,7 @@ reporting:
       content: ["executive summary and RAG trend", "earned value", "milestone status",
                 "quality report", "risk profile change", "cumulative CR impact",
                 "resource utilisation", "decisions needed", "forecast to completion"]
-      path: "pm/reports/monthly"
+      path: "pm/12.reports/monthly"
     - id: quarterly
       audience: ["sponsor", "steering_committee"]
       channel: "business review"
@@ -422,7 +422,7 @@ reporting:
       content: ["objective attainment vs charter", "financial performance",
                 "baseline history", "risk outlook", "quality trend", "lessons applied",
                 "next-quarter plan"]
-      path: "pm/reports/quarterly"
+      path: "pm/12.reports/quarterly"
     - id: quality
       audience: ["qa_lead", "client_pm", "delivery_manager"]
       channel: "JP written report"
@@ -431,21 +431,21 @@ reporting:
                 "phase containment matrix", "test progress per level", "coverage",
                 "escaped defects", "S-curve shape", "audit findings and CAPAs",
                 "what the numbers predict"]
-      path: "pm/reports/quality"
+      path: "pm/12.reports/quality"
   data_sources:
-    progress: "Jira (KRS board) and pm/schedule/schedule.md"
+    progress: "Jira (KRS board) and pm/04.schedule/schedule.md"
     effort: "vendor timesheet system, booked to WBS codes"
     defects: "Jira (KRS-BUG project)"
     test_results: "test/results/"
     build: "GitHub Actions"
   distribution_list: ["client_pm", "sponsor", "delivery_manager", "qa_lead"]
-  meeting_minutes: "pm/meetings"
-  action_item_log: "pm/registers/action-log.md"
+  meeting_minutes: "pm/09.meetings"
+  action_item_log: "pm/10.registers/action-log.md"
 
 change_control:
   id_format: "CR-{NNN}"
-  register: "pm/changes/change-register.md"
-  request_dir: "pm/changes"
+  register: "pm/11.changes/change-register.md"
+  request_dir: "pm/11.changes"
   impact_dimensions: ["scope", "schedule", "cost", "quality", "risk", "resource",
                       "contract", "dependencies", "test", "documentation", "translation"]
   min_options: 2
@@ -462,8 +462,8 @@ change_control:
             "CR-COST", "CR-QUALITY", "CR-PROCESS", "CR-CONTRACT", "CR-CLARIFY"]
 
 resource:
-  plan_path: "pm/resource/staffing-plan.md"
-  raci_path: "pm/resource/raci.md"
+  plan_path: "pm/08.resource/staffing-plan.md"
+  raci_path: "pm/08.resource/raci.md"
   roles:
     - role: "Project Manager"
       count: 1
@@ -493,20 +493,20 @@ resource:
       end: "2026-12-11"
       location: "VN"
       skills_required: ["test design", "Playwright", "JP reading"]
-  onboarding_checklist: "pm/resource/onboarding.md"
+  onboarding_checklist: "pm/08.resource/onboarding.md"
   max_planned_allocation_percent: 85
   key_person_risk: "every role with a single holder is a RSK-* entry"
   subcontract:
     used: false
     parties: []
     sla_ref: ""
-  utilisation_report: "pm/reports/monthly"
+  utilisation_report: "pm/12.reports/monthly"
 
 closing:
-  acceptance_record: "pm/closing/acceptance-record.md"
-  final_report: "pm/closing/final-report.md"
-  lessons_learned: "pm/closing/lessons-learned.md"
-  archive_root: "pm/closing/archive"
+  acceptance_record: "pm/13.closing/acceptance-record.md"
+  final_report: "pm/13.closing/final-report.md"
+  lessons_learned: "pm/13.closing/lessons-learned.md"
+  archive_root: "pm/13.closing/archive"
   handover:
     items: ["source and build pipeline", "deployment runbook (JP)", "operations manual (JP)",
             "known issues and workarounds", "support contacts and escalation",
@@ -518,32 +518,32 @@ closing:
     warranty_period: "3 months after acceptance (契約書 §9)"
     retained_obligations: ["warranty defect fixing", "2 knowledge transfer sessions",
                            "handheld firmware compatibility confirmation"]
-  resource_release: "pm/closing/resource-release.md"
+  resource_release: "pm/13.closing/resource-release.md"
   post_implementation_review_after_days: 60
 
 paths:
   pm_root: "pm"
-  charter: "pm/charter/project-charter.md"
-  plan_root: "pm/plan"
-  project_management_plan: "pm/plan/project-management-plan.md"
-  scope_statement: "pm/scope/scope-statement.md"
-  scope_baseline: "pm/scope/scope-baseline.md"
-  wbs: "pm/scope/wbs.xlsx"
-  wbs_dictionary: "pm/scope/wbs.xlsx"
-  schedule_root: "pm/schedule"
-  cost_root: "pm/cost"
-  estimate: "pm/cost/estimate.md"
-  process_root: "pm/process"
-  quality_root: "pm/quality"
-  risk_root: "pm/registers"
-  reports_root: "pm/reports"
-  changes_root: "pm/changes"
-  resource_root: "pm/resource"
-  meetings: "pm/meetings"
-  closing_root: "pm/closing"
-  registers: "pm/registers"
-  decision_log: "pm/registers/decision-log.md"
-  status_data: "pm/reports/_data"
+  charter: "pm/01.charter/project-charter.md"
+  plan_root: "pm/02.plan"
+  project_management_plan: "pm/02.plan/project-management-plan.md"
+  scope_statement: "pm/03.scope/scope-statement.md"
+  scope_baseline: "pm/03.scope/scope-baseline.md"
+  wbs: "pm/03.scope/wbs.xlsx"
+  wbs_dictionary: "pm/03.scope/wbs.xlsx"
+  schedule_root: "pm/04.schedule"
+  cost_root: "pm/05.cost"
+  estimate: "pm/05.cost/estimate.md"
+  process_root: "pm/07.process"
+  quality_root: "pm/06.quality"
+  risk_root: "pm/10.registers"
+  reports_root: "pm/12.reports"
+  changes_root: "pm/11.changes"
+  resource_root: "pm/08.resource"
+  meetings: "pm/09.meetings"
+  closing_root: "pm/13.closing"
+  registers: "pm/10.registers"
+  decision_log: "pm/10.registers/decision-log.md"
+  status_data: "pm/12.reports/_data"
 
 # The client receives Word for narrative documents and Excel for everything
 # tabular - their QMS parses both. Their own forms are registered per artifact.
@@ -554,54 +554,54 @@ documents:
   derived_view: true
   registry:
     - artifact: wbs
-      path: "pm/scope/wbs.xlsx"
+      path: "pm/03.scope/wbs.xlsx"
       format: xlsx
       working: [md, csv]
       template: "pm/_templates/WBS_form.xlsx"     # the client's own form
       sheets: {wbs: "WBS", dictionary: "WBS Dictionary"}
       dictionary_in_same_workbook: true
     - artifact: wbs_dictionary
-      path: "pm/scope/wbs.xlsx"
+      path: "pm/03.scope/wbs.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
     - artifact: estimate
-      path: "pm/cost/estimate.xlsx"
+      path: "pm/05.cost/estimate.xlsx"
       format: xlsx
       working: [md, csv]
       template: "pm/_templates/Estimate_form.xlsx"
     - artifact: cost_baseline
-      path: "pm/cost/cost-baseline.xlsx"
+      path: "pm/05.cost/cost-baseline.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
     - artifact: schedule
-      path: "pm/schedule/schedule.xlsx"
+      path: "pm/04.schedule/schedule.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
     - artifact: risk_register
-      path: "pm/registers/risk-register.xlsx"
+      path: "pm/10.registers/risk-register.xlsx"
       format: xlsx
       working: [md, csv]
       template: "pm/_templates/Risk_register_form.xlsx"
     - artifact: charter
-      path: "pm/charter/project-charter.docx"
+      path: "pm/01.charter/project-charter.docx"
       format: docx
       working: [md]
       template: "pm/_templates/Charter_form.docx"
     - artifact: project_management_plan
-      path: "pm/plan/project-management-plan.docx"
+      path: "pm/02.plan/project-management-plan.docx"
       format: docx
       working: [md]
       template: "pm/_templates/PMP_form.docx"
     - artifact: scope_statement
-      path: "pm/scope/scope-statement.docx"
+      path: "pm/03.scope/scope-statement.docx"
       format: docx
       working: [md]
       template: ""
     - artifact: status_report
-      path: "pm/reports"
+      path: "pm/12.reports"
       format: docx
       working: [md]
       template: "pm/_templates/Weekly_report_form.docx"
@@ -612,10 +612,10 @@ baselines:
   change_requires_cr: true
   active_cr_file: ".claude/.active_pm_cr"
   readonly_globs:
-    - "pm/closing/archive/**"
+    - "pm/13.closing/archive/**"
     - "pm/**/_baselined/**"
   registered:
-    - path: "pm/charter/project-charter.md"
+    - path: "pm/01.charter/project-charter.md"
       artifact: "charter"
       version: "1.0"
       approved_by: "sponsor, client_pm"
@@ -638,15 +638,15 @@ language:
   working: vi                      # the team converses in Vietnamese
   client_facing: ja
   by_path:
-    - path: "pm/reports/**"
+    - path: "pm/12.reports/**"
       lang: ja
-    - path: "pm/charter/**"
+    - path: "pm/01.charter/**"
       lang: ja
-    - path: "pm/plan/**"
+    - path: "pm/02.plan/**"
       lang: ja
-    - path: "pm/registers/**"
+    - path: "pm/10.registers/**"
       lang: vi                     # internal working registers
-    - path: "pm/meetings/**"
+    - path: "pm/09.meetings/**"
       lang: ja                     # client-attended meetings; internal ones may be vi
   immutable_tokens:
     - "WBS codes"

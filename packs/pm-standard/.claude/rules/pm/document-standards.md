@@ -120,8 +120,8 @@ So every file under `{{profile.documents.working_dir}}` opens with a stamp sayin
 is a draft or a generated export, and an export names the version it came from:
 
 ```
-> DRAFT — working file for pm/scope/wbs.xlsx. Not a deliverable. Not baselined.
-> GENERATED from pm/scope/wbs.xlsx v1.2 on 2026/09/15. Do not edit — edit the workbook.
+> DRAFT — working file for pm/03.scope/wbs.xlsx. Not a deliverable. Not baselined.
+> GENERATED from pm/03.scope/wbs.xlsx v1.2 on 2026/09/15. Do not edit — edit the workbook.
 ```
 
 Three consequences:

@@ -24,7 +24,7 @@ legacy:
   logic_source: "src/legacy/<App>/Business"
   db_source: "src/legacy/procedure"          # stored procedures / DDL
   readonly: true                 # NEVER set false. Guards and hooks depend on it.
-  screen_capture_dir: "docs/legacy-captures" # optional screenshots of the old UI
+  screen_capture_dir: "docs/01.legacy-captures" # optional screenshots of the old UI
   # Artifacts whose behaviour must NOT be reproduced (obsolete / dead code).
   # Each entry needs a reason; used by /mig-analyze-legacy to scope out.
   excluded:
@@ -225,15 +225,15 @@ ids:
 # ---------------------------------------------------------------------------
 paths:
   docs_root: "docs"
-  requirements: "docs/requirements"
-  design_root: "docs/design"
-  detail_design: "docs/detail-design"
-  test_design: "docs/test-design"
-  reviews: "docs/reviews"
-  gap_reports: "docs/gap"
-  uat_reports: "uat-bug"
-  change_requests: "change-requests"
-  bug_traces: "bug-trace"          # per-bug traceability dossiers + bug-trace-register.csv
+  requirements: "docs/02.requirements"
+  design_root: "docs/03.design"
+  detail_design: "docs/04.detail-design"
+  test_design: "docs/05.test-design"
+  reviews: "docs/07.reviews"
+  gap_reports: "docs/06.gap"
+  uat_reports: "07.uat-bug"
+  change_requests: "08.change-requests"
+  bug_traces: "09.bug-trace"          # per-bug traceability dossiers + bug-trace-register.csv
   traceability: "docs/traceability.csv"
   # Basic-design categories, in generation order. Rename freely per project.
   bd_categories:
@@ -333,7 +333,7 @@ templates:
   # read-only inputs, kept apart from the client's blank forms so nobody writes
   # into one. They are evidence of INTENT; the legacy code is the evidence of
   # BEHAVIOUR (DIO-08).
-  legacy_documents_dir: "docs/legacy-documents"
+  legacy_documents_dir: "docs/00.legacy-documents"
 
 # ---------------------------------------------------------------------------
 # MOCKUP - the visual counterpart of the screen design. In a migration the
@@ -350,7 +350,7 @@ mockup:
   # image   - PNG/PDF exports from any tool, committed as files
   # none    - no mockup deliverable on this project
   kind: html
-  dir: "docs/design/09.mockup"
+  dir: "docs/03.design/09.mockup"
   surfaces: [PC]                 # which target.surfaces[] entries get mockups
   naming: "{MODULE}_{screen name}"
   # HOW FAITHFUL TO THE LEGACY SCREEN. The field that decides whether a UI
@@ -378,7 +378,7 @@ mockup:
   figma:
     file_url: ""
     access: "<view link | MCP connector | manual export>"
-    export_dir: "docs/design/09.mockup/_export"
+    export_dir: "docs/03.design/09.mockup/_export"
     writable: false              # the design team owns the file
   canvas:
     artifact_url: ""             # set once published; reused on every update

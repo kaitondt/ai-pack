@@ -121,7 +121,7 @@ scope:
     traceability: "docs/traceability.csv"
     owner: "client_pm"
     change_threshold_requires_cr: "any change to the committed release scope"
-  assumptions_log: "pm/registers/assumption-log.md"
+  assumptions_log: "pm/10.registers/assumption-log.md"
   constraints:
     - "No billing downtime; migration must be incremental and reversible"
     - "Financial reporting output must reconcile to the cent against the legacy engine"
@@ -161,9 +161,9 @@ wbs:
 
 schedule:
   method: sprint-based
-  baseline_path: "pm/schedule/release-plan-baseline.md"
-  working_file: "pm/schedule/release-plan.md"
-  tool: "Linear cycles, exported to pm/schedule/"
+  baseline_path: "pm/04.schedule/release-plan-baseline.md"
+  working_file: "pm/04.schedule/release-plan.md"
+  tool: "Linear cycles, exported to pm/04.schedule/"
   progress_measurement: "0-100"     # a story is done or it is not; no partial credit
   buffer_policy:
     project_buffer: "1 sprint per release, held by the PM"
@@ -221,7 +221,7 @@ cost:
       rate: 95
   contingency_percent: 15           # migration with a reconciliation requirement
   management_reserve_percent: 0     # internal: the sponsor re-allocates rather than reserving
-  baseline_path: "pm/cost/cost-baseline.md"
+  baseline_path: "pm/05.cost/cost-baseline.md"
   earned_value:
     enabled: false                  # tracked as points burn-up plus a monthly cost roll-up
     eac_formula: current-rate
@@ -234,19 +234,19 @@ cost:
 process:
   lifecycle: "2-week cycles, gates at design, feature-complete, parallel-run and cutover"
   standard_ref: "internal engineering handbook; SOX change-control policy"
-  tailoring_record: "pm/process/tailoring.md"
+  tailoring_record: "pm/07.process/tailoring.md"
   development_process_ref: ".claude/sdlc.profile.yaml"
   qa:
     owner: "qa_lead"
     activities: ["review compliance spot-check", "metrics review at each gate",
                  "SOX change-control evidence check", "corrective action tracking"]
     audit_cadence: "quarterly, plus the SOX evidence check every release"
-    audit_record: "pm/quality/audits"
+    audit_record: "pm/06.quality/audits"
   qc:
     activities: ["design review", "code review", "unit test", "integration test",
                  "parallel-run reconciliation", "operational readiness review"]
-    entry_exit_criteria_ref: "pm/quality/quality-plan.md"
-  process_assets: "pm/process/assets"
+    entry_exit_criteria_ref: "pm/06.quality/quality-plan.md"
+  process_assets: "pm/07.process/assets"
   definition_of_done:
     - "code reviewed and merged"
     - "unit and integration tests pass"
@@ -254,11 +254,11 @@ process:
     - "runbook updated"
     - "reconciliation case added where money is calculated"
     - "traceability row updated"
-  corrective_actions: "pm/registers/capa-log.md"
+  corrective_actions: "pm/10.registers/capa-log.md"
 
 quality:
-  plan_path: "pm/quality/quality-plan.md"
-  test_plan_path: "pm/quality/master-test-plan.md"
+  plan_path: "pm/06.quality/quality-plan.md"
+  test_plan_path: "pm/06.quality/master-test-plan.md"
   objectives:
     - attribute: "financial correctness"
       target: "zero unexplained variance against the legacy engine over a full cycle"
@@ -316,8 +316,8 @@ quality:
   quality_report_cadence: "at each gate, and monthly to the steering group"
 
 risk:
-  register: "pm/registers/risk-register.md"
-  issue_log: "pm/registers/issue-log.md"
+  register: "pm/10.registers/risk-register.md"
+  issue_log: "pm/10.registers/issue-log.md"
   categories: ["scope", "schedule", "quality", "resource", "technical",
                "external-dependency", "data-migration", "compliance", "operational"]
   probability_scale:
@@ -338,12 +338,12 @@ risk:
     high: "15-25"
   response_types: ["avoid", "mitigate", "transfer", "accept", "escalate"]
   review_cadence: "at sprint planning for high exposure, monthly for the full register"
-  contingency_drawdown_log: "pm/cost/contingency-drawdown.md"
+  contingency_drawdown_log: "pm/05.cost/contingency-drawdown.md"
   escalate_above_exposure: 15
   issue_sla_hours: {S1: 2, S2: 24, S3: 72, S4: "next cycle"}
 
 reporting:
-  root: "pm/reports"
+  root: "pm/12.reports"
   rag_definitions:
     green: "on plan, or recoverable inside the buffer sprint"
     amber: "a decision or a scope trade is needed to hold the date"
@@ -356,7 +356,7 @@ reporting:
       content: ["RAG with the reason", "milestone status", "velocity vs average",
                 "stories done and planned", "top risks and issues", "decisions needed",
                 "changes to committed scope"]
-      path: "pm/reports/weekly"
+      path: "pm/12.reports/weekly"
     - id: monthly
       audience: ["sponsor", "steering_committee", "client_pm"]
       channel: "written report plus the steering meeting"
@@ -364,7 +364,7 @@ reporting:
       content: ["executive summary and RAG trend", "burn-up and forecast completion sprint",
                 "cost roll-up vs budget", "milestone status", "quality report",
                 "risk profile change", "cumulative scope change", "decisions needed"]
-      path: "pm/reports/monthly"
+      path: "pm/12.reports/monthly"
     - id: quality
       audience: ["qa_lead", "client_pm", "delivery_manager"]
       channel: "written report"
@@ -372,7 +372,7 @@ reporting:
       content: ["defect profile", "test progress per level", "coverage on money modules",
                 "parallel-run reconciliation status", "escaped defects", "SOX evidence status",
                 "what the numbers predict"]
-      path: "pm/reports/quality"
+      path: "pm/12.reports/quality"
   data_sources:
     progress: "Linear (PLT project)"
     effort: "not tracked per person; cost derived from team size and elapsed time"
@@ -380,13 +380,13 @@ reporting:
     test_results: "CI artifacts and the reconciliation report"
     build: "GitHub Actions"
   distribution_list: ["client_pm", "sponsor", "delivery_manager", "qa_lead"]
-  meeting_minutes: "pm/meetings"
-  action_item_log: "pm/registers/action-log.md"
+  meeting_minutes: "pm/09.meetings"
+  action_item_log: "pm/10.registers/action-log.md"
 
 change_control:
   id_format: "CR-{NNN}"
-  register: "pm/changes/change-register.md"
-  request_dir: "pm/changes"
+  register: "pm/11.changes/change-register.md"
+  request_dir: "pm/11.changes"
   impact_dimensions: ["scope", "schedule", "cost", "quality", "risk", "resource",
                       "dependencies", "test", "documentation", "compliance"]
   min_options: 2
@@ -403,8 +403,8 @@ change_control:
             "CR-QUALITY", "CR-PROCESS", "CR-CLARIFY"]
 
 resource:
-  plan_path: "pm/resource/staffing-plan.md"
-  raci_path: "pm/resource/raci.md"
+  plan_path: "pm/08.resource/staffing-plan.md"
+  raci_path: "pm/08.resource/raci.md"
   roles:
     - role: "Engineer"
       count: 5
@@ -420,20 +420,20 @@ resource:
       end: "2026-09-30"
       location: "US"
       skills_required: ["data reconciliation", "test automation"]
-  onboarding_checklist: "pm/resource/onboarding.md"
+  onboarding_checklist: "pm/08.resource/onboarding.md"
   max_planned_allocation_percent: 80
   key_person_risk: "billing domain knowledge sits with one engineer — RSK-003, pairing mandated"
   subcontract:
     used: false
     parties: []
     sla_ref: ""
-  utilisation_report: "pm/reports/monthly"
+  utilisation_report: "pm/12.reports/monthly"
 
 closing:
-  acceptance_record: "pm/closing/acceptance-record.md"
-  final_report: "pm/closing/final-report.md"
-  lessons_learned: "pm/closing/lessons-learned.md"
-  archive_root: "pm/closing/archive"
+  acceptance_record: "pm/13.closing/acceptance-record.md"
+  final_report: "pm/13.closing/final-report.md"
+  lessons_learned: "pm/13.closing/lessons-learned.md"
+  archive_root: "pm/13.closing/archive"
   handover:
     items: ["runbook", "on-call playbook and alert definitions", "reconciliation procedure",
             "known issues and workarounds", "legacy decommission plan",
@@ -443,32 +443,32 @@ closing:
     final_invoice_condition: "n/a (internal)"
     warranty_period: "60 days of engineering hypercare after cutover"
     retained_obligations: ["hypercare support", "legacy engine decommission", "SOX evidence pack"]
-  resource_release: "pm/closing/resource-release.md"
+  resource_release: "pm/13.closing/resource-release.md"
   post_implementation_review_after_days: 30
 
 paths:
   pm_root: "pm"
-  charter: "pm/charter/project-charter.md"
-  plan_root: "pm/plan"
-  project_management_plan: "pm/plan/project-management-plan.md"
-  scope_statement: "pm/scope/scope-statement.md"
-  scope_baseline: "pm/scope/scope-baseline.md"
-  wbs: "pm/scope/wbs.xlsx"
-  wbs_dictionary: "pm/scope/wbs.xlsx"
-  schedule_root: "pm/schedule"
-  cost_root: "pm/cost"
-  estimate: "pm/cost/estimate.md"
-  process_root: "pm/process"
-  quality_root: "pm/quality"
-  risk_root: "pm/registers"
-  reports_root: "pm/reports"
-  changes_root: "pm/changes"
-  resource_root: "pm/resource"
-  meetings: "pm/meetings"
-  closing_root: "pm/closing"
-  registers: "pm/registers"
-  decision_log: "pm/registers/decision-log.md"
-  status_data: "pm/reports/_data"
+  charter: "pm/01.charter/project-charter.md"
+  plan_root: "pm/02.plan"
+  project_management_plan: "pm/02.plan/project-management-plan.md"
+  scope_statement: "pm/03.scope/scope-statement.md"
+  scope_baseline: "pm/03.scope/scope-baseline.md"
+  wbs: "pm/03.scope/wbs.xlsx"
+  wbs_dictionary: "pm/03.scope/wbs.xlsx"
+  schedule_root: "pm/04.schedule"
+  cost_root: "pm/05.cost"
+  estimate: "pm/05.cost/estimate.md"
+  process_root: "pm/07.process"
+  quality_root: "pm/06.quality"
+  risk_root: "pm/10.registers"
+  reports_root: "pm/12.reports"
+  changes_root: "pm/11.changes"
+  resource_root: "pm/08.resource"
+  meetings: "pm/09.meetings"
+  closing_root: "pm/13.closing"
+  registers: "pm/10.registers"
+  decision_log: "pm/10.registers/decision-log.md"
+  status_data: "pm/12.reports/_data"
 
 # An internal team that reviews everything in pull requests: Markdown wherever it
 # is allowed, Excel only where a spreadsheet is genuinely the right tool. The WBS
@@ -480,54 +480,54 @@ documents:
   derived_view: true
   registry:
     - artifact: wbs
-      path: "pm/scope/wbs.xlsx"
+      path: "pm/03.scope/wbs.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
       sheets: {wbs: "WBS", dictionary: "WBS Dictionary"}
       dictionary_in_same_workbook: true
     - artifact: wbs_dictionary
-      path: "pm/scope/wbs.xlsx"
+      path: "pm/03.scope/wbs.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
     - artifact: estimate
-      path: "pm/cost/estimate.xlsx"
+      path: "pm/05.cost/estimate.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
     - artifact: cost_baseline
-      path: "pm/cost/cost-baseline.xlsx"
+      path: "pm/05.cost/cost-baseline.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
     - artifact: schedule
-      path: "pm/schedule/schedule.md"      # sprint-level; the tracker holds the detail
+      path: "pm/04.schedule/schedule.md"      # sprint-level; the tracker holds the detail
       format: md
       working: []
       template: ""
     - artifact: risk_register
-      path: "pm/registers/risk-register.csv"
+      path: "pm/10.registers/risk-register.csv"
       format: csv
       working: [md]
       template: ""
     - artifact: charter
-      path: "pm/charter/project-charter.md"
+      path: "pm/01.charter/project-charter.md"
       format: md
       working: []
       template: ""
     - artifact: project_management_plan
-      path: "pm/plan/project-management-plan.md"
+      path: "pm/02.plan/project-management-plan.md"
       format: md
       working: []
       template: ""
     - artifact: scope_statement
-      path: "pm/scope/scope-statement.md"
+      path: "pm/03.scope/scope-statement.md"
       format: md
       working: []
       template: ""
     - artifact: status_report
-      path: "pm/reports"
+      path: "pm/12.reports"
       format: md
       working: []
       template: ""
@@ -537,9 +537,9 @@ baselines:
   change_requires_cr: true
   active_cr_file: ".claude/.active_pm_cr"
   readonly_globs:
-    - "pm/closing/archive/**"
+    - "pm/13.closing/archive/**"
   registered:
-    - path: "pm/charter/project-charter.md"
+    - path: "pm/01.charter/project-charter.md"
       artifact: "charter"
       version: "1.0"
       approved_by: "VP Revenue Operations"

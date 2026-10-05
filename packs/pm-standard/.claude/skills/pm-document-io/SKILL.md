@@ -192,11 +192,11 @@ Scratch and derived files are one careless copy away from being sent to a client
 opens with a stamp:
 
 ```
-> DRAFT — working file for pm/scope/wbs.xlsx. Not a deliverable. Not baselined.
+> DRAFT — working file for pm/03.scope/wbs.xlsx. Not a deliverable. Not baselined.
 ```
 
 ```
-> GENERATED from pm/scope/wbs.xlsx v1.2 on 2026/09/15. Do not edit — edit the workbook.
+> GENERATED from pm/03.scope/wbs.xlsx v1.2 on 2026/09/15. Do not edit — edit the workbook.
 ```
 
 The version in an export stamp is what DIO-W checks before regenerating. A working file with

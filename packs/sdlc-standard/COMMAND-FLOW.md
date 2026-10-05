@@ -356,7 +356,7 @@ P2 on a real project, from nothing to a passed gate:
         ↓  new session
 /sdlc-review-design SL0030PG                   read-only agent, no shared context
         ↓  new session
-/sdlc-refine-skill docs/reviews/...            classify: artifact / skill / hook / checklist
+/sdlc-refine-skill docs/08.reviews/...            classify: artifact / skill / hook / checklist
         ↓  new session
 /sdlc-generate-basic-design screen SL0030PG    regenerate under the changed rule
         ↓

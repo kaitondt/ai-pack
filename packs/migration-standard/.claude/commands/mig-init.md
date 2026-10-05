@@ -59,6 +59,12 @@ List the placeholders you left, so the user knows what is still open.
 Create the directories named by `paths.*` and `paths.bd_categories[].dir`. Create
 `{{profile.paths.traceability}}` with its header row if absent.
 
+The default names carry numeric prefixes so a directory listing follows the migration
+lifecycle instead of the alphabet: under `docs/`, `00.legacy-documents` →
+`01.legacy-captures` → `02.requirements` → `03.design` → `04.detail-design` →
+`05.test-design` → `06.gap` → `07.reviews`; at the repository root, `07.uat-bug` (P7) →
+`08.change-requests` → `09.bug-trace`. Keep the prefixes when a profile renames a directory.
+
 ## Step 5 — Take the templates in, and separate the legacy documents
 
 **The pack ships no deliverable templates.** Say it plainly: every organisation has its own

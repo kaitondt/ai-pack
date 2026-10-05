@@ -132,7 +132,7 @@ scope:
     traceability: "docs/traceability.csv"
     owner: "client_pm"
     change_threshold_requires_cr: "any change to a baselined requirement"
-  assumptions_log: "pm/registers/assumption-log.md"
+  assumptions_log: "pm/10.registers/assumption-log.md"
   constraints:
     - "<schedule, budget, regulatory, technology or resource constraint>"
   dependencies:
@@ -186,8 +186,8 @@ wbs:
 # ---------------------------------------------------------------------------
 schedule:
   method: critical-path            # critical-path | critical-chain | sprint-based
-  baseline_path: "pm/schedule/schedule-baseline.md"
-  working_file: "pm/schedule/schedule.md"
+  baseline_path: "pm/04.schedule/schedule-baseline.md"
+  working_file: "pm/04.schedule/schedule.md"
   tool: "<e.g. MS Project, Jira, spreadsheet>"   # where the live plan lives
   # How physical progress is measured. Percent-complete claimed by the person
   # doing the work is the least reliable option and the most commonly used.
@@ -255,7 +255,7 @@ cost:
   # different money with different approval paths (ES-06).
   contingency_percent: 10
   management_reserve_percent: 5
-  baseline_path: "pm/cost/cost-baseline.md"
+  baseline_path: "pm/05.cost/cost-baseline.md"
   earned_value:
     enabled: true
     # EAC formula. "budget-rate" assumes remaining work runs at plan;
@@ -275,7 +275,7 @@ process:
   lifecycle: "<e.g. iterative waterfall with 3 releases>"
   standard_ref: "<organisational process standard, e.g. ISO 9001 QMS, CMMI L3>"
   # Tailoring is legitimate; undocumented tailoring is an audit finding (PR-02).
-  tailoring_record: "pm/process/tailoring.md"
+  tailoring_record: "pm/07.process/tailoring.md"
   # Which technical pack drives the engineering process. Leave blank to detect.
   development_process_ref: "<path to the SDLC/migration process definition>"
   # QA builds the process so defects are prevented and checks the process is
@@ -286,19 +286,19 @@ process:
     activities: ["process audit", "peer-review compliance check", "metrics review",
                  "gate review", "corrective action tracking"]
     audit_cadence: "monthly"
-    audit_record: "pm/quality/audits"
+    audit_record: "pm/06.quality/audits"
   qc:
     activities: ["document review", "code review", "unit test", "integration test",
                  "system test", "UAT support"]
-    entry_exit_criteria_ref: "pm/quality/quality-plan.md"
-  process_assets: "pm/process/assets"        # templates, checklists, standards
+    entry_exit_criteria_ref: "pm/06.quality/quality-plan.md"
+  process_assets: "pm/07.process/assets"        # templates, checklists, standards
   definition_of_done:
     - "code reviewed and merged"
     - "unit tests pass and coverage target met"
     - "design document updated"
     - "test case updated and executed"
     - "traceability row updated"
-  corrective_actions: "pm/registers/capa-log.md"
+  corrective_actions: "pm/10.registers/capa-log.md"
 
 # ---------------------------------------------------------------------------
 # QUALITY - quality objectives, the master test plan and what gets measured.
@@ -306,8 +306,8 @@ process:
 # quality.targets - /pm-sync-technical checks that they do.
 # ---------------------------------------------------------------------------
 quality:
-  plan_path: "pm/quality/quality-plan.md"
-  test_plan_path: "pm/quality/master-test-plan.md"
+  plan_path: "pm/06.quality/quality-plan.md"
+  test_plan_path: "pm/06.quality/master-test-plan.md"
   objectives:
     - attribute: "functional correctness"
       target: "zero open Critical/High defects at acceptance"
@@ -369,8 +369,8 @@ quality:
 # happened. They live in different registers and are managed differently (RK-01).
 # ---------------------------------------------------------------------------
 risk:
-  register: "pm/registers/risk-register.md"
-  issue_log: "pm/registers/issue-log.md"
+  register: "pm/10.registers/risk-register.md"
+  issue_log: "pm/10.registers/issue-log.md"
   categories: ["scope", "schedule", "cost", "quality", "resource", "technical",
                "external-dependency", "client", "contractual", "security", "compliance"]
   probability_scale:               # keep to 5 levels with numeric anchors
@@ -393,7 +393,7 @@ risk:
   review_cadence: "weekly for high, monthly for the full register"
   # A risk that materialises becomes an issue and draws on contingency. The
   # drawdown is recorded, so the remaining reserve balance is always known.
-  contingency_drawdown_log: "pm/cost/contingency-drawdown.md"
+  contingency_drawdown_log: "pm/05.cost/contingency-drawdown.md"
   escalate_above_exposure: 15
   issue_sla_hours: {S1: 4, S2: 24, S3: 72, S4: "next cycle"}
 
@@ -401,7 +401,7 @@ risk:
 # REPORTING - cadence, audience, content, evidence. One entry per report.
 # ---------------------------------------------------------------------------
 reporting:
-  root: "pm/reports"
+  root: "pm/12.reports"
   rag_definitions:
     green: "on plan, or recoverable inside the buffer without a decision"
     amber: "a decision or an action is needed to stay on plan; named and dated"
@@ -414,7 +414,7 @@ reporting:
       content: ["yesterday done", "today planned", "blockers with owner and age",
                 "defect inflow", "nothing else"]
       max_length: "one screen"
-      path: "pm/reports/daily"
+      path: "pm/12.reports/daily"
     - id: weekly
       audience: ["client_pm", "delivery_manager", "project_manager"]
       channel: "written report plus a 30-minute call"
@@ -423,7 +423,7 @@ reporting:
                 "completed and planned work packages", "top 5 risks and issues with owners",
                 "decisions needed from the client, with a by-date", "change requests in flight",
                 "quality snapshot", "resource changes"]
-      path: "pm/reports/weekly"
+      path: "pm/12.reports/weekly"
     - id: monthly
       audience: ["sponsor", "steering_committee", "client_pm"]
       channel: "report plus steering meeting"
@@ -432,7 +432,7 @@ reporting:
                 "milestone and deliverable status", "quality report", "risk profile change",
                 "change requests approved and their baseline impact",
                 "resource utilisation", "decisions needed", "forecast to completion"]
-      path: "pm/reports/monthly"
+      path: "pm/12.reports/monthly"
     - id: quarterly
       audience: ["sponsor", "steering_committee"]
       channel: "business review"
@@ -440,7 +440,7 @@ reporting:
       content: ["business objective attainment vs the charter", "financial performance",
                 "baseline history and re-baseline rationale", "risk outlook",
                 "process and quality trend", "lessons applied so far", "next-quarter plan"]
-      path: "pm/reports/quarterly"
+      path: "pm/12.reports/quarterly"
     - id: quality
       audience: ["qa_lead", "client_pm", "delivery_manager"]
       channel: "written report"
@@ -449,7 +449,7 @@ reporting:
                 "phase containment matrix", "test progress and pass rate per level",
                 "coverage", "escaped defects", "defect S-curve shape",
                 "audit findings and corrective actions", "what the numbers predict"]
-      path: "pm/reports/quality"
+      path: "pm/12.reports/quality"
   # Where the numbers come from. A report assembled from memory, or from the
   # previous report figures, is forbidden (RI-02).
   data_sources:
@@ -459,8 +459,8 @@ reporting:
     test_results: "<test management / results directory>"
     build: "<CI system>"
   distribution_list: ["client_pm", "sponsor", "delivery_manager", "qa_lead"]
-  meeting_minutes: "pm/meetings"
-  action_item_log: "pm/registers/action-log.md"
+  meeting_minutes: "pm/09.meetings"
+  action_item_log: "pm/10.registers/action-log.md"
 
 # ---------------------------------------------------------------------------
 # CHANGE CONTROL - integrated change control over the baselines. This is the
@@ -469,8 +469,8 @@ reporting:
 # ---------------------------------------------------------------------------
 change_control:
   id_format: "CR-{NNN}"
-  register: "pm/changes/change-register.md"
-  request_dir: "pm/changes"
+  register: "pm/11.changes/change-register.md"
+  request_dir: "pm/11.changes"
   # Every CR is assessed on all of these, even when the answer is "no impact".
   # An unassessed dimension is how a change lands as a surprise three weeks later.
   impact_dimensions: ["scope", "schedule", "cost", "quality", "risk", "resource",
@@ -497,8 +497,8 @@ change_control:
 # RESOURCE - the team, its ramp, and the responsibility assignment.
 # ---------------------------------------------------------------------------
 resource:
-  plan_path: "pm/resource/staffing-plan.md"
-  raci_path: "pm/resource/raci.md"
+  plan_path: "pm/08.resource/staffing-plan.md"
+  raci_path: "pm/08.resource/raci.md"
   roles:
     - role: "<role>"
       count: 1
@@ -507,7 +507,7 @@ resource:
       end: "YYYY-MM-DD"
       location: "<location>"
       skills_required: ["<skill>"]
-  onboarding_checklist: "pm/resource/onboarding.md"
+  onboarding_checklist: "pm/08.resource/onboarding.md"
   # Planning at 100% allocation leaves no capacity for defects, support or
   # absence, and is the second most common cause of an unachievable plan.
   max_planned_allocation_percent: 85
@@ -516,17 +516,17 @@ resource:
     used: false
     parties: []
     sla_ref: ""
-  utilisation_report: "pm/reports/monthly"
+  utilisation_report: "pm/12.reports/monthly"
 
 # ---------------------------------------------------------------------------
 # CLOSING - what has to be true before the project is closed, and what the
 # organisation keeps afterwards.
 # ---------------------------------------------------------------------------
 closing:
-  acceptance_record: "pm/closing/acceptance-record.md"
-  final_report: "pm/closing/final-report.md"
-  lessons_learned: "pm/closing/lessons-learned.md"
-  archive_root: "pm/closing/archive"
+  acceptance_record: "pm/13.closing/acceptance-record.md"
+  final_report: "pm/13.closing/final-report.md"
+  lessons_learned: "pm/13.closing/lessons-learned.md"
+  archive_root: "pm/13.closing/archive"
   handover:
     items: ["source and build pipeline", "deployment runbook", "operations manual",
             "known issues and workarounds", "support contacts and escalation",
@@ -536,7 +536,7 @@ closing:
     final_invoice_condition: "acceptance recorded and signed"
     warranty_period: "<e.g. 3 months after acceptance>"
     retained_obligations: ["warranty defect fixing", "knowledge transfer sessions"]
-  resource_release: "pm/closing/resource-release.md"
+  resource_release: "pm/13.closing/resource-release.md"
   # An unreleased resource is still being billed somewhere. A project that is
   # finished but has not released its team has not finished (CL-06).
   post_implementation_review_after_days: 30
@@ -546,27 +546,27 @@ closing:
 # ---------------------------------------------------------------------------
 paths:
   pm_root: "pm"
-  charter: "pm/charter/project-charter.md"
-  plan_root: "pm/plan"
-  project_management_plan: "pm/plan/project-management-plan.md"
-  scope_statement: "pm/scope/scope-statement.md"
-  scope_baseline: "pm/scope/scope-baseline.md"
-  wbs: "pm/scope/wbs.xlsx"                     # Excel is mandatory - see documents.binary_final
-  wbs_dictionary: "pm/scope/wbs.xlsx"           # "WBS Dictionary" sheet of the same workbook
-  schedule_root: "pm/schedule"
-  cost_root: "pm/cost"
-  estimate: "pm/cost/estimate.md"
-  process_root: "pm/process"
-  quality_root: "pm/quality"
-  risk_root: "pm/registers"
-  reports_root: "pm/reports"
-  changes_root: "pm/changes"
-  resource_root: "pm/resource"
-  meetings: "pm/meetings"
-  closing_root: "pm/closing"
-  registers: "pm/registers"
-  decision_log: "pm/registers/decision-log.md"
-  status_data: "pm/reports/_data"      # collected actuals, per reporting period
+  charter: "pm/01.charter/project-charter.md"
+  plan_root: "pm/02.plan"
+  project_management_plan: "pm/02.plan/project-management-plan.md"
+  scope_statement: "pm/03.scope/scope-statement.md"
+  scope_baseline: "pm/03.scope/scope-baseline.md"
+  wbs: "pm/03.scope/wbs.xlsx"                     # Excel is mandatory - see documents.binary_final
+  wbs_dictionary: "pm/03.scope/wbs.xlsx"           # "WBS Dictionary" sheet of the same workbook
+  schedule_root: "pm/04.schedule"
+  cost_root: "pm/05.cost"
+  estimate: "pm/05.cost/estimate.md"
+  process_root: "pm/07.process"
+  quality_root: "pm/06.quality"
+  risk_root: "pm/10.registers"
+  reports_root: "pm/12.reports"
+  changes_root: "pm/11.changes"
+  resource_root: "pm/08.resource"
+  meetings: "pm/09.meetings"
+  closing_root: "pm/13.closing"
+  registers: "pm/10.registers"
+  decision_log: "pm/10.registers/decision-log.md"
+  status_data: "pm/12.reports/_data"      # collected actuals, per reporting period
 
 # ---------------------------------------------------------------------------
 # BASELINES - the register of what is baselined, and the mechanical protection
@@ -605,7 +605,7 @@ documents:
     # The WBS is delivered as Excel. Markdown and CSV are working forms only:
     # they may be used to think, never to deliver, and never to baseline (DIO-W).
     - artifact: wbs
-      path: "pm/scope/wbs.xlsx"
+      path: "pm/03.scope/wbs.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""                 # optional: the client's own WBS form
@@ -618,31 +618,31 @@ documents:
       dictionary_in_same_workbook: true
 
     - artifact: wbs_dictionary
-      path: "pm/scope/wbs.xlsx"    # same workbook, "WBS Dictionary" sheet
+      path: "pm/03.scope/wbs.xlsx"    # same workbook, "WBS Dictionary" sheet
       format: xlsx
       working: [md, csv]
       template: ""
 
     - artifact: estimate
-      path: "pm/cost/estimate.xlsx"
+      path: "pm/05.cost/estimate.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
 
     - artifact: cost_baseline
-      path: "pm/cost/cost-baseline.xlsx"
+      path: "pm/05.cost/cost-baseline.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
 
     - artifact: schedule
-      path: "pm/schedule/schedule.xlsx"
+      path: "pm/04.schedule/schedule.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
 
     - artifact: risk_register
-      path: "pm/registers/risk-register.xlsx"
+      path: "pm/10.registers/risk-register.xlsx"
       format: xlsx
       working: [md, csv]
       template: ""
@@ -650,25 +650,25 @@ documents:
     # Narrative documents. Markdown by default; switch `format` to docx where the
     # client's own form is a Word template and put that template in `template`.
     - artifact: charter
-      path: "pm/charter/project-charter.md"
+      path: "pm/01.charter/project-charter.md"
       format: md
       working: []
       template: ""
 
     - artifact: project_management_plan
-      path: "pm/plan/project-management-plan.md"
+      path: "pm/02.plan/project-management-plan.md"
       format: md
       working: []
       template: ""
 
     - artifact: scope_statement
-      path: "pm/scope/scope-statement.md"
+      path: "pm/03.scope/scope-statement.md"
       format: md
       working: []
       template: ""
 
     - artifact: status_report
-      path: "pm/reports"
+      path: "pm/12.reports"
       format: md
       working: []
       template: ""
@@ -683,7 +683,7 @@ baselines:
   active_cr_file: ".claude/.active_pm_cr"
   # Always denied, change request or not: archived snapshots and generated files.
   readonly_globs:
-    - "pm/closing/archive/**"
+    - "pm/13.closing/archive/**"
     - "pm/**/_baselined/**"
   registered:
     - path: ""
