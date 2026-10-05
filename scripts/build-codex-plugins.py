@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "codex"
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 
@@ -47,8 +47,13 @@ def model_note(text):
     return MODEL_POLICY.sub(lambda m: MODEL_NOTE.format(product=PRODUCT), text)
 
 
+# Codex has no slash commands; a pack command ships as a skill and is invoked as $<name>.
+COMMAND_REF = re.compile(r"(?<![\w/.$-])/((?:sdlc|mig|pm|vibe)-[a-z][a-z-]*)")
+
+
 def codex_text(text: str) -> str:
     """Make filesystem references portable to a Codex project installation."""
+    text = COMMAND_REF.sub(r"$\1", text)
     return model_note(text.replace(".claude", ".codex")
                 .replace("CLAUDE_PROJECT_DIR", "CODEX_PROJECT_DIR")
                 .replace("CLAUDE_PLUGIN_ROOT", "PLUGIN_ROOT")
@@ -70,7 +75,7 @@ def copy_text_tree(source: Path, dest: Path) -> None:
 
 
 def workflow_skill(prefix: str, profile: str, commands: list[str]) -> str:
-    command_list = " · ".join(f"`/{name}`" for name in commands)
+    command_list = " · ".join(f"`${name}`" for name in commands)
     return f'''---
 name: {prefix}-workflow
 description: "Route a {prefix} pack task to the correct lifecycle workflow. Use when the user asks to start, plan, build, test, review, release, report, or assess work governed by this pack."
@@ -78,13 +83,58 @@ description: "Route a {prefix} pack task to the correct lifecycle workflow. Use 
 
 # {prefix} workflow router
 
-1. Read `.codex/{profile}`. If it is missing, stop and ask the user to adopt the pack by copying the profile template from this plugin and its generated `AGENTS.md` into the repository root.
+1. Read `.codex/{profile}`. If it is missing, stop and tell the user to set the pack up with `${prefix}-init`.
 2. Load `{prefix}-project` first, then the phase/area skill it routes to.
-3. Treat legacy slash-command names as workflow aliases, not literal Codex commands. Their source procedures are in `references/commands/`.
+3. Every slash command of the Claude Code build is a skill of the same name here: `/{prefix}-init` is `${prefix}-init`. When the user names a command, with or without `/` or `$`, load that skill and follow it.
 4. Follow the profile, invariant rules, and evidence/reporting requirements; do not invent project values.
 
-Legacy workflow aliases: {command_list}
+Command skills: {command_list}
 '''
+
+
+PLUGIN_NOTE = """
+> **Running as a Codex plugin:** the pack's files are not in this repository's `.codex/` —
+> they live in the plugin directory (`~/.codex/plugins/cache/ai-pack/{name}/<version>/`).
+> Map every "pack" path in this procedure as follows:
+>
+> | Pack path in this procedure | Plugin location |
+> |---|---|
+> | profile template `{profile}` | `<plugin>/templates/profile/{profile}` |
+> | the pack's `AGENTS.md` template | `<plugin>/templates/AGENTS.md` |
+> | `.codex/rules/` | `<plugin>/templates/rules/` — **copy into this project's `.codex/rules/`**. Never overwrite an existing file without asking. |
+> | `.codex/hooks/*.py` | `<plugin>/hooks/` — already registered by the plugin's `hooks.json`; they act once `.codex/{profile}` exists |
+> | `.codex/agents/{prefix}-*.md` | not shipped in the Codex build: where a step delegates to an agent, do that work in this session |
+> | `.codex/skills/` | `<plugin>/skills/`, read-only |
+> | `/{prefix}-<command>` | the skill `${prefix}-<command>` |
+>
+> The profile `.codex/{profile}` and everything the pack generates stay in this project.
+"""
+
+NOTE_TARGETS = ("-init.md", "-profile-check.md", "-refine-skill.md")
+
+
+def split_frontmatter(text: str) -> tuple[dict, str]:
+    m = re.match(r"^---\n(.*?)\n---\n", text, re.DOTALL)
+    if not m:
+        return {}, text
+    meta = {}
+    for line in m.group(1).splitlines():
+        key, sep, value = line.partition(":")
+        if sep:
+            meta[key.strip()] = value.strip()
+    return meta, text[m.end():]
+
+
+def command_skill(path: Path, name: str, prefix: str, profile: str) -> str:
+    """A slash command becomes a skill of the same name, invoked as $<name>."""
+    meta, body = split_frontmatter(path.read_text(encoding="utf-8"))
+    body = codex_text(body).replace("$ARGUMENTS", "the text the user typed after the skill name")
+    if path.name.endswith(NOTE_TARGETS):
+        m = re.match(r"(?:\s*\n)*(#[^\n]*\n)?", body)
+        note = PLUGIN_NOTE.format(name=name, prefix=prefix, profile=profile)
+        body = body[:m.end()] + note + "\n" + body[m.end():]
+    description = codex_text(meta.get("description", f'"{path.stem}"'))
+    return f"---\nname: {path.stem}\ndescription: {description}\n---\n{body}"
 
 
 def hook_launcher(profile: str) -> str:
@@ -161,7 +211,12 @@ def build_pack(name: str, prefix: str, profile: str, description: str, keywords:
         text = skill.read_text(encoding="utf-8")
         skill.write_text(re.sub(r"(?<![\w./-])rules/", ".codex/rules/", text), encoding="utf-8")
     copy_text_tree(source / "rules", dest / "templates" / "rules")
-    copy_text_tree(source / "commands", dest / "references" / "commands")
+    # Codex plugins have no slash commands: each command ships as a skill of the same name.
+    for cmd in sorted((source / "commands").glob("*.md")):
+        target = skills / cmd.stem / "SKILL.md"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        text = command_skill(cmd, name, prefix, profile)
+        target.write_text(re.sub(r"(?<![\w./-])rules/", ".codex/rules/", text), encoding="utf-8")
     copy_text_tree(source / "hooks", dest / "hooks")
     (dest / "hooks" / "run-hook.py").write_text(hook_launcher(profile), encoding="utf-8")
     settings = json.loads((source / "settings.json").read_text(encoding="utf-8"))
@@ -184,7 +239,7 @@ def build_pack(name: str, prefix: str, profile: str, description: str, keywords:
     agents = agents.replace("Generated by", "Template generated by")
     (dest / "templates" / "AGENTS.md").write_text(agents, encoding="utf-8")
     (dest / "README.md").write_text(
-        f"# {name} for Codex\n\nInstall this plugin, copy `templates/profile/{profile}` to `.codex/{profile}` in the target repository, copy `templates/rules/` to `.codex/rules/`, then copy `templates/AGENTS.md` to `AGENTS.md`. Use `${prefix}-workflow` or describe the lifecycle task naturally. The former Claude slash-command procedures remain in `references/commands/` as compatibility documentation.\n",
+        f"# {name} for Codex\n\nInstall this plugin, then run `${prefix}-init` in the target repository: it writes `.codex/{profile}`, copies `templates/rules/` to `.codex/rules/` and generates `AGENTS.md` from `templates/AGENTS.md`. Every slash command of the Claude Code build is a skill of the same name (`/{prefix}-init` is `${prefix}-init`); `${prefix}-workflow` routes a task described in plain words.\n",
         encoding="utf-8")
 
     manifest = {
@@ -312,13 +367,19 @@ what you copied into each project when adopting the plugin:
   Keep your own edits: a local rule change belongs in the pack's source, not only in one project.
 - `AGENTS.md` — regenerate the pack's section only when the release notes say its template
   changed.
-- `.codex/<profile>.yaml` — run the profile check (ask `$<prefix>-workflow` to run
-  `references/commands/<prefix>-profile-check.md`) in a new thread. It reports fields a new release
+- `.codex/<profile>.yaml` — run `$<prefix>-profile-check` in a new thread. It reports fields a new release
   added or renamed; fill them in and run it again until it is clean.
 
 ## Adopt a plugin in a project
 
-Copy the selected plugin's `templates/profile/<profile>.yaml` to `.codex/`, copy `templates/rules/` to `.codex/rules/`, and copy `templates/AGENTS.md` to the repository's `AGENTS.md`. Then invoke the `<prefix>-workflow` skill (or describe the task normally).
+In the project, start a thread and run `$<prefix>-init` (e.g. `$vibe-init`). It writes the profile to
+`.codex/<profile>.yaml`, copies the plugin's `templates/rules/` into `.codex/rules/`, and generates
+`AGENTS.md` from `templates/AGENTS.md`. The guard hooks only act in a repository that has
+`.codex/<profile>.yaml`.
+
+Codex plugins have no slash commands, so every command of the Claude Code build ships as a skill
+of the same name: `/sdlc-init` is `$sdlc-init`, `/pm-wbs` is `$pm-wbs`. Type `$` to pick one, or
+describe the task and let `$<prefix>-workflow` route it.
 
 ## Choosing the model and effort
 
