@@ -138,6 +138,20 @@ what `/<prefix>-init` copied into each project:
 - `.claude/<profile>.yaml` — run `/<prefix>-profile-check` in a new session after the restart. It reports fields a new release
   added or renamed; fill them in and run it again until it is clean.
 
+### Upgrading a project to 2.2.1
+
+2.2.1 moves the record directories that 2.2.0 scaffolded at the repository root into `docs/`, so
+every deliverable sits under one tree: sdlc `08.uat` → `docs/09.uat`, `09.maintenance` →
+`docs/10.maintenance`, `10.change-requests` → `docs/11.change-requests`, `11.bug-trace` →
+`docs/12.bug-trace`; migration `07.uat-bug` → `docs/08.uat-bug`, `08.change-requests` →
+`docs/09.change-requests`, `09.bug-trace` → `docs/10.bug-trace`.
+
+As with 2.2, an existing project keeps its profile paths and works unchanged. To adopt the new
+layout, `git mv` each directory, update `paths.uat`, `paths.maintenance`,
+`paths.change_requests`, `paths.bug_traces` (migration: `paths.uat_reports`) and any other key
+that holds one of those paths (`language.bindings`, the UAT plan, the knowledge base), then run
+`/<prefix>-profile-check`.
+
 ### Upgrading a project to 2.2
 
 2.2.0 gives the directories `/<prefix>-init` scaffolds **numeric prefixes**, so a listing follows

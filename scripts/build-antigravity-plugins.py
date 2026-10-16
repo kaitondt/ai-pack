@@ -27,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "antigravity"
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 README_SOURCE = ROOT / "scripts" / "readme" / "antigravity.md"
 
 PACKS = [

@@ -56,7 +56,7 @@ explicit written client decision). Record the CR id in the ancestor position of 
 with the report path in `note`:
 
 ```csv
-CR-014,REQ-RCV-031,KK0030PG-SC-001,DD-KK0030PG-003,ReceivingGrid.tsx#columns,"UT-KK0030PG-014",done,08.change-requests/CR-014_KK0030PG_remarks-column.md
+CR-014,REQ-RCV-031,KK0030PG-SC-001,DD-KK0030PG-003,ReceivingGrid.tsx#columns,"UT-KK0030PG-014",done,docs/09.change-requests/CR-014_KK0030PG_remarks-column.md
 ```
 
 Without that row the artifact is an upward orphan, and correctly so: an unrecorded CR is

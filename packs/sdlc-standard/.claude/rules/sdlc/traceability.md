@@ -63,7 +63,7 @@ has no `BR-*` by construction. Record the CR id in the ancestor position, with t
 path in `note`:
 
 ```csv
-CR-014,REQ-ORD-031,SL0030PG-SC-001,SL0030PG-DD-003,OrderGrid.tsx#columns,"UT-SL0030PG-014",done,10.change-requests/CR-014_order-remarks-column.md
+CR-014,REQ-ORD-031,SL0030PG-SC-001,SL0030PG-DD-003,OrderGrid.tsx#columns,"UT-SL0030PG-014",done,docs/11.change-requests/CR-014_order-remarks-column.md
 ```
 
 Without that row the artifact is an upward orphan, and correctly so: an unrecorded CR is

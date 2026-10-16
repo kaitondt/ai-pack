@@ -169,9 +169,9 @@ paths:
   test_design: "docs/05.test-design"
   reviews: "docs/07.reviews"
   gap_reports: "docs/06.gap"
-  uat_reports: "docs/uat"
-  change_requests: "docs/change-requests"
-  bug_traces: "docs/bug-trace"
+  uat_reports: "docs/08.uat-bug"
+  change_requests: "docs/09.change-requests"
+  bug_traces: "docs/10.bug-trace"
   traceability: "docs/traceability.csv"
   bd_categories:
     - key: architecture

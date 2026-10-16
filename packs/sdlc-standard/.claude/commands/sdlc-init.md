@@ -61,9 +61,9 @@ Create the directories named by `paths.*` and `paths.bd_categories[].dir`.
 The default names carry numeric prefixes so a directory listing follows the development
 lifecycle instead of the alphabet: under `docs/`, `00.inception` → `01.requirements` →
 `02.basic-design` → `03.detail-design` → `04.test-design` → `05.drift` → `06.metrics` →
-`07.operations` → `08.reviews`; at the repository root, `08.uat` (P8) → `09.maintenance`
-(P9) → `10.change-requests` → `11.bug-trace`. Keep the prefixes when a profile renames a
-directory.
+`07.operations` → `08.reviews` → `09.uat` (P8) → `10.maintenance` (P9) →
+`11.change-requests` → `12.bug-trace`. Every deliverable lives under `docs/`; nothing is
+scaffolded at the repository root. Keep the prefixes when a profile renames a directory.
 
 Create, with their header rows if absent:
 

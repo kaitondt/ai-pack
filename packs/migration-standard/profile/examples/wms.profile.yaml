@@ -175,9 +175,9 @@ paths:
   test_design: "src/wms/docs/deliverables_jp/09.テスト設計"
   reviews: "src/wms/docs/checklists"
   gap_reports: "src/wms/docs/06.gap"
-  uat_reports: "07.uat-bug"
+  uat_reports: "src/wms/docs/08.uat-bug"
   change_requests: "change-request"
-  bug_traces: "09.bug-trace"
+  bug_traces: "src/wms/docs/10.bug-trace"
   traceability: "src/wms/docs/traceability.csv"
   bd_categories:
     - key: architecture
@@ -213,11 +213,11 @@ language:
       lang: ja
     - path: "src/wms/docs/deliverables/**"
       lang: vi
-    - path: "07.uat-bug/**"
+    - path: "src/wms/docs/08.uat-bug/**"
       lang: vi
     - path: "change-request/**"
       lang: vi
-    - path: "09.bug-trace/**"
+    - path: "src/wms/docs/10.bug-trace/**"
       lang: vi
   immutable_tokens:
     - "screen IDs"

@@ -231,9 +231,9 @@ paths:
   test_design: "docs/05.test-design"
   reviews: "docs/07.reviews"
   gap_reports: "docs/06.gap"
-  uat_reports: "07.uat-bug"
-  change_requests: "08.change-requests"
-  bug_traces: "09.bug-trace"          # per-bug traceability dossiers + bug-trace-register.csv
+  uat_reports: "docs/08.uat-bug"
+  change_requests: "docs/09.change-requests"
+  bug_traces: "docs/10.bug-trace"          # per-bug traceability dossiers + bug-trace-register.csv
   traceability: "docs/traceability.csv"
   # Basic-design categories, in generation order. Rename freely per project.
   bd_categories:

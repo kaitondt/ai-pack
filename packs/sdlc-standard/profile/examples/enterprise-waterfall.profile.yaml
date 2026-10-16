@@ -118,10 +118,10 @@ paths:
   test_design: "docs/04.テスト設計"
   reviews: "docs/レビュー記録"
   drift_reports: "docs/差異報告"
-  uat: "08.uat"
-  maintenance: "09.maintenance"
-  change_requests: "10.change-requests"
-  bug_traces: "11.bug-trace"
+  uat: "docs/09.uat"
+  maintenance: "docs/10.maintenance"
+  change_requests: "docs/11.change-requests"
+  bug_traces: "docs/12.bug-trace"
   traceability: "docs/traceability.csv"
   decision_log: "docs/00.企画/決定事項一覧.md"
   assumption_log: "docs/00.企画/前提条件一覧.md"
@@ -146,10 +146,10 @@ language:
   by_path:
     - {path: "docs/**", lang: ja}
     - {path: "docs_vn/**", lang: vi}      # working copies, not deliverables
-    - {path: "08.uat/**", lang: ja}
-    - {path: "10.change-requests/**", lang: vi}
-    - {path: "09.maintenance/**", lang: vi}
-    - {path: "11.bug-trace/**", lang: ja}    # 混入原因・流出原因 analyses are submitted to the client
+    - {path: "docs/09.uat/**", lang: ja}
+    - {path: "docs/11.change-requests/**", lang: vi}
+    - {path: "docs/10.maintenance/**", lang: vi}
+    - {path: "docs/12.bug-trace/**", lang: ja}    # 混入原因・流出原因 analyses are submitted to the client
   immutable_tokens:
     - "module IDs"
     - "document IDs"
@@ -434,7 +434,7 @@ testing:
     step_subdir: "Step"
     it_plan: "test/it-plan"
     st_plan: "test/st-plan"
-    uat_plan: "08.uat/plan"
+    uat_plan: "docs/09.uat/plan"
     automation_root: "test/automation"
     evidence_root: "test/evidence"
     results_root: "test/results"
@@ -512,4 +512,4 @@ maintenance:
     retro_documentation_days: 5
   rca_required_for: [S1, S2]
   regression_test_required: true
-  knowledge_base: "09.maintenance/knowledge-base.md"
+  knowledge_base: "docs/10.maintenance/knowledge-base.md"
