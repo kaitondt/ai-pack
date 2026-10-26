@@ -1,6 +1,6 @@
 ---
 name: sdlc-test-automation
-description: "Convert manual test cases into automated scripts following the repository's existing conventions — spec/page-object/data/fixture layout, no hardcoded transactional data, per-surface variants, locator strategy, CI integration and flake policy. Load for ALL test script generation tasks."
+description: "Convert manual test cases into automated scripts following the repository's existing conventions — spec/page-object/data/fixture layout, no hardcoded transactional data, per-surface variants, locator strategy, what a script may not do (mock the system under test, skip silently, under-assert), one-to-one TC reconciliation counted by the runner, CI integration, flake policy, fix-or-report healing and incremental sync when cases change. Load for ALL test script generation and maintenance tasks."
 ---
 
 # Test Automation — manual cases to scripts
@@ -112,7 +112,37 @@ and that defect is always the expensive one.
 
 ---
 
-## Step 7 — CI integration
+## Step 7 — What a script may not do
+
+A script that does any of these passes without testing what its case tests. Each is a
+Critical finding in `/sdlc-review-testcase script`.
+
+- **Mock the system under test.** At IT, ST and UAT level the application, its API and its
+  database are real. Only systems outside the scope boundary (`{{profile.scope.external_systems}}`)
+  may be stubbed, each stub declared in the fixture with the reason. At UT level the unit's
+  own collaborators may be mocked — never the unit.
+- **Skip silently.** No `skip`, `fixme`, `xit`, `@Disabled` or commented-out test without a
+  defect or ticket id and an owner in the reason. A skipped test is reported as not run, never
+  as passed.
+- **Assert less than the case.** Every expected result in the case is asserted — the screen
+  state, the message text by MSG-ID, the navigation, **and the persisted state** when the case
+  expects data to change. A case that says "the order is saved with status 2" is not covered by
+  a test that checks for the success toast. Read back through the API or the data-access client
+  (`{{profile.testing.automation.layout.db_client}}`) and compare.
+- **Change an expected value to make a test pass.** Expected values come from the case, which
+  comes from the specification. A mismatch is triaged (Step 10), never resolved by editing the
+  expectation to what the application returned.
+- **Depend on order or on another test.** Each test creates what it needs and cleans up after.
+- **Wait on time.** Waits are on state (Step 6).
+
+One case, one test. A case with several expected results is still one test with several
+assertions — or, where the framework supports it, one test with named steps. Merging several
+cases into one test, or splitting one case into several tests, breaks the count in Step 9
+and the result carry-forward between rounds (`sdlc-test-artifact-lifecycle`).
+
+---
+
+## Step 8 — CI integration
 
 - The suite runs on every merge to the integration branch, and before every release build.
 - Split by duration: a fast smoke suite gates merges; the full suite runs on a schedule.
@@ -123,7 +153,26 @@ and that defect is always the expensive one.
 
 ---
 
-## Step 8 — Verify and report
+## Step 9 — Reconcile, verify and report
+
+Every generated test names the manual TC ID it implements, where
+`{{profile.testing.automation.tc_id_in}}` says (title prefix, tag or annotation) — exactly one
+TC ID per test. Without it, coverage cannot be reconciled and a failing test cannot be
+triaged.
+
+**Count with the runner, never with grep.** Run `{{profile.testing.automation.list_command}}`
+and extract the TC IDs from its output. A text search over the spec files miscounts in both
+directions: it counts `test.step` and helper calls as tests, and it misses every test generated
+by a loop or a parameter table — which in a data-driven suite is most of them.
+
+Then reconcile against the manual cases (the automatable ones):
+
+| Bucket | Meaning | Action |
+|---|---|---|
+| matched | case has exactly one test | — |
+| case without test | coverage gap | automate it, or record why it is not automatable |
+| test without case | untraceable test | find its case, or delete it — automation does not decide what to test |
+| duplicate | one TC ID in several tests, or several in one | split or merge until one-to-one |
 
 Run the generated tests. Report real output.
 
@@ -132,9 +181,46 @@ Automation — {module or flow}
   Cases automated  : {n}/{n manual}   not automatable: {n} ({why})
   Files            : specs {n}, page objects {n}, data {n}
   Data-driven      : {n} searches derived from created or read records
-  Run              : {passed}/{total}   flaky {n} (quarantined {n})
-  Traceability     : every spec names its TC ID: {yes|no}
+  Reconciliation   : runner lists {n} tests · matched {n} · case without test {n} ·
+                     test without case {n} · duplicates {n}
+  Run              : {passed}/{total}   skipped {n} (each with a ticket)   flaky {n} (quarantined {n})
+  Persisted state  : {n}/{n} cases that change data assert it after the action
 ```
 
-Every generated test names the manual TC ID it implements — in the test title or a tag.
-Without it, coverage cannot be reconciled and a failing test cannot be triaged.
+A reconciliation that is not one-to-one is reported as such, with the IDs — never rounded to
+"all cases automated".
+
+---
+
+## Step 10 — When a script goes red: fix the test, or report the product
+
+Classify **before** touching anything, with the decision tree in `sdlc-defect-management` §4.
+Then act by class:
+
+| Root cause | Example | Action |
+|---|---|---|
+| Script defect | stale locator, wrong page object method, wait on time, data hardcoded and drifted | fix the script; name the file and line |
+| Specification text changed | the message catalogue entry for a MSG-ID was revised through a CR | update the data file from the **catalogue**, by MSG-ID — never copy the text from the screen |
+| Environment or data | expired account, missing seed, service down, token not refreshed | fix the fixture or the environment; re-run; never edit an assertion |
+| Product defect | expected value from the case is not what the application does | report it with the case's anchor (`/sdlc-triage-defects`); the test stays red |
+
+Never make a red test green by weakening it: no added `skip`, no loosened assertion, no
+broadened locator that now matches something else, no retry. A test healed into green over a
+real defect is the most expensive line in the suite. Bound the healing: after three attempts
+on the same test without a confirmed root cause, stop and report it as NEEDS-REVIEW.
+
+---
+
+## Step 11 — When the manual cases change
+
+Test cases change between rounds — a review correction, a CR, or a reviewer's edit in the
+delivered workbook imported back under `sdlc-document-io` DIO-09. Update the suite
+**incrementally**:
+
+1. Diff the cases by TC ID: added, changed (steps, data or expected result), removed.
+2. Generate tests for the added IDs; regenerate only the changed IDs; delete the tests of the
+   removed IDs. Tests whose case did not change are not touched — not even reformatted.
+3. Re-run the reconciliation in Step 9 and report the diff with the result.
+
+Regenerating the whole suite for a three-case change rewrites every hand-tuned locator and
+fixture in it, and turns a reviewable diff into an unreviewable one.

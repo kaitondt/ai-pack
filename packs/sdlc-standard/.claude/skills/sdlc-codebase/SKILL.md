@@ -142,6 +142,11 @@ command runs clean against the empty skeleton:
   is how "passes locally, fails in CI" starts.
 - A command the stack has no use for (no typecheck in a dynamically typed stack) is set to
   an explicit `"n/a — <reason>"`, not left as a placeholder and not deleted.
+- **Fill `{{profile.system.build.on_edit}}` from the same tools**: one entry per formatter
+  and linter, scoped by glob to the sources it owns, running on the single edited file
+  (`{file}` / `{rel}`), formatter before linter. Time each command on one file — an entry
+  slower than ~10s is a whole-project command in disguise and stalls every edit. Linters the
+  client standard makes mandatory are `blocking: true`; formatters are `blocking: false`.
 
 ## CB-07 — Tests have somewhere to go from day one
 
@@ -184,9 +189,14 @@ If §3 or a `DEC-*` says client types, API stubs or ORM models are generated:
 ## CB-10 — Tooling is the repository's, not the author's
 
 Formatter and linter configuration, `.editorconfig`, `.gitignore`, `.gitattributes` with the
-line-ending policy, the language `rules/<lang>/` settings where they exist. Configure them
-**strictly and from the start** — turning a rule on later means a commit that touches every
-file and hides every real change behind it.
+line-ending policy, and the settings the stack rules ask for (`rules/java/`,
+`rules/typescript/`, `rules/react/`, `rules/sql/` — compiler strictness, Checkstyle or ESLint
+rule sets). Configure them **strictly and from the start** — turning a rule on later means a
+commit that touches every file and hides every real change behind it.
+
+Where `{{profile.system.coding_standards}}` registers a client standard with an
+`enforced_by` tool, that tool's configuration is the client's form of the standard: commit it
+as supplied, and never weaken it to make the skeleton pass.
 
 A root `README.md` for developers: prerequisites with versions, the setup steps, the build
 commands from CB-06, where things live. It is checked by running it on a clean clone, not

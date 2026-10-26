@@ -17,7 +17,7 @@ must be true *every* time belongs in a hook, not only in a skill.
 | SessionStart | — | `check-profile-loaded.py` — fail fast when the profile is missing or unresolved |
 | PreToolUse | `Write\|Edit` | `guard-protected-paths.py` — deny edits to generated files and baselined documents without a CR (`BL-02`, `BL-07`) |
 | PreToolUse | `Write\|Edit` | `check-doc-rules.py` — surface the document rules for the deliverable being written |
-| PostToolUse | `Write\|Edit` | formatter, then linter, then incremental type-check |
+| PostToolUse | `Write\|Edit` | `format-on-edit.py` — runs `{{profile.system.build.on_edit}}`: the repository's formatter, then its linter, on the edited file only |
 | Stop | — | build verification |
 
 Ordering, when several run on the same event: format → lint → type-check → build.

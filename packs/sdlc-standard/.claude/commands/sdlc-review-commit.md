@@ -8,8 +8,10 @@ description: "Review the staged or current diff against the design documents, th
 
 ## Step 1 — Load
 
-`sdlc-project`, then `sdlc-review-framework`, then `sdlc-implementation` and the language
-rules under `rules/`.
+`sdlc-project`, then `sdlc-review-framework`, then `sdlc-implementation` and the stack
+rules for the files in the diff (`rules/java/`, `rules/typescript/`, `rules/react/`,
+`rules/sql/`), plus the client coding-standard digest named in
+`{{profile.system.coding_standards}}` — the client's standard wins where they differ.
 
 ## Step 2 — Establish what the diff is supposed to do
 
@@ -28,8 +30,9 @@ for style.
 | 5 | Concurrency | async triggers locked, idempotency where the design states it |
 | 6 | Data | precision, scale, null handling and time zone as the data design specifies |
 | 7 | Tests | expectations sourced from the design, not from the implementation; the changed rules have cases |
-| 8 | Hygiene | naming per the glossary, no commented-out code, no debug output, no `.only` left in a test |
-| 9 | Traceability | the register updated with the code references |
+| 8 | Stack conventions | each touched stack rule file's review checklist (`JV-*`, `TS-*`, `RX-*`, `SQ-*`) and the client standard; run the repository's linter on the changed files and cite its output rather than restating it |
+| 9 | Hygiene | naming per the glossary, no commented-out code, no debug output, no `.only` left in a test |
+| 10 | Traceability | the register updated with the code references |
 
 Item 2 is the one a normal code review misses, because the code looks *better* for having
 it. Check the diff against the design item list, not against your judgement of what the

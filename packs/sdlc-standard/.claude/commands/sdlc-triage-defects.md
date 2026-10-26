@@ -1,5 +1,5 @@
 ---
-description: "Classify a test run's failures into product defect, script error, needs-review and infrastructure, group them by root cause, and produce the triage report. Usage: /sdlc-triage-defects [results path or run id]"
+description: "Classify a test run's failures into product defect, script error, needs-review and infrastructure, group them by root cause, and produce the triage report — plus, with bug-list, the client-facing bug list. Usage: /sdlc-triage-defects [results path or run id] [bug-list]"
 ---
 
 # Triage a test run
@@ -13,6 +13,9 @@ description: "Classify a test run's failures into product defect, script error, 
 Results path, run id, and **the build it ran against**. A triage report that does not
 identify its run and build cannot be compared with the next one — and comparison across
 runs is how you tell whether the system is converging.
+
+Result formats keep every attempt (retries, re-runs, history). Collapse to one result per TC
+ID — the last attempt of this run — before counting anything, and say so in the report.
 
 ## Step 3 — Apply the decision tree, in order
 
@@ -64,3 +67,11 @@ Triage — run {id}, {date}, build {id}
 
 Where the code matches the design and the case matches the design but the two disagree with
 each other, that is a **design defect** — injection phase P2 or P3, not a code fix.
+
+## Step 7 — The bug list (only with `bug-list`)
+
+After the report above, and only from its classification, write the client-facing bug list
+per `sdlc-defect-management` §8: `PRODUCT-DEFECT` rows only, one `BUG-*` per root cause with
+its affected TC IDs, written in the deliverable language with the anchor and the copied
+evidence, in the format of the `bug_list` template. Unresolved `NEEDS-REVIEW` rows are listed
+as excluded, never guessed into the list.

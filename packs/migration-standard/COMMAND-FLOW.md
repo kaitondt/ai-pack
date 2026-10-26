@@ -43,8 +43,8 @@ what, and the refinement loop that the whole pack is built to support.
 | `/mig-verify-build` | the repository | build report | — |
 | `/mig-trace-check` | register + artifacts on disk | orphan and gate report | — |
 | `/mig-uat-investigate` | code, docs, legacy | conclusion, no edits | `mig-uat-engineer` |
-| `/mig-review-testcase` | test cases, design, legacy, mockups | edited file / review report | `mig-reviewer` |
-| `/mig-triage-failures` | a test run's results and evidence | triage report | `mig-defect-triager` |
+| `/mig-review-testcase` | test cases, design, legacy, mockups; in `script` mode the automated scripts and the runner's listing | edited file / review report | `mig-reviewer` |
+| `/mig-triage-failures` | a test run's results and evidence | triage report; with `bug-list`, the client-facing bug list | `mig-defect-triager` |
 | `/mig-trace-bug` | one bug: legacy, register, docs, code, git history, cases, results | traceability dossier + register row, no other edits | — |
 | `/mig-cr-analyze` | a change request, code, docs, legacy | impact matrix and options, no edits | `mig-cr-engineer` |
 

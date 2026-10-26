@@ -102,7 +102,8 @@ is easier to review" creates a second source of truth, and the two diverge withi
 The one legitimate split: `output_format: md` against an `xlsx` template, for a project that
 has agreed Markdown is the working form and Excel is generated for delivery. Agree it once,
 record it in the registry, and generate the Excel from the Markdown — never maintain both by
-hand.
+hand. When the client's reviewers start correcting the Excel itself, the direction reverses:
+see DIO-09.
 
 ### DIO-06 — Documents the client sends are inputs, and they are read the same way
 
@@ -129,6 +130,49 @@ required rather than optional:
 
 Without the digest, a binary deliverable is outside every review, cross-check and gate the
 pack runs — which is exactly how a category passes P2 without anyone having read it.
+
+### DIO-08 — A client workbook is read through a generated reading copy
+
+A client specification in Excel — one sheet per API, a screen design on grid paper, a
+code list — is read many times by many tasks. Extracting it from scratch each time costs
+tokens and produces a slightly different reading each time. Extract it **once** into a
+Markdown reading copy, and read the copy.
+
+- The copy lives beside the source under `_incoming/md/` (or the path the project agreed),
+  named after the source file, and starts with the source path, the sheet list and the
+  source's last-modified date.
+- It is **generated, never edited**. A correction goes into the source (by its owner) or into
+  the extractor; then the copy is regenerated. Add the copies to
+  `{{profile.constraints.readonly_globs}}`.
+- Before citing a reading copy, compare the source's last-modified date with the one in the
+  copy's header. A stale copy is regenerated before use, not trusted.
+- Drawn shapes (flow diagrams, screen sketches) are exported as images next to the copy and
+  linked from it; the copy says which sheet each image came from.
+- Citations name the **source** file and sheet (DIO-06), never the reading copy.
+
+### DIO-09 — When reviewers edit the delivered file, that file is the source of truth
+
+Some clients review in Excel and write their corrections into the delivered workbook. From
+that moment the workbook, not the Markdown it was generated from, holds the agreed content.
+`registry[].authority` records this per category; set it the first time it happens, not
+after the second regeneration has overwritten a reviewer's edits.
+
+With `authority: xlsx` (or `docx`):
+
+1. **Never regenerate over it.** A regeneration from the working form would silently revert
+   the review. Any change starts by importing the delivered file.
+2. **Import, then merge, with the delivered file winning on overlap.** Parse the content
+   cells back into the working form, keyed by the stable IDs (TC ID, item No, MSG-ID).
+   Fields that exist only in the working form (anchors, trace links, internal notes) are kept
+   by key. An entity present in the working form and absent from the delivered file was
+   deleted by the reviewer — drop it, and list every drop in the report.
+3. **Show the diff before applying it.** Added, changed and removed entities, by ID. The diff
+   is what the human approves; an import applied without it is a silent bulk edit.
+4. **Propagate downstream, incrementally.** Whatever was generated from the imported content —
+   test scripts from test cases, translations, digests — is updated only for the IDs that
+   changed, through the skill that owns it. Unchanged IDs are not touched.
+5. **Never reverse-engineer from a rendering.** The import reads the delivered file itself, not
+   a Markdown or HTML rendering of it, and not the DIO-07 digest.
 
 ---
 
@@ -181,6 +225,20 @@ one deliverable per sheet with a fixed sheet name; a `変更履歴` revision she
 the content sheet; `○`/`×`/`—` as the marker vocabulary rather than words. Fill the
 approval cells with the profile's vendor and client values (DS-01), never with a name you
 inferred.
+
+**Reading** a client workbook (DIO-06, DIO-08) has hazards of its own:
+
+| Hazard | Rule |
+|---|---|
+| Generic converters (markitdown, `pandas.read_excel`) on sparse, merged, grid-paper sheets produce `Unnamed: N` / `NaN` floods and lose the layout; some also mangle Japanese text | extract with `openpyxl` directly: `load_workbook(path, data_only=True)`, iterate `ws.iter_rows(values_only=True)`, drop trailing empty cells per row, skip empty rows, keep cell line breaks as `\n` |
+| A merged range reports its value only in the anchor cell | resolve each merged range to its anchor before reading a table, or values appear to be missing |
+| Console encoding on Windows turns Japanese output into mojibake | run Python with `PYTHONUTF8=1` (and `PYTHONIOENCODING=utf-8`); write extracted text to a UTF-8 file rather than relying on the console |
+| File and sheet names are Japanese and vary by revision (`画面設計書_SC0010_受注登録_v1.2.xlsx`) | locate files by the ASCII id they contain (`SC0010`, `API003`) with a glob, never by the full Japanese name |
+| Flow diagrams and screen sketches are **drawn shapes**: `openpyxl` returns only the text inside them | export them as images. On Windows with Excel installed: Excel COM — select the sheet's shapes, `CopyPicture`, save the clipboard image as PNG (PowerShell `-STA`). Elsewhere: LibreOffice headless conversion to PDF, then crop the page. Say in the reading copy which method produced each image |
+| PowerShell 5.1 reads a UTF-8 script without BOM as the ANSI code page — a Japanese literal in the script breaks it | keep automation scripts ASCII-only: find files by an ASCII ancestor directory and pick sheets by index, or save the script as UTF-8 **with** BOM |
+| Embedded pictures (pasted screenshots) are not cell values | export them with `openpyxl` (`ws._images`) next to the reading copy |
+| `.xls` (legacy binary) | read with `xlrd`, or convert to a temporary `.xlsx` (Excel COM or LibreOffice) and read that; never write back to the `.xls` |
+| Cached formula values can be stale | say "cached value" in the reading copy when `data_only=True` returned a formula's result |
 
 ### Word (`docx`)
 
@@ -246,6 +304,10 @@ sooner it is produced.
 - [ ] the format matches `registry[].output_format`, not what was convenient
 - [ ] any template gap or invariant conflict was reported **once**, to the document owner,
       not silently absorbed per file
+- [ ] client workbooks were read through a current reading copy (DIO-08), and citations name
+      the source file and sheet
+- [ ] where `authority` is the delivered file, it was imported and the diff approved before
+      anything was regenerated (DIO-09)
 
 ## 6. Report
 
@@ -258,4 +320,6 @@ Document I/O
   Placeholders    : {filled}/{total}   unfilled -> Open Items: {n}
   Fidelity check  : {pass on first file | diff found: what}
   Template gaps   : {n}  {each, once}
+  Authority       : {working form | delivered file — imported: +{n} ~{n} -{n}, approved: yes|no}
+  Reading copies  : {n} current, {n} regenerated as stale
 ```

@@ -1,6 +1,6 @@
 ---
 name: sdlc-defect-management
-description: "Defect lifecycle and triage — the record format, severity and priority model, injection-phase attribution, the failure-classification decision tree for automated runs, root-cause grouping, deferral rules and the triage report. Load for ALL test failure analysis and defect handling tasks."
+description: "Defect lifecycle and triage — the record format, severity and priority model, injection-phase attribution, the failure-classification decision tree for automated runs, root-cause grouping, deferral rules, the triage report, and the client-facing bug list (deduplicated results, one bug per root cause, written in the deliverable language with evidence). Load for ALL test failure analysis, defect handling and bug-list tasks."
 ---
 
 # Defect Management
@@ -172,3 +172,65 @@ Triage — run {id}, {date}, build {id}
 State the run and the build being analysed. A triage report that does not identify them
 cannot be compared with the next one, and comparison across rounds is how you tell whether
 the system is converging (QM-07).
+
+---
+
+## 8. The client-facing bug list
+
+The triage report in §7 is for the team. When a round's defects go to the client — at IT
+and ST exit, during UAT, or whenever the contract asks for a bug list — produce a separate
+deliverable from the **triaged** run. Never generate it from raw results: a bug list that
+contains script errors and infrastructure failures is retracted line by line, and the
+retractions are what the client remembers.
+
+**Input.** The results in `{{profile.testing.automation.results_format}}` under
+`{{profile.testing.paths.results_root}}`, plus the §7 classification. Only `PRODUCT-DEFECT`
+rows enter the list; `NEEDS-REVIEW` rows enter only after a human has classified them.
+
+**Deduplicate before counting.** Result formats record every attempt: retries, re-runs and
+the history of earlier rounds. Collapse to one result per TC ID — the **last attempt of the
+run being reported** — and say that you did. Counting attempts inflates the failure rate;
+keeping the first attempt reports failures that were already fixed.
+
+**One bug per root cause.** Group the failures by root cause (§6); each group gets one
+`BUG-*` id with every affected TC ID listed under it. This is not the merging §3 forbids —
+distinct root causes stay distinct bugs even when the symptom looks the same. When unsure
+whether two failures share a cause, keep them apart.
+
+**Written for the reader, in the reader's language.** The list is a deliverable: its language
+is the one `{{profile.language.by_path}}` binds to its directory, and its terms come from the
+glossary and `{{profile.language.dictionary}}`. For every bug:
+
+| Field | Content |
+|---|---|
+| Bug ID | `BUG-*`, stable across rounds — a bug found again in round 2 keeps its id |
+| Summary | what the user experiences, in one sentence, no framework vocabulary |
+| Screen / function | the module id and the screen or function name from the design |
+| Steps | the case's steps, rewritten as a user would perform them |
+| Expected | in plain words, **with the anchor** (requirement or design item) — never "expected `toBeVisible`" |
+| Actual | what happened, in plain words; the assertion error translated, not pasted |
+| Affected cases | every TC ID in the group |
+| Severity | from `{{profile.quality.severity}}` |
+| Evidence | the screenshot or trace for each affected case, copied beside the list and named per `{{profile.testing.evidence.naming}}` |
+
+A raw assertion message (`expected "保存しました" received "登録しました"`, `locator resolved
+to 0 elements`) is evidence, not a description. Translate it into what the user sees, and put
+the raw message in the evidence column if the reader needs it.
+
+**Statistics, honestly.** Executed, passed, failed and blocked per module, after the
+deduplication, with the run id and build. Skipped tests are listed as not run, never folded
+into passed.
+
+**Format** comes from the registry entry `bug_list` in `{{profile.templates.registry}}` —
+Markdown, Excel or an HTML page — written through `sdlc-document-io`. With no template
+registered, follow `{{profile.templates.on_missing}}` like any other category. Evidence files
+are copied, never linked to a location the client cannot open.
+
+```
+Bug list — round {n}, run {id}, build {id}
+  Results read   : {n} attempts → {n} TC IDs after deduplication (last attempt kept)
+  Bugs           : {n} root causes covering {n} failed cases
+  Excluded       : SCRIPT-ERROR {n} · INFRA {n} · NEEDS-REVIEW unresolved {n}
+  Language       : {lang}   format: {md|xlsx|html}   evidence copied: {n}
+  Carried over   : {n} bug ids from earlier rounds
+```

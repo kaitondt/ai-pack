@@ -1,6 +1,6 @@
 ---
 name: mig-translation
-description: "Cross-cutting translation of deliverables between the project languages. Direction detection, the never-translate token list, business-equivalence syncing rather than raw copying, dictionary use, and table/CSV structural preservation. Load for ALL translation tasks."
+description: "Cross-cutting translation of deliverables between the project languages. Direction detection, the never-translate token list, business-equivalence syncing rather than raw copying, dictionary use, table/CSV structural preservation, the client correction log, and reviewing an existing translation. Load for ALL translation and translation-review tasks."
 ---
 
 # Translation of Deliverables
@@ -81,6 +81,39 @@ Translation writes a new file or edits the designated target copy. The source do
 not touched, not reformatted, and not "fixed" along the way. Errors found in the source
 are reported, not silently corrected in one language only.
 
+## TL-09 — Every client correction is recorded once, and never needed twice
+
+The client's reviewers are the final authority on their own language. When they correct a
+translated deliverable — a term, a phrasing, a level of politeness, a word order in a label —
+the correction is the most valuable translation input the project will ever get, and it is
+lost the moment it is applied to one file and forgotten.
+
+When `{{profile.language.correction_log}}` is set:
+
+- **Append every correction as it arrives**, one row each: date, source document and
+  location, the source-language text, the rejected translation, the accepted translation,
+  the reviewer, and the reason when one was given. Append; never rewrite earlier rows.
+- **Read the log before translating and before reviewing a translation**, alongside the
+  dictionary. A correction already in the log that recurs in a new document is a defect of
+  the translation, not a new finding.
+- **Apply a correction everywhere it applies**, not only where the reviewer saw it: search the
+  other documents of the same language for the rejected rendering and list each hit.
+- **Promote what recurs.** A correction about a domain term belongs in
+  `{{profile.language.dictionary}}`; one about phrasing belongs in
+  `{{profile.language.grammar_fixes}}`. A correction made three times is proposed for
+  promotion through `/mig-refine-skill`, so it stops depending on someone reading the log.
+- **A correction never touches message text.** Legacy message strings are verbatim (TL-04);
+  a reviewer asking to reword one is asking for a change, which is a change request.
+
+When the log is not set and the client starts correcting translations, propose setting it —
+the second correction of the same term is the moment the cost becomes visible.
+
+**Reviewing an existing translation** applies the same sources in the same order — immutable
+tokens (TL-03), message text (TL-04), structure (TL-05), dictionary (TL-06), correction log
+(TL-09) — and reports findings by category with the source line, the current rendering and
+the proposed one. A reviewer's rewrite that changes meaning, not only wording, is reported to
+the source document's owner, not silently applied.
+
 ---
 
 ## Self-check
@@ -92,3 +125,5 @@ are reported, not silently corrected in one language only.
 - [ ] dictionary applied; new recurring terms proposed for it
 - [ ] target-language punctuation, applied consistently
 - [ ] source file untouched
+- [ ] correction log read first; no logged correction repeated; new client corrections
+      appended and applied wherever they recur

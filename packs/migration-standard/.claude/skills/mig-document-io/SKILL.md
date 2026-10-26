@@ -98,6 +98,8 @@ second source of truth that diverges within a week.
 The one legitimate split: `output_format: md` against an `xlsx` template, where the project
 has agreed Markdown is the working form and Excel is generated for delivery. Agree it once,
 record it in the registry, generate one from the other — never maintain both by hand.
+When the client's reviewers start correcting the Excel itself, the direction reverses: see
+DIO-10.
 
 ### DIO-06 — Read every input; never retype it
 
@@ -147,6 +149,52 @@ documented what somebody intended in 2011, which the client will discover at par
 **Never write into the legacy documents directory.** Analysis output goes to
 `{{profile.paths.docs_root}}` (LR-05).
 
+### DIO-09 — A workbook is read through a generated reading copy
+
+A client specification or a legacy document in Excel is read many times by many tasks.
+Extracting it from scratch each time costs tokens and produces a slightly different reading
+each time. Extract it **once** into a Markdown reading copy, and read the copy.
+
+- The copy lives under `{{profile.paths.docs_root}}/_reading/` (never inside the legacy
+  documents directory — LR-05), named after the source file, and starts with the source path,
+  the sheet list and the source's last-modified date.
+- It is **generated, never edited**. A correction goes into the extractor; then the copy is
+  regenerated. Add the copies to `{{profile.constraints.readonly_globs}}`.
+- Before citing a reading copy, compare the source's last-modified date with the one in the
+  copy's header. A stale copy is regenerated before use, not trusted.
+- Drawn shapes (flow diagrams, screen sketches) are exported as images next to the copy and
+  linked from it; the copy says which sheet each image came from.
+- Citations name the **source** file and sheet (DIO-06), never the reading copy — and a
+  reading copy of a legacy document is still a legacy document: evidence of intent, never of
+  behaviour (DIO-08).
+
+### DIO-10 — When reviewers edit the delivered file, that file is the source of truth
+
+Some clients review in Excel and write their corrections into the delivered workbook. From
+that moment the workbook, not the Markdown it was generated from, holds the agreed content.
+`registry[].authority` records this per category; set it the first time it happens, not
+after the second regeneration has overwritten a reviewer's edits.
+
+With `authority: xlsx` (or `docx`):
+
+1. **Never regenerate over it.** A regeneration from the working form would silently revert
+   the review. Any change starts by importing the delivered file.
+2. **Import, then merge, with the delivered file winning on overlap.** Parse the content
+   cells back into the working form, keyed by the stable IDs (TC ID, item No, MSG-ID).
+   Fields that exist only in the working form (legacy anchors, trace links) are kept by key.
+   An entity present in the working form and absent from the delivered file was deleted by
+   the reviewer — drop it, and list every drop in the report.
+3. **A reviewer's edit does not override NI-01.** An edited row whose behaviour no longer
+   matches its legacy anchor is imported as edited and reported as a parity question — the
+   client may be asking for a change, which is a change request, not a correction.
+4. **Show the diff before applying it.** Added, changed and removed entities, by ID. The diff
+   is what the human approves; an import applied without it is a silent bulk edit.
+5. **Propagate downstream, incrementally.** Whatever was generated from the imported content —
+   test scripts from test cases, translations, digests — is updated only for the IDs that
+   changed, through the skill that owns it. Unchanged IDs are not touched.
+6. **Never reverse-engineer from a rendering.** The import reads the delivered file itself, not
+   a Markdown or HTML rendering of it, and not the DIO-07 digest.
+
 ---
 
 ## 3. Per-format mechanics
@@ -191,6 +239,20 @@ Legacy inputs are frequently Excel too — table definitions, code-value lists, 
 catalogues exported from the old system. Read them with `data_only=True` to get values
 rather than formulas, and remember DIO-08: an exported message list is a hypothesis until
 it matches the string in the source.
+
+**Reading** a client or legacy workbook (DIO-06, DIO-09) has hazards of its own:
+
+| Hazard | Rule |
+|---|---|
+| Generic converters (markitdown, `pandas.read_excel`) on sparse, merged, grid-paper sheets produce `Unnamed: N` / `NaN` floods and lose the layout; some also mangle Japanese text | extract with `openpyxl` directly: `load_workbook(path, data_only=True)`, iterate `ws.iter_rows(values_only=True)`, drop trailing empty cells per row, skip empty rows, keep cell line breaks as `\n` |
+| A merged range reports its value only in the anchor cell | resolve each merged range to its anchor before reading a table, or values appear to be missing |
+| Console encoding on Windows turns Japanese output into mojibake | run Python with `PYTHONUTF8=1` (and `PYTHONIOENCODING=utf-8`); write extracted text to a UTF-8 file rather than relying on the console |
+| Legacy exports may be Shift_JIS / CP932 (CSV, fixed-width, text dumps) | detect and decode explicitly (`encoding="cp932"`); never let a reader guess, and say which encoding was used |
+| File and sheet names are Japanese and vary by revision | locate files by the ASCII id they contain (`KK0030`, `API003`) with a glob, never by the full Japanese name |
+| Flow diagrams and screen sketches are **drawn shapes**: `openpyxl` returns only the text inside them | export them as images. On Windows with Excel installed: Excel COM — select the sheet's shapes, `CopyPicture`, save the clipboard image as PNG (PowerShell `-STA`). Elsewhere: LibreOffice headless conversion to PDF, then crop the page. Say in the reading copy which method produced each image |
+| PowerShell 5.1 reads a UTF-8 script without BOM as the ANSI code page — a Japanese literal in the script breaks it | keep automation scripts ASCII-only: find files by an ASCII ancestor directory and pick sheets by index, or save the script as UTF-8 **with** BOM |
+| Embedded pictures (pasted screenshots of the legacy UI) are not cell values | export them with `openpyxl` (`ws._images`) next to the reading copy |
+| `.xls` (legacy binary) | read with `xlrd`, or convert to a temporary `.xlsx` outside the legacy tree and read that; never write back |
 
 Conventions that recur in Japanese-market forms: a header block in the first 5–10 rows
 (document id, system name, author, approval stamps); one deliverable per sheet with a fixed
@@ -264,6 +326,10 @@ old version: that list is the re-work estimate, and it is smallest the moment it
 - [ ] a `.md` digest exists for every binary deliverable, and it carries the anchors (DIO-07)
 - [ ] the format matches `registry[].output_format`, not what was convenient
 - [ ] template gaps and invariant conflicts reported **once**, to the document owner
+- [ ] workbooks were read through a current reading copy (DIO-09), and citations name the
+      source file and sheet
+- [ ] where `authority` is the delivered file, it was imported and the diff approved before
+      anything was regenerated (DIO-10)
 
 ## 6. Report
 
@@ -277,6 +343,8 @@ Document I/O
   Anchors         : {resolved}/{total}   from legacy source: {n} · from legacy document: {n}
   Fidelity check  : {pass on first file | diff found: what}
   Template gaps   : {n}  {each, once}
+  Authority       : {working form | delivered file — imported: +{n} ~{n} -{n}, approved: yes|no}
+  Reading copies  : {n} current, {n} regenerated as stale
 ```
 
 The anchor split in that report is the one to read. Anchors resolved from a legacy

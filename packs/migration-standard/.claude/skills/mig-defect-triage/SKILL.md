@@ -1,6 +1,6 @@
 ---
 name: mig-defect-triage
-description: "Classify failing test results into product defect, test-script error, needs-manual-review, and infrastructure — with a priority-ordered decision tree, escalation by screenshot, source lookup for script errors, and the triage report format. Load for ALL test failure analysis tasks."
+description: "Classify failing test results into product defect, test-script error, needs-manual-review, and infrastructure — with a priority-ordered decision tree, escalation by screenshot, source lookup for script errors, the triage report format, and the client-facing bug list (deduplicated results, one bug per root cause, written in the deliverable language with evidence). Load for ALL test failure analysis and bug-list tasks."
 ---
 
 # Defect Triage
@@ -107,3 +107,65 @@ Triage — run {id}, {date}
 State the run being analysed. A triage report that does not identify its run cannot be
 compared with the next one, and comparison across rounds is how you tell whether the
 system is converging.
+
+---
+
+## The client-facing bug list
+
+The triage report above is for the team. When a round's defects go to the client — at IT
+exit, during UAT, or whenever the contract asks for a bug list — produce a separate
+deliverable from the **triaged** run. Never generate it from raw results: a bug list that
+contains script errors and infrastructure failures is retracted line by line, and the
+retractions are what the client remembers.
+
+**Input.** The results in `{{profile.testing.automation.results_format}}` under
+`{{profile.testing.paths.results_root}}`, plus the classification above. Only
+`PRODUCT-DEFECT` rows enter the list; `NEEDS-REVIEW` rows enter only after a human has
+classified them.
+
+**Deduplicate before counting.** Result formats record every attempt: retries, re-runs and
+the history of earlier rounds. Collapse to one result per TC ID — the **last attempt of the
+run being reported** — and say that you did. Counting attempts inflates the failure rate;
+keeping the first attempt reports failures that were already fixed.
+
+**One bug per root cause.** Group the failures by root cause (*Systematic vs isolated*); each
+group gets one bug id with every affected TC ID listed under it. Distinct root causes stay
+distinct bugs even when the symptom looks the same. When unsure whether two failures share a
+cause, keep them apart.
+
+**Written for the reader, in the reader's language.** The list is a deliverable: its language
+is the one `{{profile.language.by_path}}` binds to its directory, and its terms come from
+`{{profile.language.dictionary}}`. For every bug:
+
+| Field | Content |
+|---|---|
+| Bug ID | stable across rounds — a bug found again in round 2 keeps its id |
+| Summary | what the user experiences, in one sentence, no framework vocabulary |
+| Screen / function | the module id and the screen or function name from the design |
+| Steps | the case's steps, rewritten as a user would perform them |
+| Expected | in plain words, **with the anchor** — the design item and, where it decides the behaviour, the legacy anchor |
+| Actual | what happened, in plain words; the assertion error translated, not pasted |
+| Affected cases | every TC ID in the group |
+| Evidence | the screenshot or trace for each affected case, copied beside the list and named per `{{profile.testing.evidence.naming}}` |
+
+A raw assertion message (`expected "保存しました" received "登録しました"`, `locator resolved
+to 0 elements`) is evidence, not a description. Translate it into what the user sees, and put
+the raw message in the evidence column if the reader needs it. Message texts quoted in the
+list are the verbatim catalogue strings (NI-03), not translations.
+
+**Statistics, honestly.** Executed, passed, failed and blocked per module, after the
+deduplication, with the run id. Skipped tests are listed as not run, never folded into
+passed.
+
+**Format** comes from the registry entry `bug_list` in `{{profile.templates.registry}}` —
+Markdown, Excel or an HTML page — written through `mig-document-io`. Evidence files are
+copied, never linked to a location the client cannot open.
+
+```
+Bug list — round {n}, run {id}
+  Results read   : {n} attempts → {n} TC IDs after deduplication (last attempt kept)
+  Bugs           : {n} root causes covering {n} failed cases
+  Excluded       : SCRIPT-ERROR {n} · INFRA {n} · NEEDS-REVIEW unresolved {n}
+  Language       : {lang}   format: {md|xlsx|html}   evidence copied: {n}
+  Carried over   : {n} bug ids from earlier rounds
+```

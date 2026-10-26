@@ -44,6 +44,18 @@ target:
     data_access: "<e.g. Dapper over stored procedures>"
     auth: "<e.g. JWT Bearer>"
     package_manager: "<e.g. pnpm workspaces>"
+  # The client's (or the organisation's) own coding standards for the TARGET
+  # code. They outrank the pack's stack rules (rules/java, rules/typescript,
+  # rules/react, rules/sql) wherever they differ. `digest` is the Markdown rule
+  # file /mig-init writes from the source document, under .claude/rules/<stack>/,
+  # so the standard is loaded with the code it governs. Empty list = the pack's
+  # stack rules are the standard.
+  coding_standards: []
+  # coding_standards:
+  #   - stack: java                # java | typescript | react | sql | <other>
+  #     source: "docs/_incoming/Java coding standard v2.pdf"
+  #     digest: ".claude/rules/java/client-standard.md"
+  #     enforced_by: "Checkstyle (config/checkstyle.xml)"   # or "" when manual only
   # Named UI surfaces. One entry per distinct device / form factor.
   surfaces:
     - id: PC
@@ -88,6 +100,23 @@ target:
     typecheck: "<command>"
     test_unit: "<command>"
     test_e2e: "<command>"
+    # Run by hooks/format-on-edit.py after every Write/Edit of a file matching
+    # `glob` (repo-relative; ** and {a,b} supported): the repository's own
+    # formatter first, then its linter, on THAT file only. {file} = absolute
+    # path, {rel} = path relative to cwd. Keep each command per-file and under
+    # ~10s - a whole-project build here stalls every edit. blocking: true hands a
+    # failing check back to be fixed; false only formats. Never point a glob at
+    # the legacy tree: it is read-only and is never reformatted. Empty = no-op.
+    on_edit: []
+    # on_edit:
+    #   - glob: "src/app/web/src/**/*.{ts,tsx,css}"
+    #     cwd: "src/app/web"
+    #     run: "pnpm exec prettier --write {rel}"
+    #     blocking: false
+    #   - glob: "src/app/web/src/**/*.{ts,tsx}"
+    #     cwd: "src/app/web"
+    #     run: "pnpm exec eslint --fix {rel}"
+    #     blocking: true
 
 # ---------------------------------------------------------------------------
 # INFRASTRUCTURE - where the TARGET code lives, how it is built, where it runs,
@@ -282,6 +311,10 @@ language:
     - "code blocks"
   dictionary: ""                 # optional path to a term dictionary CSV
   grammar_fixes: ""              # optional path to a phrasing-correction CSV
+  # Every correction the client's reviewers make to a translated deliverable,
+  # appended as it arrives (TL-09). Read before translating or reviewing a
+  # translation, so the same correction is never needed twice.
+  correction_log: ""             # e.g. docs/02.requirements/translation-corrections.csv
 
 # ---------------------------------------------------------------------------
 # DOCUMENT STANDARD - shared skeleton for every generated deliverable.
@@ -316,13 +349,17 @@ templates:
   formats_enabled: [md, xlsx, docx, csv]
   # Per-category registration. `key` matches a paths.bd_categories[].key, or one
   # of: requirements, detail, test_ut, test_it, test_uat, review, cr_report,
-  # uat_report, legacy_inventory.
+  # uat_report, legacy_inventory, bug_list.
   # Empty at init; /mig-init appends one entry per form the client supplies.
   registry:
     - key: ""
       path: ""                   # repo-relative, under templates.root
       format: ""                 # md | xlsx | docx | csv
       output_format: ""          # "" = same as the template's own format
+      # Which copy is the source of truth once reviewers start editing (DIO-10).
+      # "" = the generated working form; "xlsx" / "docx" = reviewers edit the
+      # delivered file and it is imported back, never overwritten by a regeneration.
+      authority: ""
       sheet: ""                  # xlsx only; read from the file when empty
       header_rows: 0
       fields: []                 # derived from the form's placeholders when empty
@@ -516,6 +553,13 @@ testing:
     spec_naming: "{module}.flow{N}.spec.ts"
     db_driven_search: true             # never hardcode transactional search values
     results_format: "<e.g. allure>"
+    # The runner's own listing of the tests it would execute, one per line. It
+    # is how scripts are counted and reconciled 1:1 against the manual cases -
+    # never grep, which misses loop-generated and parameterised tests.
+    list_command: "<e.g. npx playwright test --list | pytest --collect-only -q>"
+    # Where a test names the manual case it implements: title prefix, tag or
+    # annotation. Used for the reconciliation; one TC ID per test.
+    tc_id_in: title              # title | tag | annotation
   evidence:
     naming: "{TC_ID}_{seq}"
     formats: ["png", "csv"]

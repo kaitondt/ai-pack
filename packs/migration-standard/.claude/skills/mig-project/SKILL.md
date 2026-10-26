@@ -34,6 +34,13 @@ Always in force, regardless of phase:
 | `rules/migration/id-naming.md` | deterministic IDs |
 | `rules/migration/document-standards.md` | deliverable skeleton and scope discipline |
 
+**Stack rules load with the code they govern.** `rules/java/`, `rules/typescript/`,
+`rules/react/` and `rules/sql/` carry `paths:` front matter, so they apply when a matching
+file is read or written. Before writing or reviewing target code, make sure the ones for the
+files in play are loaded, together with any client coding-standard digest listed in
+`{{profile.target.coding_standards}}` — which outranks them. Legacy parity outranks both. Cite
+their rule ids (`JV-*`, `TS-*`, `RX-*`, `SQ-*`) in findings.
+
 ## Step 3 — Route to the phase skill
 
 | The task is about | Load |

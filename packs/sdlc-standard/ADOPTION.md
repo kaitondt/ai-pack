@@ -16,7 +16,7 @@ Four things, and the third is the one people miss.
 |---|---|---|
 | 1 | **Git** | the pack lives in the repository; `sdlc-bug-trace` reads history |
 | 2 | **Node.js 18+** and **Claude Code** | runs the pack |
-| 3 | **Python 3.9+** | the three guard hooks are Python. Without it they fail silently and baseline protection is off |
+| 3 | **Python 3.9+** | the three guard hooks and the on-edit hook are Python. Without it they fail silently and baseline protection is off |
 | 4 | **`openpyxl` / `python-docx`** | only if your deliverables are Excel or Word. See step 0d |
 
 ### 0a. macOS
@@ -94,9 +94,13 @@ cp sdlc-standard/profile/sdlc.profile.yaml  <project>/.claude/
 ```
 
 If the project already has a `.claude/`, merge instead: copy `skills/`, `commands/`,
-`agents/`, `rules/sdlc/`, `hooks/`, and merge the `hooks` block of `settings.json`.
-Existing `rules/<language>/` files are kept — the pack's `rules/common/` is the base layer
-they were already written to extend.
+`agents/`, `rules/sdlc/`, the stack rule directories the project uses (`rules/java/`,
+`rules/typescript/`, `rules/react/`, `rules/sql/`), `hooks/`, and merge the `hooks` block of
+`settings.json`. Existing `rules/<language>/` files are kept — the pack's `rules/common/` is the
+base layer they were already written to extend, and the pack's stack files are named
+`<stack>.md` so they sit beside them without overwriting anything. Where an existing file is
+the client's coding standard, register it in `system.coding_standards` so it is known to
+outrank the pack's stack rules.
 
 ## 2. Configure
 
@@ -266,7 +270,7 @@ pack rather than inside it:
 ```
 .claude/skills/<key>_design_system/SKILL.md      UI design system for this product
 .claude/skills/<key>_domain_glossary/SKILL.md    domain terms and their meanings
-.claude/rules/<language>/                         stack rules extending rules/common/
+.claude/rules/<stack>/client-standard.md         the client's coding standard, digested (outranks <stack>.md)
 ```
 
 Keep the `sdlc-*` files unmodified so the pack can be updated. When you find yourself

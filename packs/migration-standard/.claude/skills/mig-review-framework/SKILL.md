@@ -1,6 +1,6 @@
 ---
 name: mig-review-framework
-description: "Cross-cutting review framework — checklist families (C common, SD screen, FD function, API interface, DB data, BT batch), severity model, review report format, and the legacy cross-validation method. Load for ALL review tasks on deliverables or code."
+description: "Cross-cutting review framework — checklist families (C common, SD screen, FD function, API interface, DB data, BT batch), severity model, review report format, the legacy cross-validation method, and code review against parity and the stack rules. Load for ALL review tasks on deliverables or code."
 ---
 
 # Review Framework
@@ -91,6 +91,19 @@ For each behavioural statement in the document under review:
 4. record a Critical for any divergence not listed as an approved deviation.
 
 Where the anchor is missing, that is itself a Critical (NI-01).
+
+---
+
+## Reviewing code
+
+Same severity model. Parity first — the code reproduces the legacy behaviour the design
+records (IM-01..IM-06) — then the conventions:
+
+| Focus | Check |
+|---|---|
+| Parity | arithmetic, validation order, explicit sort, verbatim messages, no added defensive behaviour |
+| Stack conventions | the review checklist of each stack rule file the diff touches (`JV-*`, `TS-*`, `RX-*`, `SQ-*`), with the client coding standard in `{{profile.target.coding_standards}}` taking precedence; where an idiom in those rules would change legacy behaviour, parity wins and the code says why |
+| Linter output | run the repository's linter on the changed files and cite its findings rather than restating them |
 
 ---
 

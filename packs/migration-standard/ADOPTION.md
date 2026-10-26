@@ -16,7 +16,7 @@ Four things, and the third is the one people miss.
 |---|---|---|
 | 1 | **Git** | the pack lives in the repository; `mig-bug-trace` reads history |
 | 2 | **Node.js 18+** and **Claude Code** | runs the pack |
-| 3 | **Python 3.9+** | the three guard hooks are Python. Without it they fail silently — and in this pack that means **the legacy tree is writable** |
+| 3 | **Python 3.9+** | the three guard hooks and the on-edit hook are Python. Without it they fail silently — and in this pack that means **the legacy tree is writable** |
 | 4 | **`openpyxl` / `python-docx`** | only if your deliverables or legacy inputs are Excel or Word. See 0d |
 
 ### 0a. macOS
@@ -98,9 +98,13 @@ cp migration-standard/profile/migration.profile.yaml  <project>/.claude/
 ```
 
 If the project already has a `.claude/`, merge instead: copy `skills/`, `commands/`,
-`agents/`, `rules/migration/`, `hooks/`, and merge the `hooks` block of `settings.json`.
-Existing `rules/<language>/` files are kept — the pack's `rules/common/` is the base layer
-they were already written to extend.
+`agents/`, `rules/migration/`, the stack rule directories the target uses (`rules/java/`,
+`rules/typescript/`, `rules/react/`, `rules/sql/`), `hooks/`, and merge the `hooks` block of
+`settings.json`. Existing `rules/<language>/` files are kept — the pack's `rules/common/` is the
+base layer they were already written to extend, and the pack's stack files are named
+`<stack>.md` so they sit beside them without overwriting anything. Where an existing file is
+the client's coding standard, register it in `target.coding_standards` so it is known to
+outrank the pack's stack rules.
 
 ## 2. Configure
 
@@ -248,7 +252,7 @@ the pack rather than inside it:
 ```
 .claude/skills/<key>_design_system/SKILL.md      UI design system for this product
 .claude/skills/<key>_domain_glossary/SKILL.md    domain terms and their meanings
-.claude/rules/<language>/                         stack rules extending rules/common/
+.claude/rules/<stack>/client-standard.md         the client's coding standard, digested (outranks <stack>.md)
 ```
 
 Keep the `mig-*` files unmodified so the pack can be updated. When you find yourself

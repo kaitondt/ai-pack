@@ -45,7 +45,29 @@ Tiers: heavy — `sdlc-analyst`, `sdlc-bd-orchestrator`, `sdlc-bd-designer`, `sd
 An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry wins for its agent.
 <!-- /model-policy:claude -->
 
-| 22 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/sdlc-*.md` matches the model it resolves to (see 
+| # | Check | Severity if failed |
+|---|---|---|
+| 22 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/sdlc-*.md` matches the model it resolves to (see the table above) | Warning |
+| 23 | every key in `execution.agent_model_overrides` and `execution.agent_effort_overrides` names an installed agent | Warning |
+| 24 | every `change_request.cascade` entry names a `bd_categories` key or one of `requirements` / `nfr` / `detail` / `mockup` / `indexes` / `translations` / `test_cases` | Warning |
+| 25 | `change_request.id_source` is set, and `min_options` ≥ 2 | Warning |
+| 26 | `maintenance.sla` covers every severity in `quality.severity` | Warning |
+| 27 | every `bug_trace.commit_ref_patterns[]` entry compiles as a regex; `bug_trace.mainline`, when set, names a branch that exists | Warning — a bad pattern silently drops ticket links from every trace |
+| 28 | every `templates.registry[]` entry with `status: provided` names a file that exists and is readable | Critical — the team believes a template is in force |
+| 29 | every format in `templates.formats_enabled` has a working library (`openpyxl` for `xlsx`, `python-docx` for `docx`) | Critical — the run fails forty files in, not on the first |
+| 30 | every `templates.registry[].key` names a `bd_categories` key or a known non-design category, and no key appears twice | Warning |
+| 31 | every registered template path is covered by `constraints.readonly_globs` | Warning — the form itself is writable |
+| 32 | `mockup.kind` is one of `html` / `canvas` / `figma` / `image` / `none`; when not `none`, `mockup.dir` is set and every id in `mockup.surfaces` names a `system.surfaces[]` entry | Warning |
+| 33 | when `mockup.kind: figma`, `figma.file_url` is set or `figma.export_dir` exists — otherwise the design cannot be read at all | Warning |
+| 34 | `infrastructure.scm.platform` and `infrastructure.ci.platform` are resolved (not `<placeholder>`), and `ci.definition_path` matches the platform's convention | Warning — an unresolved platform stops every infra task |
+| 35 | `infrastructure.owner` is set; when it is not `this project`, `repo_may_write_infra` is `false` | Warning — otherwise the pack may commit into another team's infrastructure |
+| 36 | every stage in `infrastructure.ci.stages` maps to a `system.build` command, or is explicitly extra | Warning — a pipeline testing what no developer can reproduce |
+| 37 | every `system.coding_standards[].source` exists, and every `digest` exists under `.claude/rules/<stack>/` with `paths:` front matter | Warning — the client standard is not applied to the code it governs |
+| 38 | the stack rule directories under `.claude/rules/` (`java`, `typescript`, `react`, `sql`) match `system.stack`: none missing for a stack in use, none left for a stack that is not | Warning |
+| 39 | every `system.build.on_edit[]` entry has `glob`, `run` and an existing `cwd`; its tool resolves; it finishes on one matching file within its `timeout` | Warning — a slow or broken entry stalls or silently skips every edit |
+| 40 | every `templates.registry[].authority` is empty, `xlsx` or `docx`, and a non-empty value matches the entry's own `format` or `output_format` | Critical — a regeneration would overwrite reviewers' edits (DIO-09) |
+| 41 | `language.correction_log`, when set, exists and has its header row | Warning |
+| 42 | once automation exists, `testing.automation.list_command` runs and lists tests, and `tc_id_in` is `title`, `tag` or `annotation` | Warning — scripts cannot be reconciled with the cases |
 
 Print a table of results and a verdict. On any Critical, state that the pack is not safe to
 run and name the exact field to fix. Do not offer to "work around" a failed Critical.

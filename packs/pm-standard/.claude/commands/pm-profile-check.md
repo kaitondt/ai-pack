@@ -45,8 +45,17 @@ Read-only. Reports **Critical** (the pack's assumptions do not hold) / **Warning
 - `risk.probability_scale` or `impact_scale` without numeric anchors — two people will score
   the same risk differently (RK-05)
 - `scope.out_of_scope` entries with no reason (SM-07)
-- agent frontmatter `model:` disagreeing with what `execution.model_profile` and
-  `execution.agent_model_overrides` resolve to (see 
+- agent frontmatter `model:` or `effort:` disagreeing with what `execution.model_profile`,
+  `execution.agent_model_overrides` and `execution.agent_effort_overrides` resolve to (see
+  the table below)
+- `schedule.milestones` with no objective criteria, or payment-linked milestones unmarked
+- a `documents.registry[].template` that is set but names a file that does not exist
+- `documents.working_dir` sitting inside a **deliverable** directory (`plan_root`, `scope`,
+  `cost_root`, `registers`, …) — scratch kept beside deliverables gets delivered. Being under
+  `paths.pm_root` is expected and is not a finding: that is the container for everything
+- a file under `documents.working_dir` with no stamp on line one (MD-10). An unstamped
+  working file cannot be used as the input to a regeneration, because nothing says which
+  version it came from
 
 <!-- model-policy:claude -->
 **Expected agent models and effort** (the model-drift warning).

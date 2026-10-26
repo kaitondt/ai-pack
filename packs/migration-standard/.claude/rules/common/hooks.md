@@ -17,7 +17,7 @@ must be true *every* time belongs in a hook, not only in a skill.
 | PreToolUse | `Write\|Edit` | `guard-readonly-paths.py` — deny writes under legacy/generated paths (`LR-01`, `LR-04`) |
 | PreToolUse | `Write\|Edit` | `check-doc-rules.py` — remind of document rules when the path is a deliverable |
 | SessionStart | — | `check-profile-loaded.py` — fail fast when the profile is missing or unresolved |
-| PostToolUse | `Write\|Edit` | formatter, then linter, then incremental type-check |
+| PostToolUse | `Write\|Edit` | `format-on-edit.py` — runs `{{profile.target.build.on_edit}}`: the repository's formatter, then its linter, on the edited target file only |
 | Stop | — | build verification |
 
 Ordering, when several run on the same event: format → lint → type-check → build.

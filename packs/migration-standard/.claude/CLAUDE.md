@@ -73,6 +73,15 @@ Always in this order — later steps consume earlier steps' output:
 {{profile.target.build.order}}
 ```
 
+## Coding standards
+
+Target code follows, in this order of authority: legacy parity as the design records it,
+the client coding standard (`{{profile.target.coding_standards}}`), then the stack rules
+under `.claude/rules/` — `java/`, `typescript/`, `react/`, `sql/`, each loaded with the files
+it governs — then `.claude/rules/common/`. The `on_edit` hook formats and lints each target
+file as it is written; fix what it reports in the file, and never loosen the tool's
+configuration to pass. The legacy tree is never formatted.
+
 ## Where things live
 
 | What | Where |

@@ -33,19 +33,27 @@ every value in data files. Spec file names follow the manual flow numbering.
 Transactional search data is read from a real record at setup — never hardcoded. Master
 data may be hardcoded.
 
-Every generated test names the manual TC ID it implements.
+One case, one test: every generated test names exactly one manual TC ID. Nothing the skill's
+Step 7 forbids — no mocked system under test, no silent skip, every expected result asserted,
+including the persisted state when the case changes data.
 
-## Step 5 — Run and report
+When the cases already have scripts and only some changed, generate for the changed TC IDs
+only (skill Step 10) and leave the rest untouched.
 
-Run the generated tests and report the real output.
+## Step 5 — Reconcile, run and report
+
+Count the tests with `{{profile.testing.automation.list_command}}` — never with grep — and
+reconcile them one-to-one against the cases (skill Step 8). Then run them and report the real
+output.
 
 ```
 Test scripts — {module or flow} · surface {id}
   Manual cases     : {n}   automated {n}   not automatable {n} ({why})
   Files written    : specs {n} · page objects {n} · data {n} · fixtures {n}
   Data-driven      : {n} searches read from real records
-  Run              : {passed}/{total}   failed {n}   flaky {n}
-  TC ID tagged     : {n}/{n}
+  Reconciliation   : runner lists {n} · matched {n} · case without test {n} ·
+                     test without case {n} · duplicates {n}
+  Run              : {passed}/{total}   failed {n}   skipped {n}   flaky {n}
   Convention notes : {divergences found in the repo}
 ```
 

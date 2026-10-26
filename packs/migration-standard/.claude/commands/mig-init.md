@@ -26,6 +26,13 @@ Before asking the user anything, determine from the repository what you can:
 - Are there **legacy documents** — old design specs, operator manuals, handover packs? They
   are inputs, not templates, and they go somewhere different (DIO-08).
 - Are there legacy screen captures, or an existing prototype?
+- Which formatters, linters and static-analysis tools are configured for the **target**
+  (Prettier, ESLint, Checkstyle, Spotless, PMD, Ruff, `.editorconfig`), and how each runs on
+  a single file?
+- Is there a client coding standard for the target — a `コーディング規約`, "coding standard"
+  or "coding conventions" document in PDF, Excel or Word, or a supplied Checkstyle / ESLint
+  config?
+- Does the test runner have a listing command, and in what format does it write results?
 
 Report what you found. Do not ask about anything you just determined.
 
@@ -47,6 +54,11 @@ Use one grouped question round, not a sequence of prompts. Typically needed:
 - **infrastructure** — SCM and CI platform, hosting, IaC, and **who owns them**
 - **coexistence** — big-bang, phased, strangler or parallel; and which system owns the data
   while both are live. This shapes the architecture, so it is asked at init, not at cutover
+- **coding standards** — does the client impose its own for the target code, per stack, and
+  is any of it enforced by a tool configuration they supply?
+- **review in the delivered file** — do the client's reviewers correct the delivered Excel
+  or Word files themselves? If so, those files become the source of truth (DIO-10), and a
+  translation correction log is worth starting now (TL-09)
 
 ## Step 3 — Write the profile
 
@@ -90,7 +102,46 @@ Load `mig-document-io`, then:
 5. **Set `{{profile.templates.on_missing}}` deliberately.** `ask` is the default and safest.
 6. **Add both directories to `{{profile.constraints.readonly_globs}}`.**
 
-## Step 6 — Apply the model policy
+For every category whose delivered file the client's reviewers will edit, set
+`registry[].authority` now (DIO-10) — before the first regeneration, not after it has
+overwritten a review. If client reviewers will correct translations, set
+`{{profile.language.correction_log}}` and create the file with its header row (TL-09).
+
+## Step 6 — Coding standards, stack rules and on-edit checks
+
+These govern the **target** code only. Nothing here applies to, formats or lints the legacy
+tree.
+
+1. **Keep the stack rules the target uses.** The pack ships `rules/java/`,
+   `rules/typescript/`, `rules/react/` and `rules/sql/`; each loads only with the files it
+   governs. Keep the directories matching `{{profile.target.stack}}` in `.claude/rules/` and
+   remove the others, saying which. A stack the pack has no rules for is reported, not
+   improvised.
+2. **Digest each client coding standard.** For every standard the client supplies, read the
+   whole source document (through `mig-document-io` for PDF, Excel or Word) and write
+   `.claude/rules/<stack>/client-standard.md`:
+   - front matter `paths:` identical to that stack's pack rule file, so it loads with the
+     same code;
+   - every rule as an imperative line with the source section number and the severity the
+     source uses (must / should / avoid / forbidden) — never a paraphrase that loosens it;
+   - a table of the source's sections that do **not** apply to this project, with the reason;
+   - a list of every point where it contradicts the pack's stack rule file — the client's
+     standard wins — and every point where following it would change legacy behaviour —
+     parity wins, and the point is raised with the client once.
+
+   Record each in `{{profile.target.coding_standards}}` (stack, source, digest,
+   `enforced_by`) and add the source document to `{{profile.constraints.readonly_globs}}`.
+   Show the digest for confirmation.
+3. **Configure the on-edit checks.** From the target's formatters and linters found in
+   Step 1, propose `{{profile.target.build.on_edit}}` entries — one per tool, scoped by glob
+   to the target sources it owns and **never matching `{{profile.legacy.root}}`**, running on
+   the single edited file, formatter before linter. Time each on one file; an entry slower
+   than ~10s is a whole-project command and is replaced or dropped. Linters the client
+   standard mandates are `blocking: true`. Write them only after the user confirms; with no
+   tools configured yet, leave `on_edit: []` and say that `/mig-scaffold-codebase` will fill
+   it.
+
+## Step 7 — Apply the model policy
 
 <!-- model-policy:claude -->
 Resolve a model and an effort level for every `.claude/agents/mig-*.md` from
@@ -119,12 +170,12 @@ where the commands run: Claude Code takes the session level from `/effort`, not 
 profile, so they set it there. Agents are not affected by it.
 <!-- /model-policy:claude -->
 
-## Step 7 — Generate CLAUDE.md
+## Step 8 — Generate CLAUDE.md
 
 From `.claude/CLAUDE.md` in the pack, resolving profile tokens. If a `CLAUDE.md` already
 exists, do not overwrite it — show the block to merge in.
 
-## Step 8 — Validate and report
+## Step 9 — Validate and report
 
 Run the `/mig-profile-check` checks, then print:
 
@@ -138,6 +189,9 @@ Migration Skill Pack initialised
   Templates   : {n}/{n categories} registered   formats: {list}   on_missing: {mode}
                 toolchain: {format: ok|missing library}
   Legacy docs : {n} files (inputs only, DIO-08)
+  Stack rules : kept {list}   removed {list}   no pack rules for: {list}
+  Coding std  : {n} client standards digested   enforced by: {tools}
+  On-edit     : {n} entries ({n} blocking)   slowest {s}s on one file   legacy excluded: yes
   Mockup      : {kind}, fidelity {fidelity}   surfaces: {list}
   Infra       : {scm} / {ci} / {hosting} / {iac}   owner: {owner}
   Coexistence : {strategy}, system of record {x}

@@ -19,7 +19,11 @@ description: "P4 — implementation. Design-first workflow, layer order, the spe
    design defect raised now, not a decision made silently in code.
 3. **Emit the context map.** Every file the change touches.
 4. **Implement, inner layer outward**, following the dependency direction. Each layer
-   compiles before the next is started.
+   compiles before the next is started. Code follows the client coding standard in
+   `{{profile.system.coding_standards}}` first, then the stack rules for the files touched
+   (`rules/java/`, `rules/typescript/`, `rules/react/`, `rules/sql/`). The `on_edit` hook
+   formats each file as it is written; a blocking lint failure it returns is fixed in the
+   file, never by loosening the tool's configuration.
 5. **Write the unit tests from the DD**, not from the code you just wrote
    (`rules/common/testing.md`).
 6. **Verify the build** in the mandated order (`{{profile.system.build.order}}`).

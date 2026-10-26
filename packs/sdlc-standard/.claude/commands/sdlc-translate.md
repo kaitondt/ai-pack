@@ -22,6 +22,8 @@ the wrong directory that reads correctly, which is the hardest kind to notice.
 |---|---|
 | First translation | the counterpart does not exist yet |
 | **Sync** | the counterpart exists and the source changed |
+| Correction | the client's reviewers corrected the translation — log each correction (TL-10), then apply it everywhere it recurs |
+| Review | an existing translation is to be checked, not changed — findings only (TL-10) |
 
 **Sync is the common case and it is not a re-translation** (TL-02). Diff the source against
 its last synced state, identify the semantic changes, and apply each one to the target
@@ -37,6 +39,8 @@ reviewed phrasing, and the client notices immediately.
   task
 - `{{profile.language.dictionary}}` is authoritative for domain terms, and must agree with
   `{{profile.paths.glossary}}` (TL-06)
+- `{{profile.language.correction_log}}` is read first: no rendering the client has already
+  rejected is used again (TL-10)
 - target-language punctuation, applied consistently within the document (TL-07)
 - the source file is never modified (TL-08)
 
@@ -56,6 +60,7 @@ Translation — {file}
   Immutable tokens preserved : {n}
   Catalogue text quoted      : {n}   missing entries: {n}
   Dictionary terms applied   : {n}   new terms proposed: {list}
+  Correction log : {n} logged corrections applied · {n} new appended · {n} recurrences fixed elsewhere
   Baselined     : {yes — CR {id} | no}
   Source file modified : no
 ```

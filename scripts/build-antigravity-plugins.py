@@ -27,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "antigravity"
-VERSION = "1.2.1"
+VERSION = "1.3.0"
 README_SOURCE = ROOT / "scripts" / "readme" / "antigravity.md"
 
 PACKS = [
@@ -194,6 +194,18 @@ def agy_text(text, pack):
     return model_note(text.replace(".claude", ".agents").replace("Claude Code", "Antigravity"))
 
 
+RULE_PATHS = re.compile(r"\A---\n(.*?)\n---\n+", re.S)
+
+
+def rule_scope(text):
+    """Split a rule's `paths:` front matter (stack rules) from its body: (globs, body)."""
+    m = RULE_PATHS.match(text.replace("\r\n", "\n"))
+    if not m:
+        return [], text
+    globs = re.findall(r'^\s*-\s*["\']?([^"\'\n]+?)["\']?\s*$', m.group(1), re.M)
+    return globs, text.replace("\r\n", "\n")[m.end():]
+
+
 def clean_dir(path):
     """Empty a generated directory but keep .git: the output is its own git submodule."""
     path.mkdir(parents=True, exist_ok=True)
@@ -316,8 +328,10 @@ def build(pack):
     rules.mkdir(parents=True)
     for rule in sorted((claude / "rules").rglob("*.md")):
         name = "{}-{}.md".format(rule.parent.name, rule.stem)
-        (rules / name).write_text("---\ntrigger: always_on\n---\n\n" +
-                                  agy_text(rule.read_text(encoding="utf-8"), pack),
+        globs, body = rule_scope(rule.read_text(encoding="utf-8"))
+        trigger = ('trigger: glob\nglobs: "{}"'.format(",".join(globs)) if globs
+                   else "trigger: always_on")
+        (rules / name).write_text("---\n{}\n---\n\n".format(trigger) + agy_text(body, pack),
                                   encoding="utf-8")
     (rules / "{}-context.md".format(pack["prefix"])).write_text(
         "---\ntrigger: always_on\n---\n\n" +

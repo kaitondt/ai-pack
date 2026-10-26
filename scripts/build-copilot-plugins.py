@@ -26,7 +26,7 @@ OUT = ROOT / "copilot"
 MARKETPLACE = "ai-pack-copilot"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack-copilot"
-VERSION = "1.2.1"
+VERSION = "1.3.0"
 SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 NS = "com.github.copilot"
 
@@ -348,14 +348,27 @@ def hook_entries(pack, settings):
     return {"version": 1, "hooks": out}
 
 
+RULE_PATHS = re.compile(r"\A---\n(.*?)\n---\n+", re.S)
+
+
+def rule_scope(text):
+    """Split a rule's `paths:` front matter (stack rules) from its body: (globs, body)."""
+    m = RULE_PATHS.match(text.replace("\r\n", "\n"))
+    if not m:
+        return [], text
+    globs = re.findall(r'^\s*-\s*["\']?([^"\'\n]+?)["\']?\s*$', m.group(1), re.M)
+    return globs, text.replace("\r\n", "\n")[m.end():]
+
+
 def instructions(rules_dir, dst):
-    """Rules -> .instructions.md files that apply to the whole repository."""
+    """Rules -> .instructions.md files: repository-wide, or scoped by the rule's `paths:`."""
     for rule in sorted(rules_dir.rglob("*.md")):
         rel = rule.relative_to(rules_dir)
         target = dst / rel.parent / (rule.stem + ".instructions.md")
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text('---\napplyTo: "**"\n---\n\n' +
-                          copilot_text(rule.read_text(encoding="utf-8")), encoding="utf-8")
+        globs, body = rule_scope(rule.read_text(encoding="utf-8"))
+        target.write_text('---\napplyTo: "{}"\n---\n\n'.format(",".join(globs) or "**") +
+                          copilot_text(body), encoding="utf-8")
 
 
 def build(pack):

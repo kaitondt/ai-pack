@@ -48,6 +48,8 @@ placeholder in a generated deliverable. Report the missing field and ask.
 | `stack.*` | ✅ | Quoted verbatim into the TSD. Free text — the pack does not parse it. |
 | `surfaces[]` | ✅ | One per form factor. Drives which screen-design variants get generated and which ID suffixes are legal. A single-surface project keeps just `PC`. |
 | `build.order[]` | ✅ | Ordered shell commands. `/mig-verify-build` runs them in sequence and stops at the first failure. |
+| `build.on_edit[]` | — | Run by `hooks/format-on-edit.py` after every Write/Edit of a file matching `glob` (repo-relative, `**` and `{a,b}` supported): `run` in `cwd`, with `{file}` / `{rel}` / `{root}` substituted. Formatter entries first, then linters. `blocking: true` hands a non-zero exit back to be fixed; `false` only formats. `timeout` in seconds (default 20). Per-file commands only (check 40), and **no glob may reach the legacy tree** (check 41). Empty = the hook does nothing. |
+| `coding_standards[]` | — | The client's own coding standards for the target code: `stack`, `source`, `digest` (the Markdown rule file `/mig-init` writes under `.claude/rules/<stack>/`, scoped like the pack's stack rule) and `enforced_by`. They outrank the pack's stack rules `rules/java`, `rules/typescript`, `rules/react` and `rules/sql`; legacy parity outranks both (checks 38–39). |
 
 ### `infrastructure`
 
@@ -143,6 +145,10 @@ and `/mig-translate` syncs *business changes*, never raw text.
 
 `immutable_tokens` is the never-translate list. It is enforced by `mig-translation`.
 
+`correction_log` is an optional CSV path where every correction the client's reviewers make to
+a translation is appended (TL-09). It is read before every translation and translation review,
+and recurring entries are promoted into the dictionary or the grammar fixes.
+
 ### `document`
 `auto_version_bump: false` is a hard default. Automated version bumps destroy the
 approval audit trail — a revision row is added only when a human says so.
@@ -160,7 +166,8 @@ written into it. So the form is a project input: collected by `/mig-init`, maint
 | `root` | ✅ | Where the client's blank forms live. Originals as received go under `root/_received/` with their date, and are never edited. |
 | `on_missing` | ✅ | `ask` (default, safest) · `skeleton` (generate from the category skill's sections, and say so per run) · `block`. |
 | `formats_enabled[]` | ✅ | `md` · `xlsx` · `docx` · `csv`. Each needs a working library — check 23 verifies it, because a missing one fails on file forty, not file one. |
-| `registry[].key` | ✅ | A `paths.bd_categories[].key`, or one of `requirements` · `detail` · `test_ut` · `test_it` · `test_uat` · `review` · `cr_report` · `uat_report` · `legacy_inventory`. |
+| `registry[].key` | ✅ | A `paths.bd_categories[].key`, or one of `requirements` · `detail` · `test_ut` · `test_it` · `test_uat` · `review` · `cr_report` · `uat_report` · `legacy_inventory` · `bug_list`. |
+| `registry[].authority` | — | Which copy is the source of truth once review starts. Empty = the generated working form. `xlsx` / `docx` = the client's reviewers edit the delivered file: it is imported back and merged by ID, the diff approved, and it is **never regenerated over** (DIO-10, check 42). |
 | `registry[].path` · `format` | ✅ | Under `root`. Every deliverable is written into a **copy**; the form itself is read-only. |
 | `registry[].output_format` | — | Empty means "same as the template". A deliberate split (Markdown working copy, Excel for delivery) is recorded here once, never decided per file (DS-11). |
 | `registry[].sheet` · `header_rows` | — | `xlsx` only; read from the file when empty. `header_rows` covers the client's header block — document id, system name, approval stamps. |
@@ -242,7 +249,7 @@ Drives the whole P5–P7 skill family. Five sub-sections:
 | `pipeline` | `human_pauses` names which pauses this project keeps — removing one removes the review it bought; `keep_retry_history` must stay true, it is how a disputed case is traced to the answer that produced it; `max_review_rounds` bounds the self-review before escalation |
 | `viewpoints` | the enabled VP set. Disable one only when it cannot apply (a batch job has no repeated-submission viewpoint), never to reduce effort |
 | `integration` | the flow catalogue, strategy guide and swimlane the IT pipeline reads. `api_payload_in_scope: false` keeps request/response assertions out of manual IT cases |
-| `automation` | framework, repository layout, spec naming, and `db_driven_search` — the flag that forbids hardcoding transactional search values |
+| `automation` | framework, repository layout, spec naming, and `db_driven_search` — the flag that forbids hardcoding transactional search values. `list_command` is the runner's own test listing, used to reconcile scripts one-to-one with the cases (never grep — it misses loop-generated tests); `tc_id_in` says where each test names its TC ID (check 44) |
 | `evidence` / `rounds` | evidence naming and the per-round result columns appended to every executable case table |
 
 `automation.layout` must match the real repository. The automation skill reads these

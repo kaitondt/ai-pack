@@ -148,6 +148,13 @@ Run each one and report the real output. **Write the commands back to
 what `/mig-verify-build` and the pipeline run. A command the stack has no use for is set to
 `"n/a — <reason>"`, not left as a placeholder.
 
+**Fill `{{profile.target.build.on_edit}}` from the same tools**: one entry per formatter and
+linter, scoped by glob to the target sources it owns (never the legacy tree), running on the
+single edited file (`{file}` / `{rel}`), formatter before linter. Time each command on one
+file — an entry slower than ~10s is a whole-project command in disguise and stalls every
+edit. Linters the client standard makes mandatory are `blocking: true`; formatters are
+`blocking: false`.
+
 ## CB-09 — Tests have somewhere to go from day one
 
 - A unit-test project per layer that holds logic, and an integration-test project, placed
@@ -173,6 +180,12 @@ Formatter, linter, `.editorconfig`, `.gitignore`, `.gitattributes` — with the 
 **and encoding** policy stated explicitly: legacy files are frequently Shift-JIS, EBCDIC or
 CP1252, and the target's are not. The target's encoding is declared once, and anything
 reading legacy input converts at the boundary.
+
+Configure the settings the stack rules ask for (`rules/java/`, `rules/typescript/`,
+`rules/react/`, `rules/sql/` — compiler strictness, Checkstyle or ESLint rule sets) strictly
+from the start. Where `{{profile.target.coding_standards}}` registers a client standard with an
+`enforced_by` tool, that tool's configuration is the client's form of the standard: commit it
+as supplied, and never weaken it to make the skeleton pass.
 
 A developer `README.md`: prerequisites with versions, setup, the build commands, where the
 legacy lives and that it is read-only.

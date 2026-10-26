@@ -135,6 +135,7 @@ Same severity model, applied against `rules/common/*` and the language rules:
 | Unrequested behaviour | anything the design does not call for (RS-06, IM-05) |
 | Security | `rules/common/security.md` — authorisation, injection, secrets, error leakage |
 | Boundaries | layer discipline, no domain importing framework types |
+| Stack conventions | the review checklist of each stack rule file the diff touches (`JV-*`, `TS-*`, `RX-*`, `SQ-*`), with the client coding standard in `{{profile.system.coding_standards}}` taking precedence; a finding the repository's linter already reports is cited as the linter's, not restated |
 | Concurrency | async triggers locked, idempotency where stated |
 | Tests | expectations sourced from the design, not from the implementation |
 | Traceability | the register updated with the code references |

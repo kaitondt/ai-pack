@@ -36,6 +36,13 @@ Always in force, regardless of phase:
 | `rules/sdlc/document-standards.md` | deliverable skeleton and scope discipline |
 | `rules/sdlc/quality-metrics.md` | what the gates measure, and how not to fake it |
 
+**Stack rules load with the code they govern.** `rules/java/`, `rules/typescript/`,
+`rules/react/` and `rules/sql/` carry `paths:` front matter, so they apply when a matching
+file is read or written. Before writing or reviewing code, make sure the ones for the files
+in play are loaded, together with any client coding-standard digest listed in
+`{{profile.system.coding_standards}}` — which outranks them. Cite their rule ids (`JV-*`,
+`TS-*`, `RX-*`, `SQ-*`) in findings.
+
 ## Step 3 — Route to the phase skill
 
 | The task is about | Load |

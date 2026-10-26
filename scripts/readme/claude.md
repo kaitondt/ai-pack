@@ -138,6 +138,30 @@ what `/<prefix>-init` copied into each project:
 - `.claude/<profile>.yaml` — run `/<prefix>-profile-check` in a new session after the restart. It reports fields a new release
   added or renamed; fill them in and run it again until it is clean.
 
+### Upgrading a project to 2.3
+
+2.3.0 adds to `sdlc-standard` and `migration-standard`:
+
+- **Stack rules** `rules/java/`, `rules/typescript/`, `rules/react/`, `rules/sql/`, each loaded
+  only with the files it governs (`paths:` front matter), and `coding_standards` in the profile
+  (`system.` for sdlc, `target.` for migration) for the client's own coding standard, which
+  outranks them. Copy the directories for your stack from the plugin's `templates/rules/` into
+  `.claude/rules/`; leave the others out.
+- **`format-on-edit` hook** (PostToolUse): runs the repository's formatter and linter on each
+  edited file, from the new `build.on_edit` list. It does nothing until that list is filled.
+- **Excel reading and round-trip**: reading copies of client workbooks, and
+  `templates.registry[].authority` for categories whose delivered Excel/Word file reviewers edit.
+- **Test scripts**: one test per case, counted with `testing.automation.list_command`
+  (`tc_id_in` says where the TC ID sits); `/<prefix>-review-testcase script`;
+  `/<prefix>-triage-… bug-list` for the client-facing bug list.
+- **Translation**: `language.correction_log` for the client's corrections.
+- `/<prefix>-profile-check` regains the checks it lost in 2.1 and gains checks for all of the
+  above; pm and vibe profile-check are repaired the same way.
+
+Every new field is optional, so an existing project works unchanged. To adopt them, add the
+fields from the plugin's `templates/profile/<profile>.yaml`, regenerate the "Coding standards"
+section of `CLAUDE.md`, and run `/<prefix>-profile-check`.
+
 ### Upgrading a project to 2.2.1
 
 2.2.1 moves the record directories that 2.2.0 scaffolded at the repository root into `docs/`, so

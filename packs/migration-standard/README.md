@@ -116,10 +116,11 @@ migration-standard/
 └── .claude/
     ├── CLAUDE.md                  ← project-instruction template
     ├── settings.json
-    ├── hooks/                     ← 3 guard hooks
+    ├── hooks/                     ← 3 guard hooks + the on-edit format/lint hook
     ├── rules/
     │   ├── common/                ← 6 stack-neutral rule files
-    │   └── migration/             ← 5 migration-invariant rule files
+    │   ├── migration/             ← 5 migration-invariant rule files
+    │   └── java/ typescript/ react/ sql/  ← target stack rules, loaded only with the files they govern
     ├── skills/                    ← 28 skills
     ├── commands/                  ← 31 slash commands
     └── agents/                    ← 14 agents

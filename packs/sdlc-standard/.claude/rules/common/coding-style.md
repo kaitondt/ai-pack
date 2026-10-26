@@ -1,7 +1,9 @@
 # Common Coding Style
 
-Stack-neutral baseline. Language-specific files (`../<lang>/coding-style.md`) extend this;
-where they disagree, the language file wins.
+Stack-neutral baseline. The stack files — `../java/java.md`, `../typescript/typescript.md`,
+`../react/react.md`, `../sql/sql.md` — extend this and load only with the files they govern;
+where they disagree, the stack file wins. A client coding standard registered in
+`{{profile.system.coding_standards}}` outranks both.
 
 ## Match the surroundings first
 

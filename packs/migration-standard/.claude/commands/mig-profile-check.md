@@ -40,7 +40,36 @@ Tiers: heavy — `mig-legacy-analyst`, `mig-requirements-writer`, `mig-bd-orches
 An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry wins for its agent.
 <!-- /model-policy:claude -->
 
-| 17 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/mig-*.md` matches the model it resolves to (see 
+| # | Check | Severity if failed |
+|---|---|---|
+| 17 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/mig-*.md` matches the model it resolves to (see the table above) | Warning |
+| 18 | every key in `execution.agent_model_overrides` and `execution.agent_effort_overrides` names an installed agent | Warning |
+| 19 | every `change_request.cascade` entry names a `bd_categories` key or one of `indexes` / `translations` / `test_cases` | Warning |
+| 20 | `change_request.id_source` is `client` | Critical — a generated CR id detaches the report from the client's CR list |
+| 21 | every `bug_trace.commit_ref_patterns[]` entry compiles as a regex; `bug_trace.mainline`, when set, names a branch that exists | Warning — a bad pattern silently drops ticket links from every trace |
+| 22 | every `templates.registry[]` entry with `status: provided` names a readable file | Critical — the team believes a form is in force |
+| 23 | every format in `templates.formats_enabled` has a working library (`openpyxl`, `python-docx`) | Critical — the run fails forty files in, not on the first |
+| 24 | every `templates.registry[].key` names a `bd_categories` key or a known non-design category, and no key repeats | Warning |
+| 25 | `templates.root` and `templates.legacy_documents_dir` are both covered by `constraints.readonly_globs` | Critical — a legacy document or a blank form is writable |
+| 26 | no `templates.registry[]` path is inside `templates.legacy_documents_dir` | Critical — a legacy document registered as a template (DIO-08) |
+| 27 | `mockup.kind` is one of `html` / `canvas` / `figma` / `image` / `none`; when not `none`, `mockup.dir` is set and every id in `mockup.surfaces` names a `target.surfaces[]` entry | Warning |
+| 28 | `mockup.fidelity` is one of `as-is` / `restyled` / `redesigned`; every `fidelity_exceptions[]` entry has a non-empty `decision` | Critical — an exception with no decision is an invention (NI-02) |
+| 29 | when `mockup.kind: figma`, `figma.file_url` is set or `figma.export_dir` exists | Warning — otherwise the design cannot be read at all |
+| 30 | `target.environments[]` is non-empty, exactly one is `production_like`, and the `legacy-prod` entry (where present) is `readonly: true` | Warning |
+| 31 | **no `infrastructure` field names the legacy production environment as a deployment target** | Critical — LR-01 covers infrastructure |
+| 32 | `infrastructure.scm.platform` and `ci.platform` are resolved, and `ci.definition_path` matches the platform's convention | Warning — an unresolved platform stops every infra task |
+| 33 | `infrastructure.owner` is set; when it is not `this project`, `repo_may_write_infra` is `false` | Warning |
+| 34 | every stage in `infrastructure.ci.stages` maps to a `target.build` command, or is explicitly extra | Warning |
+| 35 | when `coexistence.strategy` is not `big-bang`: `system_of_record` is set, and `conflict_resolution` is non-empty wherever `dual_write` is true | Critical — two writers with no rule is the defect class that ends migrations |
+| 36 | `data_migration.reconciliation` is non-empty and `rehearsals_required` ≥ 1 | Warning — a migration judged on completing, not reconciling |
+| 37 | `rollback.target` and `rollback.data_strategy` are both set | Warning — rollback to a legacy system needs to say where target-created records go |
+| 38 | every `target.coding_standards[].source` exists, and every `digest` exists under `.claude/rules/<stack>/` with `paths:` front matter | Warning — the client standard is not applied to the code it governs |
+| 39 | the stack rule directories under `.claude/rules/` (`java`, `typescript`, `react`, `sql`) match `target.stack`: none missing for a stack in use, none left for a stack that is not | Warning |
+| 40 | every `target.build.on_edit[]` entry has `glob`, `run` and an existing `cwd`; its tool resolves; it finishes on one matching file within its `timeout` | Warning — a slow or broken entry stalls or silently skips every edit |
+| 41 | no `target.build.on_edit[].glob` matches anything under `legacy.root` | Critical — the hook would reformat read-only legacy source (LR-01) |
+| 42 | every `templates.registry[].authority` is empty, `xlsx` or `docx`, and a non-empty value matches the entry's own `format` or `output_format` | Critical — a regeneration would overwrite reviewers' edits (DIO-10) |
+| 43 | `language.correction_log`, when set, exists and has its header row | Warning |
+| 44 | once automation exists, `testing.automation.list_command` runs and lists tests, and `tc_id_in` is `title`, `tag` or `annotation` | Warning — scripts cannot be reconciled with the cases |
 
 Print a table of results and a verdict. On any Critical, state that the pack is not
 safe to run and name the exact field to fix. Do not offer to "work around" a failed

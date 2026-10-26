@@ -1,5 +1,5 @@
 ---
-description: "Classify a failing test run into product defect, script error, needs-review and infrastructure, grouped by root cause, with the fix named for script errors and anchors for product defects. Usage: /mig-triage-failures [run id or results path]"
+description: "Classify a failing test run into product defect, script error, needs-review and infrastructure, grouped by root cause, with the fix named for script errors and anchors for product defects — plus, with bug-list, the client-facing bug list. Usage: /mig-triage-failures [run id or results path] [bug-list]"
 ---
 
 # Triage a failing test run
@@ -16,6 +16,9 @@ triage, because it looks authoritative.
 
 State the run id and timestamp in the report. A triage without its run cannot be compared
 against the next round, and that comparison is how convergence is measured.
+
+Result formats keep every attempt (retries, re-runs, history). Collapse to one result per TC
+ID — the last attempt of this run — before counting anything, and say so in the report.
 
 ## Step 3 — Apply the decision tree, in order
 
@@ -59,3 +62,11 @@ Triage — run {id}, {date}
 ```
 
 Product defects go to `/mig-uat-investigate` for root cause before any fix.
+
+## Step 8 — The bug list (only with `bug-list`)
+
+After the report above, and only from its classification, write the client-facing bug list
+per `mig-defect-triage` (*The client-facing bug list*): `PRODUCT-DEFECT` rows only, one bug
+per root cause with its affected TC IDs, written in the deliverable language with the anchors
+and the copied evidence, in the format of the `bug_list` template. Unresolved `NEEDS-REVIEW`
+rows are listed as excluded, never guessed into the list.

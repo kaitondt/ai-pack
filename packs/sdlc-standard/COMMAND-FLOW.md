@@ -42,11 +42,11 @@ and the refinement loop that the whole pack is built to support.
 |---|---|---|---|
 | `/sdlc-review-design` | deliverables, the SRS | review reports | `sdlc-reviewer` |
 | `/sdlc-review-commit` | the diff, the design | commit review report | `sdlc-reviewer` |
-| `/sdlc-review-testcase` | test cases, the level's basis | edited file / review report | `sdlc-reviewer` |
+| `/sdlc-review-testcase` | test cases, the level's basis; in `script` mode the automated scripts and the runner's listing | edited file / review report | `sdlc-reviewer` |
 | `/sdlc-verify-build` | the repository | build report | — |
 | `/sdlc-trace-check` | register + artifacts on disk | orphan, coverage and gate report | — |
 | `/sdlc-quality-report` | reviews, defect register, test results | metrics report | — |
-| `/sdlc-triage-defects` | a test run's results and evidence | triage report | `sdlc-defect-triager` |
+| `/sdlc-triage-defects` | a test run's results and evidence | triage report; with `bug-list`, the client-facing bug list | `sdlc-defect-triager` |
 | `/sdlc-trace-bug` | one defect: baselines, register, docs, code, git history, cases, results | traceability dossier + register row, no other edits | — |
 | `/sdlc-uat-triage` | a client report, docs, code | classification and proposal, no edits | `sdlc-uat-coordinator` |
 | `/sdlc-maintain-intake` | an incident, logs, docs, code | root cause and proposal, no edits | `sdlc-maintenance-engineer` |

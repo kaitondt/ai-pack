@@ -36,19 +36,26 @@ Delegate to `sdlc-test-automator`, one call per module or flow.
 - layer the code: spec / page object / data / fixture
 - never hardcode transactional data — create it or read it deterministically
 - one variant per surface; never straddle two in one spec
-- every test names the manual TC ID it implements
+- one case, one test: every test names exactly one manual TC ID
+- nothing the skill's Step 7 forbids — no mocked system under test, no silent skip, every
+  expected result asserted, including the persisted state when the case changes data
 
-## Step 6 — Run and report
+When the cases already have scripts and only some changed, generate for the changed TC IDs
+only (skill Step 11) and leave the rest untouched.
 
-Run the generated tests. Report real output.
+## Step 6 — Reconcile, run and report
+
+Count the tests with `{{profile.testing.automation.list_command}}` — never with grep — and
+reconcile them one-to-one against the cases (skill Step 9). Then run them. Report real output.
 
 ```
 Automation — {target}
   Cases automated  : {n}/{n manual}   not automatable: {n} ({why})
   Files            : specs {n}, page objects {n}, data {n}, fixtures {n}
   Data-driven      : {n} of {n} searches
-  Run              : {passed}/{total}   flaky {n} (quarantined {n})
-  Traceability     : every spec names its TC ID: {yes|no}
+  Reconciliation   : runner lists {n} · matched {n} · case without test {n} ·
+                     test without case {n} · duplicates {n}
+  Run              : {passed}/{total}   skipped {n}   flaky {n} (quarantined {n})
   Repository divergences noted : {list}
 ```
 

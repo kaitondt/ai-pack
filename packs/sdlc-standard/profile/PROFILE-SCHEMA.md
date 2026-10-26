@@ -59,6 +59,8 @@ decision is an assumption** (RS-02). `/sdlc-profile-check` fails Critical on an 
 | `environments[]` | ✅ | Named environments the deliverables and tests refer to. **Exactly one should be marked `production_like: true`** — that is where system test runs, and without it P7 has nowhere to measure. |
 | `build.order[]` | ✅ | Ordered shell commands. `/sdlc-verify-build` runs them in sequence and stops at the first failure. |
 | `build.typecheck` / `lint` / `test_*` | ✅ | Run after the build order, in that sequence. |
+| `build.on_edit[]` | — | Run by `hooks/format-on-edit.py` after every Write/Edit of a file matching `glob` (repo-relative, `**` and `{a,b}` supported): `run` in `cwd`, with `{file}` / `{rel}` / `{root}` substituted. Formatter entries first, then linters. `blocking: true` hands a non-zero exit back to be fixed; `false` only formats. `timeout` in seconds (default 20). Per-file commands only — an entry slower than ~10s stalls every edit (check 39). Empty = the hook does nothing. Filled by `/sdlc-init` or `/sdlc-scaffold-codebase`. |
+| `coding_standards[]` | — | The client's own coding standards: `stack`, `source` (the document as supplied), `digest` (the Markdown rule file `/sdlc-init` writes under `.claude/rules/<stack>/`, with the same `paths:` scope as the pack's stack rule) and `enforced_by` (the tool configuration that encodes it, if any). They outrank the pack's stack rules `rules/java`, `rules/typescript`, `rules/react` and `rules/sql` (checks 37–38). |
 
 ### `infrastructure`
 
@@ -130,6 +132,10 @@ never translated in any direction.
 `dictionary` and `grammar_fixes` are optional CSV paths; when set, the dictionary is
 authoritative for domain terms and must agree with `paths.glossary`.
 
+`correction_log` is an optional CSV path where every correction the client's reviewers make to
+a translation is appended (TL-10). It is read before every translation and translation review,
+and recurring entries are promoted into the dictionary or the grammar fixes.
+
 ### `document`
 Shared skeleton for every deliverable. Two fields carry more weight than they look:
 
@@ -155,9 +161,10 @@ by `sdlc-document-io`.
 | `root` | ✅ | Where templates live. Originals as received go under `root/_received/` with their date, and are never edited. |
 | `on_missing` | ✅ | `ask` (default, safest) · `skeleton` (generate from the category skill's own sections, and say so per run) · `block`. `skeleton` is an agreement recorded as a `DEC-*`, not a fallback. |
 | `formats_enabled[]` | ✅ | `md` · `xlsx` · `docx` · `csv`. Each needs a working library — `/sdlc-profile-check` check 29 verifies it, because a missing library fails on file forty, not file one. |
-| `registry[].key` | ✅ | A `paths.bd_categories[].key`, or one of `requirements` · `detail` · `test_ut` · `test_it` · `test_st` · `test_uat` · `review` · `cr_report` · `incident` · `gate_record` · `release_note`. |
+| `registry[].key` | ✅ | A `paths.bd_categories[].key`, or one of `requirements` · `detail` · `test_ut` · `test_it` · `test_st` · `test_uat` · `review` · `cr_report` · `incident` · `gate_record` · `release_note` · `bug_list`. |
 | `registry[].path` · `format` | ✅ | Repo-relative, under `root`. Add each to `constraints.readonly_globs`: the template is an input, and every deliverable is written into a **copy**. |
 | `registry[].output_format` | — | Empty means "same as the template". A deliberate split (Markdown working copy, Excel for delivery) is recorded here once, never decided per file (DS-12). |
+| `registry[].authority` | — | Which copy is the source of truth once review starts. Empty = the generated working form. `xlsx` / `docx` = the client's reviewers edit the delivered file: it is imported back and merged by ID, the diff approved, and it is **never regenerated over** (DIO-09, check 40). Set it the first time a reviewer edits a delivered file. |
 | `registry[].sheet` · `header_rows` | — | `xlsx` only. Read from the template itself when empty. `header_rows` covers the client's header block — document id, system name, approval stamps. |
 | `registry[].fields[]` | — | Left empty, `sdlc-document-io` derives the field map from the placeholders in the file (DIO-04). |
 | `registry[].status` | ✅ | `provided` · `none`. A `provided` entry whose file is missing is **Critical**: the team believes a form is in force. |
@@ -259,6 +266,8 @@ no overrides needs no agent edits.
 | `uat.*` | Who executes, the support model, entry sign-off, and the defect SLA during UAT. |
 | `evidence.required_for[]` | Levels where a result without evidence is not a result. |
 | `automation.*` | Framework, repository layout and naming. The repository's own conventions outrank these. |
+| `automation.list_command` | The runner's own listing of the tests it would execute (`npx playwright test --list`, `pytest --collect-only -q`, …). Scripts are counted and reconciled one-to-one against the manual cases from this output — never by grep, which misses loop-generated and parameterised tests (check 42). |
+| `automation.tc_id_in` | `title` · `tag` · `annotation` — where each test names the one TC ID it implements. |
 
 ### `change_request`
 | Field | Notes |

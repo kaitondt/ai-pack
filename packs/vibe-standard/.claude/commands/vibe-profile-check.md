@@ -43,7 +43,9 @@ Tiers: heavy — `vibe-planner`, `vibe-reviewer`, `vibe-security-auditor`, `vibe
 An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry wins for its agent.
 <!-- /model-policy:claude -->
 
-| 18 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/vibe-*.md` matches the model it resolves to (see 
+| # | Check | Severity if failing |
+|---|---|---|
+| 18 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/vibe-*.md` matches the model it resolves to (see the table above) | Medium |
 
 ## Report
 

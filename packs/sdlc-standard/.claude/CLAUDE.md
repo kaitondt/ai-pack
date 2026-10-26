@@ -91,6 +91,14 @@ Always in this order — later steps consume earlier steps' output:
 {{profile.system.build.order}}
 ```
 
+## Coding standards
+
+Code follows, in this order of authority: the client coding standard
+(`{{profile.system.coding_standards}}`), then the stack rules under `.claude/rules/` —
+`java/`, `typescript/`, `react/`, `sql/`, each loaded with the files it governs — then
+`.claude/rules/common/`. The `on_edit` hook formats and lints each file as it is written;
+fix what it reports in the file, and never loosen the tool's configuration to pass.
+
 ## Where things live
 
 | What | Where |
