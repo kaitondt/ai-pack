@@ -9,7 +9,8 @@ description: "Review changed or staged code against the project rules, architect
 `mig-project`, `mig-review-framework`, and the stack rules for the files in the diff
 (`rules/java/`, `rules/typescript/`, `rules/react/`, `rules/sql/`), plus the client
 coding-standard digest named in `{{profile.target.coding_standards}}` — the client's standard
-wins where they differ, and legacy parity wins over both.
+wins where they differ, and legacy parity wins over both — and the project rules in
+`{{profile.project_rules}}`, cited as `PRJ-*`.
 
 ## Step 2 — Collect the change set
 

@@ -107,7 +107,7 @@ For every category whose delivered file the client's reviewers will edit, set
 overwritten a review. If client reviewers will correct translations, set
 `{{profile.language.correction_log}}` and create the file with its header row (TL-09).
 
-## Step 6 — Coding standards, stack rules and on-edit checks
+## Step 6 — Coding standards, stack rules, project rules and on-edit checks
 
 These govern the **target** code only. Nothing here applies to, formats or lints the legacy
 tree.
@@ -140,6 +140,15 @@ tree.
    standard mandates are `blocking: true`. Write them only after the user confirms; with no
    tools configured yet, leave `on_edit: []` and say that `/mig-scaffold-codebase` will fill
    it.
+4. **Take the project's own rules in.** Ask whether the team or the client has conventions
+   beyond the pack's rules and the client coding standard — naming, layering, error
+   handling, commit or document rules, a house style, an existing `.claude/rules/` the
+   project already wrote. Run `/mig-rule-register` for each one (or `--list` first to show
+   what is already in force). Existing rule files that are not the pack's are moved or
+   registered under `.claude/rules/project/`, never overwritten. A rule that would change
+   legacy behaviour is refused there, not here. A project with no rules of its own is
+   normal: leave `project_rules: []` and say that `/mig-rule-register` is how a rule is
+   added later.
 
 ## Step 7 — Apply the model policy
 
@@ -191,6 +200,7 @@ Migration Skill Pack initialised
   Legacy docs : {n} files (inputs only, DIO-08)
   Stack rules : kept {list}   removed {list}   no pack rules for: {list}
   Coding std  : {n} client standards digested   enforced by: {tools}
+  Project rules: {n} active in {n} files   overrides: {n}   review-only: {n}
   On-edit     : {n} entries ({n} blocking)   slowest {s}s on one file   legacy excluded: yes
   Mockup      : {kind}, fidelity {fidelity}   surfaces: {list}
   Infra       : {scm} / {ci} / {hosting} / {iac}   owner: {owner}

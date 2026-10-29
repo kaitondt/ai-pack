@@ -185,6 +185,21 @@ integration:
   sibling_packs: auto
 
 # ---------------------------------------------------------------------------
+# PROJECT RULES - your own rules, on top of the pack's. Optional.
+# Files live under .claude/rules/project/ (the pack never writes there).
+# Maintained by /vibe-rule-register. A project rule may tighten rules/vibe/*,
+# never relax it.
+# ---------------------------------------------------------------------------
+project_rules: []
+  # project_rules:
+  #   - id: PRJ-STYLE                      # topic id; rule ids are PRJ-STYLE-01...
+  #     file: ".claude/rules/project/style.md"
+  #     scope: ["src/**"]                  # same globs as the file's paths:, or ["*"]
+  #     overrides: []                      # pack rule ids this file overrides
+  #     enforced_by: ""                    # tool/config, or "" when review only
+  #     status: active                     # active | retired
+
+# ---------------------------------------------------------------------------
 # EXECUTION - model policy for the vibe-* agents (see README, "Model policy").
 # ---------------------------------------------------------------------------
 execution:

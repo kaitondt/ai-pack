@@ -138,6 +138,29 @@ what `/<prefix>-init` copied into each project:
 - `.claude/<profile>.yaml` — run `/<prefix>-profile-check` in a new session after the restart. It reports fields a new release
   added or renamed; fill them in and run it again until it is clean.
 
+### Upgrading a project to 2.4
+
+2.4.0 adds `/sdlc-rule-register`, `/mig-rule-register` and `/vibe-rule-register`: the way a
+project adds its own rules on top of the pack's, without editing the copies `/<prefix>-init`
+put in `.claude/rules/`.
+
+- **Project rules** live in `.claude/rules/project/<topic>.md` — a folder the pack never writes,
+  so a plugin update leaves it alone — and are listed in the new `project_rules` profile field.
+  Rule ids are `PRJ-{TOPIC}-{NN}`.
+- **Order of authority**: the pack's invariants (and legacy parity, in migration) → the client
+  coding standard → project rules → the pack's stack and common rules. A project rule may
+  tighten an invariant or override a stack/common rule (recorded against the rule id); it may
+  not relax an invariant, and the command refuses when it would.
+- `/<prefix>-init` offers it (sdlc, migration) and `/<prefix>-profile-check` gains checks for it
+  (sdlc 43–45, migration 45–47, vibe 19). The implementer and reviewer agents, `*-review-commit`
+  and the `*-project` skills now read and cite `PRJ-*` rules.
+
+`project_rules` is optional and defaults to an empty list, so an existing project works
+unchanged. To adopt it, add the field from the plugin's `templates/profile/<profile>.yaml`,
+regenerate the "Coding standards" section of `CLAUDE.md` (sdlc, migration), and run
+`/<prefix>-profile-check`. A project that already keeps its own files under `.claude/rules/`
+moves them to `.claude/rules/project/` and runs `/<prefix>-rule-register --list`.
+
 ### Upgrading a project to 2.3
 
 2.3.0 adds to `sdlc-standard` and `migration-standard`:

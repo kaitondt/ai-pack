@@ -77,6 +77,7 @@ right skill. Then read `{{profile.paths.state}}` — it is the handoff from the 
 | Next stage / outgrowing the pack | `/vibe-graduate` |
 | Where are we | `/vibe-status` |
 | Repeated mistakes | `/vibe-refine-skill` |
+| A correction given twice | one line below, or `/vibe-rule-register` for a path-scoped or longer rule |
 
 ## Commands for this codebase
 
@@ -107,4 +108,6 @@ right skill. Then read `{{profile.paths.state}}` — it is the handoff from the 
 
 <!-- Conventions for THIS project, learned as you go (SC-06): "use server actions, not API
      routes", "no new UI libraries", "dates are stored in UTC". A correction the owner has
-     given twice belongs here. Keep pack-wide rules in the pack. -->
+     given twice belongs here. Keep pack-wide rules in the pack. Longer or path-scoped
+     rules go in .claude/rules/project/ via /vibe-rule-register; they may tighten the
+     pack's rules, never relax them. -->

@@ -117,7 +117,7 @@ For every category whose delivered file the client's reviewers will edit, set
 overwritten a review. If client reviewers will correct translations, set
 `{{profile.language.correction_log}}` and create the file with its header row (TL-10).
 
-## Step 6 — Coding standards, stack rules and on-edit checks
+## Step 6 — Coding standards, stack rules, project rules and on-edit checks
 
 1. **Keep the stack rules the project uses.** The pack ships `rules/java/`,
    `rules/typescript/`, `rules/react/` and `rules/sql/`; each loads only with the files it
@@ -148,6 +148,14 @@ overwritten a review. If client reviewers will correct translations, set
    the client standard mandates are `blocking: true`. Write them only after the user
    confirms; with no tools configured yet, leave `on_edit: []` and say that
    `/sdlc-scaffold-codebase` will fill it.
+4. **Take the project's own rules in.** Ask whether the team or the client has conventions
+   beyond the pack's rules and the client coding standard — naming, layering, error
+   handling, commit or document rules, a house style, an existing `.claude/rules/` the
+   project already wrote. Run `/sdlc-rule-register` for each one (or `--list` first to show
+   what is already in force). Existing rule files that are not the pack's are moved or
+   registered under `.claude/rules/project/`, never overwritten. A project with no rules of
+   its own is normal: leave `project_rules: []` and say that `/sdlc-rule-register` is how a
+   rule is added later.
 
 ## Step 7 — Apply the model policy
 
@@ -199,6 +207,7 @@ SDLC Skill Pack initialised
                  toolchain: {format: ok|missing library}
   Stack rules  : kept {list}   removed {list}   no pack rules for: {list}
   Coding std   : {n} client standards digested   enforced by: {tools}
+  Project rules: {n} active in {n} files   overrides: {n}   review-only: {n}
   On-edit      : {n} entries ({n} blocking)   slowest {s}s on one file
   Mockup       : {kind}   surfaces: {list}
   Infrastructure: {scm} / {ci} / {hosting} / {iac}   owner: {owner}

@@ -38,6 +38,11 @@ Hold the resolved values for the whole task.
 | `rules/vibe/session-continuity.md` | STATE.md handoff, append-only logs, slice IDs in commits |
 | `rules/vibe/id-naming.md` | `INT` `DEC` `DEBT` `BUG` `IDEA` |
 
+The project's own rules live in `.claude/rules/project/` and are listed in
+`{{profile.project_rules}}` (added with `/vibe-rule-register`). They load with the files
+they govern, apply on top of the table above, and may tighten it but never relax it. Cite
+their ids (`PRJ-*`) in reviews.
+
 ## Step 3 — Read the project's memory
 
 Before acting on anything non-trivial: `{{profile.paths.state}}`, then the intent the task

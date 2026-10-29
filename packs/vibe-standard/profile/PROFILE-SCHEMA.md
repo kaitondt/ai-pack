@@ -138,6 +138,23 @@ that works for the current release (SH-02 #5).
 ### `integration`
 `sibling_packs: auto` detects `.claude/sdlc.profile.yaml` and `.claude/pm.profile.yaml`.
 
+### `project_rules`
+
+Optional. Your own rules on top of the pack's, added with `/vibe-rule-register`. Each entry
+points at a file under `.claude/rules/project/` — a directory the pack never writes to.
+Claude Code loads the file by itself; the entry lets the reviewer cite it and lets
+`/vibe-profile-check` see it (check 19). A project rule may tighten `rules/vibe/*`, never
+relax it.
+
+| Field | Required | Notes |
+|---|---|---|
+| `id` | ✅ | Topic id, `PRJ-{TOPIC}`. Rule ids in the file are `PRJ-{TOPIC}-{NN}`. |
+| `file` | ✅ | Repo-relative, under `.claude/rules/project/`. |
+| `scope[]` | ✅ | Globs, equal to the file's `paths:` front matter; `["*"]` when the file has none. |
+| `overrides[]` | — | Pack rule ids this file overrides; each is recorded as a `DEC-*` in `paths.decisions`. Never an invariant. |
+| `enforced_by` | — | The tool or hook that checks it. Empty means review-only. |
+| `status` | ✅ | `active` or `retired`. A retired rule is kept, never deleted or renumbered. |
+
 ### `execution`
 
 <!-- model-policy:claude -->

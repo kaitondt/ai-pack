@@ -14,6 +14,7 @@ and the refinement loop that the whole pack is built to support.
 | `/sdlc-init` | the repository | `sdlc.profile.yaml`, `CLAUDE.md`, directory scaffold, registers | — |
 | `/sdlc-profile-check` | profile | nothing (report only) | — |
 | `/sdlc-template-register` | the client's own forms | `templates.registry`, the field map, the template-gap report | — |
+| `/sdlc-rule-register` | the project's own rules, or a document that holds them | `.claude/rules/project/<topic>.md`, `project_rules`, `DEC-*` for overrides | — |
 
 ### Execute — produce artifacts
 

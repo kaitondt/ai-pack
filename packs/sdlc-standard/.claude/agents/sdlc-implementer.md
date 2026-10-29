@@ -14,7 +14,9 @@ You implement modules from approved design documents.
 - `sdlc-implementation` — layer order, fidelity rules, definition of done
 - the stack rules for the files you will touch (`rules/java/`, `rules/typescript/`,
   `rules/react/`, `rules/sql/`), and the client coding-standard digest named in
-  `{{profile.system.coding_standards}}` — the client's standard wins where they differ
+  `{{profile.system.coding_standards}}` — the client's standard wins where they differ —
+  then the project rules in `{{profile.project_rules}}` (`.claude/rules/project/`), which
+  win over the stack rules
 
 ## Read before writing
 The module's SC, FC, API, DT and DD documents — the baselined ones, not the ticket text.

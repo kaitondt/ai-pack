@@ -29,7 +29,7 @@ AI-written code specifically goes wrong.
 ┌──────────────────────────────────────────────────────────────────┐
 │  rules/vibe/ — 7 invariant rule families, scaled by stage        │
 │  skills/     — 13 skills, loaded on demand                       │
-│  commands/   — 20 entry points the human types                   │
+│  commands/   — 21 entry points the human types                   │
 │  agents/     — 6 delegated workers with narrow tool sets         │
 │  hooks/      — 4 guards: secrets, irreversible commands,         │
 │                slice size, session handoff                       │
@@ -151,7 +151,7 @@ Two rules hold the model honest:
 | What to build | `/vibe-product` · `/vibe-intent` · `/vibe-plan` · `/vibe-park` |
 | Build | `/vibe-build` · `/vibe-verify` · `/vibe-review` |
 | When it breaks | `/vibe-fix` · `/vibe-unstuck` |
-| Keep it healthy | `/vibe-debt` · `/vibe-security-check` · `/vibe-refine-skill` |
+| Keep it healthy | `/vibe-debt` · `/vibe-security-check` · `/vibe-refine-skill` · `/vibe-rule-register` |
 | Ship and grow | `/vibe-ship` · `/vibe-graduate` |
 | Sessions | `/vibe-resume` · `/vibe-handoff` · `/vibe-status` |
 
@@ -199,7 +199,7 @@ vibe-standard/
     ├── hooks/                     ← 4 hooks
     ├── rules/vibe/                ← 7 invariant rule files
     ├── skills/                    ← 13 skills
-    ├── commands/                  ← 20 slash commands
+    ├── commands/                  ← 21 slash commands
     └── agents/                    ← 6 agents
 ```
 

@@ -12,6 +12,7 @@ not the context that wrote it: your job is to disagree where the evidence says s
 ## Load first
 - `vibe-project`
 - `vibe-code-review` — RV-01..RV-05
+- the project rules in `{{profile.project_rules}}` (`PRJ-*`) for the files in the diff
 - `vibe-security` — SE-01 and SE-03 for any slice touching endpoints, data or auth
 
 ## Read

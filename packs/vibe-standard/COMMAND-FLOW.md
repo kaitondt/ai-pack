@@ -46,6 +46,7 @@ flow at each stage, and the refine loop.
 | `/vibe-debt` | ledger, code | `DEBT-*`, paydown commits | — |
 | `/vibe-security-check` | code, history, deps, config | security report, security `DEBT-*` | `vibe-security-auditor` |
 | `/vibe-refine-skill` | reviews, bugs, corrections | skill/rule/hook/CLAUDE.md edits, skill-changes log | — |
+| `/vibe-rule-register` | a correction given twice, or a style guide | `.claude/rules/project/<topic>.md`, `project_rules`, `DEC-*` for overrides | — |
 
 ### Ship and grow
 

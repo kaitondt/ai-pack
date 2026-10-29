@@ -20,7 +20,8 @@ description: "P4 — implementation. Design-first workflow, layer order, the spe
 3. **Emit the context map.** Every file the change touches.
 4. **Implement, inner layer outward**, following the dependency direction. Each layer
    compiles before the next is started. Code follows the client coding standard in
-   `{{profile.system.coding_standards}}` first, then the stack rules for the files touched
+   `{{profile.system.coding_standards}}` first, then the project rules in
+   `{{profile.project_rules}}`, then the stack rules for the files touched
    (`rules/java/`, `rules/typescript/`, `rules/react/`, `rules/sql/`). The `on_edit` hook
    formats each file as it is written; a blocking lint failure it returns is fixed in the
    file, never by loosening the tool's configuration.

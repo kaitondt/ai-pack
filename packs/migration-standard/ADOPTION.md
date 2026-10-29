@@ -253,6 +253,7 @@ the pack rather than inside it:
 .claude/skills/<key>_design_system/SKILL.md      UI design system for this product
 .claude/skills/<key>_domain_glossary/SKILL.md    domain terms and their meanings
 .claude/rules/<stack>/client-standard.md         the client's coding standard, digested (outranks <stack>.md)
+.claude/rules/project/<topic>.md                 the project's own rules, via /mig-rule-register
 ```
 
 Keep the `mig-*` files unmodified so the pack can be updated. When you find yourself
@@ -261,6 +262,32 @@ editing a `mig-*` file, ask whether the change is project-specific — if so it 
 
 Register new skills in the profile where they own a design category
 (`paths.bd_categories[].skill`).
+
+### Project rules
+
+The pack's rules are copied into `.claude/rules/` by `/mig-init`, because a plugin cannot
+load rules itself. Do not edit those copies: a re-init or a pack update may replace them.
+A rule the project wants on top goes in `.claude/rules/project/`, which the pack never writes:
+
+```
+/mig-rule-register                  # inventory: pack rules, client standards, project rules
+/mig-rule-register naming           # add a rule on one topic — interviews, checks conflicts, writes the file
+/mig-rule-register docs/style.md    # digest an existing team document into a rule file
+/mig-rule-register --check          # validate the files and the profile list; changes nothing
+```
+
+Order of authority, highest first: legacy parity and the pack's invariants
+(`rules/migration/`, the security non-negotiables) → the client coding standard
+(`target.coding_standards`) → project rules (`project_rules`) → the pack's stack and common
+rules. A project rule may **tighten** an invariant and may **override** a stack or common
+rule (the override is recorded against the rule id, with its approver and date). It may not
+**relax** an invariant or change observable legacy behaviour — the command refuses; behaviour
+changes are a client decision and a change request (`/mig-cr-analyze`). A scope that matches
+the legacy root is refused. The client's coding standard is not a project rule; it goes
+through `/mig-init` into `target.coding_standards`.
+
+Rule ids are `PRJ-{TOPIC}-{NN}` and permanent. A rule that stops applying is marked retired,
+not deleted.
 
 ## Common adoption mistakes
 

@@ -76,9 +76,12 @@ Always in this order — later steps consume earlier steps' output:
 ## Coding standards
 
 Target code follows, in this order of authority: legacy parity as the design records it,
-the client coding standard (`{{profile.target.coding_standards}}`), then the stack rules
-under `.claude/rules/` — `java/`, `typescript/`, `react/`, `sql/`, each loaded with the files
-it governs — then `.claude/rules/common/`. The `on_edit` hook formats and lints each target
+the client coding standard (`{{profile.target.coding_standards}}`), then this project's own
+rules in `.claude/rules/project/` (`{{profile.project_rules}}`, added with
+`/mig-rule-register`), then the stack rules under `.claude/rules/` — `java/`, `typescript/`,
+`react/`, `sql/`, each loaded with the files it governs — then `.claude/rules/common/`. A
+project rule may tighten the invariant rules (`rules/migration/`, security) but never relax
+them, and never changes legacy behaviour. The `on_edit` hook formats and lints each target
 file as it is written; fix what it reports in the file, and never loosen the tool's
 configuration to pass. The legacy tree is never formatted.
 

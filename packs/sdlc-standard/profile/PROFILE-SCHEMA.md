@@ -230,6 +230,28 @@ in addition to the review report.
 | `readonly_globs[]` | Enforced by `hooks/guard-protected-paths.py`. |
 | `baselined[]` | Appended by `/sdlc-phase-gate` when a gate passes. The hook reads it to block edits without an active CR. |
 
+### `project_rules`
+
+The project's own rules, added with `/sdlc-rule-register`. Each entry points at a file under
+`.claude/rules/project/` — a directory the pack never writes to, so a plugin update or
+re-init leaves it alone. Claude Code loads the file by itself; the entry is what gives it a
+rank and lets the reviewer cite it.
+
+Order of authority: pack invariants (`rules/sdlc/*`, the security non-negotiables) →
+client coding standard (`system.coding_standards`) → project rules → pack stack and common
+rules. A project rule may tighten an invariant, never relax it.
+
+| Field | Required | Notes |
+|---|---|---|
+| `id` | ✅ | Topic id, `PRJ-{TOPIC}`. Rule ids in the file are `PRJ-{TOPIC}-{NN}`, permanent like every other id. |
+| `file` | ✅ | Repo-relative, under `.claude/rules/project/`. Every file there must be listed (check 43). |
+| `kind` | — | `coding` · `naming` · `architecture` · `security` · `document` · `process` · `testing` · `other`. |
+| `scope[]` | ✅ | Globs, equal to the file's `paths:` front matter; `["*"]` when the file has none. |
+| `source` | — | A `DEC-*`, or the document the rule came from. A document is added to `constraints.readonly_globs`. |
+| `overrides[]` | — | Pack stack or common rule ids this file overrides. Each needs a `DEC-*` (check 45). Naming an invariant fails check 44. |
+| `enforced_by` | — | The tool or hook that checks it. Empty means review-only — `/sdlc-rule-register` reports those. |
+| `status` | ✅ | `active` or `retired`. A retired rule stays in the file and the list; it is never deleted or renumbered. |
+
 ### `execution`
 
 <!-- model-policy:claude -->

@@ -293,6 +293,29 @@ dossiers and `bug-trace-register.csv` live under `paths.bug_traces`.
 (PreToolUse on Write/Edit). This is the mechanical backstop for the
 "legacy is read-only" rule — the skills state it, the hook enforces it.
 
+### `project_rules`
+
+The project's own rules for the target code and deliverables, added with
+`/mig-rule-register`. Each entry points at a file under `.claude/rules/project/` — a
+directory the pack never writes to, so a plugin update or re-init leaves it alone. Claude Code
+loads the file by itself; the entry is what gives it a rank and lets the reviewer cite it.
+
+Order of authority: legacy parity and the pack invariants (`rules/migration/*`, the security
+non-negotiables) → client coding standard (`target.coding_standards`) → project rules → pack
+stack and common rules. A project rule may tighten an invariant, never relax it, and never
+changes legacy behaviour.
+
+| Field | Required | Notes |
+|---|---|---|
+| `id` | ✅ | Topic id, `PRJ-{TOPIC}`. Rule ids in the file are `PRJ-{TOPIC}-{NN}`, permanent like every other id. |
+| `file` | ✅ | Repo-relative, under `.claude/rules/project/`. Every file there must be listed (check 45). |
+| `kind` | — | `coding` · `naming` · `architecture` · `security` · `document` · `process` · `testing` · `other`. |
+| `scope[]` | ✅ | Globs, equal to the file's `paths:` front matter; `["*"]` when the file has none. Never matches `legacy.root`. |
+| `source` | — | The approver and date, or the document the rule came from. A document is added to `constraints.readonly_globs`. |
+| `overrides[]` | — | Pack stack or common rule ids this file overrides. Each records its approver and date (check 47). Naming an invariant, or relaxing parity, fails check 46. |
+| `enforced_by` | — | The tool or hook that checks it. Empty means review-only — `/mig-rule-register` reports those. |
+| `status` | ✅ | `active` or `retired`. A retired rule stays in the file and the list; it is never deleted or renumbered. |
+
 ### `execution`
 
 <!-- model-policy:claude -->

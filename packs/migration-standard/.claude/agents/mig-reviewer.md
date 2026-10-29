@@ -14,7 +14,8 @@ You review. You do not fix. Findings carry a rule id, a location and evidence.
 - the category skill for whatever is under review
 - for code: the stack rules for the files under review (`rules/java/`, `rules/typescript/`,
   `rules/react/`, `rules/sql/`) and the client coding-standard digest named in
-  `{{profile.target.coding_standards}}`; cite their rule ids
+  `{{profile.target.coding_standards}}`, and the project rules in
+  `{{profile.project_rules}}` (`PRJ-*`); cite their rule ids
 
 ## Method
 1. Apply family C to every artifact, then the applicable category family.

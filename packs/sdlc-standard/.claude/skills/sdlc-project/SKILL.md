@@ -43,6 +43,12 @@ in play are loaded, together with any client coding-standard digest listed in
 `{{profile.system.coding_standards}}` — which outranks them. Cite their rule ids (`JV-*`,
 `TS-*`, `RX-*`, `SQ-*`) in findings.
 
+**Project rules.** The project's own rules live in `.claude/rules/project/` and are listed in
+`{{profile.project_rules}}` (added with `/sdlc-rule-register`). They rank below the client
+coding standard and above the pack's stack and common rules; a project rule may tighten an
+invariant above, never relax it. Cite their ids (`PRJ-*`) in findings. A file in that
+directory that is not in the list is still applied, and is reported by `/sdlc-profile-check`.
+
 ## Step 3 — Route to the phase skill
 
 | The task is about | Load |

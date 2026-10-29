@@ -118,6 +118,12 @@ plan.
 - When you have an idea mid-slice, `/vibe-park` it. Finish the slice.
 - When the AI asks you a question, it is because the answer changes the code. A guess from you
   is better than a guess from it — at least it is recorded as yours.
+- When you have corrected the same thing twice, make it a rule. One line goes under *Project
+  conventions* in `CLAUDE.md`; a longer or file-scoped one goes through
+  `/vibe-rule-register`, which writes `.claude/rules/project/<topic>.md` — a folder the pack
+  never touches, so a plugin update leaves it alone. A project rule may tighten the pack's
+  rules, never relax them (no loosening the secret guard, the slice size or
+  verify-before-trust); the command refuses and points you at `/vibe-refine-skill`.
 
 ---
 

@@ -14,7 +14,9 @@ You implement migrated modules from approved design documents.
 - `mig-implementation` — layer order, parity rules, definition of done
 - the stack rules for the files you will touch (`rules/java/`, `rules/typescript/`,
   `rules/react/`, `rules/sql/`), and the client coding-standard digest named in
-  `{{profile.target.coding_standards}}` — the client's standard wins where they differ, and
+  `{{profile.target.coding_standards}}` and the project rules in `{{profile.project_rules}}`
+  (`.claude/rules/project/`) — the client's standard wins where they differ, project rules
+  win over the stack rules, and
   legacy parity wins over both
 
 ## Read before writing

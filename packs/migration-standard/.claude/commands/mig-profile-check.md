@@ -70,6 +70,11 @@ An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry
 | 42 | every `templates.registry[].authority` is empty, `xlsx` or `docx`, and a non-empty value matches the entry's own `format` or `output_format` | Critical — a regeneration would overwrite reviewers' edits (DIO-10) |
 | 43 | `language.correction_log`, when set, exists and has its header row | Warning |
 | 44 | once automation exists, `testing.automation.list_command` runs and lists tests, and `tc_id_in` is `title`, `tag` or `annotation` | Warning — scripts cannot be reconciled with the cases |
+| 45 | every `project_rules[].file` exists, and every file under `.claude/rules/project/` is registered | Warning — an unregistered rule is applied but never ranked or cited |
+| 46 | project rule ids match `PRJ-{TOPIC}-{NN}` with no duplicates, and no `overrides` entry names an invariant (`rules/migration/*`, the security non-negotiables) or relaxes legacy parity | Critical — a project rule may tighten an invariant, never relax it |
+| 47 | every project rule that overrides a pack rule records its approver and date | Warning |
+
+Checks 45–47 are the summary; `/mig-rule-register --check` runs the full set.
 
 Print a table of results and a verdict. On any Critical, state that the pack is not
 safe to run and name the exact field to fix. Do not offer to "work around" a failed
@@ -81,6 +86,7 @@ Also report, as information rather than findings:
 Templates       : {n}/{n categories} registered   missing: {keys}
                   on_missing = {mode} -> what those categories will do
 Toolchain       : {format}: {ok | library missing}
+Project rules   : {n} active in {n} files   overrides: {n}   review-only: {n}
 Legacy documents: {n} files under {legacy_documents_dir} — inputs only (DIO-08)
 Mockup          : {kind}, fidelity {fidelity}, {n} surfaces
 Infrastructure  : {scm} / {ci} / {hosting} / {iac}   owner: {owner}

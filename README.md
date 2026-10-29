@@ -12,10 +12,10 @@ git submodule.
 
 | Pack | Use it for | Prefix | Skills | Commands | Agents |
 |---|---|---|---|---|---|
-| [`sdlc-standard`](packs/sdlc-standard/README.md) | Building something new (greenfield or a new subsystem), P0 Inception → P9 Maintenance | `sdlc-` | 33 | 37 | 14 |
-| [`migration-standard`](packs/migration-standard/README.md) | Rewriting or replatforming a legacy system where behaviour must be preserved | `mig-` | 28 | 31 | 14 |
+| [`sdlc-standard`](packs/sdlc-standard/README.md) | Building something new (greenfield or a new subsystem), P0 Inception → P9 Maintenance | `sdlc-` | 33 | 38 | 14 |
+| [`migration-standard`](packs/migration-standard/README.md) | Rewriting or replatforming a legacy system where behaviour must be preserved | `mig-` | 28 | 32 | 14 |
 | [`pm-standard`](packs/pm-standard/README.md) | Managing the project itself (PMBOK-aligned): charter, scope, cost, schedule, reporting, quality, risk, closing | `pm-` | 16 | 28 | 7 |
-| [`vibe-standard`](packs/vibe-standard/README.md) | Vibe coding — building fast with AI (spike → prototype → MVP → production), with intents, small slices, evidence and guard rails | `vibe-` | 13 | 20 | 6 |
+| [`vibe-standard`](packs/vibe-standard/README.md) | Vibe coding — building fast with AI (spike → prototype → MVP → production), with intents, small slices, evidence and guard rails | `vibe-` | 13 | 21 | 6 |
 
 The two technical packs (`sdlc`, `migration`) manage the **product** — what is built and
 whether it is correct. `pm-standard` manages the **project** — what was committed, at what

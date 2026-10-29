@@ -47,6 +47,8 @@ An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry
 |---|---|---|
 | 18 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/vibe-*.md` matches the model it resolves to (see the table above) | Medium |
 
+| 19 | Every file under `.claude/rules/project/` is listed in `project_rules`, every entry's file exists, and no `overrides` names a `rules/vibe/*` invariant | Medium — an unlisted rule is applied but never cited; relaxing an invariant is refused (`/vibe-rule-register`) |
+
 ## Report
 
 ```

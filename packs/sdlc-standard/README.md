@@ -141,7 +141,7 @@ sdlc-standard/
     │   ├── sdlc/                  ← 6 lifecycle-invariant rule files
     │   └── java/ typescript/ react/ sql/  ← stack rules, loaded only with the files they govern
     ├── skills/                    ← 33 skills
-    ├── commands/                  ← 37 slash commands
+    ├── commands/                  ← 38 slash commands
     └── agents/                    ← 14 agents
 ```
 
@@ -174,7 +174,7 @@ behind two approvals — the option, then the document diff.
 
 Cross-cutting at any phase: `/sdlc-phase-gate`, `/sdlc-trace-check`, `/sdlc-quality-report`,
 `/sdlc-review-design`, `/sdlc-review-commit`, `/sdlc-verify-build`, `/sdlc-context-map`,
-`/sdlc-translate`, `/sdlc-template-register`, `/sdlc-refine-skill`.
+`/sdlc-translate`, `/sdlc-template-register`, `/sdlc-rule-register`, `/sdlc-refine-skill`.
 
 Any defect, from any phase, can be traced end to end with `/sdlc-trace-bug`
 (`sdlc-bug-trace`): the chain from business requirement to test with the first broken link
@@ -261,6 +261,7 @@ cp sdlc-standard/profile/sdlc.profile.yaml  <your-project>/.claude/sdlc.profile.
 # then, inside the project:
 /sdlc-init
 /sdlc-template-register      # take the client's own deliverable forms in
+/sdlc-rule-register          # add the project's own rules on top of the pack's (optional)
 ```
 
 `/sdlc-init` inspects the repository, interviews you for what it cannot infer, writes the

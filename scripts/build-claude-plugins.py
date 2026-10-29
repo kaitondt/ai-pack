@@ -25,7 +25,7 @@ OUT = ROOT / "claude"
 MARKETPLACE = "ai-pack"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack-claude"
-VERSION = "2.3.0"
+VERSION = "2.4.0"
 
 PACKS = [
     {

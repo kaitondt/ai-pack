@@ -98,6 +98,13 @@ profile, so they set it there. Agents are not affected by it.
 From the pack's `.claude/CLAUDE.md` template with profile values resolved. If a `CLAUDE.md`
 exists, **append** the vibe section rather than overwriting.
 
+**Existing rules.** If the repo already has a `.claude/rules/` or a style guide the AI should
+follow, do not overwrite it: leave the files that are not the pack's where they are, or move
+them under `.claude/rules/project/` and run `/vibe-rule-register --list`. Otherwise say once
+that `/vibe-rule-register` is how a rule is added later, after a correction has been given
+twice — and leave `project_rules: []`. Do not interview for rules at init; there is nothing
+to learn from yet.
+
 ## Step 7 — Check the hooks run
 
 ```bash
@@ -119,6 +126,7 @@ Vibe pack initialised
   Stack       : {language / framework / db}
   Commands    : dev {ok} · test {ok|none} · lint {ok|none} · typecheck {ok|none} · build {ok}
   Memory      : vibe/ created — PRODUCT, STATE, 4 logs, {n} intents
+  Own rules   : {n} found under .claude/rules/ and listed   (add more: /vibe-rule-register)
   Findings    : {secrets / .env not ignored / no tests / …}
   Hooks       : {working | NOT RUNNING}
   Unfilled    : {fields still <...>}

@@ -11,7 +11,8 @@ description: "Review the staged or current diff against the design documents, th
 `sdlc-project`, then `sdlc-review-framework`, then `sdlc-implementation` and the stack
 rules for the files in the diff (`rules/java/`, `rules/typescript/`, `rules/react/`,
 `rules/sql/`), plus the client coding-standard digest named in
-`{{profile.system.coding_standards}}` — the client's standard wins where they differ.
+`{{profile.system.coding_standards}}` — the client's standard wins where they differ — and
+the project rules in `{{profile.project_rules}}`, cited as `PRJ-*`.
 
 ## Step 2 — Establish what the diff is supposed to do
 

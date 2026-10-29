@@ -559,6 +559,26 @@ constraints:
       cr_required: true
 
 # ---------------------------------------------------------------------------
+# PROJECT RULES - the project's own rules, on top of the pack's.
+# Files live under .claude/rules/project/ (the pack never writes there, so a
+# plugin update or re-init leaves them alone). Maintained by /sdlc-rule-register.
+# Order of authority: pack invariants (rules/sdlc/*, security non-negotiables) >
+# client coding standard (system.coding_standards) > project rules > pack stack
+# and common rules. A project rule may tighten an invariant, never relax it.
+# ---------------------------------------------------------------------------
+project_rules: []
+  # project_rules:
+  #   - id: PRJ-NAMING                     # topic id; rule ids are PRJ-NAMING-01...
+  #     file: ".claude/rules/project/naming.md"
+  #     kind: coding                       # coding | naming | architecture | security |
+  #                                        # document | process | testing | other
+  #     scope: ["src/**/*.ts"]             # same globs as the file's paths:, or ["*"]
+  #     source: "DEC-044"                  # DEC-*, a document path, or ""
+  #     overrides: []                      # pack stack/common rule ids, e.g. [TS-07]
+  #     enforced_by: ""                    # tool/config, or "" when review only
+  #     status: active                     # active | retired
+
+# ---------------------------------------------------------------------------
 # EXECUTION - which model the delegated agents run on.
 # Applied to .claude/agents/*.md frontmatter by /sdlc-init.
 # ---------------------------------------------------------------------------

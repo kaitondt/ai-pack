@@ -68,6 +68,11 @@ An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry
 | 40 | every `templates.registry[].authority` is empty, `xlsx` or `docx`, and a non-empty value matches the entry's own `format` or `output_format` | Critical — a regeneration would overwrite reviewers' edits (DIO-09) |
 | 41 | `language.correction_log`, when set, exists and has its header row | Warning |
 | 42 | once automation exists, `testing.automation.list_command` runs and lists tests, and `tc_id_in` is `title`, `tag` or `annotation` | Warning — scripts cannot be reconciled with the cases |
+| 43 | every `project_rules[].file` exists, and every file under `.claude/rules/project/` is registered | Warning — an unregistered rule is applied but never ranked or cited |
+| 44 | project rule ids match `PRJ-{TOPIC}-{NN}` with no duplicates, and no `overrides` entry names an invariant (`rules/sdlc/*`, the security non-negotiables) | Critical — a project rule may tighten an invariant, never relax it |
+| 45 | every project rule that overrides a pack rule has a `DEC-*` in `paths.decision_log` | Warning |
+
+Checks 43–45 are the summary; `/sdlc-rule-register --check` runs the full set.
 
 Print a table of results and a verdict. On any Critical, state that the pack is not safe to
 run and name the exact field to fix. Do not offer to "work around" a failed Critical.
@@ -80,6 +85,7 @@ Active CR           : {.claude/.active_cr contents, or "none"}
 Templates           : {n}/{n categories} registered   missing: {keys}
                       on_missing = {mode} -> what those categories will do
 Toolchain           : {format}: {ok | library missing}
+Project rules       : {n} active in {n} files   overrides: {n}   review-only: {n}
 Mockup              : {kind}, {n} surfaces
 Infrastructure      : {scm} / {ci} / {hosting} / {iac}   owner: {owner}
 ```

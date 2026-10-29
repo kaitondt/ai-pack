@@ -122,7 +122,7 @@ migration-standard/
     │   ├── migration/             ← 5 migration-invariant rule files
     │   └── java/ typescript/ react/ sql/  ← target stack rules, loaded only with the files they govern
     ├── skills/                    ← 28 skills
-    ├── commands/                  ← 31 slash commands
+    ├── commands/                  ← 32 slash commands
     └── agents/                    ← 14 agents
 ```
 
@@ -197,7 +197,7 @@ P5–P7 have their own skill family: `mig-test-design` (viewpoints and writing r
 
 Cross-cutting at any phase: `/mig-trace-check`, `/mig-review-design`,
 `/mig-translate`, `/mig-context-map`, `/mig-verify-build`, `/mig-template-register`,
-`/mig-refine-skill`.
+`/mig-rule-register`, `/mig-refine-skill`.
 
 Any bug, from any phase, can be traced end to end with `/mig-trace-bug` (`mig-bug-trace`):
 the chain from legacy to test with the first broken link marked, the introducing commit and
@@ -217,6 +217,7 @@ cp migration-standard/profile/migration.profile.yaml  <your-project>/.claude/mig
 # then, inside the project:
 /mig-init
 /mig-template-register      # take the client's own deliverable forms in
+/mig-rule-register          # add the project's own rules on top of the pack's (optional)
 ```
 
 `/mig-init` interviews you for the profile fields it cannot infer, writes the profile, takes

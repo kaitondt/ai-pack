@@ -271,6 +271,7 @@ pack rather than inside it:
 .claude/skills/<key>_design_system/SKILL.md      UI design system for this product
 .claude/skills/<key>_domain_glossary/SKILL.md    domain terms and their meanings
 .claude/rules/<stack>/client-standard.md         the client's coding standard, digested (outranks <stack>.md)
+.claude/rules/project/<topic>.md                 the project's own rules, via /sdlc-rule-register
 ```
 
 Keep the `sdlc-*` files unmodified so the pack can be updated. When you find yourself
@@ -279,6 +280,30 @@ editing an `sdlc-*` file, ask whether the change is project-specific — if so i
 
 Register new skills in the profile where they own a design category
 (`paths.bd_categories[].skill`).
+
+### Project rules
+
+The pack's rules are copied into `.claude/rules/` by `/sdlc-init`, because a plugin cannot
+load rules itself. Do not edit those copies: a re-init or a pack update may replace them.
+A rule the project wants on top goes in `.claude/rules/project/`, which the pack never writes:
+
+```
+/sdlc-rule-register                 # inventory: pack rules, client standards, project rules
+/sdlc-rule-register naming          # add a rule on one topic — interviews, checks conflicts, writes the file
+/sdlc-rule-register docs/style.md   # digest an existing team document into a rule file
+/sdlc-rule-register --check         # validate the files and the profile list; changes nothing
+```
+
+Order of authority, highest first: the pack's invariants (`rules/sdlc/`, the security
+non-negotiables) → the client coding standard (`system.coding_standards`) → project rules
+(`project_rules`) → the pack's stack and common rules. A project rule may **tighten** an
+invariant and may **override** a stack or common rule (the override is recorded against the
+rule id, with a `DEC-*`). It may not **relax** an invariant — the command refuses, and says
+the change belongs in the pack (`/sdlc-refine-skill`). The client's coding standard is not a
+project rule; it goes through `/sdlc-init` into `system.coding_standards`.
+
+Rule ids are `PRJ-{TOPIC}-{NN}` and permanent. A rule that stops applying is marked retired,
+not deleted.
 
 ## Common adoption mistakes
 
