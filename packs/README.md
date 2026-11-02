@@ -24,5 +24,5 @@ into a project and Claude Code picks it up as is.
 | [`vibe-standard`](vibe-standard/README.md) | Vibe coding with guard rails |
 
 **Changing a pack:** edit it here, run the build scripts, then publish the changed submodules
-(see [Releasing](../README.md#releasing)). Do not edit `claude/`, `codex/`, `gemini/` or
+(see [Releasing](../CONTRIBUTING.md#releasing)). Do not edit `claude/`, `codex/`, `gemini/` or
 `copilot/` directly — the next build overwrites them.
