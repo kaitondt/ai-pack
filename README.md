@@ -178,6 +178,23 @@ list or from **Extensions → `@agentPlugins`**.
 
 Then start a new session and run `/vibe-init`.
 
+### Claude Code without the plugin (copy `.claude/`)
+
+From a clone of this repository, copy one or more packs into a project (Python 3.9+, nothing
+else to install):
+
+```bash
+python scripts/install-claude-project.py <project> vibe-standard
+python scripts/install-claude-project.py <project> sdlc-standard pm-standard
+python scripts/install-claude-project.py <project> all --dry-run     # preview only
+```
+
+It copies the pack's `.claude/` (skills, commands, agents, rules, hooks) and the profile template,
+and merges the hooks into the project's `.claude/settings.json`. Existing files are kept; pass
+`--force` to update a copy to a newer version (the profile, `CLAUDE.md` and `settings.json` are
+never overwritten). Then run `/vibe-init` (or `/sdlc-init`, `/mig-init`, `/pm-init`). Do not
+combine this with the plugin for the same pack — the hooks would run twice.
+
 ### Install for one project only
 
 Only Claude Code (and Copilot in VS Code) record a true project-level install in a settings file
@@ -315,6 +332,7 @@ ai-pack/
 │   ├── build-gemini-extensions.py   → gemini/<pack>/
 │   ├── build-antigravity-plugins.py → antigravity/
 │   ├── build-copilot-plugins.py     → copilot/
+│   ├── install-claude-project.py    ← copy a pack's .claude/ into a project (no plugin)
 │   ├── migrate-project-names.py     ← upgrade a 1.x project to 2.0 names
 │   └── readme/                      ← README sources for generated repositories
 ├── claude/            (submodule → ai-pack-claude)
