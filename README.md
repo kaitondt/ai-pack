@@ -321,8 +321,7 @@ ai-pack/
 ├── codex/             (submodule → ai-pack-codex)
 ├── copilot/           (submodule → ai-pack-copilot)
 ├── gemini/<pack>/     (submodules → ai-pack-gemini-sdlc | -migration | -pm | -vibe)
-├── antigravity/       (submodule → ai-pack-antigravity)
-└── ECC/               (submodule → ECC)
+└── antigravity/       (submodule → ai-pack-antigravity)
 ```
 
 Clone with `git clone --recurse-submodules https://github.com/kaitondt/ai-pack`, or run
@@ -351,5 +350,3 @@ Licensed under either of
 - MIT license ([LICENSE-MIT](LICENSE-MIT))
 
 at your option.
-
-The `ECC/` submodule is a separate project and remains under its own license (see `ECC/LICENSE`).
