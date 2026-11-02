@@ -20,12 +20,14 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+LICENSE = "MIT OR Apache-2.0"
+LICENSE_FILES = ("LICENSE-MIT", "LICENSE-APACHE")
 OUT = ROOT / "claude"
 
 MARKETPLACE = "ai-pack"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack-claude"
-VERSION = "2.4.0"
+VERSION = "2.4.1"
 
 PACKS = [
     {
@@ -177,6 +179,12 @@ def strip_policy_markers(root):
             path.write_text(MARKER_LINE.sub("", text), encoding="utf-8")
 
 
+
+def copy_licenses(dst):
+    for name in LICENSE_FILES:
+        shutil.copy2(ROOT / name, dst / name)
+
+
 def build(pack):
     src = ROOT / "packs" / pack["name"]
     claude = src / ".claude"
@@ -209,6 +217,8 @@ def build(pack):
         if cmd.name.endswith(NOTE_TARGETS):
             inject_note(cmd, pack)
 
+    copy_licenses(dst)
+
     manifest = {
         "name": pack["name"],
         "version": VERSION,
@@ -216,6 +226,7 @@ def build(pack):
         "author": OWNER,
         "homepage": "{}/tree/main/plugins/{}".format(REPOSITORY, pack["name"]),
         "repository": REPOSITORY,
+        "license": LICENSE,
         "keywords": pack["keywords"],
     }
     (dst / ".claude-plugin").mkdir()
@@ -253,6 +264,7 @@ def main():
                 "author": OWNER,
                 "homepage": "{}/tree/main/plugins/{}".format(REPOSITORY, p["name"]),
                 "repository": REPOSITORY,
+                "license": LICENSE,
                 "keywords": p["keywords"],
                 "category": "workflow",
             }
@@ -263,6 +275,7 @@ def main():
     mp.parent.mkdir()
     mp.write_text(json.dumps(marketplace, indent=2) + "\n", encoding="utf-8")
     shutil.copy2(README_SOURCE, OUT / "README.md")
+    copy_licenses(OUT)
     print("Wrote {}".format(mp.relative_to(ROOT)))
 
 

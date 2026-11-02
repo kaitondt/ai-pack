@@ -15,8 +15,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+LICENSE = "MIT OR Apache-2.0"
+LICENSE_FILES = ("LICENSE-MIT", "LICENSE-APACHE")
 OUT = ROOT / "codex"
-VERSION = "1.4.0"
+VERSION = "1.4.1"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 
@@ -242,6 +244,8 @@ def build_pack(name: str, prefix: str, profile: str, description: str, keywords:
         f"# {name} for Codex\n\nInstall this plugin, then run `${prefix}-init` in the target repository: it writes `.codex/{profile}`, copies `templates/rules/` to `.codex/rules/` and generates `AGENTS.md` from `templates/AGENTS.md`. Every slash command of the Claude Code build is a skill of the same name (`/{prefix}-init` is `${prefix}-init`); `${prefix}-workflow` routes a task described in plain words.\n",
         encoding="utf-8")
 
+    copy_licenses(dest)
+
     manifest = {
         "name": name,
         "version": VERSION,
@@ -249,6 +253,7 @@ def build_pack(name: str, prefix: str, profile: str, description: str, keywords:
         "author": OWNER,
         "homepage": f"{REPOSITORY}/tree/main/packs/{name}",
         "repository": REPOSITORY,
+        "license": LICENSE,
         "keywords": keywords,
         "skills": "./skills/",
         "interface": {
@@ -267,6 +272,12 @@ def build_pack(name: str, prefix: str, profile: str, description: str, keywords:
     return {"name": name, "source": {"source": "local", "path": f"./plugins/{name}"}, "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"}, "category": "Productivity"}
 
 
+
+def copy_licenses(dst):
+    for name in LICENSE_FILES:
+        shutil.copy2(ROOT / name, dst / name)
+
+
 def clean_dir(path):
     """Empty a generated directory but keep .git: each output is its own git submodule."""
     path.mkdir(parents=True, exist_ok=True)
@@ -281,6 +292,7 @@ def clean_dir(path):
 
 def main() -> None:
     clean_dir(OUT)
+    copy_licenses(OUT)
     entries = [build_pack(*pack) for pack in PACKS]
     marketplace = {"name": "ai-pack", "interface": {"displayName": "AI Pack for Codex"}, "plugins": entries}
     # Codex looks for the manifest at <root>/.agents/plugins/marketplace.json; plugin source

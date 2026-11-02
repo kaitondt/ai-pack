@@ -340,3 +340,16 @@ git add <submodule> && git commit -m "Bump <ai> build"     # record the new poin
 
 Bump the `VERSION` constant in the build script when a change must reach installed copies;
 each AI's README describes how users then update.
+
+---
+
+## License
+
+Licensed under either of
+
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
+- MIT license ([LICENSE-MIT](LICENSE-MIT))
+
+at your option.
+
+The `ECC/` submodule is a separate project and remains under its own license (see `ECC/LICENSE`).

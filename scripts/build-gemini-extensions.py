@@ -17,9 +17,10 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+LICENSE_FILES = ("LICENSE-MIT", "LICENSE-APACHE")
 OUT = ROOT / "gemini"
 
-VERSION = "1.4.0"
+VERSION = "1.4.1"
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 GITHUB = "https://github.com/kaitondt"
 
@@ -347,6 +348,12 @@ def clean_dir(path):
             item.unlink()
 
 
+
+def copy_licenses(dst):
+    for name in LICENSE_FILES:
+        shutil.copy2(ROOT / name, dst / name)
+
+
 def build(pack):
     src = ROOT / "packs" / pack["name"]
     claude = src / ".claude"
@@ -384,6 +391,8 @@ def build(pack):
     (dst / "GEMINI.md").write_text(CONTEXT.format(
         name=pack["name"], prefix=pack["prefix"], profile=pack["profile"],
         stem=pack["profile"].split(".")[0]), encoding="utf-8")
+
+    copy_licenses(dst)
 
     manifest = {
         "name": pack["name"],

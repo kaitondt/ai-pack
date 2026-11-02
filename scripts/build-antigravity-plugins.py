@@ -26,8 +26,9 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+LICENSE_FILES = ("LICENSE-MIT", "LICENSE-APACHE")
 OUT = ROOT / "antigravity"
-VERSION = "1.4.0"
+VERSION = "1.4.1"
 README_SOURCE = ROOT / "scripts" / "readme" / "antigravity.md"
 
 PACKS = [
@@ -206,6 +207,12 @@ def rule_scope(text):
     return globs, text.replace("\r\n", "\n")[m.end():]
 
 
+
+def copy_licenses(dst):
+    for name in LICENSE_FILES:
+        shutil.copy2(ROOT / name, dst / name)
+
+
 def clean_dir(path):
     """Empty a generated directory but keep .git: the output is its own git submodule."""
     path.mkdir(parents=True, exist_ok=True)
@@ -343,6 +350,8 @@ def build(pack):
             (dst / doc).write_text(agy_text((src / doc).read_text(encoding="utf-8"), pack),
                                    encoding="utf-8")
 
+    copy_licenses(dst)
+
     # plugin.json accepts only name, description, logo, suggestedPrompts, displayName,
     # version and disabled; other fields are silently discarded by the loader.
     manifest = {"name": pack["name"], "displayName": "AI Pack: " + pack["name"],
@@ -363,6 +372,7 @@ def main():
     for pack in PACKS:
         build(pack)
     shutil.copy2(README_SOURCE, OUT / "README.md")
+    copy_licenses(OUT)
 
 
 if __name__ == "__main__":
