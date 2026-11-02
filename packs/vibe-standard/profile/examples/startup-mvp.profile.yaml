@@ -4,10 +4,10 @@
 schema_version: "1.0"
 
 project:
-  key: SHIFT
-  name: "ShiftSwap"
+  key: PRJF
+  name: "ExampleApp"
   one_liner: "Lets hourly staff at small restaurants swap shifts without texting the manager."
-  owner: "Lan (CEO)"
+  owner: "Founder (CEO)"
   start_date: "2026-05-04"
 
 stage: mvp
@@ -47,7 +47,7 @@ commands:
   test: "uv run pytest -q"
   test_e2e: "pnpm -C web playwright test"
   audit: "uv run pip-audit && pnpm -C web audit --audit-level=high"
-  smoke: "curl -fsS https://api.shiftswap.example/health"
+  smoke: "curl -fsS https://api.exampleapp.example/health"
 
 paths:
   vibe_root: "vibe"
@@ -109,8 +109,8 @@ debt:
 
 release:
   environments: ["local", "staging", "production"]
-  deploy: "merge to main -> CI builds -> human runs `fly deploy --app shiftswap-api` and `wrangler pages deploy web/dist`"
-  rollback: "fly releases rollback --app shiftswap-api; Cloudflare Pages: roll back to previous deployment"
+  deploy: "merge to main -> CI builds -> human runs `fly deploy --app exampleapp-api` and `wrangler pages deploy web/dist`"
+  rollback: "fly releases rollback --app exampleapp-api; Cloudflare Pages: roll back to previous deployment"
   monitoring: "Sentry (API + web), Better Stack uptime on /health, alerts to #ops Slack"
   backups: "Neon point-in-time restore (7 days); restore tried 2026-08-20"
 

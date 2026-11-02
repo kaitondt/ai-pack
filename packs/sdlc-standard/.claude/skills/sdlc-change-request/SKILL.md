@@ -183,8 +183,8 @@ own. Bundles hide the one item that is `CR-DATA` behind three that are `CR-UI`.
 
    | # | Kind | Path | Baselined | Required | Planned change |
    |---|---|---|---|---|---|
-   | 1 | requirements | `{{profile.paths.requirements}}/SRS.md` | yes | new `REQ-ORD-031` |
-   | 2 | screen design | `…-SC-001…` | yes | new row in the item table |
+   | 1 | requirements | `{{profile.paths.requirements}}/SRS.md` | yes | new `REQ-{AREA}-{NNN}` |
+   | 2 | screen design | `…-SC-{NNN}…` | yes | new row in the item table |
    | 3 | printed report | `…` | no | not involved |
    | 4 | counterpart surface | `…` | yes | **ask** — pending client answer |
 

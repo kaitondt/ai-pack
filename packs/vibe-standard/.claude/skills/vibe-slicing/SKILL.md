@@ -44,10 +44,10 @@ A slice that needs a new dependency, a schema change, or a new external service 
 ## PL-03 — Every slice maps to done-when checks
 
 ```
-INT-007 — Notes can be edited
-  INT-007.1  edit form, pre-filled; save updates        checks 1,2   ~4 files  ~150 lines
-  INT-007.2  ownership on page + API                    check 3      ~3 files  ~80 lines   ← risk: auth helper unclear
-  INT-007.3  validation, error message                  check 4      ~3 files  ~60 lines
+INT-{NNN} — Notes can be edited
+  INT-{NNN}.1  edit form, pre-filled; save updates        checks 1,2   ~4 files  ~150 lines
+  INT-{NNN}.2  ownership on page + API                    check 3      ~3 files  ~80 lines   ← risk: auth helper unclear
+  INT-{NNN}.3  validation, error message                  check 4      ~3 files  ~60 lines
   ─────
   every check covered: 1 ✓ 2 ✓ 3 ✓ 4 ✓
 ```

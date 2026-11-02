@@ -40,7 +40,7 @@ slice that takes it**. Typical ones:
 The code at the shortcut carries a marker with the ID:
 
 ```ts
-// DEBT-014: notes stored in a JSON file; move to Postgres before mvp
+// DEBT-{NNN}: notes stored in a JSON file; move to Postgres before mvp
 ```
 
 - A `TODO` / `FIXME` / `HACK` **without** a `DEBT-*` id is flagged by `/vibe-review`. Either it

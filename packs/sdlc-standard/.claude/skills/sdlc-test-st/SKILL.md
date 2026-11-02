@@ -43,10 +43,10 @@ One scenario per end-to-end process a real user performs, including the parts th
 on a different day, in a different role, or through a batch:
 
 ```
-ST-ORD-001  Order to delivery, standard customer
+ST-{SCENARIO}-{NNN}  Order to delivery, standard customer
   Day 1  sales creates the order              (role: sales)
-  Day 1  credit check batch runs overnight    (batch: KK0010BT)
-  Day 2  warehouse picks and confirms         (role: warehouse)
+  Day 1  credit check batch runs overnight    (batch: {BATCH_ID})
+  Day 2  fulfilment picks and confirms         (role: fulfilment)
   Day 2  invoice is generated and sent        (interface: accounting)
   Day 3  the order appears in the daily report
 ```

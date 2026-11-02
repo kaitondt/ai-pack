@@ -13,9 +13,9 @@
 schema_version: "1.0"
 
 project:
-  key: PLT
+  key: PRJE
   name: "Billing Platform — Subscription Migration"
-  code: "INT-PLT-2026"
+  code: "INT-PRJE-{YYYY}"
   vendor: "Platform Engineering (internal)"
   client: "Revenue Operations (internal)"
   copyright: "(c) 2026 Northwind Software. Internal use only."
@@ -37,7 +37,7 @@ governance:
   ccb:
     members: ["project_manager", "technical_lead", "client_pm"]
     chair: "project_manager"
-    cadence: "at sprint planning; async in the #plt-changes channel between"
+    cadence: "at sprint planning; async in the #prje-changes channel between"
     quorum: 2
   steering_committee:
     members: ["sponsor", "delivery_manager", "client_pm"]
@@ -91,33 +91,33 @@ scope:
     - "Migration of active subscriptions"
   out_of_scope:
     - item: "Usage-based billing"
-      reason: "no customer on it today; would double the data model (DEC-006)"
+      reason: "no customer on it today; would double the data model (DEC-{NNN})"
     - item: "Tax engine replacement"
       reason: "Avalara contract runs to 2027; interface unchanged"
     - item: "Invoice PDF redesign"
       reason: "Design team capacity; queued for Q4 as a separate effort"
   deliverables:
-    - id: "D-001"
+    - id: "D-{NNN}"
       name: "Billing engine (new)"
       kind: "software"
       acceptance_by: "client_pm"
       acceptance_criteria: "parallel run for one full cycle with zero unexplained variances"
       due_milestone: "M3"
-    - id: "D-002"
+    - id: "D-{NNN}"
       name: "Migration tooling and runbook"
       kind: "software"
       acceptance_by: "technical_lead"
       acceptance_criteria: "rehearsed twice on a production clone, with a tested rollback"
       due_milestone: "M3"
-    - id: "D-003"
+    - id: "D-{NNN}"
       name: "Operations handover"
       kind: "training"
       acceptance_by: "client_pm"
       acceptance_criteria: "billing ops runs one cycle unaided with engineering observing only"
       due_milestone: "M4"
   requirements:
-    source: "Linear project PLT, epics with acceptance criteria"
-    id_format: "PLT-{NNN}"
+    source: "Linear project PRJE, epics with acceptance criteria"
+    id_format: "PRJE-{NNN}"
     traceability: "docs/traceability.csv"
     owner: "client_pm"
     change_threshold_requires_cr: "any change to the committed release scope"
@@ -127,11 +127,11 @@ scope:
     - "Financial reporting output must reconcile to the cent against the legacy engine"
     - "SOX controls apply: change approval and segregation of duties are audited"
   dependencies:
-    - id: "DEP-001"
+    - id: "DEP-{NNN}"
       description: "Payment gateway sandbox refresh from the vendor"
       owner: "technical_lead → gateway vendor"
       needed_by: "2026-04-15"
-      impact_if_late: "dunning work cannot be tested; PLT.4.3 stalls"
+      impact_if_late: "dunning work cannot be tested; PRJE.4.3 stalls"
 
 wbs:
   code_format: "{key}.{L1}.{L2}"
@@ -351,7 +351,7 @@ reporting:
   cadences:
     - id: weekly
       audience: ["client_pm", "project_manager", "technical_lead"]
-      channel: "written note in #plt-status"
+      channel: "written note in #prje-status"
       due: "Friday 15:00"
       content: ["RAG with the reason", "milestone status", "velocity vs average",
                 "stories done and planned", "top risks and issues", "decisions needed",
@@ -374,7 +374,7 @@ reporting:
                 "what the numbers predict"]
       path: "pm/12.reports/quality"
   data_sources:
-    progress: "Linear (PLT project)"
+    progress: "Linear (PRJE project)"
     effort: "not tracked per person; cost derived from team size and elapsed time"
     defects: "Linear (label: bug)"
     test_results: "CI artifacts and the reconciliation report"
@@ -422,7 +422,7 @@ resource:
       skills_required: ["data reconciliation", "test automation"]
   onboarding_checklist: "pm/08.resource/onboarding.md"
   max_planned_allocation_percent: 80
-  key_person_risk: "billing domain knowledge sits with one engineer — RSK-003, pairing mandated"
+  key_person_risk: "billing domain knowledge sits with one engineer — RSK-{NNN}, pairing mandated"
   subcontract:
     used: false
     parties: []

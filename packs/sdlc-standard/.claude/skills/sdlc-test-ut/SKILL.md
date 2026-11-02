@@ -26,7 +26,7 @@ client which rules are covered; a project with only documents cannot detect a re
 
 ```
 {{profile.testing.paths.testcase_root}}/
-└── {{profile.testing.naming.module_dir}}/           e.g. UT_Batch1_SL0030PG/
+└── {{profile.testing.naming.module_dir}}/           e.g. UT_Batch{N}_{MODULE}/
     ├── Step/
     │   ├── {MODULE}_step1_sources_{TS}.md
     │   ├── {MODULE}_step1_analysis_{TS}.md

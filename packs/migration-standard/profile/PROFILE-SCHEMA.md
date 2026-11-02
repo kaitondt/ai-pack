@@ -124,7 +124,7 @@ Deterministic identity is what makes traceability checkable. Rules:
 
 - `module_pattern` is a real regex; `/mig-profile-check` validates `module_example` against it.
 - `doc_id_format` must contain `{MODULE}`, `{TYPE}` and `{NNN}`.
-- `MODULE_BASE` = module ID with its surface suffix stripped (`KK0030PG` → `KK0030`).
+- `MODULE_BASE` = module ID with its surface suffix stripped (`XX0000PG` → `XX0000`).
   Message IDs use the base so PC and handheld variants of one screen share a message set.
 - `number_width` fixes the zero padding. `001`, never `01` or `1`.
 
@@ -286,7 +286,7 @@ dossiers and `bug-trace-register.csv` live under `paths.bug_traces`.
 |---|---|
 | `mainline` | the branch releases are cut from. Empty → the branch `origin/HEAD` points to. Used to find the merge that brought an introducing commit in |
 | `release_tag_pattern` | glob selecting the tags that are releases (`v*`). Empty → every tag counts, which over-reports on repositories that also tag builds |
-| `commit_ref_patterns` | extra regexes for ticket keys in commit messages (`WMS-[0-9]+`). CR ids, bug ids and module ids are recognised from `change_request.id_format` and `ids.*` without being listed here |
+| `commit_ref_patterns` | extra regexes for ticket keys in commit messages (`PRJA-[0-9]+`). CR ids, bug ids and module ids are recognised from `change_request.id_format` and `ids.*` without being listed here |
 
 ### `constraints`
 `readonly_globs` is enforced at the tool level by `hooks/guard-readonly-paths.py`

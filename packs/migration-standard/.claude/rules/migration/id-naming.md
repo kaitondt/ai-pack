@@ -8,30 +8,30 @@ Format: `{{profile.ids.doc_id_format}}` → `{MODULE}-{TYPE}-{NNN}`
 
 | Segment | Source | Example |
 |---|---|---|
-| `MODULE` | must match `{{profile.ids.module_pattern}}` | `KK0030PG` |
+| `MODULE` | must match `{{profile.ids.module_pattern}}` | `XX0000PG` |
 | `TYPE` | one of `{{profile.ids.types}}` | `SC`, `FC`, `API`, `DD` |
 | `NNN` | zero-padded to `{{profile.ids.number_width}}` | `001` |
 
-`KK0030PG-SC-001`, `KK0030PG-FC-012`, `CLM101W-API-003`.
+`{MODULE}-SC-{NNN}`, `{MODULE}-FC-{NNN}`, `{MODULE}-API-{NNN}`.
 
 ## ID-02 — Module base and surface suffix
 
 A module ID ends with a surface suffix from `{{profile.target.surfaces[].id_suffix}}`.
 `MODULE_BASE` is the module ID with that suffix stripped.
 
-`KK0030PG` → base `KK0030`, surface `PC`.
+`XX0000PG` → base `XX0000`, surface `PC`.
 
 Message IDs use the **base**, so the desktop and handheld variants of one screen share a
-message catalogue: `MSG-KK0030-001`.
+message catalogue: `MSG-{MODULE_BASE}-{NNN}`.
 
 ## ID-03 — Message ID format
 
 Format: `{{profile.ids.message_id_format}}`
 
 Common failure modes, all Critical:
-- wrong number width (`MSG-KK0030-01`)
-- surface suffix left in (`MSG-KK0030PG-001`)
-- module prefix truncated (`MSG-K0030-001`)
+- wrong number width (`MSG-{MODULE_BASE}-{NN}`)
+- surface suffix left in (`MSG-{MODULE}-{NNN}`)
+- module prefix truncated (`MSG-{MODULE_BASE minus last char}-{NNN}`)
 
 System-wide messages use a reserved base (`MSG-COMMON-NNN`) and must **not** appear in a
 module's own message table — reference them, do not copy them.
@@ -55,7 +55,7 @@ column names, stored-procedure names, file paths and URLs — see
 Reference another artifact as `Logical name (ID)` — the human name first, the ID in
 parentheses, using the punctuation style mandated by the document language.
 
-`入荷予定検索機能（KK0030PG-FC-001）` · `Receiving search (KK0030PG-FC-001)`
+`検索機能（{MODULE}-FC-{NNN}）` · `Item search ({MODULE}-FC-{NNN})`
 
 One punctuation style per document. Do not mix full-width and half-width parentheses, and
 do not mix `/` and `・` for the same phrase family.
@@ -65,7 +65,7 @@ do not mix `/` and `・` for the same phrase family.
 Deliverable filenames embed the document ID so a file is locatable from any reference:
 
 ```
-{category}({ID}_{short-name}).md      e.g.  screen-design(KK0030PG-SC-001_receiving-list).md
+{category}({ID}_{short-name}).md      e.g.  screen-design({MODULE}-SC-{NNN}_item-list).md
 ```
 
 Keep the exact convention in the profile-driven category directory; the invariant is that

@@ -114,7 +114,7 @@ last version you saw.
 
 Record the source file path and, where the format has one, the last-modified date in the
 document that cites it. "Per the client's interface spec" is not a source; "per
-`docs/_incoming/IF_SPEC_v3.xlsx` sheet `API-014`, received 2026/03/12" is.
+`docs/_incoming/IF_SPEC_v3.xlsx` sheet `API-{NNN}`, received 2026/03/12" is.
 
 ### DIO-07 — Binary deliverables are still reviewable
 

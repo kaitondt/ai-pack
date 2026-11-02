@@ -10,12 +10,12 @@
 schema_version: "1.0"
 
 project:
-  key: KRS
-  name: "在庫管理システム刷新 / Inventory Management System Renewal"
-  code: "KRS-2026-001"
-  vendor: "Offshore Development Partner Co., Ltd."
-  client: "Kariya Retail Systems K.K."
-  copyright: "(c) 2026 Kariya Retail Systems K.K. All rights reserved."
+  key: PRJC
+  name: "基幹システム刷新 / Core System Renewal"
+  code: "PRJC-{YYYY}-{NNN}"
+  vendor: "Vendor Co., Ltd"
+  client: "Client Co., Ltd"
+  copyright: "(c) 2026 Client Co., Ltd All rights reserved."
   start_date: "2026-02-02"
   planned_end_date: "2026-12-18"
   delivery_model: waterfall
@@ -72,7 +72,7 @@ calendar:
     - name: "Client year-end close"
       from: "2026-03-25"
       to: "2026-04-05"
-      reason: "会計年度末、本番環境変更禁止 (DEC-009)"
+      reason: "会計年度末、本番環境変更禁止 (DEC-{NNN})"
     - name: "Tet holiday"
       from: "2026-02-14"
       to: "2026-02-22"
@@ -80,47 +80,47 @@ calendar:
 
 scope:
   objectives:
-    - statement: "Reduce stocktaking time at each depot"
-      measure: "hours per full depot stocktake, from the handheld log"
+    - statement: "Reduce processing time at each site"
+      measure: "hours per full processing cycle, from the system log"
       target: "from 11 h to under 4 h by 2027/01/31"
     - statement: "Eliminate manual re-keying into the accounting system"
-      measure: "count of manual journal entries from inventory data per month"
+      measure: "count of manual journal entries from operational data per month"
       target: "from ~320 to 0 by go-live"
   in_scope:
-    - "入荷・出荷・棚卸の業務管理 (receiving, shipping, stocktaking)"
-    - "ハンディ端末による現場作業 (handheld terminal operations)"
+    - "主要業務の管理 (core business operations)"
+    - "モバイル端末による現場作業 (mobile terminal operations)"
     - "基幹会計システムとの日次連携 (nightly accounting interface)"
   out_of_scope:
     - item: "会計システム本体の改修"
-      reason: "別ベンダー管理。インタフェース仕様のみ合意 (DEC-004)"
+      reason: "別ベンダー管理。インタフェース仕様のみ合意 (DEC-{NNN})"
     - item: "EDI 受発注"
       reason: "第2フェーズ、本契約の範囲外 (契約書 別紙2)"
-    - item: "Depot master data cleansing"
-      reason: "client-side activity, tracked as DEP-002; project consumes the result"
+    - item: "Master data cleansing"
+      reason: "client-side activity, tracked as DEP-{NNN}; project consumes the result"
   deliverables:
-    - id: "D-001"
+    - id: "D-{NNN}"
       name: "要件定義書 (SRS)"
       kind: "document"
       acceptance_by: "client_pm"
       acceptance_criteria: "every REQ traceable to a BR, reviewed with zero open Critical findings"
       due_milestone: "M1"
-    - id: "D-002"
+    - id: "D-{NNN}"
       name: "基本設計書一式 (Basic design set)"
       kind: "document"
       acceptance_by: "client_pm"
       acceptance_criteria: "all categories complete, SC/FC/API cross-checks pass"
       due_milestone: "M2"
-    - id: "D-005"
+    - id: "D-{NNN}"
       name: "本番システム (Production system)"
       kind: "software"
       acceptance_by: "client_pm"
       acceptance_criteria: "UAT complete, zero open S1/S2, acceptance record signed"
       due_milestone: "M5"
-    - id: "D-006"
+    - id: "D-{NNN}"
       name: "運用手順書・操作研修 (Runbook and training)"
       kind: "training"
       acceptance_by: "sponsor"
-      acceptance_criteria: "client operators complete a stocktake unaided on the UAT environment"
+      acceptance_criteria: "client operators complete a core task unaided on the UAT environment"
       due_milestone: "M5"
   requirements:
     source: "docs/01.要件定義/SRS.md"
@@ -130,17 +130,17 @@ scope:
     change_threshold_requires_cr: "any change to a baselined requirement"
   assumptions_log: "pm/10.registers/assumption-log.md"
   constraints:
-    - "Handheld hardware fixed to the client's existing Keyence terminals (contract §4.2)"
+    - "Handheld hardware fixed to the client's existing handheld terminals (contract §4.2)"
     - "Accounting interface format frozen by the other vendor; change needs 6 weeks notice"
     - "No production data may leave Japan (client security policy SEC-11)"
   dependencies:
-    - id: "DEP-001"
+    - id: "DEP-{NNN}"
       description: "Accounting interface specification from the incumbent vendor"
       owner: "client_pm → incumbent vendor"
       needed_by: "2026-04-10"
-      impact_if_late: "KRS.3.4 and KRS.4.6 stall; M2 at risk"
-    - id: "DEP-002"
-      description: "Cleansed depot master data"
+      impact_if_late: "PRJC.3.4 and PRJC.4.6 stall; M2 at risk"
+    - id: "DEP-{NNN}"
+      description: "Cleansed master data"
       owner: "Client IS"
       needed_by: "2026-08-01"
       impact_if_late: "IT and ST cannot use realistic data; ST entry criteria fail"
@@ -222,7 +222,7 @@ cost:
   size_unit: person-hours
   estimation_methods: ["wbs-bottom-up", "three-point-pert", "parametric", "analogous"]
   productivity:
-    basis: "measured on KRS-2024-007 (same stack, same client, 14 screens) — actuals in pm/13.closing/archive of that project"
+    basis: "measured on a past project (same stack, same client, 14 screens) — actuals in pm/13.closing/archive of that project"
     rates:
       - unit: "simple screen (PC)"
         hours: 18
@@ -329,12 +329,12 @@ quality:
     - id: ST
       owner: "qa_lead"
       environment: "staging"
-      entry: "IT exit holds, release build deployed, cleansed master data loaded (DEP-002)"
+      entry: "IT exit holds, release build deployed, cleansed master data loaded (DEP-{NNN})"
       exit: "every REQ and NFR has an executed case, NFR measurements recorded"
     - id: UAT
       owner: "client_pm"
       environment: "uat"
-      entry: "ST exit holds, UAT plan signed, client data ready, depot operators scheduled"
+      entry: "ST exit holds, UAT plan signed, client data ready, site operators scheduled"
       exit: "acceptance recorded"
   defect_severity:
     - id: S1
@@ -433,9 +433,9 @@ reporting:
                 "what the numbers predict"]
       path: "pm/12.reports/quality"
   data_sources:
-    progress: "Jira (KRS board) and pm/04.schedule/schedule.md"
+    progress: "Jira (PRJC board) and pm/04.schedule/schedule.md"
     effort: "vendor timesheet system, booked to WBS codes"
-    defects: "Jira (KRS-BUG project)"
+    defects: "Jira (PRJC-BUG project)"
     test_results: "test/results/"
     build: "GitHub Actions"
   distribution_list: ["client_pm", "sponsor", "delivery_manager", "qa_lead"]
@@ -630,7 +630,7 @@ document:
   diagram_tool: mermaid
   require_approval_block: true
   require_distribution_list: true
-  confidentiality: "社外秘 - Kariya Retail Systems K.K. および受託者限り"
+  confidentiality: "社外秘 - Client Co., Ltd および受託者限り"
   footer: "{{profile.project.copyright}}"
 
 language:

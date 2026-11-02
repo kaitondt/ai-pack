@@ -21,7 +21,7 @@ No code is written for a task that has no intent. An intent is an `INT-*` file i
 | **Intent** | one sentence, from the user's point of view: *"A visitor can …"*, *"The admin can …"* |
 | **Done when** | 1–5 observable checks (IF-02) |
 | **Not now** | what this intent deliberately does not do — at least one line |
-| **Slices** | the ordered steps (`INT-007.1`, `INT-007.2`, …), filled by `/vibe-plan` |
+| **Slices** | the ordered steps (`INT-{NNN}.1`, `INT-{NNN}.2`, …), filled by `/vibe-plan` |
 
 Writing it takes two minutes. Not writing it costs the afternoon in which the AI builds the
 feature you did not mean, well.
@@ -49,7 +49,7 @@ The useful little addition — the extra button, the "while I'm here" refactor, 
 nobody asked for, the audit column, the retry wrapper — is **parked**, not built:
 
 ```
-IDEA-023  Export notes as Markdown  ← noticed while building INT-007.2
+IDEA-{NNN}  Export notes as Markdown  ← noticed while building INT-{NNN}.2
 ```
 
 It goes to `{{profile.paths.backlog}}` via `/vibe-park`, with one line of why. The human
@@ -82,7 +82,7 @@ the moment it is made:
 - a deliberate deviation from an intent or from a rule in this pack
 - anything the human answered under IF-04 that later slices depend on
 
-Format: `DEC-012 · 2026-09-18 · <decision> · because <reason> · rejected: <options> · by <who>`.
+Format: `DEC-{NNN} · 2026-09-18 · <decision> · because <reason> · rejected: <options> · by <who>`.
 
 The log is **append-only**. A reversal is a new entry that cites the old one. The chat
 transcript is not a decision log — it is gone at the next session (SC-04).

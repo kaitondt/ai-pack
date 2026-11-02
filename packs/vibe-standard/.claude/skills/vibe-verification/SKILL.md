@@ -81,8 +81,8 @@ After any slice with new dependencies or unfamiliar APIs:
 ## VE-06 — Report
 
 ```
-Verify — INT-007.2                                     stage: prototype
-  Done-when   1 ✅ edit form pre-filled (screenshot vibe/reviews/INT-007.2-1.png)
+Verify — INT-{NNN}.2                                     stage: prototype
+  Done-when   1 ✅ edit form pre-filled (screenshot vibe/reviews/INT-{NNN}.2-1.png)
               2 ✅ save → list shows new title
               3 ❌ user B GET /api/notes/12 → 200 (expected 404)   ← output below
   Typecheck ✅  Lint ✅  Tests 11/12 ❌ (notes.spec: ownership)  Build ⏸ not reached

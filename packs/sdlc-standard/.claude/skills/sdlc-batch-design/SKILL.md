@@ -41,7 +41,7 @@ not finished.
 
 **BT-S04 — dependencies are named**: which jobs must have completed, which files must have
 arrived, and the behaviour when they have not. "It runs at 02:00" is not a dependency
-statement; "it runs after `KK0010BT` completes, or waits until 04:00 then fails" is.
+statement; "it runs after `{BATCH_ID}` completes, or waits until 04:00 then fails" is.
 
 ---
 

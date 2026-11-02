@@ -19,8 +19,8 @@ Classify it as such, stop, and ask. Do **not** fill the hole with "good practice
 **Anchor format.** Every non-obvious statement carries its anchor:
 
 ```
-Sort order: 入荷予定日 ascending, then 伝票番号 ascending.
-  ← LEG-RCV-004 : PcGamen/frmNyukaYotei.vb:412 (dgv.Sort call)
+Sort order: plan date ascending, then document number ascending.
+  ← LEG-{AREA}-{NNN} : DesktopForms/frmItemList.vb:412 (dgv.Sort call)
 ```
 
 The anchor may be shortened in the body and expanded in a source table, but it must exist.

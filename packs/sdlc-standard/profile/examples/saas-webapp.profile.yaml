@@ -9,8 +9,8 @@
 schema_version: "1.0"
 
 project:
-  key: ATLAS
-  name: "Atlas — customer onboarding platform"
+  key: PRJD
+  name: "Customer onboarding platform"
   vendor: "Platform Engineering"
   client: "Revenue Operations"
   copyright: "(c) 2026 Example Corp. Internal use only."
@@ -37,7 +37,7 @@ scope:
     - item: "billing and invoicing"
       reason: "owned by the Billing platform team; integrated, not rebuilt"
     - item: "bulk import of historical customers"
-      reason: "one-off migration, handled by a separate data project (DEC-008)"
+      reason: "one-off migration, handled by a separate data project (DEC-{NNN})"
   external_systems:
     - name: "Billing platform"
       owner: "Billing team"
@@ -85,9 +85,9 @@ system:
   build:
     order:
       - "pnpm install --frozen-lockfile"
-      - "pnpm --filter @atlas/shared build"
-      - "pnpm --filter @atlas/api build"
-      - "pnpm --filter @atlas/web build"
+      - "pnpm --filter @prjd/shared build"
+      - "pnpm --filter @prjd/api build"
+      - "pnpm --filter @prjd/web build"
     typecheck: "pnpm typecheck"
     lint: "pnpm lint"
     test_unit: "pnpm test:unit"
@@ -95,8 +95,8 @@ system:
     test_e2e: "pnpm test:e2e"
 
 ids:
-  module_pattern: "^ATL[0-9]{3}(PG|MG|BT)$"
-  module_example: "ATL010PG"
+  module_pattern: "^XXX[0-9]{3}(PG|MG|BT)$"
+  module_example: "XXX000PG"
   doc_id_format: "{MODULE}-{TYPE}-{NNN}"
   types: {screen: SC, function: FC, api: API, data: DT, batch: BT, report: RP, file: FL, detail: DD}
   business_requirement_id_format: "BR-{AREA}-{NNN}"
@@ -180,7 +180,7 @@ document:
 
 # Markdown throughout: the deliverables live in the repository and are reviewed
 # in pull requests like code. No client form to honour - which is a choice the
-# team made, recorded as DEC-004, not an absence of templates.
+# team made, recorded as DEC-{NNN}, not an absence of templates.
 templates:
   root: "docs/templates"
   on_missing: skeleton           # agreed: the pack's structure is this team's structure
@@ -219,7 +219,7 @@ infrastructure:
   scm:
     platform: github
     host: cloud
-    remote_url: "https://github.com/example-corp/atlas"
+    remote_url: "https://github.com/{org}/prjd"
     default_branch: main
     branching_model: trunk-based
     review_unit: "pull request"

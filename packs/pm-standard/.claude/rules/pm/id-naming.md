@@ -9,21 +9,21 @@ the register definitions in `{{profile.risk}}` and `{{profile.paths}}`.
 
 ## PN-01 — The standard identifier set
 
-| Object | Format | Example | Register |
-|---|---|---|---|
-| Work package | `{{profile.wbs.code_format}}` | `PRJ.4.2.1` | WBS dictionary |
-| Deliverable | `D-{NNN}` | `D-014` | scope statement |
-| Milestone | `M{N}` | `M3` | schedule |
-| Risk | `RSK-{NNN}` | `RSK-021` | risk register |
-| Issue | `ISS-{NNN}` | `ISS-007` | issue log |
-| Change request | `{{profile.change_control.id_format}}` | `CR-012` | change register |
-| Decision | `DEC-{NNN}` | `DEC-033` | decision log |
-| Assumption | `ASM-{NNN}` | `ASM-005` | assumption log |
-| Action item | `ACT-{NNN}` | `ACT-118` | action log |
-| Dependency | `DEP-{NNN}` | `DEP-004` | scope / schedule |
-| Corrective action | `CAPA-{NNN}` | `CAPA-002` | CAPA log |
-| Meeting | `MTG-{YYYYMMDD}-{NN}` | `MTG-20260412-01` | meetings |
-| Lesson | `LL-{NNN}` | `LL-009` | lessons learned |
+| Object | Format | Register |
+|---|---|---|
+| Work package | `{{profile.wbs.code_format}}` | WBS dictionary |
+| Deliverable | `D-{NNN}` | scope statement |
+| Milestone | `M{N}` | schedule |
+| Risk | `RSK-{NNN}` | risk register |
+| Issue | `ISS-{NNN}` | issue log |
+| Change request | `{{profile.change_control.id_format}}` | change register |
+| Decision | `DEC-{NNN}` | decision log |
+| Assumption | `ASM-{NNN}` | assumption log |
+| Action item | `ACT-{NNN}` | action log |
+| Dependency | `DEP-{NNN}` | scope / schedule |
+| Corrective action | `CAPA-{NNN}` | CAPA log |
+| Meeting | `MTG-{YYYYMMDD}-{NN}` | meetings |
+| Lesson | `LL-{NNN}` | lessons learned |
 
 Numbers are zero-padded to three digits and issued sequentially from the register. The
 register is the allocator: never invent an ID by guessing the next number from a document.
@@ -43,7 +43,7 @@ dictionary entry names the CR that created it.
 ## PN-03 — IDs are permanent and never translated
 
 An ID is never renumbered to close a gap, never reordered to look tidy, and never
-translated. `RSK-021` stays `RSK-021` in the Japanese report, the Vietnamese minutes and
+translated. `RSK-{NNN}` stays `RSK-{NNN}` in the Japanese report, the Vietnamese minutes and
 the English contract annex.
 
 Gaps in a sequence are normal and are left alone: a withdrawn CR keeps its number, marked
@@ -70,8 +70,8 @@ worth knowing, and `/pm-trace-check` reports them.
 
 ```
 {cadence}_{YYYYMMDD}[_{key}].md      weekly_20260412.md, monthly_202604.md
-CR-{NNN}_{short-slug}.md             CR-012_add-export-format.md
-MTG-{YYYYMMDD}-{NN}_{topic}.md       MTG-20260412-01_ccb.md
+CR-{NNN}_{short-slug}.md             CR-{NNN}_add-export-format.md
+MTG-{YYYYMMDD}-{NN}_{topic}.md       MTG-{YYYYMMDD}-{NN}_ccb.md
 gate_{milestone}_{YYYYMMDD}.md       gate_M3_20260430.md
 ```
 

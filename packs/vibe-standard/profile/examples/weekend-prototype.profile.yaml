@@ -28,7 +28,7 @@ stack:
   language: "TypeScript 5"
   framework: "Next.js 15 (App Router, server actions)"
   ui: "Tailwind CSS + shadcn/ui"
-  database: "SQLite (better-sqlite3) - Postgres planned for mvp (DEBT-003)"
+  database: "SQLite (better-sqlite3) - Postgres planned for mvp (DEBT-{NNN})"
   orm: "Drizzle"
   auth: "Auth.js with email magic link"
   hosting: "Vercel preview"
@@ -103,14 +103,14 @@ release:
   environments: ["local", "preview"]
   deploy: "git push to a branch -> Vercel preview build"
   rollback: "promote the previous preview deployment in the Vercel dashboard"
-  monitoring: "none yet (DEBT-006, due mvp)"
+  monitoring: "none yet (DEBT-{NNN}, due mvp)"
   backups: "none - synthetic data only"
 
 graduation:
   extra_criteria:
     prototype: []
     mvp:
-      - "SQLite replaced by Postgres (DEBT-003)"
+      - "SQLite replaced by Postgres (DEBT-{NNN})"
       - "magic-link emails sent from a verified domain"
     production: []
   handoff_to: "stay"

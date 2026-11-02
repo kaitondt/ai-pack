@@ -166,7 +166,7 @@ own. Bundles hide the one item that is `CR-DATA` behind three that are `CR-UI`.
 
    | # | Kind | Path | Required | Planned change |
    |---|---|---|---|---|
-   | 1 | screen design | `{{profile.paths.design_root}}/…-SC-001…` | yes | new row in the item table |
+   | 1 | screen design | `{{profile.paths.design_root}}/…-SC-{NNN}…` | yes | new row in the item table |
    | 2 | printed report | `{{profile.paths.design_root}}/…` | no | not involved |
    | 3 | counterpart surface | `…` | **ask** | pending client answer |
 

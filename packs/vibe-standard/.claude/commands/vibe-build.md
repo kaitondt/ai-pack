@@ -17,8 +17,8 @@ Load `vibe-project`, then `vibe-build-loop` and `vibe-verification`.
 ## Step 2 — Restate and checkpoint (BD-01)
 
 ```
-Intent : INT-007 — Notes can be edited
-Slice  : INT-007.2 — ownership on page + API
+Intent : INT-{NNN} — Notes can be edited
+Slice  : INT-{NNN}.2 — ownership on page + API
 Checks : 3 (another user's note → 404, no edit button)
 Tree   : clean ✅ @ a1b2c3d
 ```

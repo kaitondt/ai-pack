@@ -14,7 +14,7 @@ The bug id comes from the user's bug list (C4). Never invent one, never derive i
 module id, never number it from the count of files already in the report directory.
 
 Not in context → ask:
-> "Which bug id from the bug list should this report be filed under (e.g. UAT-001)?"
+> "Which bug id from the bug list should this report be filed under (e.g. UAT-{NNN})?"
 
 Normalise the case, keep the number exactly as given.
 

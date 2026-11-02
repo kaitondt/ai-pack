@@ -19,9 +19,9 @@ Load `vibe-project`.
 ```markdown
 | ID | What | Where | Why taken | Risk | Cat. | Due | Size | Status |
 |---|---|---|---|---|---|---|---|---|
-| DEBT-014 | notes stored in a JSON file | src/lib/store.ts | ship INT-003 demo | data loss on redeploy; no concurrency | data | mvp | M | open |
-| DEBT-015 | no rate limit on /api/login | src/app/api/login | INT-001 speed | credential stuffing | security | mvp | S | open |
-| DEBT-009 | copy-pasted form validation ×3 | notes, tags, profile forms | INT-004..006 | fixes applied to one copy only | maintainability | production | S | paid a4f9e21 |
+| DEBT-{NNN} | notes stored in a JSON file | src/lib/store.ts | ship INT-{NNN} demo | data loss on redeploy; no concurrency | data | mvp | M | open |
+| DEBT-{NNN} | no rate limit on /api/login | src/app/api/login | INT-{NNN} speed | credential stuffing | security | mvp | S | open |
+| DEBT-{NNN} | copy-pasted form validation ×3 | notes, tags, profile forms | INT-{NNN}..{NNN} | fixes applied to one copy only | maintainability | production | S | paid a4f9e21 |
 ```
 
 ## DT-02 — Finding unrecorded debt
@@ -60,7 +60,7 @@ A paydown is a refactor slice (SS-07): **behaviour does not change**.
 2. Make the change, within the slice budget. Big debt → several slices, each leaving the app
    working.
 3. Same checks green **after**. Any behaviour change that crept in → revert that part.
-4. Commit `DEBT-014: move notes to Postgres`; mark the row `paid <hash>`; remove the code marker.
+4. Commit `DEBT-{NNN}: move notes to Postgres`; mark the row `paid <hash>`; remove the code marker.
 5. The paydown counter (DL-05) resets by itself: it counts from this `DEBT-*` commit.
 
 ## DT-05 — Accepting debt

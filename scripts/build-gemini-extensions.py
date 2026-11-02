@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LICENSE_FILES = ("LICENSE-MIT", "LICENSE-APACHE")
 OUT = ROOT / "gemini"
 
-VERSION = "1.4.1"
+VERSION = "1.5.0"
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 GITHUB = "https://github.com/kaitondt"
 

@@ -104,20 +104,20 @@ Every session is wrapped in `/vibe-resume` … `/vibe-handoff`.
 
 ```
 /vibe-resume                          ← hook already printed STATE.md; compare with git
-  "Now: INT-007.2 — ownership on page + API; API done, page not"
-/vibe-build INT-007.2                 ← restate, clean tree, map (3 files), build
+  "Now: INT-{NNN}.2 — ownership on page + API; API done, page not"
+/vibe-build INT-{NNN}.2                 ← restate, clean tree, map (3 files), build
   … hook: slice budget fine
   … verifier: check 3 ❌ user B sees edit button → fix → ✅
-  … reviewer: 0 Critical, 1 Medium (bare TODO → DEBT-016)
-  commit "INT-007.2: enforce note ownership on page and API"
-/vibe-build INT-007.3
+  … reviewer: 0 Critical, 1 Medium (bare TODO → DEBT-{NNN})
+  commit "INT-{NNN}.2: enforce note ownership on page and API"
+/vibe-build INT-{NNN}.3
   … attempt 1 ❌, 2 ❌, 3 ❌ (zod error message not shown)
-/vibe-unstuck                         ← attempts on attempt/INT-007.3-1, back to checkpoint
+/vibe-unstuck                         ← attempts on attempt/INT-{NNN}.3-1, back to checkpoint
 /vibe-fix "validation message not shown"
   … cause: server action returns error object but form reads `state.message` (v19 API)
-  … regression test red → green; commit "BUG-012: form reads useActionState error shape"
-/vibe-build INT-007.3                 ← now 1 attempt, done
-/vibe-park "markdown preview"         ← the owner's idea mid-slice → IDEA-024, not built
+  … regression test red → green; commit "BUG-{NNN}: form reads useActionState error shape"
+/vibe-build INT-{NNN}.3                 ← now 1 attempt, done
+/vibe-park "markdown preview"         ← the owner's idea mid-slice → IDEA-{NNN}, not built
 /vibe-handoff                         ← DEC ×1, DEBT ×1, IDEA ×1 logged; STATE.md rewritten
 ```
 

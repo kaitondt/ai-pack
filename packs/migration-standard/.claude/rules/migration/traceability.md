@@ -30,7 +30,7 @@ The register lives at `{{profile.paths.traceability}}` (CSV, one row per link):
 
 ```csv
 legacy_id,requirement_id,design_id,detail_id,code_ref,test_ids,status,note
-LEG-RCV-004,REQ-RCV-012,KK0030PG-FC-001,DD-KK0030PG-003,ReceivingQuery.cs#Handle,"UT-KK0030PG-001;IT-KK0030PG-002",done,
+LEG-{AREA}-{NNN},REQ-{AREA}-{NNN},{MODULE}-FC-{NNN},DD-{MODULE}-{NNN},ItemQuery.cs#Handle,"UT-{MODULE}-{NNN};IT-{MODULE}-{NNN}",done,
 ```
 
 - A row is appended the moment a downstream artifact is created — not in a later sweep.
@@ -56,7 +56,7 @@ explicit written client decision). Record the CR id in the ancestor position of 
 with the report path in `note`:
 
 ```csv
-CR-014,REQ-RCV-031,KK0030PG-SC-001,DD-KK0030PG-003,ReceivingGrid.tsx#columns,"UT-KK0030PG-014",done,docs/09.change-requests/CR-014_KK0030PG_remarks-column.md
+CR-{NNN},REQ-{AREA}-{NNN},{MODULE}-SC-{NNN},DD-{MODULE}-{NNN},ItemGrid.tsx#columns,"UT-{MODULE}-{NNN}",done,docs/09.change-requests/CR-{NNN}_{MODULE}_remarks-column.md
 ```
 
 Without that row the artifact is an upward orphan, and correctly so: an unrecorded CR is

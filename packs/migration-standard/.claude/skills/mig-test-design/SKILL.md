@@ -55,8 +55,8 @@ A step a new tester cannot execute without asking a question is not a step.
 
 ```
 ✗  Enter search conditions and press search
-✓  Enter 2026/04/01 in 入荷予定日(From), leave 入荷予定日(To) empty, press 検索
-   → grid shows 3 rows, first row 伝票番号 = D-000123
+✓  Enter 2026/04/01 in 日付(From), leave 日付(To) empty, press 検索
+   → grid shows 3 rows, first row 文書番号 = D-000123
 ```
 
 **TR-DR01 — cross-check every expected result against the data rules.** Field length,

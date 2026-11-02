@@ -47,7 +47,7 @@ Audience: client business owners. Contains no technology.
 
 | ID | Requirement | Priority | Legacy anchor | Migration type | Note |
 |---|---|---|---|---|---|
-| `REQ-RCV-012` | The system shall … | Must | `LEG-RCV-004` | As-is | |
+| `REQ-{AREA}-{NNN}` | The system shall … | Must | `LEG-{AREA}-{NNN}` | As-is | |
 
 `Migration type`: `As-is` (reproduce), `Adapted` (platform forces a change),
 `New` (explicitly funded addition — requires a written client decision reference).

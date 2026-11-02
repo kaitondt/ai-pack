@@ -15,8 +15,8 @@ error case written into a deliverable MUST carry one of:
 
 | Anchor | Form | Example |
 |---|---|---|
-| An approved requirement | `REQ-*` / `BR-*` / `NFR-*` | `← REQ-ORD-014` |
-| A recorded decision | `DEC-*` in `{{profile.paths.decision_log}}` | `← DEC-031 (2026/03/04, product owner)` |
+| An approved requirement | `REQ-*` / `BR-*` / `NFR-*` | `← REQ-{AREA}-{NNN}` |
+| A recorded decision | `DEC-*` in `{{profile.paths.decision_log}}` | `← DEC-{NNN} (2026/03/04, product owner)` |
 | An elicitation record | interview / workshop note, dated, with attendees | `← docs/00.inception/elicitation/2026-02-18-ops.md` |
 | An external obligation | law, standard, contract, external interface spec | `← ISO 8601 §4.3` / `← <external system> IF spec v2.1` |
 
@@ -28,7 +28,7 @@ or a value copied from another project.
 
 ```
 An order over the credit limit is rejected before it reaches approval.
-  ← REQ-ORD-014 · DEC-031 (credit check runs pre-approval, product owner, 2026/03/04)
+  ← REQ-{AREA}-{NNN} · DEC-{NNN} (credit check runs pre-approval, product owner, 2026/03/04)
 ```
 
 ## RS-02 — An assumption is a labelled, owned, dated object
@@ -56,7 +56,7 @@ Rules:
 
 ## RS-03 — TBD is a status, not a blank
 
-A field whose value is not yet decided is written `TBD (ASM-014, due 2026/03/20)`.
+A field whose value is not yet decided is written `TBD (ASM-{NNN}, due 2026/03/20)`.
 It is never left blank, never filled with a placeholder value that reads as real
 (`999`, `0`, `dummy@example.com`), and never quietly resolved by picking something
 plausible.
@@ -103,7 +103,7 @@ An `NFR-*` without a number and a measurement method is not a requirement; it is
 | Not a requirement | A requirement |
 |---|---|
 | "The system must be fast" | "Order search returns within 2.0 s at p95, 50 concurrent users, 5M-row order table — measured by the ST performance script" |
-| "The system must be secure" | "All endpoints require an authenticated session; authorisation asserted server-side per operation; verified by ST-SEC-001..012" |
+| "The system must be secure" | "All endpoints require an authenticated session; authorisation asserted server-side per operation; verified by ST-SEC-{NNN}..{NNN}" |
 | "The system must be available" | "99.5% monthly availability excluding the announced maintenance window; measured by the platform health probe" |
 
 Every NFR states: **target · condition · measurement method · phase that verifies it**.

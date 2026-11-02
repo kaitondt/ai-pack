@@ -109,7 +109,7 @@ filename and not assumed to match the version you saw last month.
 
 Cite the source file path and its date wherever a document depends on it. "Per the client's
 interface spec" is not a citation; "per `docs/00.legacy-documents/IF_SPEC_v3.xlsx` sheet
-`API-014`, received 2026/03/12" is.
+`API-{NNN}`, received 2026/03/12" is.
 
 ### DIO-07 — Binary deliverables are still reviewable
 
@@ -248,7 +248,7 @@ it matches the string in the source.
 | A merged range reports its value only in the anchor cell | resolve each merged range to its anchor before reading a table, or values appear to be missing |
 | Console encoding on Windows turns Japanese output into mojibake | run Python with `PYTHONUTF8=1` (and `PYTHONIOENCODING=utf-8`); write extracted text to a UTF-8 file rather than relying on the console |
 | Legacy exports may be Shift_JIS / CP932 (CSV, fixed-width, text dumps) | detect and decode explicitly (`encoding="cp932"`); never let a reader guess, and say which encoding was used |
-| File and sheet names are Japanese and vary by revision | locate files by the ASCII id they contain (`KK0030`, `API003`) with a glob, never by the full Japanese name |
+| File and sheet names are Japanese and vary by revision | locate files by the ASCII id they contain (`{MODULE_BASE}`, `API{NNN}`) with a glob, never by the full Japanese name |
 | Flow diagrams and screen sketches are **drawn shapes**: `openpyxl` returns only the text inside them | export them as images. On Windows with Excel installed: Excel COM — select the sheet's shapes, `CopyPicture`, save the clipboard image as PNG (PowerShell `-STA`). Elsewhere: LibreOffice headless conversion to PDF, then crop the page. Say in the reading copy which method produced each image |
 | PowerShell 5.1 reads a UTF-8 script without BOM as the ANSI code page — a Japanese literal in the script breaks it | keep automation scripts ASCII-only: find files by an ASCII ancestor directory and pick sheets by index, or save the script as UTF-8 **with** BOM |
 | Embedded pictures (pasted screenshots of the legacy UI) are not cell values | export them with `openpyxl` (`ws._images`) next to the reading copy |

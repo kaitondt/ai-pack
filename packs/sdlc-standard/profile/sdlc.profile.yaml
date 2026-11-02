@@ -211,8 +211,8 @@ infrastructure:
 # IDS - deterministic identifiers. Never translated, never renumbered.
 # ---------------------------------------------------------------------------
 ids:
-  module_pattern: "^[A-Z]{2}[0-9]{4}(PG|MG|BT)$"   # e.g. SL0030PG
-  module_example: "SL0030PG"
+  module_pattern: "^[A-Z]{2}[0-9]{4}(PG|MG|BT)$"   # e.g. XX0000PG
+  module_example: "XX0000PG"
   doc_id_format: "{MODULE}-{TYPE}-{NNN}"
   types:
     screen: SC
@@ -573,7 +573,7 @@ project_rules: []
   #     kind: coding                       # coding | naming | architecture | security |
   #                                        # document | process | testing | other
   #     scope: ["src/**/*.ts"]             # same globs as the file's paths:, or ["*"]
-  #     source: "DEC-044"                  # DEC-*, a document path, or ""
+  #     source: "DEC-{NNN}"                  # DEC-*, a document path, or ""
   #     overrides: []                      # pack stack/common rule ids, e.g. [TS-07]
   #     enforced_by: ""                    # tool/config, or "" when review only
   #     status: active                     # active | retired

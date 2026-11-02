@@ -61,7 +61,7 @@ How to get there from a conversation:
 `{{profile.paths.intents}}/INT-{NNN}-<slug>.md`:
 
 ```markdown
-# INT-007 — Notes can be edited
+# INT-{NNN} — Notes can be edited
 Status: active          Stage: prototype         Flow: core flow 2
 Asked by: <owner> · 2026-09-18
 
@@ -84,12 +84,12 @@ A signed-in user can change the title and body of a note they own.
 - (spike only) assumed: …
 
 ## Slices
-- [x] INT-007.1 — edit form pre-filled, save updates (checks 1, 2)
-- [ ] INT-007.2 — ownership enforced on page and API (check 3)
-- [ ] INT-007.3 — validation (check 4)
+- [x] INT-{NNN}.1 — edit form pre-filled, save updates (checks 1, 2)
+- [ ] INT-{NNN}.2 — ownership enforced on page and API (check 3)
+- [ ] INT-{NNN}.3 — validation (check 4)
 
 ## Log
-- 2026-09-18 INT-007.1 a1b2c3d
+- 2026-09-18 INT-{NNN}.1 a1b2c3d
 ```
 
 Status values: `draft` → `active` → `done` · or `dropped` (with a reason). Never deleted (ID-02).

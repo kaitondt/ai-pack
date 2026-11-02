@@ -116,7 +116,7 @@ Rules about the rules:
      file: ".claude/rules/project/naming.md"
      kind: coding
      scope: ["src/**/*.ts"]    # same globs as the file's paths:, or ["*"]
-     source: "DEC-044"         # or a document path, or ""
+     source: "DEC-{NNN}"         # or a document path, or ""
      overrides: []             # pack rule ids this file overrides, e.g. [TS-07]
      enforced_by: ""           # tool/config, or "" when review only
      status: active            # active | retired

@@ -35,7 +35,7 @@ one" is a maintenance liability regardless of its quality.
 
 - Comment the **why**, never the what. The code says what.
 - The highest-value comment is the requirement anchor on non-obvious behaviour:
-  `// REQ-ORD-014: credit check runs before approval, not after (DEC-031)`.
+  `// REQ-{AREA}-{NNN}: credit check runs before approval, not after (DEC-{NNN})`.
   It stops a future reader from "simplifying" a rule they cannot see the reason for.
 - No commented-out code. It is in version control.
 - No decorative banners or section art.

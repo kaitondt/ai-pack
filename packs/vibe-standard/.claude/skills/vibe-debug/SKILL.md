@@ -19,10 +19,10 @@ Load `vibe-project`; the intent the bug belongs to, if any.
 Append to `{{profile.paths.bugs}}`:
 
 ```
-BUG-009 · 2026-09-18 · open
+BUG-{NNN} · 2026-09-18 · open
   Symptom   : saving an edited note returns 500
-  Expected  : INT-007 check 2 — list shows new title        (or: PRODUCT.md / DEC-*)
-  Found in  : INT-007.3 verify / user report / prod log
+  Expected  : INT-{NNN} check 2 — list shows new title        (or: PRODUCT.md / DEC-*)
+  Found in  : INT-{NNN}.3 verify / user report / prod log
   Severity  : blocks core flow | degrades | cosmetic
 ```
 
@@ -67,7 +67,7 @@ Rules:
 
 1. The regression check exists and was **seen failing before, passing after** (VT-07).
 2. The done-when checks of the affected intent all still pass.
-3. Commit `BUG-009: <cause, not symptom>`.
+3. Commit `BUG-{NNN}: <cause, not symptom>`.
 4. Update the bug entry: cause · fix commit · regression check · **why it was not caught**
    (no check for this case / check existed but was weak / new code path / dependency change).
 5. The "why not caught" goes to the refine loop when it repeats (RV-06).

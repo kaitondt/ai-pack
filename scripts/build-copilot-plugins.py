@@ -28,7 +28,7 @@ OUT = ROOT / "copilot"
 MARKETPLACE = "ai-pack-copilot"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack-copilot"
-VERSION = "1.4.1"
+VERSION = "1.5.0"
 SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 NS = "com.github.copilot"
 

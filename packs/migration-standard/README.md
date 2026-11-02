@@ -4,8 +4,8 @@ A **project-agnostic Claude Code skill pack for legacy-system migration projects
 Covers the full lifecycle: Legacy Analysis → Requirements → Basic Design → Detail Design →
 Coding → Unit Test → Integration Test → UAT.
 
-Derived by generalising a production pack built for a single warehouse-management
-migration (VB.NET Desktop → .NET 9 + React). Everything project-specific was pulled
+Derived by generalising a production pack built for a single
+migration project (VB.NET Desktop → .NET 9 + React). Everything project-specific was pulled
 out into **one profile file**; everything methodological stayed in the pack.
 
 ---
@@ -27,7 +27,7 @@ out into **one profile file**; everything methodological stayed in the pack.
 └──────────────────────────────────────────────────────────────┘
 ```
 
-A skill never hardcodes `KK0030PG`, `src/wms/docs`, or `.NET 9`. It writes
+A skill never hardcodes `XX0000PG`, `src/prja/docs`, or `.NET 9`. It writes
 `{{profile.ids.module_pattern}}`, `{{profile.paths.design_root}}`,
 `{{profile.target.stack.backend}}` and resolves them at load time from the profile.
 
@@ -111,7 +111,7 @@ migration-standard/
 │   ├── PROFILE-SCHEMA.md          ← field-by-field spec
 │   ├── PROFILE-RECIPES.md         ← overlays for 7 migration shapes
 │   └── examples/
-│       ├── wms.profile.yaml       ← the original project, expressed as a profile
+│       ├── prja.profile.yaml       ← the original project, expressed as a profile
 │       └── cobol-to-java.profile.yaml
 └── .claude/
     ├── CLAUDE.md                  ← project-instruction template

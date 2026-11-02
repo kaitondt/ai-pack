@@ -8,11 +8,11 @@ Format: `{{profile.ids.doc_id_format}}` → `{MODULE}-{TYPE}-{NNN}`
 
 | Segment | Source | Example |
 |---|---|---|
-| `MODULE` | must match `{{profile.ids.module_pattern}}` | `SL0030PG` |
+| `MODULE` | must match `{{profile.ids.module_pattern}}` | `XX0000PG` |
 | `TYPE` | one of `{{profile.ids.types}}` | `SC`, `FC`, `API`, `DT`, `DD` |
 | `NNN` | zero-padded to `{{profile.ids.number_width}}` | `001` |
 
-`SL0030PG-SC-001`, `SL0030PG-FC-012`, `SL0030PG-API-003`.
+`{MODULE}-SC-{NNN}`, `{MODULE}-FC-{NNN}`, `{MODULE}-API-{NNN}`.
 
 ## ID-02 — Requirement ID families
 
@@ -36,19 +36,19 @@ category is a profile change, not an ad-hoc choice in one document.
 A module ID ends with a surface suffix from `{{profile.system.surfaces[].id_suffix}}`.
 `MODULE_BASE` is the module ID with that suffix stripped.
 
-`SL0030PG` → base `SL0030`, surface `PC`.
+`XX0000PG` → base `XX0000`, surface `PC`.
 
 Message IDs use the **base**, so the desktop and mobile variants of one screen share a
-message catalogue: `MSG-SL0030-001`.
+message catalogue: `MSG-{MODULE_BASE}-{NNN}`.
 
 ## ID-04 — Message ID format
 
 Format: `{{profile.ids.message_id_format}}`
 
 Common failure modes, all Critical:
-- wrong number width (`MSG-SL0030-01`)
-- surface suffix left in (`MSG-SL0030PG-001`)
-- module prefix truncated (`MSG-SL003-001`)
+- wrong number width (`MSG-{MODULE_BASE}-{NN}`)
+- surface suffix left in (`MSG-{MODULE}-{NNN}`)
+- module prefix truncated (`MSG-{MODULE_BASE minus last char}-{NNN}`)
 
 System-wide messages use a reserved base (`MSG-COMMON-NNN`) and must **not** be copied
 into a module's own message table — reference them.
@@ -85,7 +85,7 @@ column names, API paths, field names, file paths and URLs — see
 Reference another artifact as `Logical name (ID)` — the human name first, the ID in
 parentheses, using the punctuation style mandated by the document language.
 
-`Order search (SL0030PG-FC-001)` · `受注検索機能（SL0030PG-FC-001）`
+`Order search ({MODULE}-FC-{NNN})` · `受注検索機能（{MODULE}-FC-{NNN}）`
 
 One punctuation style per document. Do not mix full-width and half-width parentheses.
 
@@ -94,7 +94,7 @@ One punctuation style per document. Do not mix full-width and half-width parenth
 Deliverable filenames embed the document ID so a file is locatable from any reference:
 
 ```
-{category}({ID}_{short-name}).md      e.g.  function-design(SL0030PG-FC-001_order-search).md
+{category}({ID}_{short-name}).md      e.g.  function-design({MODULE}-FC-{NNN}_order-search).md
 ```
 
 Keep the exact convention in the profile-driven category directory; the invariant is that

@@ -157,14 +157,14 @@ Every piece of work in the pack is an instance of this loop:
 
 Slice done:
 ```
-INT-007.2 — edit a note                                   stage: prototype
+INT-{NNN}.2 — edit a note                                   stage: prototype
   Files      : 4 (budget 8) · +132 −18 lines (budget 400)
   Checks     : 3/3 done-when run — ✅ ✅ ✅
   Build/lint : ✅ / ✅      Tests: 12/12
   Not run    : none
-  Debt       : +1 (DEBT-015, due mvp)      Parked: IDEA-024
-  Commit     : a1b2c3d  "INT-007.2: edit a note"
-  Next       : INT-007.3 — delete a note
+  Debt       : +1 (DEBT-{NNN}, due mvp)      Parked: IDEA-{NNN}
+  Commit     : a1b2c3d  "INT-{NNN}.2: edit a note"
+  Next       : INT-{NNN}.3 — delete a note
 ```
 
 A slice with any failing or unrun check is reported **not done**, with the failure output and

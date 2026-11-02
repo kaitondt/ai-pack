@@ -102,7 +102,7 @@ Week {n} ({from} – {to})          Overall: {G|A|R} — {one sentence why}
 
 Section 4 is the section clients actually act on, and the one most often written too
 politely to be actionable. "Awaiting client feedback" states nothing; "Decision on the
-rounding rule (DEC-021) needed by 2026/04/18, or work package PRJ.4.2 stops on 2026/04/19"
+rounding rule (DEC-{NNN}) needed by 2026/04/18, or work package PRJ.4.2 stops on 2026/04/19"
 states a consequence with a date, and it is what gets the decision made.
 
 ### Monthly — for the sponsor and steering committee

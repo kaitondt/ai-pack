@@ -19,29 +19,29 @@ Load `vibe-project`.
 # STATE — <project>                       updated 2026-09-18 17:40 · commit a1b2c3d
 
 ## Stage
-prototype → next: mvp (blocking: core flow 3 not automated; DEBT-015 security; no CI)
+prototype → next: mvp (blocking: core flow 3 not automated; DEBT-{NNN} security; no CI)
 
 ## Now
-INT-007.2 — ownership on page + API. API done and tested; page still shows the edit
+INT-{NNN}.2 — ownership on page + API. API done and tested; page still shows the edit
 button for others' notes. Stopped at: src/app/notes/[id]/page.tsx, needs `canEdit`.
 
 ## Next
-1. finish INT-007.2
-2. INT-007.3 — validation
-3. DEBT paydown (counter 4/5) — DEBT-015 rate limit on login
+1. finish INT-{NNN}.2
+2. INT-{NNN}.3 — validation
+3. DEBT paydown (counter 4/5) — DEBT-{NNN} rate limit on login
 
 ## Broken
-- Deleting a note with tags → 500 (BUG-011, open)
+- Deleting a note with tags → 500 (BUG-{NNN}, open)
 
 ## Open questions
 - Q1 (asked 2026-09-18): does editing move a note to the top of the list?
 
 ## Recently decided
-- DEC-014 notes are soft-deleted (restore within 30 days)
-- DEC-013 zod for all server input validation
+- DEC-{NNN} notes are soft-deleted (restore within 30 days)
+- DEC-{NNN} zod for all server input validation
 
 ## Last verified
-2026-09-18 · a1b2c3d · typecheck ✅ lint ✅ tests 14/14 ✅ · INT-007.1 checks 1–2 ✅
+2026-09-18 · a1b2c3d · typecheck ✅ lint ✅ tests 14/14 ✅ · INT-{NNN}.1 checks 1–2 ✅
 ```
 
 Rewritten, not appended. One minute to read.
@@ -82,17 +82,17 @@ lost or failed attempts are crowding it:
 
 Next ID: highest existing + 1, read from the file (ID-03).
 
-Backlog entry: `IDEA-023 · 2026-09-18 · Export notes as Markdown · from INT-007.2 · status: parked`.
+Backlog entry: `IDEA-{NNN} · 2026-09-18 · Export notes as Markdown · from INT-{NNN}.2 · status: parked`.
 Status: `parked` → `promoted (INT-*)` / `rejected (reason)`.
 
 ## SN-05 — Status (`/vibe-status`)
 
 ```
 <project> — status 2026-09-18                              stage: prototype
-  Intents    : 9 done · 1 active (INT-007, 1/3 slices) · 3 planned · 1 dropped
+  Intents    : 9 done · 1 active (INT-{NNN}, 1/3 slices) · 3 planned · 1 dropped
   Core flows : 4/5 done · automated 2/5
   Checks     : last verified a1b2c3d, 2 h ago — all green
-  Broken     : 1 (BUG-011)
+  Broken     : 1 (BUG-{NNN})
   Debt       : 7 open (2 security) · due at next stage: 4 · paydown counter 4/5
   Backlog    : 6 parked ideas
   Next stage : mvp — 4 criteria failing: <list>

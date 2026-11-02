@@ -121,7 +121,7 @@ Option 1 — Implement in this release
   Effort +40 h · Schedule +0 d (uses float) · Cost +X · Risk: PRJ.5 loses its float
 Option 2 — Defer to release 2
   Effort +32 h later · Schedule +0 d now · Cost +Y · Risk: client works around it for 3 months
-Option 3 — Implement, and drop REQ-ORD-014 to compensate
+Option 3 — Implement, and drop REQ-{AREA}-{NNN} to compensate
   Effort +8 h net · Schedule +0 d · Cost +0 · Risk: needs client agreement on the trade
 
 Recommend: option 2 — the workaround is acceptable per the client's own process description,

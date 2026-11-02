@@ -9,7 +9,7 @@ Two complete profiles already exist and are worth reading first:
 
 | File | Shape |
 |---|---|
-| [`examples/wms.profile.yaml`](examples/wms.profile.yaml) | VB.NET desktop → .NET 9 + React, two surfaces, Japanese deliverables |
+| [`examples/prja.profile.yaml`](examples/prja.profile.yaml) | VB.NET desktop → .NET 9 + React, two surfaces, Japanese deliverables |
 | [`examples/cobol-to-java.profile.yaml`](examples/cobol-to-java.profile.yaml) | mainframe COBOL → Java, green screens, copybooks |
 
 **A recipe is not a decision.** It is a defensible default with its reason attached, so that

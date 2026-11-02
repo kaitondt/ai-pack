@@ -98,7 +98,7 @@ Deterministic identity is what makes traceability checkable. Rules:
 - `module_pattern` is a real regex; `/sdlc-profile-check` validates `module_example`
   against it.
 - `doc_id_format` must contain `{MODULE}`, `{TYPE}` and `{NNN}`.
-- `MODULE_BASE` = module ID with its surface suffix stripped (`SL0030PG` → `SL0030`).
+- `MODULE_BASE` = module ID with its surface suffix stripped (`XX0000PG` → `XX0000`).
   Message IDs use the base so the desktop and mobile variants of one screen share a
   message set.
 - `number_width` fixes the zero padding. `001`, never `01` or `1`.

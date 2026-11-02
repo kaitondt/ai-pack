@@ -143,9 +143,9 @@ An offshore question that reads "How should the rounding work?" costs a full day
 > **Option A** — per line item. Matches the legacy system. May differ from the client's ERP by
 > up to 0.02 per invoice.
 > **Option B** — on the total. Matches the ERP. Differs from historical invoices.
-> **We recommend B**, because reconciliation with the ERP is a stated objective (BR-FIN-003).
+> **We recommend B**, because reconciliation with the ERP is a stated objective (BR-{AREA}-{NNN}).
 > **Reply with A or B.** If we do not hear by 2026/04/17 we will proceed with B and record it
-> as ASM-021.
+> as ASM-{NNN}.
 
 Context, options, recommendation, consequence, deadline, and a default. The default is what
 keeps the project moving; the record is what keeps it honest.

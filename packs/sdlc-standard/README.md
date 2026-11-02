@@ -28,7 +28,7 @@ development project has a different problem.
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-A skill never hardcodes `SL0030PG`, `docs/02.basic-design`, or `.NET 9`. It writes
+A skill never hardcodes `XX0000PG`, `docs/02.basic-design`, or `.NET 9`. It writes
 `{{profile.ids.module_pattern}}`, `{{profile.paths.design_root}}`,
 `{{profile.system.stack.backend}}` and resolves them at load time from the profile.
 

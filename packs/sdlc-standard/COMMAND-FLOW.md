@@ -353,13 +353,13 @@ P2 on a real project, from nothing to a passed gate:
 /sdlc-profile-check                            verify the pack is configured
 /sdlc-generate-basic-design architecture       decisions everything else depends on
 /sdlc-generate-basic-design nfr                the measurements P7 will need
-/sdlc-generate-basic-design screen SL0030PG    pilot: one simple, one complex module
+/sdlc-generate-basic-design screen {MODULE}    pilot: one simple, one complex module
         ↓  new session
-/sdlc-review-design SL0030PG                   read-only agent, no shared context
+/sdlc-review-design {MODULE}                   read-only agent, no shared context
         ↓  new session
 /sdlc-refine-skill docs/08.reviews/...            classify: artifact / skill / hook / checklist
         ↓  new session
-/sdlc-generate-basic-design screen SL0030PG    regenerate under the changed rule
+/sdlc-generate-basic-design screen {MODULE}    regenerate under the changed rule
         ↓
    repeat until 0 Critical and 0 skill defects      (bound: 3 rounds)
         ↓

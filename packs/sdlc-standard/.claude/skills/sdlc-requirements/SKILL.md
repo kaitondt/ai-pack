@@ -52,7 +52,7 @@ unimplemented — nobody designs against a document they were not given.
 
 | ID | Requirement | Priority | Source | Rationale | Verification |
 |---|---|---|---|---|---|
-| `REQ-ORD-014` | The system shall reject an order whose total exceeds the customer credit limit, before the order enters approval. | Must | `BR-ORD-002` · `DEC-031` | prevents over-limit shipments | ST-ORD-004 |
+| `REQ-{AREA}-{NNN}` | The system shall reject an order whose total exceeds the customer credit limit, before the order enters approval. | Must | `BR-{AREA}-{NNN}` · `DEC-{NNN}` | prevents over-limit shipments | ST-{SCENARIO}-{NNN} |
 
 **RQ-01 — One requirement per row.** A row containing "and" usually contains two
 requirements with different priorities and different test cases. Split it.
@@ -65,9 +65,9 @@ The `Verification` column is filled at P1, not at P7 — an empty one is a P1 de
 "should" in a fixed-price contract needs an explicit note about whether it is in scope.
 
 **RQ-04 — No solution in the requirement.** No screens, no field widths, no table names,
-no technology. "The system shall display a dropdown of active warehouses" is a design
+no technology. "The system shall display a dropdown of active categories" is a design
 decision wearing a requirement's clothes; the requirement is "the user shall select from
-warehouses currently active for the customer".
+categories currently active for the customer".
 
 **RQ-05 — Every row cites a source** (`BR-*`, `DEC-*`, elicitation record, or external
 obligation). A `REQ-*` with no source is unrequested scope (RS-06).
@@ -85,7 +85,7 @@ may not be baselined with them.
 
 | ID | Category | Requirement | Target | Condition | Measurement | Verified at |
 |---|---|---|---|---|---|---|
-| `NFR-PERF-003` | PERF | Order search response | ≤ 2.0 s p95 | 50 concurrent users, 5M orders | ST performance script `perf/order-search.js` | P7 |
+| `NFR-{CATEGORY}-{NNN}` | PERF | Order search response | ≤ 2.0 s p95 | 50 concurrent users, 5M orders | ST performance script `perf/order-search.js` | P7 |
 
 **NF-01 — Target, condition, measurement, phase.** All four, always (RS-07). A missing
 condition makes the target meaningless; a missing measurement makes it unverifiable.

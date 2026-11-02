@@ -41,7 +41,7 @@ Every directory, project, package and dependency in the skeleton traces to one o
 | Path | Kind | Purpose | Source |
 |---|---|---|---|
 | `src/Ordering.Domain/` | project | domain model, no framework references | arch §2.3 |
-| `src/Ordering.Api/Middleware/ErrorEnvelope.cs` | file | error response shape | arch §5.3, DEC-014 |
+| `src/Ordering.Api/Middleware/ErrorEnvelope.cs` | file | error response shape | arch §5.3, DEC-{NNN} |
 
 A row with an empty Source column is not created. It is either an open question for the
 architect or it is not part of the skeleton.

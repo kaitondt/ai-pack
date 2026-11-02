@@ -20,7 +20,7 @@ vertical slices — thin, end to end, visible — over horizontal ones:
 A horizontal slice cannot be verified by running the product until the last one lands, so it
 defers every surprise to the end — exactly what vibe coding cannot afford.
 
-Each slice ends in exactly one commit, prefixed with its ID: `INT-007.2: edit a note`.
+Each slice ends in exactly one commit, prefixed with its ID: `INT-{NNN}.2: edit a note`.
 
 ## SS-02 — Slices have a size budget
 
@@ -51,7 +51,7 @@ regression, and showing the human exactly what this slice changed.
 Before the first edit, list the files the slice will touch, and why:
 
 ```
-Slice INT-007.2 — edit a note
+Slice INT-{NNN}.2 — edit a note
   src/app/notes/[id]/edit/page.tsx   new    edit form
   src/app/api/notes/[id]/route.ts    modify add PATCH
   src/lib/notes.ts                   modify updateNote()

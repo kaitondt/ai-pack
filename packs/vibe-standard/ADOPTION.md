@@ -92,8 +92,8 @@ New project:
 /vibe-scaffold                    ← boring stack, DEC-001, lint/test wired, real commands
 /vibe-product                     ← one page; insist on three non-goals
 /vibe-intent "sign up and sign in"
-/vibe-plan INT-001
-/vibe-build INT-001.1
+/vibe-plan INT-{NNN}
+/vibe-build INT-{NNN}.1
 /vibe-handoff
 ```
 

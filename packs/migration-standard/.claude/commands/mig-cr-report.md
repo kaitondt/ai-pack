@@ -14,7 +14,7 @@ It comes from the client's CR list (C5). Never invent one, never derive it from 
 id, never number it from the files already in the report directory.
 
 Not in context → ask:
-> "Which id from the CR list should this report be filed under (e.g. CR-014)?"
+> "Which id from the CR list should this report be filed under (e.g. CR-{NNN})?"
 
 Normalise the case, keep the number exactly as given, and match
 `{{profile.change_request.id_format}}`.

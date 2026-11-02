@@ -142,7 +142,7 @@ For every control account outside the threshold in
 ```
 
 "Effort was underestimated" is a symptom. "The interface specification arrived four weeks
-late, so three packages were re-planned against an assumption that proved wrong (ASM-014)"
+late, so three packages were re-planned against an assumption that proved wrong (ASM-{NNN})"
 is a cause, and it points at both the fix and the lesson.
 
 ### CT-08 — Contingency drawdown is logged, always

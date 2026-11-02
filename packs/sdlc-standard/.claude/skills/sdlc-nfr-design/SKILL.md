@@ -38,12 +38,12 @@ The §1 table is the deliverable. Everything else elaborates it.
 
 | NFR | Target | Mechanism that delivers it | Budget allocation | Measured by | Residual risk |
 |---|---|---|---|---|---|
-| `NFR-PERF-003` | ≤2.0 s p95 order search | server-side paging, covering index `IX_ORD_CUST_DT`, no N+1 | API 1.2 s / render 0.5 s / network 0.3 s | `ST-PERF-004` on staging, 50 VU | index unusable if free-text search is added later (`RSK-014`) |
+| `NFR-{CATEGORY}-{NNN}` | ≤2.0 s p95 order search | server-side paging, covering index `IX_ORD_CUST_DT`, no N+1 | API 1.2 s / render 0.5 s / network 0.3 s | `ST-PERF-004` on staging, 50 VU | index unusable if free-text search is added later (`RSK-{NNN}`) |
 
 Rules:
 - **Every `NFR-*` has a row.** A missing row is a Critical finding at review.
 - A mechanism is a specific technical decision, not a category. "Caching" is not a
-  mechanism; "5-minute cache of the warehouse master, invalidated on master update" is.
+  mechanism; "5-minute cache of the category master, invalidated on master update" is.
 - The budget allocation is what makes a target actionable at P4. "2 seconds end to end"
   tells a developer nothing; "1.2 s server budget" tells them when they are over.
 - **Residual risk is mandatory and is usually the most useful column.** It says what would

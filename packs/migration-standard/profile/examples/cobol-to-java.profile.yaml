@@ -7,7 +7,7 @@
 schema_version: "1.0"
 
 project:
-  key: CLM
+  key: PRJB
   name: "Claims Processing Modernisation"
   vendor: "<Vendor>"
   client: "<Insurer>"
@@ -23,7 +23,7 @@ legacy:
   readonly: true
   screen_capture_dir: "docs/green-screens"
   excluded:
-    - id: "LEG-RPT-031"
+    - id: "LEG-{AREA}-{NNN}"
       reason: "Nightly microfiche report - decommissioned 2019, confirmed by ops"
 
 target:
@@ -141,8 +141,8 @@ infrastructure:
   legacy_infrastructure: "z/OS LPAR, JES2 job scheduling, VSAM and DB2 - client-operated, read-only"
 
 ids:
-  module_pattern: "^CLM[0-9]{3}(W|B)$"
-  module_example: "CLM101W"
+  module_pattern: "^XXX[0-9]{3}(W|B)$"
+  module_example: "XXX000W"
   doc_id_format: "{MODULE}-{TYPE}-{NNN}"
   types:
     screen: SC

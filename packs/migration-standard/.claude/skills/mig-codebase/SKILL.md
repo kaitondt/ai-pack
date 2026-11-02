@@ -44,7 +44,7 @@ should be. Where TSD §4 decides to mirror it, cite TSD §4.
 
 | Path | Kind | Purpose | Source |
 |---|---|---|---|
-| `src/app/Receiving.Domain/` | project | domain model, no framework references | TSD §1.2 |
+| `src/app/Core.Domain/` | project | domain model, no framework references | TSD §1.2 |
 | `src/app/Shared/Messages/catalogue.json` | file | verbatim legacy messages, keyed by `MSG-*` | TSD §5.4 |
 
 A row with an empty Source column is not created.

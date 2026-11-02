@@ -1,32 +1,32 @@
 # ============================================================================
-#  EXAMPLE PROFILE - the original CNS WMS migration, expressed as profile data.
+#  EXAMPLE PROFILE - a VB.NET desktop to web migration, expressed as profile data.
 #  Nothing below appears in any skill file. This is the whole delta between
-#  "the standard pack" and "the WMS pack".
+#  "the standard pack" and "a project pack".
 # ============================================================================
 schema_version: "1.0"
 
 project:
-  key: WMS
-  name: "Warehouse Management System"
-  vendor: "NTQ"
-  client: "CNS"
-  copyright: "(c) 2026 CNS Co., Ltd All rights reserved."
+  key: PRJA
+  name: "Example Desktop-to-Web Migration"
+  vendor: "Vendor Co."
+  client: "Client Co."
+  copyright: "(c) 2026 Client Co., Ltd All rights reserved."
   start_date: "2026-01-06"
 
 legacy:
   kind: vbnet
   root: "src/legacy"
-  ui_source: "src/legacy/Fukudaryu_SokoManageSystem/PcGamen"
-  logic_source: "src/legacy/Fukudaryu_SokoManageSystem"
+  ui_source: "src/legacy/LegacyApp/DesktopForms"
+  logic_source: "src/legacy/LegacyApp"
   db_source: "src/legacy/procedure"
   readonly: true
-  screen_capture_dir: "src/wms/docs/01.legacy-captures"
+  screen_capture_dir: "src/prja/docs/01.legacy-captures"
   excluded:
-    - id: "LEG-MENU-014"
+    - id: "LEG-{AREA}-{NNN}"
       reason: "Button disabled in every state of SetMenuBtnEnable - blocked feature, client confirmed out of scope"
 
 target:
-  root: "src/wms"
+  root: "src/prja"
   architecture: "Clean Architecture (Jason Taylor pattern) + CQRS via MediatR"
   stack:
     backend: ".NET 9, ASP.NET Core Web API"
@@ -41,7 +41,7 @@ target:
       id_suffix: "PG"
       viewport: "1280x800+"
     - id: HH
-      label: "Keyence BT-A1000 handheld terminal"
+      label: "Handheld terminal"
       id_suffix: "HG"
       viewport: "320x534"
     - id: BT
@@ -49,7 +49,7 @@ target:
       id_suffix: "BT"
       viewport: "-"
   # The client's own environment names. `parallel` is where the VB.NET client and
-  # the new web app process the same receiving data and the outputs are compared.
+  # the new web app process the same business data and the outputs are compared.
   environments:
     - {id: local,   purpose: "development", data: "synthetic"}
     - {id: test,    purpose: "UT / IT",     data: "masked copy of production"}
@@ -60,22 +60,22 @@ target:
     - {id: legacy-prod, purpose: "the VB.NET client in production", data: "live", readonly: true}
   build:
     order:
-      - "pnpm --filter @wms/shared build"
-      - "pnpm --filter @wms/ui build"
-      - "pnpm --filter @wms/desktop build"
-      - "pnpm --filter @wms/handy build"
-      - "dotnet build src/backend/WMS.sln"
+      - "pnpm --filter @prja/shared build"
+      - "pnpm --filter @prja/ui build"
+      - "pnpm --filter @prja/desktop build"
+      - "pnpm --filter @prja/mobile build"
+      - "dotnet build src/backend/PRJA.sln"
     typecheck: "pnpm -r typecheck"
-    test_unit: "dotnet test src/backend/WMS.sln"
-    test_e2e: "pnpm --filter @wms/desktop test:e2e"
+    test_unit: "dotnet test src/backend/PRJA.sln"
+    test_e2e: "pnpm --filter @prja/desktop test:e2e"
 
 # Client IS owns every environment; this project proposes and hands over a package.
-# Phased cutover by warehouse site, so both systems are live for months.
+# Phased cutover by site, so both systems are live for months.
 infrastructure:
   scm:
     platform: azure-repos
     host: cloud
-    remote_url: "https://dev.azure.com/kariya/WMS/_git/WMS"
+    remote_url: "https://dev.azure.com/{org}/PRJA/_git/PRJA"
     default_branch: main
     branching_model: release-branch
     review_unit: "pull request"
@@ -94,7 +94,7 @@ infrastructure:
   hosting:
     provider: on-prem
     runtime: vm
-    regions: ["client data centre, Nagoya"]
+    regions: ["client data centre"]
   containers:
     enabled: false
     runtime: none
@@ -115,7 +115,7 @@ infrastructure:
     alerting: "client IS operations desk"
   coexistence:
     strategy: phased
-    duration: "approximately 4 months, one warehouse site at a time"
+    duration: "approximately 4 months, one site at a time"
     system_of_record: legacy
     dual_write: false
     conflict_resolution: ""
@@ -126,10 +126,10 @@ infrastructure:
     root: "migration-scripts"
     reconciliation_required: true
     reconciliation: ["row counts per table", "control totals on quantity and amount columns",
-                     "referential integrity", "spot-check of 20 client-chosen receiving slips"]
+                     "referential integrity", "spot-check of 20 client-chosen records"]
     rehearsals_required: 2
-    cutover_window: "8 hours overnight, per site; no receiving during the window"
-    point_of_no_return: "the first receiving slip registered in the web app at that site"
+    cutover_window: "8 hours overnight, per site; no business transactions during the window"
+    point_of_no_return: "the first transaction registered in the web app at that site"
   parallel_run:
     enabled: true
     environment: parallel
@@ -139,7 +139,7 @@ infrastructure:
     sign_off_by: "Client IS Department Head"
   rollback:
     target: legacy
-    data_strategy: "slips registered in the web app are re-keyed into the old client from a printed report"
+    data_strategy: "records registered in the web app are re-keyed into the old client from a printed report"
     rehearsed: false
     decision_owner: "Client IS Department Head, by 06:00 on the cutover morning"
   owner: "client ops"
@@ -147,8 +147,8 @@ infrastructure:
   legacy_infrastructure: "VB.NET client deployed by file share to site PCs; SQL Server on-prem"
 
 ids:
-  module_pattern: "^KK[0-9]{4}(PG|HG|BT)$"
-  module_example: "KK0030PG"
+  module_pattern: "^XX[0-9]{4}(PG|HG|BT)$"
+  module_example: "XX0000PG"
   doc_id_format: "{MODULE}-{TYPE}-{NNN}"
   types:
     screen: SC
@@ -168,17 +168,17 @@ ids:
   number_width: 3
 
 paths:
-  docs_root: "src/wms/docs"
-  requirements: "src/wms/docs"
-  design_root: "src/wms/docs/deliverables_jp"
-  detail_design: "src/wms/docs/deliverables_jp/10.詳細設計"
-  test_design: "src/wms/docs/deliverables_jp/09.テスト設計"
-  reviews: "src/wms/docs/checklists"
-  gap_reports: "src/wms/docs/06.gap"
-  uat_reports: "src/wms/docs/08.uat-bug"
+  docs_root: "src/prja/docs"
+  requirements: "src/prja/docs"
+  design_root: "src/prja/docs/deliverables_jp"
+  detail_design: "src/prja/docs/deliverables_jp/10.詳細設計"
+  test_design: "src/prja/docs/deliverables_jp/09.テスト設計"
+  reviews: "src/prja/docs/checklists"
+  gap_reports: "src/prja/docs/06.gap"
+  uat_reports: "src/prja/docs/08.uat-bug"
   change_requests: "change-request"
-  bug_traces: "src/wms/docs/10.bug-trace"
-  traceability: "src/wms/docs/traceability.csv"
+  bug_traces: "src/prja/docs/10.bug-trace"
+  traceability: "src/prja/docs/traceability.csv"
   bd_categories:
     - key: architecture
       dir: "01.方式設計"
@@ -209,15 +209,15 @@ language:
   primary: ja
   working: vi
   by_path:
-    - path: "src/wms/docs/deliverables_jp/**"
+    - path: "src/prja/docs/deliverables_jp/**"
       lang: ja
-    - path: "src/wms/docs/deliverables/**"
+    - path: "src/prja/docs/deliverables/**"
       lang: vi
-    - path: "src/wms/docs/08.uat-bug/**"
+    - path: "src/prja/docs/08.uat-bug/**"
       lang: vi
     - path: "change-request/**"
       lang: vi
-    - path: "src/wms/docs/10.bug-trace/**"
+    - path: "src/prja/docs/10.bug-trace/**"
       lang: vi
   immutable_tokens:
     - "screen IDs"
@@ -229,8 +229,8 @@ language:
     - "field names"
     - "path strings"
     - "code blocks"
-  dictionary: "src/wms/docs/dictionary.csv"
-  grammar_fixes: "src/wms/docs/fix_grammar.csv"
+  dictionary: "src/prja/docs/dictionary.csv"
+  grammar_fixes: "src/prja/docs/fix_grammar.csv"
 
 document:
   revision_table_headers: ["版数", "年月日", "改訂内容", "改訂者", "承認者", "承認年月日"]
@@ -246,32 +246,32 @@ document:
 
 # The client supplies every form, in Excel, and the forms are contractual.
 templates:
-  root: "src/wms/docs/templates"
+  root: "src/prja/docs/templates"
   on_missing: ask
   formats_enabled: [md, xlsx, docx, csv]
   registry:
-    - {key: screen,   path: "src/wms/docs/templates/画面設計書_様式.xlsx",
+    - {key: screen,   path: "src/prja/docs/templates/画面設計書_様式.xlsx",
        format: xlsx, output_format: xlsx, sheet: "画面設計", header_rows: 8,
        fields: [], status: provided}
-    - {key: function, path: "src/wms/docs/templates/機能設計書_様式.xlsx",
+    - {key: function, path: "src/prja/docs/templates/機能設計書_様式.xlsx",
        format: xlsx, output_format: xlsx, sheet: "機能設計", header_rows: 8,
        fields: [], status: provided}
-    - {key: data,     path: "src/wms/docs/templates/テーブル定義書_様式.xlsx",
+    - {key: data,     path: "src/prja/docs/templates/テーブル定義書_様式.xlsx",
        format: xlsx, output_format: xlsx, sheet: "テーブル定義", header_rows: 6,
        fields: [], status: provided}
   template_wins_over_skill: true
   preserve_unfilled_structure: true
   # The old system's design documents, from the 2011 build. Inputs only: several
   # describe screens that were removed years ago (DIO-08).
-  legacy_documents_dir: "src/wms/docs/00.legacy-documents"
+  legacy_documents_dir: "src/prja/docs/00.legacy-documents"
 
 mockup:
   enabled: true
   kind: html
-  dir: "src/wms/docs/deliverables_jp/09.モックアップ"
+  dir: "src/prja/docs/deliverables_jp/09.モックアップ"
   surfaces: [PC, HH]
   naming: "{MODULE}_{screen name}"
-  # Warehouse staff have used the VB.NET client for a decade and are measured on
+  # End users have used the VB.NET client for a decade and are measured on
   # throughput. Nothing moves without a decision.
   fidelity: as-is
   fidelity_exceptions: []
@@ -292,7 +292,7 @@ mockup:
 
 gates:
   P0_legacy_analysis:
-    - "every PcGamen / HandyGamen form has a LEG-* id"
+    - "every desktop / handheld form has a LEG-* id"
   P1_requirements:
     - "every REQ-* cites at least one LEG-*"
   P2_basic_design:
@@ -356,15 +356,15 @@ execution:
   intended_effort: "xhigh"
 
 # ---------------------------------------------------------------------------
-# TESTING - the real values from the WMS test pack.
+# TESTING - the values from the project test pack.
 # ---------------------------------------------------------------------------
 testing:
   paths:
-    testcase_root: "cns_wms_test/Testcase"
+    testcase_root: "prja_test/Testcase"
     step_subdir: "Step"
-    it_plan: "cns_wms_test/IT_Plan"
-    automation_root: "cns_wms_test/automation"
-    evidence_root: "cns_wms_test/Evidence"
+    it_plan: "prja_test/IT_Plan"
+    automation_root: "prja_test/automation"
+    evidence_root: "prja_test/Evidence"
     results_root: "allure-results"
   naming:
     module_dir: "UT_{BATCH}_{MODULE}"
@@ -378,9 +378,9 @@ testing:
     max_review_rounds: 3
   viewpoints: [VP-01, VP-02, VP-03, VP-04, VP-05, VP-06, VP-07, VP-08, VP-09]
   integration:
-    flow_catalogue: "cns_wms_test/IT_Plan/03.Flow_Definition.csv"
-    strategy_guide: "cns_wms_test/IT_Plan/02.Strategy_Guide.csv"
-    e2e_swimlane: "cns_wms_test/IT_Plan/04.E2E_Swimlane.csv"
+    flow_catalogue: "prja_test/IT_Plan/03.Flow_Definition.csv"
+    strategy_guide: "prja_test/IT_Plan/02.Strategy_Guide.csv"
+    e2e_swimlane: "prja_test/IT_Plan/04.E2E_Swimlane.csv"
     api_payload_in_scope: false
   automation:
     framework: "Playwright + TypeScript"

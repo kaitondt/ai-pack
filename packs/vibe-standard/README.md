@@ -272,8 +272,8 @@ cp vibe-standard/profile/vibe.profile.yaml  <your-project>/.claude/vibe.profile.
 # then, inside the project:
 /vibe-init
 /vibe-intent "the first thing it should do"
-/vibe-plan INT-001
-/vibe-build INT-001.1
+/vibe-plan INT-{NNN}
+/vibe-build INT-{NNN}.1
 ```
 
 Needs Python 3 for the hooks — without it the secret and destructive-command guards are **off

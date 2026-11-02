@@ -15,8 +15,8 @@ one" is a maintenance liability regardless of its quality.
 
 - Names state intent, not type or implementation. `retryBudget`, not `intRetry3`.
 - Migration code frequently needs both the legacy name and the target name. Keep them in
-  a mapping table (data-design deliverable), not in identifiers: `receivingDate`, not
-  `nyukaYoteiDate_NYUKA_YMD`.
+  a mapping table (data-design deliverable), not in identifiers: `itemDate`, not
+  `itemDate_ITM_YMD`.
 - Abbreviations only where the domain uses them; then use them consistently everywhere.
 - Booleans read as assertions: `isPosted`, `hasBackorder`, `canApprove`.
 
@@ -32,7 +32,7 @@ one" is a maintenance liability regardless of its quality.
 
 - Comment the **why**, never the what. The code says what.
 - In migration code, the highest-value comment is the legacy anchor:
-  `// LEG-RCV-004: legacy rounds half-up here (frmNyukaYotei.vb:512)`.
+  `// LEG-{AREA}-{NNN}: legacy rounds half-up here (frmItemList.vb:512)`.
   Keep those; they explain otherwise-inexplicable behaviour.
 - No commented-out code. It is in version control.
 - No decorative banners or section art.

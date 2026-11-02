@@ -35,7 +35,7 @@ The register lives at `{{profile.paths.traceability}}` (CSV, one row per link):
 
 ```csv
 business_id,requirement_id,design_id,detail_id,code_ref,test_ids,status,note
-BR-ORD-002,REQ-ORD-014,SL0030PG-FC-001,SL0030PG-DD-003,OrderQuery.cs#Handle,"UT-SL0030PG-001;IT-ORD-002;ST-ORD-001;UAT-007",done,
+BR-{AREA}-{NNN},REQ-{AREA}-{NNN},{MODULE}-FC-{NNN},{MODULE}-DD-{NNN},OrderQuery.cs#Handle,"UT-{MODULE}-{NNN};IT-{FLOW}-{NNN};ST-{SCENARIO}-{NNN};UAT-{NNN}",done,
 ```
 
 - A row is appended the moment a downstream artifact is created — not in a later sweep.
@@ -63,7 +63,7 @@ has no `BR-*` by construction. Record the CR id in the ancestor position, with t
 path in `note`:
 
 ```csv
-CR-014,REQ-ORD-031,SL0030PG-SC-001,SL0030PG-DD-003,OrderGrid.tsx#columns,"UT-SL0030PG-014",done,docs/11.change-requests/CR-014_order-remarks-column.md
+CR-{NNN},REQ-{AREA}-{NNN},{MODULE}-SC-{NNN},{MODULE}-DD-{NNN},OrderGrid.tsx#columns,"UT-{MODULE}-{NNN}",done,docs/11.change-requests/CR-{NNN}_order-remarks-column.md
 ```
 
 Without that row the artifact is an upward orphan, and correctly so: an unrecorded CR is

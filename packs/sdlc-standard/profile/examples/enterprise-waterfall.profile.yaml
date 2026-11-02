@@ -10,11 +10,11 @@
 schema_version: "1.0"
 
 project:
-  key: KRS
-  name: "在庫管理システム刷新 / Inventory Management System"
-  vendor: "Offshore Development Partner Co., Ltd."
-  client: "Kariya Retail Systems K.K."
-  copyright: "(c) 2026 Kariya Retail Systems K.K. All rights reserved."
+  key: PRJC
+  name: "基幹システム刷新 / Core System"
+  vendor: "Vendor Co., Ltd"
+  client: "Client Co., Ltd"
+  copyright: "(c) 2026 Client Co., Ltd All rights reserved."
   start_date: "2026-02-02"
   delivery_model: waterfall
   contract_type: fixed-price
@@ -30,12 +30,12 @@ stakeholders:
 
 scope:
   in_scope:
-    - "入荷・出荷・棚卸の業務管理 (receiving, shipping, stocktaking)"
-    - "ハンディ端末による現場作業 (handheld terminal operations)"
+    - "主要業務の管理 (core business operations)"
+    - "モバイル端末による現場作業 (mobile terminal operations)"
     - "基幹会計システムとの日次連携 (daily interface to the accounting system)"
   out_of_scope:
     - item: "会計システム本体の改修"
-      reason: "別ベンダー管理、インタフェース仕様のみ合意 (DEC-004)"
+      reason: "別ベンダー管理、インタフェース仕様のみ合意 (DEC-{NNN})"
     - item: "EDI 受発注"
       reason: "第2フェーズ、本契約の範囲外 (契約書 別紙2)"
   external_systems:
@@ -65,7 +65,7 @@ system:
       id_suffix: "PG"
       viewport: "1366x768+"
     - id: HH
-      label: "ハンディ端末 (Handheld terminal)"
+      label: "モバイル端末 (Mobile terminal)"
       id_suffix: "HG"
       viewport: "320x534"
   environments:
@@ -77,20 +77,20 @@ system:
   build:
     order:
       - "pnpm install --frozen-lockfile"
-      - "pnpm --filter @krs/shared build"
-      - "pnpm --filter @krs/ui build"
-      - "dotnet build src/backend/Krs.sln -c Release"
-      - "pnpm --filter @krs/desktop build"
-      - "pnpm --filter @krs/handy build"
+      - "pnpm --filter @prjc/shared build"
+      - "pnpm --filter @prjc/ui build"
+      - "dotnet build src/backend/PRJC.sln -c Release"
+      - "pnpm --filter @prjc/desktop build"
+      - "pnpm --filter @prjc/mobile build"
     typecheck: "pnpm typecheck"
     lint: "pnpm lint && dotnet format --verify-no-changes"
-    test_unit: "dotnet test src/backend/Krs.sln && pnpm test:unit"
-    test_integration: "dotnet test src/backend/Krs.Functional.Tests"
+    test_unit: "dotnet test src/backend/PRJC.sln && pnpm test:unit"
+    test_integration: "dotnet test src/backend/PRJC.Functional.Tests"
     test_e2e: "pnpm test:e2e"
 
 ids:
-  module_pattern: "^KK[0-9]{4}(PG|HG|BT)$"
-  module_example: "KK0030PG"
+  module_pattern: "^XX[0-9]{4}(PG|HG|BT)$"
+  module_example: "XX0000PG"
   doc_id_format: "{MODULE}-{TYPE}-{NNN}"
   types: {screen: SC, function: FC, api: API, data: DT, batch: BT, report: RP, file: FL, detail: DD}
   business_requirement_id_format: "BR-{AREA}-{NNN}"
@@ -175,7 +175,7 @@ document:
     - "flowchart TD only for processing flows"
     - "client viewer is mermaid 9.x — no newer shapes"
   require_review_record: true
-  footer: "(c) 2026 Kariya Retail Systems K.K. All rights reserved."
+  footer: "(c) 2026 Client Co., Ltd All rights reserved."
 
 # The client supplies every form, in Excel, and the forms are contractual.
 # Nothing here is the pack's own skeleton: on_missing is `ask` so a category
@@ -256,12 +256,12 @@ mockup:
 
 # The client's IS department owns every environment. The project proposes
 # changes; it does not commit them. repo_may_write_infra is false for exactly
-# that reason - see DEC-012.
+# that reason - see DEC-{NNN}.
 infrastructure:
   scm:
     platform: azure-repos
     host: cloud
-    remote_url: "https://dev.azure.com/kariya-retail/KRS/_git/KRS"
+    remote_url: "https://dev.azure.com/{org}/PRJC/_git/PRJC"
     default_branch: main
     branching_model: release-branch
     review_unit: "pull request"
@@ -280,7 +280,7 @@ infrastructure:
   hosting:
     provider: on-prem
     runtime: vm
-    regions: ["client data centre, Nagoya"]
+    regions: ["client data centre"]
   containers:
     enabled: false
     runtime: none
@@ -291,7 +291,7 @@ infrastructure:
     root: "infra"
     state_backend: "n/a"
     # No IaC means the rebuild procedure lives in the runbook instead, and the
-    # rebuild risk is recorded as RSK-007 rather than left implicit.
+    # rebuild risk is recorded as RSK-{NNN} rather than left implicit.
     manual_changes_allowed: true
   secrets:
     store: "client-managed credential store; .env.example documents the keys"
@@ -460,7 +460,7 @@ testing:
     scenario_source: "業務プロセス単位、画面単位ではない"
     nfr_in_scope: true
     includes: ["regression", "performance", "security", "failover", "data volume", "operability",
-               "月次・年次処理", "ハンディ端末実機"]
+               "月次・年次処理", "モバイル端末実機"]
   uat:
     executed_by: client
     support_model: "現地立会い2名、当日中に一次回答"

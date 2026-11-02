@@ -92,7 +92,7 @@ no reason gets re-litigated every month; an exclusion with a reason gets accepte
 
 | ID | Business requirement | Owner | Priority | Source | Success measure |
 |---|---|---|---|---|---|
-| `BR-ORD-002` | Orders over the credit limit must not reach fulfilment | business owner | Must | 2026/02/18 workshop | zero over-limit shipments |
+| `BR-{AREA}-{NNN}` | Orders over the credit limit must not reach fulfilment | business owner | Must | 2026/02/18 workshop | zero over-limit shipments |
 
 Rules:
 - Business language only. No screens, no fields, no technology.

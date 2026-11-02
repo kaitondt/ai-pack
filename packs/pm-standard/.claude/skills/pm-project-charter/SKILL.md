@@ -82,7 +82,7 @@ side and denied by the other at closing. If today's value is unknown, that is th
 action item — measure it before baselining, or record it as an `ASM-*`.
 
 **Objectives are not requirements.** "Reduce order entry time" is an objective; "the screen
-shall default the warehouse from the user profile" is a requirement that serves it. Keep
+shall default the delivery address from the user profile" is a requirement that serves it. Keep
 the charter at the first level.
 
 ## CH-03 — The PM's authority is stated, not assumed

@@ -298,13 +298,13 @@ P2 on a real project, from nothing to a signed-off category:
 
 ```
 /mig-profile-check                          verify the pack is configured
-/mig-generate-basic-design screen KK0030PG  pilot: one simple, one complex module
+/mig-generate-basic-design screen {MODULE}  pilot: one simple, one complex module
         ↓  new session
-/mig-review-design KK0030PG                 read-only agent, no shared context
+/mig-review-design {MODULE}                 read-only agent, no shared context
         ↓  new session
 /mig-refine-skill docs/07.reviews/...          classify: artifact / skill / hook / checklist
         ↓  new session
-/mig-generate-basic-design screen KK0030PG  regenerate under the changed rule
+/mig-generate-basic-design screen {MODULE}  regenerate under the changed rule
         ↓
    repeat until 0 Critical and 0 skill defects   (bound: 3 rounds)
         ↓

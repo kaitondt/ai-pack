@@ -229,8 +229,8 @@ infrastructure:
 # IDS - deterministic identifiers. Never translated, never renumbered.
 # ---------------------------------------------------------------------------
 ids:
-  module_pattern: "^[A-Z]{2}[0-9]{4}(PG|HG|BT)$"   # e.g. KK0030PG
-  module_example: "KK0030PG"
+  module_pattern: "^[A-Z]{2}[0-9]{4}(PG|HG|BT)$"   # e.g. XX0000PG
+  module_example: "XX0000PG"
   doc_id_format: "{MODULE}-{TYPE}-{NNN}"
   types:
     screen: SC
@@ -625,4 +625,4 @@ change_request:
 bug_trace:
   mainline: ""                   # branch releases are cut from; "" = the branch origin/HEAD points to
   release_tag_pattern: ""        # glob for tags that are releases, e.g. "v*"; "" = every tag
-  commit_ref_patterns: []        # extra regexes for ticket keys in commit messages, e.g. "WMS-[0-9]+"
+  commit_ref_patterns: []        # extra regexes for ticket keys in commit messages, e.g. "PRJA-[0-9]+"

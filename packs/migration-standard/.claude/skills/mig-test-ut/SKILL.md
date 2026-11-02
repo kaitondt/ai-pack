@@ -18,7 +18,7 @@ separate artifact, produced by `mig-test-automation`.
 
 ```
 {{profile.testing.paths.testcase_root}}/
-└── {{profile.testing.naming.module_dir}}/           e.g. UT_Batch1_KK0030PG/
+└── {{profile.testing.naming.module_dir}}/           e.g. UT_Batch{N}_{MODULE}/
     ├── Step/
     │   ├── {MODULE}_step1_sources_{TS}.md
     │   ├── {MODULE}_step1_analysis_{TS}.md

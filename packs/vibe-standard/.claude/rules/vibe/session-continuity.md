@@ -56,8 +56,8 @@ discuss it.
 
 ## SC-05 — Commits carry the slice ID
 
-Every commit message starts with the slice ID it implements: `INT-007.2: edit a note`.
-Paydowns: `DEBT-014: move notes to Postgres`. Fixes: `BUG-009: …`. This is the whole
+Every commit message starts with the slice ID it implements: `INT-{NNN}.2: edit a note`.
+Paydowns: `DEBT-{NNN}: move notes to Postgres`. Fixes: `BUG-{NNN}: …`. This is the whole
 traceability chain of a vibe project — intent → slice → commit → check — and it costs nothing
 if done at commit time.
 
