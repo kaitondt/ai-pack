@@ -43,7 +43,11 @@ Do not start a phase task without it.
 10. **Traceability is updated as work happens**, not reconstructed before acceptance.
 11. **Expected values in tests come from the specification**, never from what the code
     currently returns.
-12. **Report honestly.** A failing build is reported failing, with its output. A check that
+12. **Commit through `/sdlc-commit`, in `{{profile.commit.format}}`.** Stage files by name;
+    never commit a read-only path, a baselined document without its CR, or a secret; never
+    `--no-verify`, amend, force or push unless the profile allows it (`GT-01..GT-09`). A hook
+    enforces it.
+13. **Report honestly.** A failing build is reported failing, with its output. A check that
     could not be run is reported as not run, never as passed. A metric is never improved
     by reclassifying the work behind it.
 
@@ -65,7 +69,7 @@ Do not start a phase task without it.
 | Change request (any phase from P1) | `/sdlc-cr-analyze` → `/sdlc-cr-design` → `/sdlc-cr-implement` → `/sdlc-cr-report` |
 
 Cross-cutting: `/sdlc-phase-gate`, `/sdlc-trace-check`, `/sdlc-trace-bug`,
-`/sdlc-quality-report`, `/sdlc-review-design`, `/sdlc-review-commit`,
+`/sdlc-quality-report`, `/sdlc-review-design`, `/sdlc-review-commit`, `/sdlc-commit`,
 `/sdlc-review-testcase`, `/sdlc-verify-build`, `/sdlc-context-map`, `/sdlc-translate`,
 `/sdlc-profile-check`, `/sdlc-rule-register`, `/sdlc-refine-skill`.
 

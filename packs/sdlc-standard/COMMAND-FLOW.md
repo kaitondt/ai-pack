@@ -1,6 +1,6 @@
 # Command Flow
 
-How the 37 commands relate: what each one consumes and produces, what must run before what,
+How the 39 commands relate: what each one consumes and produces, what must run before what,
 and the refinement loop that the whole pack is built to support.
 
 ---
@@ -35,6 +35,7 @@ and the refinement loop that the whole pack is built to support.
 | `/sdlc-cr-design` | an approved CR option | design deliverables, traceability rows | `sdlc-cr-engineer` |
 | `/sdlc-cr-implement` | the updated design documents | code, test cases | `sdlc-cr-engineer` |
 | `/sdlc-translate` | a deliverable | its counterpart in the other language | — |
+| `/sdlc-commit` | the working tree, `commit:` in the profile | one commit in the agreed format; never a push | — |
 | `/sdlc-test-lifecycle` | test artifacts between rounds | history, carried results, condensed tables | — |
 
 ### Verify — read-only, produce findings

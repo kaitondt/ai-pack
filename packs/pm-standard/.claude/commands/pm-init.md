@@ -93,7 +93,50 @@ Create `{{profile.documents.working_dir}}` and add it to the project's `.gitigno
 `working_retention` is `keep` — scratch files in version control are how a draft ends up
 looking like a deliverable.
 
-## Step 6 — Apply the model policy
+## Step 6 — Choose the commit message format
+
+`/pm-commit` and the `guard-pm-git` hook hold every commit to one format, and this is where the
+project chooses it. Ask it as its own question — not folded into the earlier round — because the
+answer is visible in every commit from now on and is awkward to change later.
+
+1. **Read the history first.** `git log -50 --format=%s` (skip merges). If most subjects follow
+   one convention — a ticket key first, Conventional Commits, a bracketed id — name it and show
+   three real subjects. A team that already has a convention keeps it unless it says otherwise.
+   Look for a commit-message tool too (`commitlint.config.*`, `.husky/commit-msg`,
+   `.pre-commit-config.yaml` with a `commit-msg` stage, `.git/hooks/commit-msg`): it will run
+   beside the pack's hook, and the two must agree.
+2. **Offer the presets**, each with an example built from this project's own ids:
+
+   | Preset | Format | Example |
+   |---|---|---|
+   | `id-action-summary` (default) | `{ID} {ACTION} {SUMMARY}` | `RSK-014 UPDATE raise the exposure after the vendor slip` |
+   | `bracketed` | `[{ID}] {ACTION}: {SUMMARY}` | `[RSK-014] UPDATE: raise the exposure after the vendor slip` |
+   | `conventional` | `{ACTION}({ID}): {SUMMARY}`, actions `feat`/`fix`/`docs`/`test`/`refactor`/`perf`/`build`/`ci`/`chore`/`revert` | `fix(ISS-009): correct the owner of the issue` |
+   | `existing` | the convention found in step 1 — only when one was found | three real subjects |
+   | `custom` | the user's own string, from the tokens `{ID}`, `{ACTION}`, `{SUMMARY}` | — |
+
+   `{ID}` is the id of what the change is about (`CR-*`, `RSK-*`, `ISS-*`, `DEC-*`, `ACT-*`, `MTG-*`, a document id); `{ACTION}` is what the commit does
+   to it; `{SUMMARY}` is a short imperative description. Recommend `existing` when step 1 found
+   a consistent convention, otherwise the default.
+3. **Settle the details in the same round**, with the defaults pre-filled:
+   - the action vocabulary — default `ADD`, `UPDATE`, `DELETE`, `FIX`, `REVIEW`, `CONFIRM`,
+     `REFACTOR`, `REVERT`; the team may rename, add or remove words (keep them one word each);
+   - the summary language (`commit.summary_language`) and maximum length (72);
+   - a token for housekeeping commits with no id (`commit.no_id`, e.g. `NOID`), or none —
+     then every commit needs a real id;
+   - protected branches that never take a direct commit (propose the default branch when the
+     team merges through pull requests);
+   - whether the AI may push (default no) or amend an unpushed commit (default no).
+4. **Validate before writing.** A custom format contains `{SUMMARY}`, and `{ID}` unless
+   `no_id` is set; it uses no token other than the three. Build the pattern the hook will apply
+   and test it on the example and on the last ten subjects from `git log`: say how many would
+   pass. Old history is not rewritten — the format applies from the next commit.
+5. **Write `commit:`** in the profile — `preset`, `format`, `actions` and the switches — and
+   record the choice as a `DEC-*` in `{{profile.paths.decision_log}}`. When a technical pack is installed, offer its format — one repository, one convention. When an existing commit-message tool disagrees with the chosen
+   format, say so: align the tool's configuration or the profile, so one commit cannot pass one
+   and fail the other.
+
+## Step 7 — Apply the model policy
 
 <!-- model-policy:claude -->
 Resolve a model and an effort level for every `.claude/agents/pm-*.md` from
@@ -122,13 +165,13 @@ where the commands run: Claude Code takes the session level from `/effort`, not 
 profile, so they set it there. Agents are not affected by it.
 <!-- /model-policy:claude -->
 
-## Step 7 — Generate CLAUDE.md
+## Step 8 — Generate CLAUDE.md
 
 From the pack's `CLAUDE.md` template, with profile values resolved. If the project already
 has one — likely, when a technical pack is installed — **append** a project-management
 section rather than overwriting it.
 
-## Step 8 — Report
+## Step 9 — Report
 
 ```
 PM pack initialised
@@ -139,6 +182,7 @@ PM pack initialised
   Scaffolded     : {n} directories, {n} registers
   Formats        : {n} artifacts bound   binary_final: {list}
   Toolchain      : openpyxl {ok|MISSING — the WBS cannot be delivered} · python-docx {ok|n/a}
+  Commit         : {format}   e.g. {example}   push: {AI|user}   protected: {branches}
   CLAUDE.md      : {created | appended}
   Unfilled       : {fields still <...>} — each blocks the artifact that needs it
   Next           : /pm-profile-check, then /pm-charter

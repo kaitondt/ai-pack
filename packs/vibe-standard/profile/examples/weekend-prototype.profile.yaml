@@ -65,7 +65,6 @@ slices:
   max_changed_lines: 400
   max_minutes: 60
   require_clean_tree: true
-  commit_format: "{SLICE_ID}: {summary}"
   exclude_from_budget:
     - "vibe/**"
     - "pnpm-lock.yaml"

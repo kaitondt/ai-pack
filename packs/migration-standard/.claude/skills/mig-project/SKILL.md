@@ -33,6 +33,7 @@ Always in force, regardless of phase:
 | `rules/migration/legacy-readonly.md` | the source system is never modified |
 | `rules/migration/id-naming.md` | deterministic IDs |
 | `rules/migration/document-standards.md` | deliverable skeleton and scope discipline |
+| `rules/migration/git-commit.md` | commit format chosen at init; explicit staging; nothing under legacy or another read-only path committed; no secret, bypass, rewrite or push |
 
 **Stack rules load with the code they govern.** `rules/java/`, `rules/typescript/`,
 `rules/react/` and `rules/sql/` carry `paths:` front matter, so they apply when a matching
@@ -76,6 +77,7 @@ list is still applied, and is reported by `/mig-profile-check`.
 | A client-requested change to an approved spec | `mig-change-request` |
 | Reviewing any deliverable | `mig-review-framework` |
 | Feeding review findings back into a skill | `mig-review-framework` + `/mig-refine-skill` |
+| Committing work — staging, the commit message, what may not be committed | `/mig-commit` + `rules/migration/git-commit.md` |
 | Translating deliverables | `mig-translation` |
 | Reading or writing a deliverable in Excel, Word or CSV; registering a client template; reading a legacy document | `mig-document-io` |
 
@@ -115,6 +117,7 @@ P0 Legacy Analysis ─ P1 Requirements ─ P2 Basic Design ─ P3 Detail Design
 | P5/P6 | failure triage | `/mig-triage-failures` | `mig-defect-triager` |
 | P7 | bug investigation → fix → report | `/mig-uat-investigate` etc. | `mig-uat-engineer` |
 | any | cross-phase bug traceability dossier | `/mig-trace-bug` | — |
+| any | a commit in the agreed format, checked against GT-01..GT-09 | `/mig-commit` | — |
 
 ### Phase gates
 

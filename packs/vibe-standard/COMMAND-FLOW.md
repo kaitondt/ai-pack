@@ -1,6 +1,6 @@
 # Command Flow
 
-How the 20 commands relate: what each reads and writes, the loop they are built around, the
+How the 22 commands relate: what each reads and writes, the loop they are built around, the
 flow at each stage, and the refine loop.
 
 ---
@@ -31,6 +31,7 @@ flow at each stage, and the refine loop.
 | `/vibe-build` | intent, slice, code | code, tests, commit, intent log, STATE.md, `DEBT-*` | `vibe-builder` (+ `vibe-verifier`, `vibe-reviewer` from mvp) |
 | `/vibe-verify` | intent, running app | STATE.md Last verified, `BUG-*` for regressions | `vibe-verifier` |
 | `/vibe-review` | diff, intent | review report, proposed `DEBT-*` | `vibe-reviewer` |
+| `/vibe-commit` | the working tree, `commit:` in the profile | one commit in the agreed format (also `/vibe-build`'s commit step); never a push | — |
 
 ### When it breaks
 

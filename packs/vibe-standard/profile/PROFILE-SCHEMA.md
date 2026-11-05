@@ -91,7 +91,7 @@ All repo-relative; defaults under `vibe/`. Commit the folder — it is the proje
 | `max_changed_lines` | 400 | added + deleted, excluding `exclude_from_budget` |
 | `max_minutes` | 60 | not enforced; a prompt to stop and commit |
 | `require_clean_tree` | true | SS-03 |
-| `commit_format` | `{SLICE_ID}: {summary}` | SC-05 |
+| `commit_format` | — | **removed** — ignored if present; the format is `commit.format` |
 | `exclude_from_budget` | `vibe/**`, lockfiles, migrations, snapshots, generated | glob list |
 
 `/vibe-profile-check` flags budgets above 15 files / 800 lines: a budget that large is not one.
@@ -101,6 +101,35 @@ All repo-relative; defaults under `vibe/`. Commit the folder — it is the proje
 |---|---|---|
 | `max_fix_attempts` | 3 | SS-05, the doom-loop limit. Valid 2–5 |
 | `attempt_branch_prefix` | `attempt/` | where failed attempts are preserved |
+
+### `commit`
+
+The commit message format and the commit guard (`rules/vibe/git-commit.md`). Chosen at `/vibe-init` (the
+"Choose the commit message format" step), used by `/vibe-commit` and `/vibe-build`, enforced on every `git`
+command the AI runs by `hooks/guard-vibe-git.py` (PreToolUse on `Bash|PowerShell`). An absent
+section means the defaults below, which `/vibe-profile-check` reports as unchosen.
+
+| Field | Default | Notes |
+|---|---|---|
+| `preset` | `id-action-summary` | `id-action-summary` · `bracketed` · `conventional` · `existing` · `custom` — a record of the choice; `format` is what is enforced |
+| `format` | `{ID} {ACTION} {SUMMARY}` | tokens `{ID}`, `{ACTION}`, `{SUMMARY}`; the rest is literal. Must contain `{SUMMARY}`, and `{ID}` unless `no_id` is set (GT-01) |
+| `actions[]` | `ADD UPDATE DELETE FIX REVIEW CONFIRM REFACTOR REVERT` | the `{ACTION}` vocabulary, case-sensitive. The `conventional` preset uses `feat fix docs test refactor perf build ci chore revert` |
+| `id_pattern` | `""` | regex for one id. Empty → any upper-case id containing a digit (`INT-003.2`, `BUG-004`, `DEBT-002`) |
+| `id_separator` | `,` | joins several ids in `{ID}` |
+| `no_id` | `""` | token accepted in place of an id for housekeeping commits (`NOID`). Empty → every commit needs a real id (GT-09) |
+| `summary_max` | 72 | characters in `{SUMMARY}` |
+| `summary_language` | `en` | language of the summary and body |
+| `body` | `optional` | `optional` · `required` · `none` |
+| `enforce` | `true` | `false` stops the format check only; GT-02..GT-08 stay on |
+| `stage_explicit_paths` | `true` | blocks `git add -A` / `.` / `-u` and `git commit -a` (GT-02) |
+| `regenerated_globs[]` | `**/*.generated.*`, `vendor/**` | read-only paths whose changes may still be committed, because a generator rewrites them (GT-03) |
+| `protected_branches[]` | `[]` | globs of branches that never take a direct commit (GT-06) |
+| `allow_push` | `false` | `true` lets the AI run `git push` — never with force (GT-08) |
+| `allow_amend` | `false` | `true` allows `--amend` of a commit not yet pushed (GT-07) |
+
+`commit.format` replaces `slices.commit_format`, which the pack no longer reads. `/vibe-init` moves
+an old value across (`{SLICE_ID}` becomes `{ID}`) and deletes the key.
+
 
 ### `verification`
 | Field | Notes |

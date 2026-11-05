@@ -35,6 +35,7 @@ Always in force, regardless of phase:
 | `rules/sdlc/id-naming.md` | deterministic IDs |
 | `rules/sdlc/document-standards.md` | deliverable skeleton and scope discipline |
 | `rules/sdlc/quality-metrics.md` | what the gates measure, and how not to fake it |
+| `rules/sdlc/git-commit.md` | commit format chosen at init; explicit staging; no read-only, baselined-without-CR or secret change committed; no bypass, rewrite or push |
 
 **Stack rules load with the code they govern.** `rules/java/`, `rules/typescript/`,
 `rules/react/` and `rules/sql/` carry `paths:` front matter, so they apply when a matching
@@ -80,6 +81,7 @@ directory that is not in the list is still applied, and is reported by `/sdlc-pr
 | Reviewing any deliverable | `sdlc-review-framework` |
 | Metrics, gate reports, containment | `sdlc-quality-metrics` |
 | Feeding review findings back into a skill | `sdlc-review-framework` + `/sdlc-refine-skill` |
+| Committing work — staging, the commit message, what may not be committed | `/sdlc-commit` + `rules/sdlc/git-commit.md` |
 | Translating deliverables | `sdlc-translation` |
 | Reading or writing a deliverable in Excel, Word or CSV; registering a client template | `sdlc-document-io` |
 
@@ -119,6 +121,7 @@ P0 Inception ─ P1 Requirements ─ P2 Basic Design ─ P3 Detail Design ─ P4
 | any | automated scripts | `/sdlc-generate-testscript` | `sdlc-test-automator` |
 | any | defect triage | `/sdlc-triage-defects` | `sdlc-defect-triager` |
 | any | cross-phase bug traceability dossier | `/sdlc-trace-bug` | — |
+| any | a commit in the agreed format, checked against GT-01..GT-09 | `/sdlc-commit` | — |
 
 ### The V-model binding
 

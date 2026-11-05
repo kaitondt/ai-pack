@@ -373,6 +373,11 @@ testing:
 change_request:
   id_format: "CR-{YYYY}-{NNN}"
   id_source: client
+  governed_paths:                # commits here carry the id in .claude/.active_cr (GT-04)
+    - "docs/03.design/**"
+    - "docs/04.detail-design/**"
+    - "docs/05.test-design/**"
+    - "docs/09.change-requests/**"
   min_options: 2
   gates: ["after_options", "after_design"]
   cascade:

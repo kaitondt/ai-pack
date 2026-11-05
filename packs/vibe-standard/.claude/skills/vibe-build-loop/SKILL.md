@@ -61,7 +61,7 @@ make symptoms stop; you are about to edit a test (VT-05).
    secret, no bare TODO, no debug leftovers, no weakened check.
 3. **Diff summary** for the human (VT-02) — from `prototype` up, wait for acceptance when the
    slice touched auth, data model, payments or anything irreversible.
-4. **Commit** — `{{profile.slices.commit_format}}`, e.g. `INT-{NNN}.2: enforce note ownership`.
+4. **Commit** — `/vibe-commit` Steps 2–7: explicit paths, the guard's checks, `{{profile.commit.format}}`, e.g. `INT-{NNN}.2 ADD enforce note ownership` (GT-01).
    One slice, one commit (SS-01).
 5. **Log** — tick the slice in the intent file with the commit hash; update STATE.md "Now /
    Next / Last verified" (SC-01). The paydown counter (DL-05) advances by itself — it is

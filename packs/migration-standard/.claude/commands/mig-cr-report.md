@@ -17,7 +17,8 @@ Not in context → ask:
 > "Which id from the CR list should this report be filed under (e.g. CR-{NNN})?"
 
 Normalise the case, keep the number exactly as given, and match
-`{{profile.change_request.id_format}}`.
+`{{profile.change_request.id_format}}`. When `.claude/.active_cr` still says `PENDING`,
+write the id there now, so the commits that follow carry it.
 
 ## Step 3 — Determine the file
 
@@ -47,10 +48,18 @@ Six sections: the request · impact · options · what was done · verification 
 Class variants: `CR-DATA` blocked on a frozen object, `CR-CLARIFY`, and `CR-OUT-OF-SCOPE`
 have no §4 code diff — the skill's Phase 6 says what each carries instead.
 
-## Step 5 — Report
+## Step 5 — Close the CR
+
+When §6 shows nothing left to do on this CR's documents or code — only client answers or a
+deployment outstanding — **delete `.claude/.active_cr`**. A marker left in place makes every
+later commit under the governed paths look like part of this CR. When another round is
+expected (the client is still answering, §6 lists open work), leave it and say so.
+
+## Step 6 — Report
 
 ```
 CR report — {CR-ID}
+  Marker   : {.claude/.active_cr cleared | kept — {reason}}
   File     : {path}   ({created | round {n} appended})
   Language : {lang}
   Module   : {module}   Class : {class}   Option : {A|B|C}

@@ -13,6 +13,9 @@ description: "CR phase 1+2 — analyse a change request WITHOUT changing anythin
 **This command is read-only.** No `Write`, no `Edit`, no file created — not even a report
 (that is `/mig-cr-report`). It ends at GATE 1 and stops (C1).
 
+Read `.claude/.active_cr`. When it names another CR, say so at the top: one CR is in progress at
+a time, and this one can be analysed but not opened until that one is closed.
+
 ## Step 3 — Is this a change request or a bug?
 
 | The request says | Route |

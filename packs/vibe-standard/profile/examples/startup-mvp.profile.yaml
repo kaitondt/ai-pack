@@ -67,7 +67,6 @@ slices:
   max_changed_lines: 300
   max_minutes: 60
   require_clean_tree: true
-  commit_format: "{SLICE_ID}: {summary}"
   exclude_from_budget:
     - "vibe/**"
     - "uv.lock"

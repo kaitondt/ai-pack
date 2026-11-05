@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LICENSE = "MIT OR Apache-2.0"
 LICENSE_FILES = ("LICENSE-MIT", "LICENSE-APACHE")
 OUT = ROOT / "codex"
-VERSION = "1.5.0"
+VERSION = "1.6.0"
 OWNER = {"name": "ThucND", "url": "https://github.com/kaitondt"}
 REPOSITORY = "https://github.com/kaitondt/ai-pack"
 

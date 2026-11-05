@@ -18,6 +18,12 @@ Phase 5  TEST       test cases updated, verification actually run
 Phase 6  REPORT     written to {{profile.paths.change_requests}}
 ```
 
+The CR in progress is recorded in `.claude/.active_cr`: `/mig-cr-design` writes its id after
+GATE 1 (`PENDING` while the client has not issued one), `/mig-cr-implement` checks it, and
+`/mig-cr-report` clears it once nothing is left to do. One CR at a time. While it is set, every
+commit touching `{{profile.change_request.governed_paths}}` carries the id — the commit guard
+blocks one that does not (`rules/migration/git-commit.md` GT-04).
+
 ---
 
 ## A change request is not a bug
@@ -217,7 +223,8 @@ recommendation. Then stop:
 
 ## Phase 3 — Design update
 
-Only after GATE 1. Load the category skill that owns each document before editing it
+Only after GATE 1, and only once `.claude/.active_cr` names this CR (or `PENDING`). Load the
+category skill that owns each document before editing it
 (`{{profile.paths.bd_categories}}` names them) — a CR does not suspend the category rules.
 
 | # | Rule |
@@ -335,4 +342,5 @@ updated; traceability rows cite the CR id.
 frozen objects untouched; test cases updated; verification output is real.
 
 **Phase 6** — client-issued CR id; six sections present; verbatim original in §1-1; a
-second round appended rather than overwritten; the report path printed for the user.
+second round appended rather than overwritten; the report path printed for the user;
+`.claude/.active_cr` cleared, or kept with the reason stated.

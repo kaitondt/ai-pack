@@ -228,8 +228,34 @@ regeneration erases that without either of you noticing.
 |---|---|
 | `change_requires_cr` | ✅ Must stay `true` (PB-03). Enforced by `hooks/guard-pm-baselines.py`. |
 | `active_cr_file` | `.claude/.active_pm_cr`. Written by `/pm-change-apply`, cleared when the CR closes. |
-| `readonly_globs[]` | Always denied, CR or not: archived snapshots. |
+| `readonly_globs[]` | Always denied, CR or not: archived snapshots. `hooks/guard-pm-git.py` also blocks a commit that modifies one (GT-03). |
 | `registered[]` | Path, artifact, version, approver, date. Appended when an approval baselines a document. The guard hook reads this list. |
+
+### `commit`
+
+The commit message format and the commit guard (`rules/pm/git-commit.md`). Chosen at `/pm-init` (the
+"Choose the commit message format" step), used by `/pm-commit`, enforced on every `git`
+command the AI runs by `hooks/guard-pm-git.py` (PreToolUse on `Bash|PowerShell`). An absent
+section means the defaults below, which `/pm-profile-check` reports as unchosen.
+
+| Field | Default | Notes |
+|---|---|---|
+| `preset` | `id-action-summary` | `id-action-summary` · `bracketed` · `conventional` · `existing` · `custom` — a record of the choice; `format` is what is enforced |
+| `format` | `{ID} {ACTION} {SUMMARY}` | tokens `{ID}`, `{ACTION}`, `{SUMMARY}`; the rest is literal. Must contain `{SUMMARY}`, and `{ID}` unless `no_id` is set (GT-01) |
+| `actions[]` | `ADD UPDATE DELETE FIX REVIEW CONFIRM REFACTOR REVERT` | the `{ACTION}` vocabulary, case-sensitive. The `conventional` preset uses `feat fix docs test refactor perf build ci chore revert` |
+| `id_pattern` | `""` | regex for one id. Empty → any upper-case id containing a digit (`CR-007`, `RSK-014`, `MTG-20260105-01`) |
+| `id_separator` | `,` | joins several ids in `{ID}` |
+| `no_id` | `""` | token accepted in place of an id for housekeeping commits (`NOID`). Empty → every commit needs a real id (GT-09) |
+| `summary_max` | 72 | characters in `{SUMMARY}` |
+| `summary_language` | `en` | language of the summary and body |
+| `body` | `optional` | `optional` · `required` · `none` |
+| `enforce` | `true` | `false` stops the format check only; GT-02..GT-08 stay on |
+| `stage_explicit_paths` | `true` | blocks `git add -A` / `.` / `-u` and `git commit -a` (GT-02) |
+| `regenerated_globs[]` | `[]` | read-only paths whose changes may still be committed, because a generator rewrites them (GT-03) |
+| `protected_branches[]` | `[]` | globs of branches that never take a direct commit (GT-06) |
+| `allow_push` | `false` | `true` lets the AI run `git push` — never with force (GT-08) |
+| `allow_amend` | `false` | `true` allows `--amend` of a commit not yet pushed (GT-07) |
+
 
 ### `document`
 

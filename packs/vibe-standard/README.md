@@ -149,7 +149,7 @@ Two rules hold the model honest:
 |---|---|
 | Setup | `/vibe-init` · `/vibe-profile-check` · `/vibe-scaffold` |
 | What to build | `/vibe-product` · `/vibe-intent` · `/vibe-plan` · `/vibe-park` |
-| Build | `/vibe-build` · `/vibe-verify` · `/vibe-review` |
+| Build | `/vibe-build` · `/vibe-verify` · `/vibe-review` · `/vibe-commit` |
 | When it breaks | `/vibe-fix` · `/vibe-unstuck` |
 | Keep it healthy | `/vibe-debt` · `/vibe-security-check` · `/vibe-refine-skill` · `/vibe-rule-register` |
 | Ship and grow | `/vibe-ship` · `/vibe-graduate` |
@@ -175,6 +175,7 @@ verifies or reviews it**. A writer reviewing its own output agrees with itself.
 |---|---|---|
 | `check-vibe-profile.py` | SessionStart | profile valid; stage vs. reality; `.env` ignored; tree/branch state; open debt & bugs; **prints STATE.md** so the session starts from the handoff |
 | `guard-vibe-bash.py` | PreToolUse (Bash, PowerShell) | **blocks** irreversible commands: `rm -rf` of root/home/cwd, `git reset --hard`, `git clean -f`, force-push, `DROP`/`TRUNCATE`/unscoped `DELETE`, ORM resets, `terraform apply/destroy`, publish, `sudo`, `curl | sh`, plus `security.dangerous_commands` |
+| `guard-vibe-git.py` | PreToolUse (Bash, PowerShell) | **blocks** git commands that break `rules/vibe/git-commit.md`: a message not in `commit.format`, `git add -A`/`.`/`commit -a`, staging an env/key file or a credential, `--no-verify`, `--amend`, commits on `commit.protected_branches`, `branch -D`, history rewrites, and `git push` unless `commit.allow_push` |
 | `guard-vibe-paths.py` | PreToolUse (Write, Edit) | **blocks** writes containing credentials (AWS, GitHub, Anthropic, OpenAI, Stripe, Slack, Google, private keys, DB URLs with passwords, random-looking hardcoded secrets) outside gitignored env files; blocks `security.protected_paths` |
 | `check-slice-size.py` | PostToolUse (Write, Edit) | warns the model when the working tree passes the slice budget, and again at 2× |
 

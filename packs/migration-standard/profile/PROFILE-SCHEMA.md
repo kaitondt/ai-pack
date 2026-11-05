@@ -270,6 +270,12 @@ cross-cutting, not a phase — it can arrive any time from P2 onward — so its 
 | `cascade` | the document update order for phase 3: `bd_categories` keys, then `indexes`, `translations`, `test_cases`. The order is load-bearing — a document edited before the one it consumes contradicts it |
 | `update_test_cases` | the existing cases describe the pre-CR behaviour, so they change with it. `false` only where the project keeps no case documents |
 | `classes` | the classification set. The class sets cascade depth, so dropping one drops a scoping decision, not a label |
+| `governed_paths[]` | globs of the documents a CR changes. While `.claude/.active_cr` names a CR, a commit touching one must carry that id; while it says `PENDING`, such a commit is blocked (GT-04, `hooks/guard-mig-git.py`) |
+
+**The active-CR marker.** `.claude/.active_cr` holds the id of the CR in progress — written by
+`/mig-cr-design` after GATE 1 (`PENDING` until the client issues the id), checked by
+`/mig-cr-implement`, cleared by `/mig-cr-report`, announced at every session start. One CR at a
+time. It is not a profile field: it is state, and it must not outlive the CR.
 
 Behaviour a CR introduces has no `LEG-*` ancestor. It is recorded in the traceability
 register with the CR id in the ancestor position (TR-02); without that row it is
@@ -290,8 +296,35 @@ dossiers and `bug-trace-register.csv` live under `paths.bug_traces`.
 
 ### `constraints`
 `readonly_globs` is enforced at the tool level by `hooks/guard-readonly-paths.py`
-(PreToolUse on Write/Edit). This is the mechanical backstop for the
+(PreToolUse on Write/Edit), and on commits by `hooks/guard-mig-git.py` (GT-03). This is the mechanical backstop for the
 "legacy is read-only" rule — the skills state it, the hook enforces it.
+
+### `commit`
+
+The commit message format and the commit guard (`rules/migration/git-commit.md`). Chosen at `/mig-init` (the
+"Choose the commit message format" step), used by `/mig-commit`, enforced on every `git`
+command the AI runs by `hooks/guard-mig-git.py` (PreToolUse on `Bash|PowerShell`). An absent
+section means the defaults below, which `/mig-profile-check` reports as unchosen.
+
+| Field | Default | Notes |
+|---|---|---|
+| `preset` | `id-action-summary` | `id-action-summary` · `bracketed` · `conventional` · `existing` · `custom` — a record of the choice; `format` is what is enforced |
+| `format` | `{ID} {ACTION} {SUMMARY}` | tokens `{ID}`, `{ACTION}`, `{SUMMARY}`; the rest is literal. Must contain `{SUMMARY}`, and `{ID}` unless `no_id` is set (GT-01) |
+| `actions[]` | `ADD UPDATE DELETE FIX REVIEW CONFIRM REFACTOR REVERT` | the `{ACTION}` vocabulary, case-sensitive. The `conventional` preset uses `feat fix docs test refactor perf build ci chore revert` |
+| `id_pattern` | `""` | regex for one id. Empty → any upper-case id containing a digit (`LEG-ORD-001`, `XX0000PG`, `XX0000PG-FC-001`, `CR-007`) |
+| `id_separator` | `,` | joins several ids in `{ID}` |
+| `no_id` | `""` | token accepted in place of an id for housekeeping commits (`NOID`). Empty → every commit needs a real id (GT-09) |
+| `summary_max` | 72 | characters in `{SUMMARY}` |
+| `summary_language` | `en` | language of the summary and body |
+| `body` | `optional` | `optional` · `required` · `none` |
+| `enforce` | `true` | `false` stops the format check only; GT-02..GT-08 stay on |
+| `stage_explicit_paths` | `true` | blocks `git add -A` / `.` / `-u` and `git commit -a` (GT-02) |
+| `regenerated_globs[]` | `**/*.generated.*` — never a legacy path | read-only paths whose changes may still be committed, because a generator rewrites them (GT-03) |
+| `protected_branches[]` | `[]` | globs of branches that never take a direct commit (GT-06) |
+| `allow_push` | `false` | `true` lets the AI run `git push` — never with force (GT-08) |
+| `allow_amend` | `false` | `true` allows `--amend` of a commit not yet pushed (GT-07) |
+| `review_before_commit` | `recommend` | `off` · `recommend` · `require` — `/mig-review-commit` before a code commit |
+
 
 ### `project_rules`
 

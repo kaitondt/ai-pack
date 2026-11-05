@@ -54,7 +54,7 @@ writes `{{profile.schedule.milestones}}`, `{{profile.cost.contingency_percent}}`
 | 10 | Closing | `pm-closure` | acceptance, final report, lessons | `/pm-closing`, `/pm-lessons` |
 
 Cross-cutting: `pm-change-control` (`/pm-change-assess` → `/pm-change-apply`),
-`/pm-gate-review`, `/pm-trace-check`, `/pm-health-check`, `/pm-sync-technical`,
+`/pm-gate-review`, `/pm-trace-check`, `/pm-health-check`, `/pm-sync-technical`, `/pm-commit`,
 `/pm-profile-check`, `/pm-refine-skill`.
 
 ---

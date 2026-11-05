@@ -173,7 +173,7 @@ arrive any time from P1 onward and re-opens the phases it touches. `sdlc-change-
 behind two approvals — the option, then the document diff.
 
 Cross-cutting at any phase: `/sdlc-phase-gate`, `/sdlc-trace-check`, `/sdlc-quality-report`,
-`/sdlc-review-design`, `/sdlc-review-commit`, `/sdlc-verify-build`, `/sdlc-context-map`,
+`/sdlc-review-design`, `/sdlc-review-commit`, `/sdlc-commit`, `/sdlc-verify-build`, `/sdlc-context-map`,
 `/sdlc-translate`, `/sdlc-template-register`, `/sdlc-rule-register`, `/sdlc-refine-skill`.
 
 Any defect, from any phase, can be traced end to end with `/sdlc-trace-bug`

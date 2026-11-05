@@ -37,6 +37,7 @@ Hold the resolved values for the whole task.
 | `rules/vibe/debt-ledger.md` | every shortcut written down with a due stage |
 | `rules/vibe/session-continuity.md` | STATE.md handoff, append-only logs, slice IDs in commits |
 | `rules/vibe/id-naming.md` | `INT` `DEC` `DEBT` `BUG` `IDEA` |
+| `rules/vibe/git-commit.md` | commit format chosen at init; explicit staging; no secret or protected path; no bypass, rewrite or push |
 
 The project's own rules live in `.claude/rules/project/` and are listed in
 `{{profile.project_rules}}` (added with `/vibe-rule-register`). They load with the files
@@ -64,6 +65,7 @@ belongs to. If the task has no intent yet, the first job is to write one (`vibe-
 | Deploying, releasing, rolling back | `vibe-release` |
 | Moving to the next stage; handing over to `sdlc-standard` / `pm-standard` | `vibe-graduation` |
 | Starting or ending a session; status; "where were we?" | `vibe-session` |
+| Committing outside `/vibe-build` — a fix, a paydown, a `vibe/` update | `/vibe-commit` + `rules/vibe/git-commit.md` |
 
 ---
 
@@ -129,7 +131,7 @@ Every piece of work in the pack is an instance of this loop:
 |---|---|---|
 | Intent | `/vibe-intent` | IF-01, IF-02 |
 | Slice | `/vibe-plan` | SS-01, SS-02 |
-| Checkpoint → Commit | `/vibe-build` | SS-03, SS-04, SC-05 |
+| Checkpoint → Commit | `/vibe-build` (commit step = `/vibe-commit`) | SS-03, SS-04, SC-05, GT-01..GT-09 |
 | Run → Verify | `/vibe-verify` | VT-01..VT-08 |
 | Review | `/vibe-review` | VT-02, SB-*, DL-03 |
 | Log | `/vibe-handoff` | SC-01, SC-03 |

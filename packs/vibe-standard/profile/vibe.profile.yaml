@@ -100,7 +100,8 @@ slices:
   max_changed_lines: 400
   max_minutes: 60
   require_clean_tree: true
-  commit_format: "{SLICE_ID}: {summary}"
+  # The commit message format is commit.format (below); slices.commit_format is no
+  # longer read.
   # Not counted against the budget. vibe/ is the project's memory, updated by
   # every slice - it is bookkeeping, not slice size.
   exclude_from_budget:
@@ -111,6 +112,38 @@ slices:
     - "**/migrations/**"
     - "**/__snapshots__/**"
     - "**/*.generated.*"
+
+# ---------------------------------------------------------------------------
+# COMMIT - git commit messages and the commit guard (rules/vibe/git-commit.md).
+# Chosen at /vibe-init; used by /vibe-commit and /vibe-build; enforced by hooks/guard-vibe-git.py on
+# every git command the AI runs. Absent section = these defaults.
+# ---------------------------------------------------------------------------
+commit:
+  # Presets offered by /vibe-init:
+  #   id-action-summary  "{ID} {ACTION} {SUMMARY}"     INT-003.2 ADD edit a note
+  #   bracketed          "[{ID}] {ACTION}: {SUMMARY}"  [INT-003.2] ADD: edit a note
+  #   conventional       "{ACTION}({ID}): {SUMMARY}"   fix(BUG-004): keep the draft on reload
+  #                      (actions become feat, fix, docs, test, refactor, perf, build, ci, chore, revert)
+  #   custom             any string with {SUMMARY}, and {ID} unless no_id covers every commit
+  preset: id-action-summary
+  format: "{ID} {ACTION} {SUMMARY}"
+  # The {ACTION} vocabulary (rules/vibe/git-commit.md GT-01 says when each applies).
+  actions: [ADD, UPDATE, DELETE, FIX, REVIEW, CONFIRM, REFACTOR, REVERT]
+  id_pattern: ""             # regex for one id; "" = any upper-case id with a digit (INT-003.2, BUG-004, DEBT-002)
+  id_separator: ","          # several ids: "INT-003.2,DEBT-001 UPDATE ..."
+  no_id: ""                  # token for commits with no id, e.g. "NOID"; "" = an id is always required
+  summary_max: 72            # characters in {SUMMARY}
+  summary_language: "en"
+  body: optional             # optional | required | none
+  enforce: true              # false = the hook stops checking the format (the other guards stay)
+  stage_explicit_paths: true # no git add -A / . / -u, no git commit -a (GT-02)
+  # Read-only paths whose changes ARE committed, because a tool regenerates them (GT-03).
+  regenerated_globs:
+    - "**/*.generated.*"
+    - "vendor/**"
+  protected_branches: []     # direct commits blocked, e.g. ["main", "release/*"] (GT-06)
+  allow_push: false          # true lets the AI run git push - never with force (GT-08)
+  allow_amend: false         # true allows --amend of a commit that is not yet pushed (GT-07)
 
 loop:
   max_fix_attempts: 3              # SS-05 - the doom-loop limit

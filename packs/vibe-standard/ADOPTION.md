@@ -136,6 +136,7 @@ Symptom: the AI wrote a key into a file, or ran `git reset --hard`, without bein
 ```bash
 python --version
 echo '{"tool_input":{"command":"git reset --hard"}}' | python .claude/hooks/guard-vibe-bash.py; echo "exit=$?"
+echo '{"tool_input":{"command":"git commit --no-verify -m x"}}' | python .claude/hooks/guard-vibe-git.py; echo "exit=$?"
 ```
 
 - `exit=2` and a `[SB-02] BLOCKED` message → the hook works; check `settings.json` was merged

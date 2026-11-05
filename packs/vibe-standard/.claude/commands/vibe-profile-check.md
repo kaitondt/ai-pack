@@ -21,7 +21,7 @@ Load `vibe-project`. Report only; change nothing.
 | 7 | `.gitignore` covers `.env*` and not `.env.example` | Critical |
 | 8 | No committed file matches the hook's secret patterns (scan tracked files) | Critical |
 | 9 | Reality vs stage: `product.public_url: true` or real users / real data while `stage` < `mvp` | High — report the SB-07 gap |
-| 10 | Hooks fire: `guard-vibe-bash.py` blocks `git reset --hard` (exit 2); `guard-vibe-paths.py` blocks a fake `AKIA…` key | Critical — SB-01/02 enforcement is off |
+| 10 | Hooks fire: `guard-vibe-bash.py` blocks `git reset --hard` (exit 2); `guard-vibe-paths.py` blocks a fake `AKIA…` key; `guard-vibe-git.py` blocks `git commit --no-verify -m x` | Critical — SB-01/02 and GT-01..08 enforcement is off |
 | 11 | `python` on PATH is a real interpreter (Windows Store alias check) | Critical |
 | 12 | `slices.max_files` ≤ 15 and `max_changed_lines` ≤ 800 | Medium — a budget that big is not a budget |
 | 13 | `loop.max_fix_attempts` between 2 and 5 | Medium |
@@ -48,6 +48,8 @@ An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry
 | 18 | `execution.model_profile` is `quality`, `balanced` or `budget`, and the `model:` and `effort:` frontmatter of every `.claude/agents/vibe-*.md` matches the model it resolves to (see the table above) | Medium |
 
 | 19 | Every file under `.claude/rules/project/` is listed in `project_rules`, every entry's file exists, and no `overrides` names a `rules/vibe/*` invariant | Medium — an unlisted rule is applied but never cited; relaxing an invariant is refused (`/vibe-rule-register`) |
+| 20 | `commit:` exists, and no `slices.commit_format` is left over (it is ignored — offer to move it into `commit.format` with `/vibe-init`); `commit.format` contains `{SUMMARY}`, contains `{ID}` unless `commit.no_id` is set, uses no token but `{ID}` / `{ACTION}` / `{SUMMARY}`; `commit.id_pattern`, when set, compiles and matches `INT-001.1` | High — every commit is blocked, or none is checked (GT-01) |
+| 21 | `commit.actions` non-empty, one word per entry; `commit.allow_push: true` only with a non-empty `commit.protected_branches` | Medium |
 
 ## Report
 

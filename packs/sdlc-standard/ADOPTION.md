@@ -340,6 +340,8 @@ The most important failure in this list, because nothing announces it. Check in 
 2. **Is `CLAUDE_PROJECT_DIR` resolving?** The hook paths are
    `$CLAUDE_PROJECT_DIR/.claude/hooks/...`. Run the hook by hand to see the real error:
    `echo '{"tool_input":{"file_path":"x"}}' | python .claude/hooks/guard-protected-paths.py`
+   — and the commit guard, which should exit 2:
+   `echo '{"tool_input":{"command":"git commit --no-verify -m x"}}' | python .claude/hooks/guard-sdlc-git.py`
 3. **Did you merge `settings.json` rather than copying it?** A project that already had a
    `settings.json` keeps its own; the pack's `hooks` block has to be merged in by hand.
 4. **Is the document actually in `constraints.baselined`?** The guard reads that list. A

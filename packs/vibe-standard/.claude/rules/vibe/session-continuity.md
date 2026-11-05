@@ -56,10 +56,12 @@ discuss it.
 
 ## SC-05 — Commits carry the slice ID
 
-Every commit message starts with the slice ID it implements: `INT-{NNN}.2: edit a note`.
-Paydowns: `DEBT-{NNN}: move notes to Postgres`. Fixes: `BUG-{NNN}: …`. This is the whole
-traceability chain of a vibe project — intent → slice → commit → check — and it costs nothing
-if done at commit time.
+Every commit message carries the ID it implements, in the format chosen at `/vibe-init`
+(`{{profile.commit.format}}`, default `{ID} {ACTION} {SUMMARY}`): `INT-{NNN}.2 ADD edit a note`.
+Paydowns: `DEBT-{NNN} REFACTOR move notes to Postgres`. Fixes: `BUG-{NNN} FIX …`. This is the
+whole traceability chain of a vibe project — intent → slice → commit → check — and it costs
+nothing if done at commit time. `rules/vibe/git-commit.md` has the full commit rules; the
+`guard-vibe-git` hook enforces the format.
 
 ## SC-06 — Conventions learned are written where the next session will read them
 

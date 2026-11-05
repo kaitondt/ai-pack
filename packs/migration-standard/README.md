@@ -196,7 +196,7 @@ P5–P7 have their own skill family: `mig-test-design` (viewpoints and writing r
 `mig-test-automation`, `mig-test-review`, `mig-defect-triage`, `mig-test-artifact-lifecycle`.
 
 Cross-cutting at any phase: `/mig-trace-check`, `/mig-review-design`,
-`/mig-translate`, `/mig-context-map`, `/mig-verify-build`, `/mig-template-register`,
+`/mig-translate`, `/mig-context-map`, `/mig-verify-build`, `/mig-commit`, `/mig-template-register`,
 `/mig-rule-register`, `/mig-refine-skill`.
 
 Any bug, from any phase, can be traced end to end with `/mig-trace-bug` (`mig-bug-trace`):

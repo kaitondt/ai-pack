@@ -39,6 +39,7 @@ Always in force, regardless of what is being produced:
 | `rules/pm/decision-authority.md` | one named owner; authority matched to impact |
 | `rules/pm/id-naming.md` | deterministic, permanent identifiers |
 | `rules/pm/document-standards.md` | skeleton, versioning, attributable commitments, the format each artifact is delivered in |
+| `rules/pm/git-commit.md` | commit format chosen at init; no archived snapshot changed or baselined document committed without its CR; no secret, rewrite or push |
 
 ## Step 3 — Detect the technical pack
 
@@ -89,6 +90,7 @@ deliverable — **the WBS among them** (MD-09).
 | A change to any baseline; CCB; impact assessment | `pm-change-control` |
 | Acceptance, handover, contract closure, lessons learned, archive | `pm-closure` |
 | Producing or reading an artifact in Excel, Word or CSV; the WBS workbook | `pm-document-io` |
+| Committing management documents to git | `/pm-commit` + `rules/pm/git-commit.md` |
 
 ---
 
@@ -123,7 +125,7 @@ objectives        cost baseline                 change control (CCB)           l
 
 Cross-cutting at any time: `/pm-change-assess` → `/pm-change-apply`, `/pm-gate-review`,
 `/pm-trace-check`, `/pm-health-check`, `/pm-status-collect`, `/pm-lessons`,
-`/pm-sync-technical`, `/pm-profile-check`, `/pm-refine-skill`.
+`/pm-sync-technical`, `/pm-commit`, `/pm-profile-check`, `/pm-refine-skill`.
 
 ---
 

@@ -28,7 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LICENSE_FILES = ("LICENSE-MIT", "LICENSE-APACHE")
 OUT = ROOT / "antigravity"
-VERSION = "1.5.0"
+VERSION = "1.6.0"
 README_SOURCE = ROOT / "scripts" / "readme" / "antigravity.md"
 
 PACKS = [

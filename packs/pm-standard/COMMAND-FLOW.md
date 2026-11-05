@@ -1,6 +1,6 @@
 # Command Flow
 
-How the 28 commands relate: what each consumes and produces, what must run before what, and
+How the 29 commands relate: what each consumes and produces, what must run before what, and
 the control loop the pack is built around.
 
 ---
@@ -45,6 +45,7 @@ In order. Each consumes the one above it.
 | `/pm-trace-check` | baselines, RTM, registers | consistency and orphan report | — |
 | `/pm-health-check` | everything on disk | RAG per area, the three likely failure causes | — |
 | `/pm-sync-technical` | both profiles and both sets of artifacts | drift report and proposed corrections | — |
+| `/pm-commit` | the working tree, `commit:` in the profile | one commit in the agreed format; never a push | — |
 
 ### Change — the only legitimate way a baseline moves
 

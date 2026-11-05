@@ -59,8 +59,12 @@ Do not start a phase task without it.
 | Change request (any phase from P2) | `/mig-cr-analyze` → `/mig-cr-design` → `/mig-cr-implement` → `/mig-cr-report` |
 
 Cross-cutting: `/mig-trace-check`, `/mig-trace-bug`, `/mig-review-design`,
-`/mig-review-commit`, `/mig-verify-build`, `/mig-context-map`, `/mig-translate`,
+`/mig-review-commit`, `/mig-commit`, `/mig-verify-build`, `/mig-context-map`, `/mig-translate`,
 `/mig-profile-check`.
+
+Commits go through `/mig-commit`, in `{{profile.commit.format}}`: files staged by name, nothing
+under the legacy source or another read-only path, no secret, no `--no-verify`, amend, force or
+push unless the profile allows it (`rules/migration/git-commit.md`). A hook enforces it.
 
 A phase is complete only when its `{{profile.gates}}` assertions hold **and**
 `/mig-trace-check` shows no orphans for it.

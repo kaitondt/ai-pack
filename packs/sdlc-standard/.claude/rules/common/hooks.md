@@ -16,6 +16,7 @@ must be true *every* time belongs in a hook, not only in a skill.
 |---|---|---|
 | SessionStart | — | `check-profile-loaded.py` — fail fast when the profile is missing or unresolved |
 | PreToolUse | `Write\|Edit` | `guard-protected-paths.py` — deny edits to generated files and baselined documents without a CR (`BL-02`, `BL-07`) |
+| PreToolUse | `Bash\|PowerShell` | `guard-sdlc-git.py` — git commands follow `rules/sdlc/git-commit.md`: message format, explicit staging, no read-only / baselined-without-CR / secret change committed, no bypass, history rewrite or push (`GT-01..GT-08`) |
 | PreToolUse | `Write\|Edit` | `check-doc-rules.py` — surface the document rules for the deliverable being written |
 | PostToolUse | `Write\|Edit` | `format-on-edit.py` — runs `{{profile.system.build.on_edit}}`: the repository's formatter, then its linter, on the edited file only |
 | Stop | — | build verification |

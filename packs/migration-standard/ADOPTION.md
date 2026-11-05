@@ -322,6 +322,8 @@ safety model rests on it. Check in order:
    the three commands in `.claude/settings.json` to `python3`.
 2. **Is `CLAUDE_PROJECT_DIR` resolving?** Run the hook by hand to see the real error:
    `echo '{"tool_input":{"file_path":"src/legacy/x.vb"}}' | python .claude/hooks/guard-readonly-paths.py`
+   — and the commit guard, which should exit 2:
+   `echo '{"tool_input":{"command":"git commit --no-verify -m x"}}' | python .claude/hooks/guard-mig-git.py`
 3. **Did you merge `settings.json` rather than copying it?** A project that already had one
    keeps its own; the pack's `hooks` block has to be merged in by hand.
 4. **Does `constraints.readonly_globs` include `legacy.root`?** `/mig-profile-check` check 16
@@ -336,6 +338,15 @@ Working as designed. If the change genuinely belongs in the legacy system, it is
 operation outside this project. If the root cause of a defect is inside a frozen database
 object, LR-02 applies: **state the root cause first**, then the workaround as an option —
 never present the workaround as the fix.
+
+### `[GT-04] BLOCKED` — a commit "must carry the active CR id"
+
+`.claude/.active_cr` names a change request, and the commit touches a document under
+`change_request.governed_paths`. If the change is part of that CR, put the id in the message
+(`/mig-commit` does it). If it is unrelated work, commit it after the CR closes. If the CR is
+already finished, the marker was left behind: `/mig-cr-report` should have cleared it — confirm
+with whoever owns the CR, then delete the file. `PENDING` means the CR was opened before the
+client issued its id; write the real id into the marker.
 
 ### `/mig-generate-basic-design` produced Markdown, but the client wants Excel
 

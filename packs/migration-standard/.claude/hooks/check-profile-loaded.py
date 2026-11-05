@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """SessionStart check: is the migration profile present and usable?
 
-Non-blocking. Reports missing profile, remaining <...> placeholders, and an unsafe
-legacy.readonly setting, so a session does not get half-way into a phase before
-discovering the pack is not configured.
+Non-blocking. Reports missing profile, remaining <...> placeholders, an unsafe
+legacy.readonly setting, and the change request recorded in .claude/.active_cr, so a
+session does not get half-way into a phase before discovering the pack is not configured
+or that a CR is still open.
 """
 import sys, os, re
 
 PROFILE = os.path.join(os.environ.get("CLAUDE_PROJECT_DIR", "."),
                        ".claude", "migration.profile.yaml")
+ACTIVE_CR = os.path.join(os.environ.get("CLAUDE_PROJECT_DIR", "."),
+                         ".claude", ".active_cr")
 
 
 def main():
@@ -50,6 +53,21 @@ def main():
         for p in problems:
             print("  - " + p)
         print("  Run /mig-profile-check for the full validation.")
+
+    if os.path.exists(ACTIVE_CR):
+        try:
+            with open(ACTIVE_CR, encoding="utf-8") as fh:
+                cr = fh.read().strip()
+        except Exception:
+            cr = ""
+        if cr.upper() == "PENDING":
+            print("[mig] A change request is open with no id yet (.claude/.active_cr = PENDING). "
+                  "Its documents can be edited but not committed until the client's CR id is "
+                  "written to the marker.")
+        elif cr:
+            print("[mig] Active change request: {} - commits touching "
+                  "change_request.governed_paths must carry this id. /mig-cr-report clears "
+                  ".claude/.active_cr when the CR is closed.".format(cr))
     return 0
 
 

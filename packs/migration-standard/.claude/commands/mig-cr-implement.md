@@ -14,6 +14,12 @@ moment the new ones are approved (C4).
 The exception is a purely cosmetic class touching no documented item — allowed, and the
 skip is recorded in report §4-1.
 
+`.claude/.active_cr` must name this CR. Missing → the CR was never opened through
+`/mig-cr-design`, or was already closed: stop and ask. Another CR's id → stop; one CR at a
+time. `PENDING` → the work can proceed, but say that nothing can be committed under the
+governed paths until the client's id is written to the marker. Code commits made for this CR
+carry its id too (`/mig-commit`, GT-04).
+
 ## Step 2 — Load
 
 `mig-project`, `mig-change-request`, `mig-context-mapping`, `mig-implementation`, plus the

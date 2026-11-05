@@ -1,6 +1,6 @@
 # Command Flow
 
-How the 31 commands relate: what each one consumes and produces, what must run before
+How the 33 commands relate: what each one consumes and produces, what must run before
 what, and the refinement loop that the whole pack is built to support.
 
 ---
@@ -34,6 +34,7 @@ what, and the refinement loop that the whole pack is built to support.
 | `/mig-cr-design` | an approved CR option | design deliverables, traceability rows | `mig-cr-engineer` |
 | `/mig-cr-implement` | the updated design documents | code, test cases | `mig-cr-engineer` |
 | `/mig-translate` | a deliverable | its counterpart in the other language | — |
+| `/mig-commit` | the working tree, `commit:` in the profile | one commit in the agreed format; never a push | — |
 
 ### Verify — read-only, produce findings
 

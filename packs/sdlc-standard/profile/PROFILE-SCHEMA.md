@@ -227,8 +227,35 @@ in addition to the review report.
 | `baseline_change_requires_cr` | **Must be `true`** for BL-02 to be enforced. `/sdlc-profile-check` fails Critical otherwise. |
 | `production_change_via_release_only` | Enforces BL-04 in the maintenance skill. |
 | `db_schema_owner` | `this project` · `<other team>` · `frozen`. Drives the C3 constraint in change requests and the data-design mode. |
-| `readonly_globs[]` | Enforced by `hooks/guard-protected-paths.py`. |
+| `readonly_globs[]` | Enforced by `hooks/guard-protected-paths.py` on edits and by `hooks/guard-sdlc-git.py` on commits (GT-03). |
 | `baselined[]` | Appended by `/sdlc-phase-gate` when a gate passes. The hook reads it to block edits without an active CR. |
+
+### `commit`
+
+The commit message format and the commit guard (`rules/sdlc/git-commit.md`). Chosen at `/sdlc-init` (the
+"Choose the commit message format" step), used by `/sdlc-commit`, enforced on every `git`
+command the AI runs by `hooks/guard-sdlc-git.py` (PreToolUse on `Bash|PowerShell`). An absent
+section means the defaults below, which `/sdlc-profile-check` reports as unchosen.
+
+| Field | Default | Notes |
+|---|---|---|
+| `preset` | `id-action-summary` | `id-action-summary` · `bracketed` · `conventional` · `existing` · `custom` — a record of the choice; `format` is what is enforced |
+| `format` | `{ID} {ACTION} {SUMMARY}` | tokens `{ID}`, `{ACTION}`, `{SUMMARY}`; the rest is literal. Must contain `{SUMMARY}`, and `{ID}` unless `no_id` is set (GT-01) |
+| `actions[]` | `ADD UPDATE DELETE FIX REVIEW CONFIRM REFACTOR REVERT` | the `{ACTION}` vocabulary, case-sensitive. The `conventional` preset uses `feat fix docs test refactor perf build ci chore revert` |
+| `id_pattern` | `""` | regex for one id. Empty → any upper-case id containing a digit (`REQ-012`, `CR-2026-001`, `XX0000PG-SC-001`) |
+| `id_separator` | `,` | joins several ids in `{ID}` |
+| `no_id` | `""` | token accepted in place of an id for housekeeping commits (`NOID`). Empty → every commit needs a real id (GT-09) |
+| `summary_max` | 72 | characters in `{SUMMARY}` |
+| `summary_language` | `en` | language of the summary and body |
+| `body` | `optional` | `optional` · `required` · `none` |
+| `enforce` | `true` | `false` stops the format check only; GT-02..GT-08 stay on |
+| `stage_explicit_paths` | `true` | blocks `git add -A` / `.` / `-u` and `git commit -a` (GT-02) |
+| `regenerated_globs[]` | `**/*.generated.*` | read-only paths whose changes may still be committed, because a generator rewrites them (GT-03) |
+| `protected_branches[]` | `[]` | globs of branches that never take a direct commit (GT-06) |
+| `allow_push` | `false` | `true` lets the AI run `git push` — never with force (GT-08) |
+| `allow_amend` | `false` | `true` allows `--amend` of a commit not yet pushed (GT-07) |
+| `review_before_commit` | `recommend` | `off` · `recommend` · `require` — `/sdlc-review-commit` before a code commit |
+
 
 ### `project_rules`
 

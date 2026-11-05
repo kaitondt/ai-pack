@@ -67,7 +67,11 @@ the right management skill. Do not start a management task without it.
 | 10 | Closing | `/pm-closing` → `/pm-lessons` |
 
 Cross-cutting: `/pm-change-assess` → `/pm-change-apply`, `/pm-gate-review`, `/pm-trace-check`,
-`/pm-health-check`, `/pm-sync-technical`, `/pm-profile-check`, `/pm-refine-skill`.
+`/pm-health-check`, `/pm-sync-technical`, `/pm-commit`, `/pm-profile-check`, `/pm-refine-skill`.
+
+Management documents are committed through `/pm-commit`, in `{{profile.commit.format}}`: no
+archived snapshot changed, no baselined document without its CR, no secret, no push unless the
+profile allows it (`rules/pm/git-commit.md`). A hook enforces it.
 
 ## The planning order, which is not negotiable
 

@@ -14,6 +14,17 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-mig-git.py\"",
+            "statusMessage": "Checking git command against the commit rules...",
+            "timeout": 15
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {

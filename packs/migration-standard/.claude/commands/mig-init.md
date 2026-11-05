@@ -150,7 +150,50 @@ tree.
    normal: leave `project_rules: []` and say that `/mig-rule-register` is how a rule is
    added later.
 
-## Step 7 — Apply the model policy
+## Step 7 — Choose the commit message format
+
+`/mig-commit` and the `guard-mig-git` hook hold every commit to one format, and this is where the
+project chooses it. Ask it as its own question — not folded into the earlier round — because the
+answer is visible in every commit from now on and is awkward to change later.
+
+1. **Read the history first.** `git log -50 --format=%s` (skip merges). If most subjects follow
+   one convention — a ticket key first, Conventional Commits, a bracketed id — name it and show
+   three real subjects. A team that already has a convention keeps it unless it says otherwise.
+   Look for a commit-message tool too (`commitlint.config.*`, `.husky/commit-msg`,
+   `.pre-commit-config.yaml` with a `commit-msg` stage, `.git/hooks/commit-msg`): it will run
+   beside the pack's hook, and the two must agree.
+2. **Offer the presets**, each with an example built from this project's own ids:
+
+   | Preset | Format | Example |
+   |---|---|---|
+   | `id-action-summary` (default) | `{ID} {ACTION} {SUMMARY}` | `XX0000PG-FC-001 UPDATE carry the legacy rounding rule` |
+   | `bracketed` | `[{ID}] {ACTION}: {SUMMARY}` | `[XX0000PG-FC-001] UPDATE: carry the legacy rounding rule` |
+   | `conventional` | `{ACTION}({ID}): {SUMMARY}`, actions `feat`/`fix`/`docs`/`test`/`refactor`/`perf`/`build`/`ci`/`chore`/`revert` | `fix(UAT-014): keep the legacy sort order` |
+   | `existing` | the convention found in step 1 — only when one was found | three real subjects |
+   | `custom` | the user's own string, from the tokens `{ID}`, `{ACTION}`, `{SUMMARY}` | — |
+
+   `{ID}` is the id of what the change is about (`LEG-*`, `REQ-*`, a module or document id, `UT-*`, `UAT-*`, `CR-*`, `DEC-*`); `{ACTION}` is what the commit does
+   to it; `{SUMMARY}` is a short imperative description. Recommend `existing` when step 1 found
+   a consistent convention, otherwise the default.
+3. **Settle the details in the same round**, with the defaults pre-filled:
+   - the action vocabulary — default `ADD`, `UPDATE`, `DELETE`, `FIX`, `REVIEW`, `CONFIRM`,
+     `REFACTOR`, `REVERT`; the team may rename, add or remove words (keep them one word each);
+   - the summary language (`commit.summary_language`) and maximum length (72);
+   - a token for housekeeping commits with no id (`commit.no_id`, e.g. `NOID`), or none —
+     then every commit needs a real id;
+   - protected branches that never take a direct commit (propose the default branch when the
+     team merges through pull requests);
+   - whether the AI may push (default no) or amend an unpushed commit (default no); whether `/mig-review-commit` is `require`, `recommend` or `off` before a code commit.
+4. **Validate before writing.** A custom format contains `{SUMMARY}`, and `{ID}` unless
+   `no_id` is set; it uses no token other than the three. Build the pattern the hook will apply
+   and test it on the example and on the last ten subjects from `git log`: say how many would
+   pass. Old history is not rewritten — the format applies from the next commit.
+5. **Write `commit:`** in the profile — `preset`, `format`, `actions` and the switches — and
+   record the choice in the init report and the project's decision record. When an existing commit-message tool disagrees with the chosen
+   format, say so: align the tool's configuration or the profile, so one commit cannot pass one
+   and fail the other.
+
+## Step 8 — Apply the model policy
 
 <!-- model-policy:claude -->
 Resolve a model and an effort level for every `.claude/agents/mig-*.md` from
@@ -179,12 +222,12 @@ where the commands run: Claude Code takes the session level from `/effort`, not 
 profile, so they set it there. Agents are not affected by it.
 <!-- /model-policy:claude -->
 
-## Step 8 — Generate CLAUDE.md
+## Step 9 — Generate CLAUDE.md
 
 From `.claude/CLAUDE.md` in the pack, resolving profile tokens. If a `CLAUDE.md` already
 exists, do not overwrite it — show the block to merge in.
 
-## Step 9 — Validate and report
+## Step 10 — Validate and report
 
 Run the `/mig-profile-check` checks, then print:
 
@@ -205,6 +248,7 @@ Migration Skill Pack initialised
   Mockup      : {kind}, fidelity {fidelity}   surfaces: {list}
   Infra       : {scm} / {ci} / {hosting} / {iac}   owner: {owner}
   Coexistence : {strategy}, system of record {x}
+  Commit      : {format}   e.g. {example}   push: {AI|user}   protected: {branches}
   Agent model : {{profile.execution.model_profile}} — {n} opus · {n} sonnet · {n} overridden
   Effort      : agents {n} xhigh · {n} high · {n} medium; session {{profile.execution.intended_effort}} — set with /effort
   Next phase  : P0 — run /mig-analyze-legacy

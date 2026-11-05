@@ -56,6 +56,14 @@ Read-only. Reports **Critical** (the pack's assumptions do not hold) / **Warning
 - a file under `documents.working_dir` with no stamp on line one (MD-10). An unstamped
   working file cannot be used as the input to a regeneration, because nothing says which
   version it came from
+- `commit:` missing (the hook falls back to the defaults nobody chose — run the `/pm-init`
+  commit step), or `commit.format` lacking `{SUMMARY}`, lacking `{ID}` with no `commit.no_id`,
+  using a token other than `{ID}` / `{ACTION}` / `{SUMMARY}`, or with an `id_pattern` that does
+  not compile (GT-01)
+- `commit.actions` empty or a word with a space in it; `commit.allow_push: true` together with
+  an empty `commit.protected_branches` (GT-06, GT-08)
+- the hook `guard-pm-git.py` does not block `git commit --no-verify -m x` (exit 2) — the
+  commit rules are unenforced
 
 <!-- model-policy:claude -->
 **Expected agent models and effort** (the model-drift warning).
@@ -82,6 +90,7 @@ When `integration.technical_pack` is not `none`, compare against that profile:
 | defect severity models match | the same defect would be S2 in one report and S3 in the other |
 | language settings agree | a report and its evidence in different languages cannot be reconciled |
 | paths do not collide | two packs writing different content to the same file |
+| `commit.format` and `commit.actions` match | one repository, two commit conventions — each pack's hook rejects the other's commits |
 
 ## Report
 

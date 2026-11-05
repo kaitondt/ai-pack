@@ -73,6 +73,13 @@ An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry
 | 45 | every `project_rules[].file` exists, and every file under `.claude/rules/project/` is registered | Warning — an unregistered rule is applied but never ranked or cited |
 | 46 | project rule ids match `PRJ-{TOPIC}-{NN}` with no duplicates, and no `overrides` entry names an invariant (`rules/migration/*`, the security non-negotiables) or relaxes legacy parity | Critical — a project rule may tighten an invariant, never relax it |
 | 47 | every project rule that overrides a pack rule records its approver and date | Warning |
+| 48 | `commit:` exists; `commit.format` contains `{SUMMARY}`, contains `{ID}` unless `commit.no_id` is set, and uses no token but `{ID}` / `{ACTION}` / `{SUMMARY}`; `commit.id_pattern`, when set, compiles and matches `ids.module_example` and the document ids | Critical — every commit is blocked, or none is checked (GT-01) |
+| 49 | `commit.actions` is non-empty, one word per entry; `review_before_commit` is `off`, `recommend` or `require`; `body` is `optional`, `required` or `none` | Warning |
+| 50 | `commit.regenerated_globs` names no path under `legacy.root` | Critical — it would let a commit change the legacy source (LR-01) |
+| 51 | `guard-mig-git.py` is registered for `Bash\|PowerShell` and blocks `git commit --no-verify -m x` (exit 2) | Critical — the commit rules are unenforced |
+| 52 | `commit.allow_push: true` only with a non-empty `commit.protected_branches` | Warning — the AI could push straight to the mainline |
+| 53 | `change_request.governed_paths` is non-empty and every glob matches a `paths.*` directory (design, detail design, test design, change requests) | Warning — an active CR would not be attributed in commits (GT-04) |
+| 54 | `.claude/.active_cr`, when present, holds `PENDING` or an id matching `change_request.id_format`, and a report or an analysis for that id exists | Warning — a marker left behind attributes unrelated commits to a closed CR |
 
 Checks 45–47 are the summary; `/mig-rule-register --check` runs the full set.
 
@@ -91,4 +98,9 @@ Legacy documents: {n} files under {legacy_documents_dir} — inputs only (DIO-08
 Mockup          : {kind}, fidelity {fidelity}, {n} surfaces
 Infrastructure  : {scm} / {ci} / {hosting} / {iac}   owner: {owner}
 Coexistence     : {strategy}, system of record {x}, dual write {y/n}
+Commit          : {format}   preset {preset}   push: {AI|user}   protected: {branches}
+Active CR       : {.claude/.active_cr contents, or "none"}
 ```
+
+An active CR left in place after its report is written attributes every later commit under the
+governed paths to it — worth noticing before it happens.

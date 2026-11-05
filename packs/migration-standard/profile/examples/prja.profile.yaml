@@ -403,6 +403,9 @@ testing:
 change_request:
   id_format: "CR-{NNN}"
   id_source: client
+  governed_paths:                # commits here carry the id in .claude/.active_cr (GT-04)
+    - "src/prja/docs/deliverables_jp/**"
+    - "change-request/**"
   min_options: 2
   gates: ["after_options", "after_design"]
   cascade:

@@ -55,8 +55,9 @@ payments, or anything irreversible.
 
 ## Step 7 — Commit and log (BD-04)
 
-Commit `{{profile.slices.commit_format}}`. Tick the slice in the intent with the hash. Rewrite
-STATE.md Now / Next / Last verified.
+Commit through `/vibe-commit` Steps 2–7 — explicit paths, the secret and protected-path checks,
+the message in `{{profile.commit.format}}` (`rules/vibe/git-commit.md`). Tick the slice in the
+intent with the hash. Rewrite STATE.md Now / Next / Last verified.
 
 ## Step 8 — Report
 

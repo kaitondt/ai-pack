@@ -72,6 +72,12 @@ An `execution.agent_model_overrides` or `execution.agent_effort_overrides` entry
 | 44 | project rule ids match `PRJ-{TOPIC}-{NN}` with no duplicates, and no `overrides` entry names an invariant (`rules/sdlc/*`, the security non-negotiables) | Critical — a project rule may tighten an invariant, never relax it |
 | 45 | every project rule that overrides a pack rule has a `DEC-*` in `paths.decision_log` | Warning |
 
+| 46 | `commit:` exists; `commit.format` contains `{SUMMARY}`, contains `{ID}` unless `commit.no_id` is set, and uses no token but `{ID}` / `{ACTION}` / `{SUMMARY}`; `commit.id_pattern`, when set, compiles and matches the module and document ids in `ids.*` | Critical — every commit is blocked, or none is checked (GT-01) |
+| 47 | `commit.actions` is non-empty, one word per entry; `review_before_commit` is `off`, `recommend` or `require`; `body` is `optional`, `required` or `none` | Warning |
+| 48 | `commit.regenerated_globs` names only paths that are also in `constraints.readonly_globs` and that a generator really writes | Warning — a hand-edited path listed here escapes GT-03 |
+| 49 | `guard-sdlc-git.py` is registered for `Bash\|PowerShell` and blocks `git commit --no-verify -m x` (exit 2) | Critical — the commit rules are unenforced |
+| 50 | `commit.allow_push: true` only with a non-empty `commit.protected_branches` | Warning — the AI could push straight to the mainline |
+
 Checks 43–45 are the summary; `/sdlc-rule-register --check` runs the full set.
 
 Print a table of results and a verdict. On any Critical, state that the pack is not safe to
@@ -88,6 +94,7 @@ Toolchain           : {format}: {ok | library missing}
 Project rules       : {n} active in {n} files   overrides: {n}   review-only: {n}
 Mockup              : {kind}, {n} surfaces
 Infrastructure      : {scm} / {ci} / {hosting} / {iac}   owner: {owner}
+Commit              : {format}   preset {preset}   push: {AI|user}   protected: {branches}
 ```
 
 An active CR left in place after its report is written means baseline protection is off for

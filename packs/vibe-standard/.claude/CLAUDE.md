@@ -59,7 +59,7 @@ right skill. Then read `{{profile.paths.state}}` — it is the handoff from the 
 ## The loop and its commands
 
 ```
-/vibe-intent → /vibe-plan → /vibe-build → /vibe-verify → /vibe-review → commit → /vibe-handoff
+/vibe-intent → /vibe-plan → /vibe-build → /vibe-verify → /vibe-review → /vibe-commit → /vibe-handoff
                                  │ 3 strikes
                                  └─► /vibe-unstuck → /vibe-fix
 ```
@@ -73,6 +73,7 @@ right skill. Then read `{{profile.paths.state}}` — it is the handoff from the 
 | An idea outside the intent | `/vibe-park` |
 | Shortcuts and cleanup | `/vibe-debt` |
 | Is it safe / good | `/vibe-review` · `/vibe-security-check` |
+| Commit outside a slice — a fix, a paydown, a `vibe/` update | `/vibe-commit` (format `{{profile.commit.format}}`) |
 | Deploy | `/vibe-ship` |
 | Next stage / outgrowing the pack | `/vibe-graduate` |
 | Where are we | `/vibe-status` |

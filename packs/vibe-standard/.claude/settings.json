@@ -21,6 +21,12 @@
             "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-vibe-bash.py\"",
             "statusMessage": "Checking for irreversible commands...",
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-vibe-git.py\"",
+            "statusMessage": "Checking git command against the commit rules...",
+            "timeout": 15
           }
         ]
       },
